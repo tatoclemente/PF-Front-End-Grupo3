@@ -1,3 +1,8 @@
 .appContainer {
   text-align: center;
 }
+
+.title {
+  color:  var(--primary-light);
+  background-color: var(--background-darkblue);
+}
