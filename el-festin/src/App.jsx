@@ -1,10 +1,13 @@
-import style from './App.module.css';
+import style from "./App.module.css";
+import { Navbar } from "./Components/NavBar/NavBar";
 
 function App() {
   return (
-    <div className={style.appContainer}>
-      <h1 className={style.title}>Hello World!</h1>
-    </div>
+    <>
+      <div className={style.appContainer}>
+        <Navbar />
+      </div>
+    </>
   );
 }
 
