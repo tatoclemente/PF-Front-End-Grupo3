@@ -1,0 +1,40 @@
+.navbarLanding {
+    background-color: #313045;
+  }
+  
+  .bg-countCart {
+    background-color: #fbc32c;
+  }
+  
+  .padding-ingresar {
+    margin-left: 200px;
+  }
+  
+  .img-width-logo{
+    width: auto;
+    height: 70px;
+    margin-right: 300px;
+  }
+  
+  .img-width-cart{
+    width: auto;
+    height: 70px;
+    margin-right: 300px;
+  }
+  
+  
+  
+  .mi-input {
+    border-radius: 40px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+    padding-left: 20px;
+    height: 50px;
+    width: 600px;
+  }
+  
+  .mi-input:focus {
+    outline: none;
+    border-color: whitesmoke;
+    padding-left: 20px;
+  }
