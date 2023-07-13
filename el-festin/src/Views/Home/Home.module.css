@@ -1,0 +1,25 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    margin-top: 112px;
+}
+
+.mainContent {
+    display: flex;
+}
+
+.productsContent {
+    display: flex;
+    flex-direction: column;
+    width: 82vw;
+    height: calc(100vh - 112px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.footer {
+    height: 100px;
+}

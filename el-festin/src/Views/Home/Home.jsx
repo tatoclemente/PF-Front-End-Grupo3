@@ -1,8 +1,22 @@
-import React from 'react'
+import HomeComponents from "../../Components/HomeComponents"
+import style from "./Home.module.css"
 
-function Home() {
+const Home = () => {
+  const { CardsContainer, FiltersAndSorts, FeaturedCategories } = HomeComponents;
+
   return (
-    <div>Home</div>
+    <div className={style.homeContainer}>
+      <div className={style.mainContent}>
+        <FiltersAndSorts />
+        <div className={style.productsContent}>
+          <FeaturedCategories />
+          <CardsContainer />
+        </div>
+      </div>
+      <div className={style.footer}>
+        hola
+      </div>
+    </div>
   )
 }
 
