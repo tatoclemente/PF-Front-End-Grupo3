@@ -11,7 +11,7 @@ function App() {
     <div className={style.appContainer}>
       <Navbar />
       <Routes>
-        <Routw path="/login" element={<LoginPage />}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/home" element={<Home />} />
       </Routes>
     </div>
