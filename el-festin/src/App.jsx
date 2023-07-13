@@ -4,11 +4,9 @@ import { LoginPage } from "./Views/Login/LoginPage";
 
 function App() {
   return (
-    <>
       <div className={style.appContainer}>
         <LoginPage />
       </div>
-    </>
   );
 }
 
