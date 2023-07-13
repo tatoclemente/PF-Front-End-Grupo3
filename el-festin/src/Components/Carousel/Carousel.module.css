@@ -1,0 +1,78 @@
+.container {
+    position: relative;
+    width: 1340px;
+    height: 400px;
+    background-color: black;
+    border-radius: 15px;
+    margin: 10px 15px;
+    overflow: hidden; /* Agrega overflow: hidden para ocultar el desbordamiento de las imágenes */
+  }
+  
+  .image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Agrega transiciones para transform y opacity */
+  }
+  
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  
+  .container a {
+    position: absolute;
+    text-decoration: none;
+    color: white;
+    font-size: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+  }
+  
+  .container a:hover {
+    color: gray;
+  }
+  
+  .next {
+    left: 96%;
+  }
+  
+  .previous {
+    left: 0%;
+  }
+  
+  .dots {
+    position: absolute;
+    bottom: 10px; /* Cambia top a bottom para posicionar los puntos en la parte inferior */
+    width: 100%;
+    text-align: center;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .dot:hover {
+    cursor: pointer;
+    background-color: gray;
+  }
+  
+  .current {
+    opacity: 1;
+    transform: translateX(0%); /* Agrega transform: translateX(0%) para mostrar la imagen actual */
+  }
+  
+  .active {
+    background-color: gray;
+  }
+  
