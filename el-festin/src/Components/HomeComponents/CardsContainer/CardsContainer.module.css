@@ -1,0 +1,7 @@
+.cardsContainer {
+    padding-top: 2rem;
+    min-height: calc(100vh - 8rem - 112px);
+    width: 82vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}

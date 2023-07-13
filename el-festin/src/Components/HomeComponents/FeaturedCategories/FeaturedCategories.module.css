@@ -1,0 +1,31 @@
+.mainContainer {
+    width: 82vw;
+    height: 8rem;
+    display: flex;
+    padding-top: .5rem;
+} 
+
+
+.listContainer {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    list-style: none;
+    text-transform: capitalize;
+    font-size: .8rem;
+}
+
+.categoryContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 100px;
+    margin: 1rem;
+}
+
+.imgCategory {
+    width: 70%;
+    border-radius: 50%;
+}
