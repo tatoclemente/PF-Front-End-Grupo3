@@ -1,5 +1,6 @@
 .navbarLanding {
   background-color: #313045;
+  height: 112px;
 }
 
 .bg-countCart {
@@ -8,27 +9,28 @@
 
 .padding-ingresar {
   margin-left: 500px;
- }
+}
 
 .img-width-logo {
   width: auto;
   height: 70px;
   margin-right: 300px;
 }
+.svg-width-menu {
+  width: auto;
+  height: 40px;
+}
 
 .img-width-cart {
-  position: relative;
   width: auto;
   height: 70px;
-  margin-right: 300px;
 }
 
 .search-input-container {
   position: relative;
   display: flex;
   align-items: center;
-
- }
+}
 
 .mi-input {
   border-radius: 40px;
@@ -39,8 +41,6 @@
   width: 600px;
 }
 
-
-
 .mi-input:focus {
   outline: none;
   border-color: whitesmoke;
@@ -50,7 +50,7 @@
 .search-line {
   height: 1px;
   width: 100%;
-background-color: #000;
+  background-color: #000;
   position: absolute;
   bottom: 50%;
   z-index: -1;
@@ -63,6 +63,5 @@ background-color: #000;
   background-color: #fff;
   color: #000;
   cursor: pointer;
-  border-left:3px solid #0000006f;
-
+  border-left: 3px solid #0000006f;
 }
