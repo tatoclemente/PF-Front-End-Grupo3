@@ -1,8 +1,12 @@
 import React from 'react'
+import {Carousel} from '../../Components/Carousel/Carousel'
 
 function Landing() {
   return (
-    <div>Landing</div>
+    <div>
+      <Carousel />
+    </div>
+    
   )
 }
 

@@ -1,5 +1,7 @@
 .appContainer {
+  width: 100%;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .title {
