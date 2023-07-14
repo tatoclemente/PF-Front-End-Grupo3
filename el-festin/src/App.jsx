@@ -6,7 +6,9 @@ import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
+import Detail from "./Views/Detail/Detail";
 import { PrivateRoute } from "./Routes/PrivateRoute";
+
 
 function App() {
   let location = useLocation();
@@ -24,6 +26,7 @@ function App() {
               <Routes>
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/detail" element={<Detail />} />
               </Routes>
             </PrivateRoute>
           }
