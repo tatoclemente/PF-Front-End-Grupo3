@@ -1,10 +1,11 @@
 import style from "./App.module.css";
 
 import { Navbar } from "./Components/NavBar/NavBar";
+import Footer from "./Components/Footer/Footer";
 import { Routes, Route } from "react-router-dom";
-import Home from './Views/Home/Home'
+import Home from "./Views/Home/Home";
+import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
-
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
