@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
@@ -38,19 +38,19 @@ function Footer() {
       <div className={Styles.divContact}>
         <h5 className={Styles.titleContact}>Contacto</h5>
         <div className={Styles.divContactIcons}>
-          <a className={Styles.aContact}>
+          <p className={Styles.aContact}>
             <MdEmail size={23} color="#fdc52d" /> Festincontacto2023@gmail.com
-          </a>
+          </p>
         </div>
         <div className={Styles.divContactIcons}>
-          <a className={Styles.aContact}>
+          <p className={Styles.aContact}>
             <BsFillTelephoneFill size={23} color="#fdc52d" /> +54 9-3533-43-1705
-          </a>
+          </p>
         </div>
         <div className={Styles.divContactIcons}>
-          <a className={Styles.aContact}>
+          <p className={Styles.aContact}>
             <ImLocation2 size={23} color="#fdc52d" /> Argentina
-          </a>
+          </p>
         </div>
       </div>
 
@@ -60,6 +60,7 @@ function Footer() {
           href="https://www.instagram.com/"
           className={Styles.icon}
           target="_blank"
+          rel="noopener noreferrer"
         >
           <GrInstagram size={30} color="#fdc52d" />
         </a>
@@ -67,6 +68,7 @@ function Footer() {
           href="https://www.facebook.com/"
           className={Styles.icon}
           target="_blank"
+          rel="noopener noreferrer"
         >
           <FaFacebookSquare size={30} color="#fdc52d" />
         </a>
