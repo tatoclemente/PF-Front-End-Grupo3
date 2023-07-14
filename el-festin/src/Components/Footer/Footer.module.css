@@ -17,7 +17,7 @@
 .divContact {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 20px;
   margin-left: 120px;
 }
@@ -34,7 +34,7 @@
 .divh5 {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 20px;
   margin-left: 100px;
   margin-bottom: 10px;
@@ -50,13 +50,14 @@
   align-items: center;
   text-decoration: none;
   color: white;
-  margin-top: 12px;
+  margin-bottom: 3px;
+  margin-top: 10px;
 }
 
 .divSocial {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 20px;
   margin-left: 115px;
 }
