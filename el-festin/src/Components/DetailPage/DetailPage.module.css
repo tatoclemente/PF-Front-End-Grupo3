@@ -1,0 +1,87 @@
+.container{
+    display: flex;
+    border: solid 1px #b4b4b4;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.leftInfo{
+display: flex;
+flex-direction: column;
+margin-right: 100px;
+margin-left: 50px;
+}
+
+.name{
+    color: #FBC32C
+}
+
+.titles{
+    color: #313045
+}
+
+.secondaryNames{
+    color: #707070;
+    margin: 5px;
+}
+
+.secondaryPrices{
+   color: #b4b4b4;
+   margin: 0px;
+}
+
+.containerPrice{
+    display: flex;
+    justify-content: center;
+}
+
+.mainImage{
+    width: 30vw;
+    height: 40vh;
+    border-radius: 5px;
+}
+
+.secondaryImage{
+    margin-top: 10px;
+    width: 6vw;
+    height: 10vh;
+    border-radius: 5px;
+}
+
+.containerInfo{
+    display: flex;
+    align-items: flex-start
+}
+
+.imageWithInfo{
+    width: 120px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonAdd {
+    background-color: #313045;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    margin-top: 30px
+  }
+  
+  .buttonAdd:hover {
+    background-color:#FBC32C
+  }
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+}

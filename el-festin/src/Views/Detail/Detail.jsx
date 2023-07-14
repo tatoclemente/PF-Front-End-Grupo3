@@ -1,8 +1,9 @@
 import React from 'react'
+import DetailPage from "../../Components/DetailPage/DetailPage"
 
 function Detail() {
   return (
-    <div>Detail</div>
+    <div><DetailPage/></div>
   )
 }
 
