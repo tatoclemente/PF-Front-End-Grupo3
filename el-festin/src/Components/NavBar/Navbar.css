@@ -1,25 +1,33 @@
 .navbarLanding {
   background-color: #313045;
   height: 112px;
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .bg-countCart {
   background-color: #fbc32c;
 }
 
-.padding-ingresar {
-  margin-left: 500px;
-}
+ /* .padding-ingresar {
+  transform: translateX(500px);
+}  */
 
 .img-width-logo {
   width: auto;
   height: 70px;
-  margin-right: 300px;
-}
+  }
+
 .svg-width-menu {
   width: auto;
   height: 40px;
 }
+
 
 .img-width-cart {
   width: auto;
