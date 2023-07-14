@@ -1,0 +1,7 @@
+.landingContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 112px;
+    min-height: calc(100vh - 112px);
+}
