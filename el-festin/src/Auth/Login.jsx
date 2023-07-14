@@ -23,17 +23,17 @@ export const Login = () => {
   };
 
   return (
-    <ul className="pt-5 mt-5">
-      <li className="d-flex justify-content-center align-items-center">
+    <ul className="">
+      <li className="d-flex justify-content-center align-items-center mt-3">
         <img src={logo} alt="image-logo" className="img-fluid w-25" />
       </li>
 
-      <li className="text-white fs-2 pt-5 mt-5 d-flex justify-content-center align-items-center">
+      <li className="text-white fs-2 mt-5 d-flex justify-content-center align-items-center">
         Ingresa aqui
       </li>
       <form onSubmit={onSubmitLogin}>
         <li className="d-flex justify-content-center align-items-center">
-          <label className="text-white fs-5 pb-2 pt-5">Email</label>
+          <label className="text-white fs-5 pb-2 pt-4">Email</label>
         </li>
         <li className="d-flex justify-content-center align-items-center">
           <input
@@ -66,7 +66,7 @@ export const Login = () => {
       </form>
 
       <li className="d-flex justify-content-center align-items-center pt-4">
-        <button className="btn-google-rounded text-white fs-4">
+        <button className="btn-google-rounded text-white fs-5">
           <span>
             <img
               src={logo1}
@@ -78,7 +78,7 @@ export const Login = () => {
         </button>
       </li>
       <li className="d-flex justify-content-center align-items-center pt-4">
-        <button className="btn-face-rounded text-white fs-4">
+        <button className="btn-face-rounded text-white fs-5">
           <span>
             <img
               src={logo2}

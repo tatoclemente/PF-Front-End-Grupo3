@@ -1,24 +1,35 @@
 import style from "./App.module.css";
-
 import { Navbar } from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
+import { PrivateRoute } from "./Routes/PrivateRoute";
 
 function App() {
+  let location = useLocation();
   return (
     <div className={style.appContainer}>
-      <Navbar />
+      {location.pathname !== "/login" ? <Navbar /> : undefined}
+
       <Routes>
-        <Route path="/" element= {<Landing />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="/*"
+          element={
+            <PrivateRoute>
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </PrivateRoute>
+          }
+        />
       </Routes>
-      <Footer />
+      {location.pathname !== "/login" ? <Footer /> : undefined}
     </div>
   );
 }
