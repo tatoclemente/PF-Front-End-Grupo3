@@ -12,7 +12,7 @@ export const LoginPage = () => {
             alt="imagenlogin"
             className="img-fluid img-cover vh-100 w-100"
           />
-          <p className="position-absolute top-0 start-50 translate-middle-x pt-5 mt-5 text-white fs-2">
+          <p className="position-absolute top-0 start-50 translate-middle-x pt-5 mt-5 text-white fs-3">
             "Si te estás preguntando cuál es el amor más sincero… <br /> Entra y
             encontrarás la respuesta"
           </p>

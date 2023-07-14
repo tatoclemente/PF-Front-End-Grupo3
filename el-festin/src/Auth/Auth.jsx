@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
 import Styles from "./Auth.module.css";
@@ -141,6 +142,12 @@ function Auth() {
       </form>
     </div>
   );
+=======
+import React from "react";
+
+function Auth() {
+  return <div></div>;
+>>>>>>> develop
 }
 
 export default Auth;
