@@ -1,6 +1,6 @@
 import style from "./App.module.css";
 import { Navbar } from "./Components/NavBar/NavBar";
-import { RegisterPage } from "./Views/Register/Register";
+import { RegisterPage } from "./Views/Register/RegisterPage";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
@@ -12,15 +12,16 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 
 function App() {
   let location = useLocation();
+  let isLoginPage = location.pathname.includes("/login");
   return (
     <div className={style.appContainer}>
-      {location.pathname !== "/login" ? <Navbar /> : undefined}
+      {!isLoginPage ? <Navbar /> : undefined}
 
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/login/auth/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/auth/register" element={<RegisterPage />} />
         <Route
           path="/*"
           element={
@@ -34,7 +35,7 @@ function App() {
           }
         />
       </Routes>
-      {location.pathname !== "/login" ? <Footer /> : undefined}
+      {!isLoginPage ? <Footer /> : undefined}
     </div>
   );
 }

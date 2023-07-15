@@ -3,36 +3,61 @@
   margin: 0 auto;
   margin-left: 150px;
   padding: 20px;
-  margin-top: 90px;
   width: 350px;
 }
 .img {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .label {
   color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-  margin-bottom: 5px;
+  font-size: 16px;
+  margin-bottom: 2px;
 }
 .input {
-  width: 290px;
-  height: 30px;
-  margin-bottom: 5px;
+  width: 320px;
+  height: 35px;
+  margin-bottom: 2px;
   border-radius: 8px;
   cursor: pointer;
 }
 .button {
-  width: 9vw;
-  height: 3vw;
+  width: 100px;
+  height: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
   justify-self: center;
   cursor: pointer;
 }
-.Password {
-  font-size: 8px;
+.error {
+  font-size: 10px;
+  color: #d9343a;
+}
+.liButtonsAuth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonAuth {
+  background-color: #1d81ce;
+  padding-right: 20px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.buttonAuth1 {
+  background-color: #3b5998;
+  border-radius: 8px;
+  border: none;
+  color: white;
+}
+
+.imgButton {
+  width: 30px;
+  height: auto;
 }

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
+import logoGoogle from "../Assets/logo1.png";
+import logoFacebook from "../Assets/logo2.png";
+import Validate from "./validateRegister";
 import Styles from "./Register.module.css";
 
 function Register() {
@@ -14,9 +17,10 @@ function Register() {
     email: "",
     password: "",
   });
-  const [viewPassword, setViewPassword] = useState(false);
+  const [validateInput, setValidateInput] = useState(false);
+  const [errors, setErrors] = useState({}); //estado manejar errores de validacion.
   const PasswordVisibility = () => {
-    setViewPassword(!viewPassword);
+    setValidateInput(!validateInput);
   };
 
   const handleChange = (e) => {
@@ -25,6 +29,16 @@ function Register() {
       ...register,
       [e.target.name]: e.target.value,
     });
+    setValidateInput({
+      ...register,
+      [e.target.name]: true,
+    });
+    setErrors(
+      Validate({
+        ...register,
+        [e.target.name]: e.target.value,
+      })
+    );
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,8 +73,8 @@ function Register() {
           className={Styles.img}
           src={logo}
           alt="logo"
-          width="100"
-          height="60"
+          width="130"
+          height="70"
         />
         <div className={Styles.divInputs}>
           <label className={Styles.label}>Nombre</label>
@@ -72,6 +86,9 @@ function Register() {
             onChange={handleChange}
             required
           />
+          {setValidateInput.name && register.name && (
+            <p className={Styles.error}>{errors.name}</p>
+          )}
           <label className={Styles.label}>Apellido</label>
           <input
             className={Styles.input}
@@ -79,17 +96,23 @@ function Register() {
             name="lastName"
             value={register.lastName}
             onChange={handleChange}
-            required
           />
+          {setValidateInput.name && register.lastName && (
+            <p className={Styles.error}>{errors.lastName}</p>
+          )}
           <label className={Styles.label}>Telefono</label>
           <input
             className={Styles.input}
             type="text"
             name="phoneNumber"
-            value={register.dateOfBirth}
-            onChange={handleChange}
+            value={register.phoneNumber}
+            onChange={(e) => handleChange(e)}
             required
           />
+          {setValidateInput.name && register.phoneNumber && (
+            <p className={Styles.error}>{errors.phoneNumber}</p>
+          )}
+
           <label className={Styles.label}>Email</label>
           <input
             className={Styles.input}
@@ -99,24 +122,46 @@ function Register() {
             onChange={handleChange}
             required
           />
+          {setValidateInput.name && register.email && (
+            <p className={Styles.error}>{errors.email}</p>
+          )}
           <label className={Styles.label}>Contraseña</label>
           <div className={Styles.inputContainer}>
             <input
-              className={`${Styles.input} ${
-                viewPassword ? PasswordVisibility : ""
-              }`}
+              className={Styles.input}
               onClick={PasswordVisibility}
-              type={viewPassword ? "text" : "password"}
+              type="password"
               name="password"
               value={register.password}
               onChange={handleChange}
               required
             />
+            {setValidateInput.name && register.password && (
+              <p className={Styles.error}>{errors.password}</p>
+            )}
           </div>
         </div>
         <button className={Styles.button} type="submit">
           Registrarse
         </button>
+        <li className={Styles.liButtonsAuth}>
+          <button className={Styles.buttonAuth}>
+            <span>
+              <img src={logoGoogle} alt="google" className={Styles.imgButton} />
+            </span>
+            Registrarse con Google
+          </button>
+          <button className={Styles.buttonAuth1}>
+            <span>
+              <img
+                src={logoFacebook}
+                alt="facebook"
+                className={Styles.imgButton}
+              />
+            </span>
+            Registrarse con Facebook
+          </button>
+        </li>
       </form>
     </div>
   );
