@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
-import Styles from "./Auth.module.css";
+import Styles from "./Register.module.css";
 
-function Auth() {
+function Register() {
   const logo =
     "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
   //const dispatch = useDispatch();
@@ -51,16 +51,6 @@ function Auth() {
   //     }
   //   }
   // };
-
-  const handleGoogleLoginSuccess = (response) => {
-    // Aquí puedes acceder a la respuesta de autenticación de Google y enviar los datos al servidor
-    console.log(response);
-  };
-
-  const handleGoogleLoginFailure = (error) => {
-    // Aquí puedes manejar el error de autenticación de Google
-    console.error(error);
-  };
 
   return (
     <div className={Styles.container}>
@@ -127,18 +117,8 @@ function Auth() {
         <button className={Styles.button} type="submit">
           Registrarse
         </button>
-        <br />
-        {/* <GoogleLogin
-          clientId="28920578166-ob0r6ojjbt4qto749a4ksh8i3o3au840.apps.googleusercontent.com"
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          buttonText="Continuar con Google"
-          isSignedIn={true}
-          cookiePolicy={"single_host_origin"}
-          className={Styles.googleButton}
-        /> */}
       </form>
     </div>
   );
 }
-export default Auth;
+export default Register;

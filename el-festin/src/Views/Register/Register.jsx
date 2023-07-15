@@ -1,5 +1,5 @@
 import React from "react";
-import Auth from "../../Auth/Auth";
+import Register from "../../Auth/Register";
 import loginPhoto from "../../Assets/loginPhoto.jpg";
 
 export const RegisterPage = () => {
@@ -13,7 +13,7 @@ export const RegisterPage = () => {
         </p>
       </div>
       <div className="col-6 bg-color-blue">
-        <Auth />
+        <Register />
       </div>
     </div>
   );
