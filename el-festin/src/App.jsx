@@ -11,12 +11,14 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 
 function App() {
   let location = useLocation();
+  let isLoginPage = location.pathname.includes("/login");
   return (
     <div className={style.appContainer}>
-      {location.pathname !== "/login" ? <Navbar /> : undefined}
+      {!isLoginPage ? <Navbar /> : undefined}
 
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/login/auth/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/*"
@@ -31,7 +33,7 @@ function App() {
           }
         />
       </Routes>
-      {location.pathname !== "/login" ? <Footer /> : undefined}
+      {!isLoginPage ? <Footer /> : undefined}
     </div>
   );
 }

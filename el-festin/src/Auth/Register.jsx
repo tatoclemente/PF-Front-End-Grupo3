@@ -1,10 +1,11 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
-import Styles from "./Auth.module.css";
-import { GoogleLogin } from "react-google-login";
+import logoGoogle from "../Assets/logo1.png";
+import logoFacebook from "../Assets/logo2.png";
+import Validate from "./validateRegister";
+import Styles from "./Register.module.css";
 
-function Auth() {
+function Register() {
   const logo =
     "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
   //const dispatch = useDispatch();
@@ -16,9 +17,10 @@ function Auth() {
     email: "",
     password: "",
   });
-  const [viewPassword, setViewPassword] = useState(false);
+  const [validateInput, setValidateInput] = useState(false);
+  const [errors, setErrors] = useState({}); //estado manejar errores de validacion.
   const PasswordVisibility = () => {
-    setViewPassword(!viewPassword);
+    setValidateInput(!validateInput);
   };
 
   const handleChange = (e) => {
@@ -27,6 +29,16 @@ function Auth() {
       ...register,
       [e.target.name]: e.target.value,
     });
+    setValidateInput({
+      ...register,
+      [e.target.name]: true,
+    });
+    setErrors(
+      Validate({
+        ...register,
+        [e.target.name]: e.target.value,
+      })
+    );
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,16 +66,6 @@ function Auth() {
   //   }
   // };
 
-  const handleGoogleLoginSuccess = (response) => {
-    // Aquí puedes acceder a la respuesta de autenticación de Google y enviar los datos al servidor
-    console.log(response);
-  };
-
-  const handleGoogleLoginFailure = (error) => {
-    // Aquí puedes manejar el error de autenticación de Google
-    console.error(error);
-  };
-
   return (
     <div className={Styles.container}>
       <form className={Styles.form} onSubmit={handleSubmit}>
@@ -71,8 +73,8 @@ function Auth() {
           className={Styles.img}
           src={logo}
           alt="logo"
-          width="100"
-          height="60"
+          width="130"
+          height="70"
         />
         <div className={Styles.divInputs}>
           <label className={Styles.label}>Nombre</label>
@@ -84,6 +86,9 @@ function Auth() {
             onChange={handleChange}
             required
           />
+          {setValidateInput.name && register.name && (
+            <p className={Styles.error}>{errors.name}</p>
+          )}
           <label className={Styles.label}>Apellido</label>
           <input
             className={Styles.input}
@@ -91,17 +96,23 @@ function Auth() {
             name="lastName"
             value={register.lastName}
             onChange={handleChange}
-            required
           />
+          {setValidateInput.name && register.lastName && (
+            <p className={Styles.error}>{errors.lastName}</p>
+          )}
           <label className={Styles.label}>Telefono</label>
           <input
             className={Styles.input}
             type="text"
             name="phoneNumber"
-            value={register.dateOfBirth}
-            onChange={handleChange}
+            value={register.phoneNumber}
+            onChange={(e) => handleChange(e)}
             required
           />
+          {setValidateInput.name && register.phoneNumber && (
+            <p className={Styles.error}>{errors.phoneNumber}</p>
+          )}
+
           <label className={Styles.label}>Email</label>
           <input
             className={Styles.input}
@@ -111,43 +122,48 @@ function Auth() {
             onChange={handleChange}
             required
           />
+          {setValidateInput.name && register.email && (
+            <p className={Styles.error}>{errors.email}</p>
+          )}
           <label className={Styles.label}>Contraseña</label>
           <div className={Styles.inputContainer}>
             <input
-              className={`${Styles.input} ${
-                viewPassword ? PasswordVisibility : ""
-              }`}
+              className={Styles.input}
               onClick={PasswordVisibility}
-              type={viewPassword ? "text" : "password"}
+              type="password"
               name="password"
               value={register.password}
               onChange={handleChange}
               required
             />
+            {setValidateInput.name && register.password && (
+              <p className={Styles.error}>{errors.password}</p>
+            )}
           </div>
         </div>
         <button className={Styles.button} type="submit">
           Registrarse
         </button>
-        <br />
-        <GoogleLogin
-          clientId="28920578166-ob0r6ojjbt4qto749a4ksh8i3o3au840.apps.googleusercontent.com"
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          buttonText="Continuar con Google"
-          isSignedIn={true}
-          cookiePolicy={"single_host_origin"}
-          className={Styles.googleButton}
-        />
+        <li className={Styles.liButtonsAuth}>
+          <button className={Styles.buttonAuth}>
+            <span>
+              <img src={logoGoogle} alt="google" className={Styles.imgButton} />
+            </span>
+            Registrarse con Google
+          </button>
+          <button className={Styles.buttonAuth1}>
+            <span>
+              <img
+                src={logoFacebook}
+                alt="facebook"
+                className={Styles.imgButton}
+              />
+            </span>
+            Registrarse con Facebook
+          </button>
+        </li>
       </form>
     </div>
   );
-=======
-import React from "react";
-
-function Auth() {
-  return <div></div>;
->>>>>>> develop
 }
-
-export default Auth;
+export default Register;

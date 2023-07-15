@@ -1,10 +1,12 @@
 import Style from './FeaturedCategories.module.css'
-import { dataDish, dataDrink } from '../../../utils/mock'
 import logo from '../../../images/default-image.jpg'
-
+import { getTypes } from '../../../Redux/actions/getDishesTypes';
+import { useSelector, useDispatch } from 'react-redux';
+import {sortDishesByType} from '../../../Redux/slices/platosSlice';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect } from 'react';
 
 function SampleNextArrow(props) {
 
@@ -30,8 +32,20 @@ function SamplePrevArrow(props) {
 }
 
 const FeaturedCategories = () => {
-  const subTypes = dataDish.map(dish => dish.subtype);
-  const categories = [...new Set(subTypes)];
+  const dispatch = useDispatch();
+useEffect(() => {
+  dispatch(getTypes());
+}, []);
+  const  dishType  = useSelector(state => state.dishes.dishesTypes);
+  console.log(dishType)
+
+  const handleType = (e) =>{
+    const val = e.target.getAttribute('data-value')
+    console.log(val)
+    dispatch(sortDishesByType(val))
+
+  }
+  
 
   // Configuración del slider
   const sliderSettings = {
@@ -75,10 +89,10 @@ const FeaturedCategories = () => {
   return (
     <div className={Style.mainContainer}>
       <Slider className={Style.listContainer} {...sliderSettings}>
-        {categories.map((category, index) => (
-            <div key={index} className={Style.categoryContainer}>
-              <img className={Style.imgCategory} src={logo} alt={category} />
-              <p>{category}</p>
+        {dishType && dishType.map((type, index) => ( 
+            <div data-value={type} key={index}  className={Style.categoryContainer} onClick={handleType} >
+              <img data-value={type} className={Style.imgCategory} src={logo} alt=' '/>
+              {type}
             </div>
           ))}
       </Slider>
