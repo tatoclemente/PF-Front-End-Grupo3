@@ -20,7 +20,7 @@ function Card({type, image, name, price, rating, description, id, addToCart}) {
         </div>
       </div>
       <span className={style.price}>${price}</span>
-      <button className={style.button} onClick={addToCart}>Agregar a la orden</button>
+      <button className={style.button} onClick={()=>addToCart(id)}>Agregar a la orden</button>
     </div>
   )
 }

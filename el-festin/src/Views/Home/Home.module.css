@@ -10,13 +10,24 @@
     display: flex;
 }
 
+.sideBar{
+    width: 18vw;
+}
 .productsContent {
     display: flex;
     flex-direction: column;
-    width: 82vw;
-    height: calc(100vh - 112px);
+    align-items: center;
+    height: calc(100vh - 112px - 2rem);
     overflow-y: auto;
     overflow-x: hidden;
+    flex-grow: 1;
+    margin-top: 2rem;
+    transition: .5s ease-in-out;
+}
+
+.expanded {
+    width: 100%; /* Establece el ancho completo */
+    transition: width 0.5s ease-in-out; /* Agrega una transición para suavizar el cambio de ancho */
 }
 
 .footer {
