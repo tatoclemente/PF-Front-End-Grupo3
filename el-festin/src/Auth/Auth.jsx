@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
 import Styles from "./Auth.module.css";
-import { GoogleLogin } from "react-google-login";
 
 function Auth() {
   const logo =
@@ -130,7 +128,7 @@ function Auth() {
           Registrarse
         </button>
         <br />
-        <GoogleLogin
+        {/* <GoogleLogin
           clientId="28920578166-ob0r6ojjbt4qto749a4ksh8i3o3au840.apps.googleusercontent.com"
           onSuccess={handleGoogleLoginSuccess}
           onFailure={handleGoogleLoginFailure}
@@ -138,16 +136,9 @@ function Auth() {
           isSignedIn={true}
           cookiePolicy={"single_host_origin"}
           className={Styles.googleButton}
-        />
+        /> */}
       </form>
     </div>
   );
-=======
-import React from "react";
-
-function Auth() {
-  return <div></div>;
->>>>>>> develop
 }
-
 export default Auth;
