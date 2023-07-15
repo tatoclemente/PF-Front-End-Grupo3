@@ -1,10 +1,9 @@
 import style from "./App.module.css";
 import { Navbar } from "./Components/NavBar/NavBar";
-import { RegisterPage } from "./Views/Register/RegisterPage";
+import Footer from "./Components/Footer/Footer";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
-import Footer from "./Components/Footer/Footer";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
@@ -21,7 +20,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login/auth/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-
         <Route
           path="/*"
           element={
