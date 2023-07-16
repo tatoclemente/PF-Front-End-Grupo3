@@ -9,12 +9,13 @@ import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
 import { PrivateRoute } from "./Routes/PrivateRoute";
+import { DashboardView } from "./Views/Dashboard/DashboardView";
 
 function App() {
   let location = useLocation();
   return (
     <div className={style.appContainer}>
-      {location.pathname !== "/login" ? <Navbar /> : undefined}
+      {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Navbar /> : undefined}
 
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -29,12 +30,14 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/detail" element={<Detail />} />
+                <Route path="/dashboard" element={<DashboardView />} />
+
               </Routes>
             </PrivateRoute>
           }
         />
       </Routes>
-      {location.pathname !== "/login" ? <Footer /> : undefined}
+      {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Footer /> : undefined}
     </div>
   );
 }
