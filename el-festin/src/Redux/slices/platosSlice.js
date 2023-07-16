@@ -68,7 +68,21 @@ export const dishesSlice = createSlice({
                 state.dishes = vegg
             }
         
+        },
+        sortByPrice: (state, action) => {
+                let asc = [...state.dishes]
+                let ascSort = action.payload === 'asc' ? asc.sort((a, b) => b.price - a.price) : asc.sort((a, b) => a.price - b.price)
+                state.dishes = ascSort
+          
+        
+        },
+        sortByCalories: (state, action) => {
+            let asc = [...state.dishes]
+            let ascSort = action.payload === 'asc' ? asc.sort((a, b) => b.calories - a.calories) : asc.sort((a, b) => a.calories - b.calories)
+            state.dishes = ascSort
+
         }
+
 
     }
 })
@@ -78,7 +92,9 @@ export const {getAllBebidas,
     getAllDishesTypes,
     sortDishesByType,
     sortDishesByGluten,
-    sortDishesByVeggy
+    sortDishesByVeggy,
+    sortByPrice,
+    sortByCalories
 } = dishesSlice.actions;
 
 export default dishesSlice.reducer;
