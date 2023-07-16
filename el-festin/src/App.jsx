@@ -16,13 +16,13 @@ import { RegisterPage } from './Views/Register/RegisterPage'
 
 function App() {
   let location = useLocation();
-  let isLoginPage = location.pathname.includes("/login");
+  // let isLoginPage = location.pathname.includes("/login");
   return (
     <div className={style.appContainer}>
 
       {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Navbar /> : undefined}
-
-      {!isLoginPage ? <Navbar /> : undefined}
+{/* 
+      {!isLoginPage ? <Navbar /> : undefined} */}
 
 
       <Routes>
@@ -46,8 +46,8 @@ function App() {
       </Routes>
 
       {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Footer /> : undefined}
-
-      {!isLoginPage ? <Footer /> : undefined}
+{/* 
+      {!isLoginPage ? <Footer /> : undefined} */}
 
     </div>
   );
