@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './FiltersAndSorts.module.css'
 import { useDispatch  } from 'react-redux'
-import { sortDishesByGluten, sortDishesByVeggy } from '../../../Redux/slices/platosSlice';
+import { sortDishesByGluten, sortDishesByVeggy, sortByCalories, sortByPrice } from '../../../Redux/slices/platosSlice';
 import { RiArrowLeftSLine } from "react-icons/ri";
 
 
@@ -22,6 +22,16 @@ const handleGluten = (e) => {
 const handleVeggy = (e) => {
   const val = e.target.value;
   dispatch(sortDishesByVeggy(val))
+}
+
+const handlePrice = (e) => {
+  const val = e.target.value;
+  dispatch(sortByPrice(val))
+}
+
+const handleCalories = (e) => {
+  const val = e.target.value;
+  dispatch(sortByCalories(val))
 }
 
 
@@ -72,6 +82,21 @@ const handleVeggy = (e) => {
           <option value="veggy">Vegetariano</option>
           <option value="noVeggy">No vegetariano</option>
         </select>
+
+       
+        <select className={style.select} onChange={handleCalories}>
+          <option select disabled>Elige por calorias</option>
+          <option value="asc">Menor a mayor</option>
+          <option value="desc">Mayor a menor</option>
+        </select>
+
+
+        <select className={style.select} onChange={handlePrice}>
+          <option select disabled>Elige ordenar por precio</option>
+          <option value="asc">Menor a mayor</option>
+          <option value="desc">Mayor a menor</option>
+        </select>
+     
       </div>
     
     </div>
