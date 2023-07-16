@@ -20,6 +20,7 @@ const Detail = ({ dishDetail }) => {
           alt={dishDetail.name}
         />
         <div className={styles.additionalContainer}>
+          <p>seleccione su adicional</p>
             <img
             src={ravioles2}
             className={styles.secondaryImage}

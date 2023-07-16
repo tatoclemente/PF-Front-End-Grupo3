@@ -76,12 +76,14 @@
 
 .additionalContainer {
   width: 75%;
-  margin: .5rem;
+  display: flex;
+  flex-direction: column;
+  height: 120px;
   padding-bottom: .5rem;
   border-bottom: 2px solid var(--gray);
+  background-color: rgb(216, 149, 149);
 }
 .secondaryImage {
-  margin-top: 10px;
   width: auto;
   height: 70px;
   border-radius: 5px;
