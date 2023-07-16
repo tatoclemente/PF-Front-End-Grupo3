@@ -8,6 +8,7 @@ import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
 import { PrivateRoute } from "./Routes/PrivateRoute";
+import { RegisterPage } from './Views/Register/RegisterPage'
 
 function App() {
   let location = useLocation();

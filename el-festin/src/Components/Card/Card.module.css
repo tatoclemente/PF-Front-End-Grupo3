@@ -8,7 +8,11 @@
     width: 500px;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 1px 1px 5px var(--shadow);
+    transition: .3s ease-in-out;
+}
+
+.cardContainer:hover {
+    box-shadow: 1px 4px 7px var(--shadow);
 }
 
 .type {
