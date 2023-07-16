@@ -100,9 +100,16 @@
     font-weight: 700;
 }
 
-.button {
+
+.link:hover {
+    background-color: var(--button-hover-blue);
+    color: var(--primary-light);
+}
+
+.link {
     width: 90%;
     height: 2rem;
+    text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,9 +122,3 @@
     transition: .5s ease-in-out;
     color: var(--primary-dark);
 }
-
-.button:hover {
-    background-color: var(--button-hover-blue);
-    color: var(--primary-light);
-}
-
