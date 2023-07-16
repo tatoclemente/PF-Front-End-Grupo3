@@ -31,7 +31,6 @@ const Home = () => {
           <CardsContainer />
         </div>
       </div>
-      <div className={style.footer}>hola</div>
     </div>
   );
 };
