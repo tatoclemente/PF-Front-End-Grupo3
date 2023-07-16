@@ -26,7 +26,7 @@ const CardsContainer = () => {
 
   useEffect(() => {
     dispatch(getDishes());
-  }, []);
+  }, [dispatch]);
 
   const allDishes = useSelector((state) => state.dishes.dishes);
 
@@ -71,7 +71,7 @@ const CardsContainer = () => {
         <div className={style.cardsContainer}>
           {allDishes.slice(startIdx, endIdx).map((dish, index) => {
             return (
-              <div className={style.card} key={index}>
+              <div key={index}>
                 <Card
                   type={dish.type}
                   image={logo}

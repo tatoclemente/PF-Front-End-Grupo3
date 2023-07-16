@@ -35,9 +35,8 @@ const FeaturedCategories = () => {
   const dispatch = useDispatch();
 useEffect(() => {
   dispatch(getTypes());
-}, []);
+}, [dispatch]);
   const  dishType  = useSelector(state => state.dishes.dishesTypes);
-  console.log(dishType)
 
   const handleType = (e) =>{
     const val = e.target.getAttribute('data-value')
@@ -92,7 +91,7 @@ useEffect(() => {
         {dishType && dishType.map((type, index) => ( 
             <div data-value={type} key={index}  className={Style.categoryContainer} onClick={handleType} >
               <img data-value={type} className={Style.imgCategory} src={logo} alt=' '/>
-              {type}
+              <p>{type}</p>
             </div>
           ))}
       </Slider>

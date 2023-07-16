@@ -57,19 +57,23 @@ const handleVeggy = (e) => {
         </button>
         {isCollapsed?<p className={style.text}>abrir barra de filtros</p>:null}
       </div>
-      <select onChange={handleGluten}>
-        <option select disabled>Elige comida con o sin gluten</option>
-        <option value="all">Todos</option>
-        <option value="gluten">Con gluten</option>
-        <option value="noGluten">Sin gluten</option>
-      </select>
+      
+      <div className={style.filteredContent}>
+        <select className={style.select} onChange={handleGluten}>
+          <option selected disabled>Con o sin gluten</option>
+          <option value="all">Todos</option>
+          <option value="gluten">Con gluten</option>
+          <option value="noGluten">Sin gluten</option>
+        </select>
 
-      <select onChange={handleVeggy}>
-        <option select disabled>Elige comida vegetariana</option>
-        <option value="all">Todos</option>
-        <option value="veggy">Vegetariano</option>
-        <option value="noVeggy">No vegetariano</option>
-      </select>
+        <select className={style.select} onChange={handleVeggy}>
+          <option selected disabled>Elige comida vegetariana</option>
+          <option value="all">Todos</option>
+          <option value="veggy">Vegetariano</option>
+          <option value="noVeggy">No vegetariano</option>
+        </select>
+      </div>
+    
     </div>
   );
 }
