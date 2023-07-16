@@ -55,13 +55,13 @@ export const Carousel = () => {
   };
 
   // Show the previous image in the carousel
-  const prevImage = () => {
-    let prev = currentImageIndex - 1;
-    if (prev < 0) {
-      prev = 3;
-    }
-    showImage(prev);
-  };
+  // const prevImage = () => {
+  //   let prev = currentImageIndex - 1;
+  //   if (prev < 0) {
+  //     prev = 3;
+  //   }
+  //   showImage(prev);
+  // };
 
   return (
     <div className={styles.container}>
@@ -79,13 +79,13 @@ export const Carousel = () => {
         <img src={banner4} alt="banner4" />
       </div>
 
-      {/* Navigation buttons */}
+      {/* Navigation buttons
       <a href="#" className={styles.previous} onClick={prevImage}>
         &#10094;
       </a>
       <a href="#" className={styles.next} onClick={nextImage}>
         &#10095;
-      </a>
+      </a> */}
 
       {/* Image dots for navigation */}
       <div className={styles.dots}>

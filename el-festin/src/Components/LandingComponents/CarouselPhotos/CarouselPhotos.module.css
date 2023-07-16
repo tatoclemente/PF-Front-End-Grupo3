@@ -1,0 +1,38 @@
+.title{
+  color:#FBC32C;
+  font-size: 1.6rem;
+  margin: 20px;
+}
+
+.carousel {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.slide {
+  text-align: center;
+  padding: 10px;
+  margin: 0 10px; /* Ajusta el espacio horizontal entre las diapositivas */
+}
+
+.image {
+  width: 400px;
+  height: 300px; /* Ajusta la altura deseada para las imágenes */
+  object-fit: cover; /* Ajusta el modo de ajuste de la imagen */
+  border-radius: 10px;
+  margin-right: 70px;
+}
+
+.slick-prev,
+.slick-next {
+  display: none !important;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}

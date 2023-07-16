@@ -1,6 +1,84 @@
 .mainContainer {
-    width: 18vw;
     padding-top: 1rem;
     box-shadow: inset -1px 0 5px var(--shadow);
     height: calc(100vh - 112px);
+    position: relative;
+}
+
+.buttonDropDown {
+    position: absolute;
+    right: -1rem;
+    top: 1.2rem;
+    border: none;
+    background-color: #ffffff;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    box-shadow: .7px .7px 5px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    padding: 0;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.buttonDropDown:hover {
+    background-color: var(--button-hover-blue);
+    color: var(--primary-light);
+}
+
+.btnCollapsed {
+    position: absolute;
+    right: -3rem;
+    top: 0;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: .7px .7px 5px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    padding: 0;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+    transform-origin: center center;
+    transform: rotate(180deg);
+}
+
+.btnCollapsed:hover {
+    background-color: var(--button-hover-blue);
+    color: var(--primary-light);
+}
+
+.btnCollapsed:hover + .text {
+    display: block;
+}
+
+.text {
+    display: none;
+    padding: 5px;
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 400;
+    width: 10rem;
+    right: -12rem;
+    color: var(--primary-dark);
+    background-color: var(--main-color);
+    border-radius: 3px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    text-transform: none;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.btnCollapsed:hover + .text {
+    display: block;
+    opacity: 1;
+    transform: translateX(2rem);
+    transition: .5s ease-in-out;
 }
