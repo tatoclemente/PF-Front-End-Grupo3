@@ -89,9 +89,9 @@ useEffect(() => {
     <div className={Style.mainContainer}>
       <Slider className={Style.listContainer} {...sliderSettings}>
         {dishType && dishType.map((type, index) => ( 
-            <div data-value={type} key={index}  className={Style.categoryContainer} onClick={handleType} >
-              <img data-value={type} className={Style.imgCategory} src={logo} alt=' '/>
-              <p>{type}</p>
+            <div data-value={type.name} key={index}  className={Style.categoryContainer} onClick={handleType} >
+              <img data-value={type.name} className={Style.imgCategory} src={logo} alt=' '/>
+              <p>{type.name}</p>
             </div>
           ))}
       </Slider>
