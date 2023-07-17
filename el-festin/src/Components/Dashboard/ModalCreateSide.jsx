@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {validacionGuar} from "./Validaciones/validacionGuar"
+import style from "./dashBoard.module.css"
 
 export const ModalCreateSide = () => {
   let initialState = {
@@ -9,12 +11,17 @@ export const ModalCreateSide = () => {
   };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
+  const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
     setInputCreateSide({
       ...inputCreateSide,
       [target.name]: target.value,
     });
+    setError(validacionGuar({
+      ...inputCreateSide,
+      [target.name]:  target.value
+    }))
   };
 
   const onSubmitCreate = (e) => {
@@ -63,6 +70,7 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.name}
                   onChange={onInputChange}
                 />
+                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Tipo
@@ -85,7 +93,7 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.price}
                   onChange={onInputChange}
                 />
-
+                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                 <div className="modal-footer">
                   <button
                     type="button"
