@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 
 export const ModalCreateSide = () => {
   let initialState = {
     name: "",
-    stock: "",
+    type: "",
     price: "",
-    image: "",
+    available: null,
   };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
+  const [filed, setFiled] = useState(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateSide({
@@ -17,8 +20,30 @@ export const ModalCreateSide = () => {
     });
   };
 
-  const onSubmitCreate = (e) => {
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
+
+  const formData = new FormData();
+  formData.append("name", inputCreateSide.name);
+  formData.append("type", inputCreateSide.type);
+  formData.append("price", inputCreateSide.price);
+  formData.append("available", inputCreateSide.available);
+  formData.append("image", filed);
+
+  
+
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(`${server}/side`, formData);
+      
+      if (data.name) {
+        alert("Guarnicion creada con exito");
+      }
+    } catch (error) {
+      throw error.message;
+    }
   };
 
   return (
@@ -64,17 +89,19 @@ export const ModalCreateSide = () => {
                   onChange={onInputChange}
                 />
 
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Tipo
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="calories"
-                  value={inputCreateSide.stock}
-                  onChange={onInputChange}
-                />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="type"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled>
+                    tipo de guarnicion
+                  </option>
 
+                  <option value="salsa">Salsa</option>
+                  <option value="acompañamiento">acompañamiento</option>
+                </select>
+                <br />
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
                 </label>
@@ -85,6 +112,31 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.price}
                   onChange={onInputChange}
                 />
+
+                <br />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="available"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled>
+                    Disponible
+                  </option>
+
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                <br />
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Imagen
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={handleOnChangeImage}
+                />
+
+                <br />
 
                 <div className="modal-footer">
                   <button

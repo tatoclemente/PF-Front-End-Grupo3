@@ -1,14 +1,16 @@
 import { useState } from "react";
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 
 export const ModalCreateDesert = () => {
   let initialState = {
     name: "",
     stock: "",
     price: "",
-    image: "",
   };
 
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
+  const [filed, setFiled] = useState(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
@@ -17,8 +19,27 @@ export const ModalCreateDesert = () => {
     });
   };
 
-  const onSubmitCreate = (e) => {
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
+
+  const formData = new FormData();
+  formData.append("name", inputCreateDesert.name);
+  formData.append("stock", inputCreateDesert.stock);
+  formData.append("price", inputCreateDesert.price);
+  formData.append("image", filed);
+
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(`${server}/desert`, formData);
+
+      if (data.name) {
+        alert("Postre creada con exito");
+      }
+    } catch (error) {
+      throw error.message;
+    }
   };
 
   return (
@@ -70,7 +91,7 @@ export const ModalCreateDesert = () => {
                 <input
                   type="text"
                   className="form-control"
-                  name="calories"
+                  name="stock"
                   value={inputCreateDesert.stock}
                   onChange={onInputChange}
                 />
@@ -91,9 +112,7 @@ export const ModalCreateDesert = () => {
                 <input
                   type="file"
                   className="form-control"
-                  name="price"
-                  value={inputCreateDesert.image}
-                  onChange={onInputChange}
+                  onChange={handleOnChangeImage}
                 />
                 <div className="modal-footer">
                   <button
