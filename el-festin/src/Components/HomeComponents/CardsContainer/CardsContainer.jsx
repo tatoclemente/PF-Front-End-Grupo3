@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import logo from "../../../images/default-image.jpg";
 import Card from "../../Card/Card";
 import { useEffect, useRef, useState } from "react";
-
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
+// import { sides } from "../../../utils/mock";
+import axios from "axios";
 
 export const scrollToTopRef = (containerRef) => {
   if (containerRef.current) {
@@ -22,13 +23,16 @@ const CardsContainer = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const containerRef = useRef(null);
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getDishes());
-  }, [dispatch]);
+  const dispatch = useDispatch()
 
   const allDishes = useSelector((state) => state.dishes.dishes);
+
+
+  // const [dishes, setDishes] = useState([]);
+
+  useEffect(() => {
+    dispatch(getDishes())
+  }, [dispatch]);
 
 
     // Constante de recetas por página
@@ -74,7 +78,7 @@ const CardsContainer = () => {
               <div key={index}>
                 <Card
                   type={dish.type}
-                  image={logo}
+                  image={dish.image}
                   name={dish.name}
                   price={dish.price}
                   rating={dish.rating}

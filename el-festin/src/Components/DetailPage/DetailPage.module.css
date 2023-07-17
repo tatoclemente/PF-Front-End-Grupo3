@@ -19,7 +19,6 @@
 .name {
   color: #fbc32c;
   font-size: 1.5rem;
-  margin-bottom: 1rem;
   text-shadow: .5px .5px 1px var(--shadow);
 }
 
@@ -62,7 +61,6 @@
 .containerPrice {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
 }
 
 .mainImage {
@@ -74,12 +72,15 @@
   object-fit: cover;
 }
 
+
+/* ADICIONAL PLATO PRINCIPAL */
 .additionalContainer {
-  width: 75%;
+  width: 95%;
+  height: 190px;
   display: flex;
+  align-items: center;
   flex-direction: column;
-  height: 120px;
-  padding-bottom: .5rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid var(--gray);
 }
 
@@ -87,18 +88,64 @@
   text-transform: uppercase;
 }
 
-.guarnicionContainer {
+.guarnicionContent {
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
+
+.guarnicionContainer {
+  width: 100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: .3rem 0;
+  cursor: pointer;
+}
+
 
 .guarnicionContainer img {
   margin: 0 .3rem;
 }
 
+.selectedAdditionalContainer {
+  height: 100px;
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.guarnicionContainer:hover img {
+  border: 1px solid var(--main-color);
+  box-shadow: 1px 4px 7px var(--shadow);
+}
+
+.guanicionNameContainer {
+  min-height: 2.5rem;
+}
+
+.guarnicionName {
+  text-transform: uppercase;
+  font-size: .65rem;
+  font-weight: 500;
+  height: 2.5rem;
+  width: 100%;
+  color: var(--primary-dark);
+  line-height: 0;
+}
+
+.selectedAdditional {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  border: 1px solid var(--main-color);
+  overflow: hidden;
+}
+
+
+
 .secondaryImage {
-  width: 80px;
+  width: 70px;
   height: 70px;
   border-radius: 5px;
   object-fit: contain;
