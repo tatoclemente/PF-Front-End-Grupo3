@@ -67,11 +67,12 @@
 
 .mainImage {
   width: 75%;
-  height: 30vh;
+  height: 25vh;
   border-radius: 5px;
   border-radius: 15px;
   box-shadow: 1px 4px 7px var(--shadow);
   object-fit: cover;
+  transform: translateY(-1.5em);
 }
 
 
@@ -79,25 +80,24 @@
 .additionalContainer {
   width: 95%;
   height: 190px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--gray);
 }
 
 .guarnicionTitle {
   text-transform: uppercase;
+
 }
 
 .guarnicionContent {
-  display: flex;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .guarnicionContainer {
   width: 100px;
   height: 100%;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
