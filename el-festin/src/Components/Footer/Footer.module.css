@@ -4,13 +4,12 @@
   background-color: #313045;
   background-size: cover;
   width: 100vw;
-  padding: 10px;
+  padding: 19px;
   overflow: auto;
 }
 
 .img {
   margin-top: 50px;
-  margin-left: 20px;
 }
 
 .divContact {
@@ -35,7 +34,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
-  margin-left: 100px;
+  margin-left: 160px;
   margin-bottom: 10px;
 }
 .h5 {
@@ -58,7 +57,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
-  margin-left: 115px;
+  margin-left: 160px;
 }
 .titleSocial {
   color: white;
@@ -71,17 +70,18 @@
 }
 
 .buttonUp {
+  position: absolute;
   background-color: transparent;
   border: none;
-  margin-top: 185px;
-  margin-left: 20px;
+  margin-top: 165px;
+  right: 20px;
   cursor: pointer;
 }
 .select {
   position: absolute;
   width: 45px;
   height: 22px;
-  right: 1020px;
+  right: 95%;
 }
 .pFestin {
   position: absolute;
