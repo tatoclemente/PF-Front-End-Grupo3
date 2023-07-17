@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import ravioles2 from "./images/ravioles2.jpg";
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DetailPage.module.css";
@@ -18,19 +17,27 @@ const Detail = ({ dishDetail }) => {
   const desserts = useSelector((state) => state.desserts.desserts);
   const sides = useSelector((state) => state.sides.sides);
 
-  console.log(sides);
+  // const [form, setForm] = useState({
+  //   id,
+  //   user_id,
+  //   dish_id,
+  //   drik_id,
+  //   cantidad_drink,
+  //   desert_id,
+  // })
+
 
   const pastaGarnish = sides.filter((side) => side.type === "salsa");
 
   const resGarnish = sides.filter((side) => side.type === "acompañamiento");
 
   const papas = { ...sides.find((side) => side.name.toLowerCase() === "papa fritas") };
-const batatas = { ...sides.find((side) => side.name.toLowerCase() === "batatas fritas") };
+  const batatas = { ...sides.find((side) => side.name.toLowerCase() === "batatas fritas") };
 
 
   const sandwichGarnish = [papas, batatas].filter((side) => side !== null);
 
-
+ 
   const garnish =
     dishDetail.subtype === "pastas"
       ? pastaGarnish
@@ -143,6 +150,9 @@ const batatas = { ...sides.find((side) => side.name.toLowerCase() === "batatas f
                 <p>No hay guarniciones para este plato.</p>
               ) }
           </div>
+        </div>
+        <div className={styles.selectedAdditionalContainer}>
+
         </div>
 
         <div className={styles.containerPrice}>
