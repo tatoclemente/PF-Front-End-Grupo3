@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ravioles from "./images/ravioles.jpg";
 import agua from "./images/agua.png";
 import cocacola from "./images/cocacola.png";
@@ -6,9 +6,23 @@ import sprite from "./images/sprite.jpg";
 import tiramisu from "./images/tiramisu.jpg";
 import alfajor from "./images/alfajor.jpg";
 import ravioles2 from "./images/ravioles2.jpg";
+import {getDrinks} from '../../Redux/actions/actionsDrinks/getAllDrinks'
+import { useDispatch, useSelector} from "react-redux";
 import styles from "./DetailPage.module.css";
 
 const Detail = ({ dishDetail }) => {
+  const dispatch = useDispatch();
+  const drinks = useSelector((state) => state.drinks.drinks);
+
+  useEffect(() => {
+    dispatch(getDrinks());
+  }, [dispatch, dishDetail]);
+
+  console.log(drinks)
+
+  
+
+
 
   return (
     <div className={styles.container}>
@@ -40,7 +54,7 @@ const Detail = ({ dishDetail }) => {
           </div>
         </div>
         <div className={styles.containerPrice}>
-          <h2 className={styles.titles}>{`$ ${dishDetail.price}`}</h2>
+          <h2 className={styles.titles}>{`${dishDetail.price}`}</h2>
         </div>
       </div>
       

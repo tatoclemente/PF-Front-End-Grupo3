@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import {validacionDish} from './Validaciones/validacionDish'
+import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
 import {getTypes} from '../../Redux/actions/getDishesTypes'
 import style from "./dashBoard.module.css"
 
@@ -20,8 +20,7 @@ export const ModalCreateDish = () => {
 
   const [inputCreateDish, setInputCreateDish] = useState(initialState);
   const [error, setError] = useState({});
-  const [selectTypeState, setSelectTypeState] = useState([])
-  const  subtypes  = useSelector(state => state.dishes.dishesTypes);
+  const  repDish  = useSelector(state => state.dishes.dishes);
   const dispatch = useDispatch()
 
 
@@ -35,45 +34,38 @@ export const ModalCreateDish = () => {
       ...inputCreateDish,
       [target.name]: target.value,
     });
+    setError(validacionDishName({repDish, inputCreateDish}))
     setError(validacionDish({
       ...inputCreateDish,
       [target.name]: target.value,
-    }));
+    }))
+
+  
+    ;
   };
+  
 
   const onSubmitCreate = (e) => {
     e.preventDefault();
-    if (Object.keys(error).length === 0) {
+    if(repDish.find(e => e.name === inputCreateDish.name)){
+     window.alert("El postre ya existe")
+     return
+  }
+    if (!error.name && !error.description && !error.subtype && !error.calories && !error.price) {
       console.log(inputCreateDish);
       setInputCreateDish(initialState);
       window.alert("Postre creado correctamente");
+
+
     } else {
+      console.log(error)
       window.alert("Postre no creado");
     }
   };
 
-  // function handleSelect(e){
+  
 
-  //   if(inputCreateDish.subtype.includes(e.target.value)) return //Con esto pregunta si el temperamento a añadir ya esta en el perro a crear
-  
-  //   setInputCreateDish({
-  //     ...inputCreateDish,
-  //     subtype: [...inputCreateDish.subtype, e.target.value]
-  //   })//Seteo el temperamento del perro a crear
-  
-  //   const selectName = e.target.value;
-  //   if(selectName === "default") return;
-  //   setInputCreateDish({...inputCreateDish , subtype:[...inputCreateDish.subtype, selectTypeState]})
-  //    //Yo con este estado de selectName hago que los tempremanetos seleccionados se me muestren en el formulario 
-  //   setSelectTypeState([...selectTypeState, subtypes.filter(e => e.includes(selectTypeState))])
-   
-  
-  // };
-  
-  // const handleDelete = (e) =>{
-  //   setInputCreateDish({...inputCreateDish, subtype : inputCreateDish.subtype.filter(t => t !== e.target.value)})
-  //   setSelectTypeState(selectTypeState.filter(t => t !== e.target.value))
-  // }
+
 
   return (
   
@@ -146,23 +138,7 @@ export const ModalCreateDish = () => {
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Subtipo ("pastas", "ensaladas", "carnes")
                   </label>
-                  {/* <select onChange={handleSelect}>
-                 {
-                  subtypes.map(e => {
-                    return(
-                    <option key={e} value={e}>{e}</option>
-                  )})
-                 }
-                 </select>
-
-                 <ul>
-                  {
-                    selectTypeState.map(e => {
-                      return (<button key={e} value={e} onClick={handleDelete}><p>{e}</p></button>)
-                    })
-                  }
-                 </ul> */}
-
+          
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Calorias
                   </label>

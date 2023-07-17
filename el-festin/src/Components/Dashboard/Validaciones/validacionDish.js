@@ -40,6 +40,15 @@ const validacionDish = (input) =>{
     return errors;
 }
 
-module.exports = {validacionDish} ;
+const validacionDishName = (input, nameBase) =>{
+    let errors = {};
+    if(input.name === nameBase.name){
+        errors.name = "El nombre ya existe"
+    }
+    return errors;
+}
+
+
+module.exports = {validacionDish, validacionDishName} ;
  
 
