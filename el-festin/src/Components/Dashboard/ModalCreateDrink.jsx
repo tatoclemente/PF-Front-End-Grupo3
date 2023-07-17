@@ -1,6 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
+import { volumeDrink } from "../../Helpers/objetosHelp";
+import { typeDrink } from "../../Helpers/objetosHelp";
+
 import {validacionDrink} from './Validaciones/validacionDrink'
 import style from "./Dashboard.module.css"
+
 
 export const ModalCreateDrink = () => {
   let initialState = {
@@ -8,12 +14,13 @@ export const ModalCreateDrink = () => {
     volume: "",
     type: "",
     alcohol: "",
-    stock: "",
+    stock: 0,
     price: "",
-    image: "",
   };
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
+
+  const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
@@ -27,13 +34,34 @@ export const ModalCreateDrink = () => {
     }));
   };
 
-  const onSubmitCreate = (e) => {
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
+
+  const formData = new FormData();
+  formData.append("name", inputCreateDrink.name);
+  formData.append("volume", inputCreateDrink.volume);
+  formData.append("type", inputCreateDrink.type);
+  formData.append("alcohol", inputCreateDrink.alcohol);
+  formData.append("price", inputCreateDrink.price);
+  formData.append("stock", inputCreateDrink.stock);
+  formData.append("image", filed);
+
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(`${server}/drink`, formData);
+   
+      if(data.name){
+      alert("Bebida creada con exito")
+    }
+    } catch (error) {
+      throw error.message;
+    }
   };
 
   return (
     <div className="container-fluid">
-      
       <button
         type="button"
         className="btn btn-primary"
@@ -74,39 +102,49 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.name}
                   onChange={onInputChange}
                 />
-                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Medida
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={inputCreateDrink.volume}
-                  onChange={onInputChange}
-                />
-                {error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
+{error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
 
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  tipo de bebida
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="volume"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Medida
+                  </option>
+                  {volumeDrink.map((volume) => {
+                    return <option value={volume}>{volume}</option>;
+                  })}
+                </select>
+                <br />
+{error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
+
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
                   name="type"
-                  value={inputCreateDrink.type}
-                  onChange={onInputChange}
-                />
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Contiene alcohol
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="subtype"
-                  value={inputCreateDrink.alcohol}
-                  onChange={onInputChange}
-                />
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    tipo de bebida
+                  </option>
+                  {typeDrink.map((type) => {
+                    return <option value={type}>{type}</option>;
+                  })}
+                </select>
+                <br />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="alcohol"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled>
+                    contiene alcohol
+                  </option>
+
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                <br />
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -114,7 +152,7 @@ export const ModalCreateDrink = () => {
                 <input
                   type="text"
                   className="form-control"
-                  name="calories"
+                  name="stock"
                   value={inputCreateDrink.stock}
                   onChange={onInputChange}
                 />
@@ -130,7 +168,18 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
+
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={handleOnChangeImage}
+                />
+
                 {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+
                 <div className="modal-footer">
                   <button
                     type="button"

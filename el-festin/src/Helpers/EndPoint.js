@@ -1,1 +1,1 @@
-const foo = 'hola'
+export const server = "https://pf-server-production.up.railway.app";

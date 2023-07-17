@@ -1,17 +1,21 @@
 import { useState } from "react";
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 import { validacionDesert } from './Validaciones/validacionDesert'
 import style from "./Dashboard.module.css"
+
 
 export const ModalCreateDesert = () => {
   let initialState = {
     name: "",
     stock: "",
     price: "",
-    image: "",
   };
 
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
+  const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
+
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
@@ -25,17 +29,30 @@ export const ModalCreateDesert = () => {
   };
 
 
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
 
-  const onSubmitCreate = (e) => {
+  const formData = new FormData();
+  formData.append("name", inputCreateDesert.name);
+  formData.append("stock", inputCreateDesert.stock);
+  formData.append("price", inputCreateDesert.price);
+  formData.append("image", filed);
+
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
-    if (Object.keys(error).length === 0) {
-      console.log(inputCreateDesert);
-      setInputCreateDesert(initialState);
-      window.alert("Postre creado correctamente");
-    } else {
-      window.alert("Postre no creado");
+    try {
+      const { data } = await axios.post(`${server}/desert`, formData);
+
+      if (data.name) {
+        alert("Postre creada con exito");
+      }
+    } catch (error) {
+      throw error.message;
     }
   };
+    
+  
 
   return (
     <div className="container-fluid">
@@ -110,9 +127,7 @@ export const ModalCreateDesert = () => {
                 <input
                   type="file"
                   className="form-control"
-                  name="price"
-                  value={inputCreateDesert.image}
-                  onChange={onInputChange}
+                  onChange={handleOnChangeImage}
                 />
                 <div className="modal-footer">
                   <button

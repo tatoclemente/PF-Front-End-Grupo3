@@ -1,9 +1,13 @@
+
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
 import {getTypes} from '../../Redux/actions/getDishesTypes'
 import style from "./Dashboard.module.css"
+
 
 export const ModalCreateDish = () => {
   let initialState = {
@@ -12,13 +16,16 @@ export const ModalCreateDish = () => {
     type: "",
     subtype: [],
     calories: "",
-    glutenfree: "",
-    vegetarian: "",
-    plateoftheday: "",
+    glutenfree: null,
+    vegetarian: null,
+    dailyspecial: null,
     price: "",
   };
 
   const [inputCreateDish, setInputCreateDish] = useState(initialState);
+
+  const [filed, setFiled] = useState(null);
+
   const [error, setError] = useState({});
   const  repDish  = useSelector(state => state.dishes.dishes);
   const dispatch = useDispatch()
@@ -29,12 +36,12 @@ export const ModalCreateDish = () => {
     dispatch(getTypes())
   },[])
 
+
   const onInputChange = ({ target }) => {
     setInputCreateDish({
       ...inputCreateDish,
       [target.name]: target.value,
     });
-    setError(validacionDishName({repDish, inputCreateDish}))
     setError(validacionDish({
       ...inputCreateDish,
       [target.name]: target.value,
@@ -45,25 +52,42 @@ export const ModalCreateDish = () => {
   };
   
 
-  const onSubmitCreate = (e) => {
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
-    if(repDish.find(e => e.name === inputCreateDish.name)){
-     window.alert("El postre ya existe")
-     return
-  }
-    if (!error.name && !error.description && !error.subtype && !error.calories && !error.price) {
-      console.log(inputCreateDish);
-      setInputCreateDish(initialState);
-      window.alert("Postre creado correctamente");
 
+    try {
+      const { data } = await axios.post(`${server}/dish`, formData);
 
-    } else {
-      console.log(error)
-      window.alert("Postre no creado");
+      if (data.name) {
+        alert("Plato creado correctamente");
+      }
+    } catch (error) {
+      throw error.message;
     }
   };
 
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
+
+  const formData = new FormData();
+  formData.append("name", inputCreateDish.name);
+  formData.append("description", inputCreateDish.description);
+  formData.append("type", inputCreateDish.type);
+  formData.append("calories", inputCreateDish.calories);
+  formData.append("price", inputCreateDish.price);
+  formData.append("subtype", inputCreateDish.subtype);
+  formData.append("glutenfree", inputCreateDish.glutenfree);
+  formData.append("vegetarian", inputCreateDish.vegetarian);
+  formData.append("dailyspecial", inputCreateDish.dailyspecial);
+  formData.append("image", filed);
+
   
+  
+  
+
+  
+
 
 
 
@@ -114,11 +138,7 @@ export const ModalCreateDish = () => {
                     onChange={onInputChange}
                   />
                   {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-                  <label
-                    htmlFor=""
-                    className="pe-3 pt-3 form-label"
-                    name="name"
-                  >
+            
                     Descripcion
                   </label>
                   <input
@@ -128,21 +148,37 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.description}
                     onChange={onInputChange}
                   />
-                  {error.description && <p className={style.dato_incorrecto}>{error.description}</p>}
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    tipo de plato (plato principal, entrada, Etc)
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
+{error.description && <p className={style.dato_incorrecto}>{error.description}</p>}
+
+
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="mt-4"
                     name="type"
-                    value={inputCreateDish.type}
-                    onChange={onInputChange}
-                  />
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Subtipo ("pastas", "ensaladas", "carnes")
-                  </label>
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      Tipos de plato
+                    </option>
+
+                    <option value="plato principal">Plato principal</option>
+                    <option value="entrada">Entrada</option>
+                  </select>
+                  <br />
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group mt-4"
+                    name="subtype"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      Subtipos
+                    </option>
+                    {subtiposDish.map((subtipo) => {
+                      return <option value={subtipo}>{subtipo}</option>;
+                    })}
+                  </select>
+                  <br />
           
+
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Calorias
                   </label>
@@ -153,7 +189,49 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.calories}
                     onChange={onInputChange}
                   />
-                  {error.calories && <p className={style.dato_incorrecto}>{error.calories}</p>}
+{error.calories && <p className={style.dato_incorrecto}>{error.calories}</p>}
+
+
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group mt-4"
+                    name="glutenfree"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      Glutenfree
+                    </option>
+
+                    <option value={true}>Si</option>
+                    <option value={false}>no</option>
+                  </select>
+                  <br />
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group mt-4"
+                    name="vegetarian"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      Vegetariano
+                    </option>
+
+                    <option value={true}>Si</option>
+                    <option value={false}>no</option>
+                  </select>
+                  <br />
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group mt-4"
+                    name="dailyspecial"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      Especial del dia
+                    </option>
+                    <option value={true}>Si</option>
+                    <option value={false}>no</option>
+                  </select>
+                  <br />
+
+                  
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Glutenfree
                   </label>
@@ -165,28 +243,7 @@ export const ModalCreateDish = () => {
                     onChange={onInputChange}
                   />
                   {error.glutenfree && <p className={style.dato_incorrecto}>{error.glutenfree}</p>}
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Vegetariana
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="vegetarian"
-                    value={inputCreateDish.vegetarian}
-                    onChange={onInputChange}
-                  />
-                  {error.vegetarian && <p className={style.dato_incorrecto}>{error.vegetarian}</p>}
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    dailyspecial
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="plateoftheday"
-                    value={inputCreateDish.dailyspecial}
-                    onChange={onInputChange}
-                  />
-                  {error.plateoftheday && <p className={style.dato_incorrecto}>{error.plateoftheday}</p>}
+
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Precio
                   </label>
@@ -197,7 +254,16 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.price}
                     onChange={onInputChange}
                   />
-                  {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+                  <label htmlFor="" className="pe-3 pt-3 form-label">
+                    Imagen
+                  </label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    onChange={handleOnChangeImage}
+                  />
+                  
                   <div className="modal-footer">
                     <button
                       type="button"
