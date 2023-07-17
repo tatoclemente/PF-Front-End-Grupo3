@@ -1,14 +1,20 @@
-import { useState } from "react";
+
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
-import { subtiposDish } from "../../Helpers/objetosHelp";
+import { useEffect, useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
+import {getTypes} from '../../Redux/actions/getDishesTypes'
+import style from "./Dashboard.module.css"
+
 
 export const ModalCreateDish = () => {
   let initialState = {
     name: "",
     description: "",
     type: "",
-    subtype: "",
+    subtype: [],
     calories: "",
     glutenfree: null,
     vegetarian: null,
@@ -17,17 +23,38 @@ export const ModalCreateDish = () => {
   };
 
   const [inputCreateDish, setInputCreateDish] = useState(initialState);
+
   const [filed, setFiled] = useState(null);
+
+  const [error, setError] = useState({});
+  const  repDish  = useSelector(state => state.dishes.dishes);
+  const dispatch = useDispatch()
+
+
+
+  useEffect(() => {
+    dispatch(getTypes())
+  },[])
+
 
   const onInputChange = ({ target }) => {
     setInputCreateDish({
       ...inputCreateDish,
       [target.name]: target.value,
     });
+    setError(validacionDish({
+      ...inputCreateDish,
+      [target.name]: target.value,
+    }))
+
+  
+    ;
   };
+  
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(`${server}/dish`, formData);
 
@@ -43,17 +70,6 @@ export const ModalCreateDish = () => {
     setFiled(target.files[0]);
   };
 
-  /*let initialState = {
-    name: "",
-    description: "",
-    type: "",
-    subtype: "",
-    calories: "",
-    glutenfree: null,
-    vegetarian: null,
-    dailyspecial: null,
-    price: "",
-  }; */
   const formData = new FormData();
   formData.append("name", inputCreateDish.name);
   formData.append("description", inputCreateDish.description);
@@ -66,15 +82,25 @@ export const ModalCreateDish = () => {
   formData.append("dailyspecial", inputCreateDish.dailyspecial);
   formData.append("image", filed);
 
+  
+  
+  
+
+  
+
+
+
+
   return (
-    <>
+  
       <div className="container-fluid">
         <button
           type="button"
           className="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">
-          Crear de plato
+          data-bs-target="#staticBackdrop"
+        >
+          Crear Plato
         </button>
 
         <div
@@ -84,7 +110,8 @@ export const ModalCreateDish = () => {
           data-bs-keyboard="false"
           tabindex="-1"
           aria-labelledby="staticBackdropLabel"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -95,7 +122,8 @@ export const ModalCreateDish = () => {
                   type="button"
                   className="btn-close"
                   data-bs-dismiss="modal"
-                  aria-label="Close"></button>
+                  aria-label="Close"
+                ></button>
               </div>
               <div className="modal-body">
                 <form onSubmit={onSubmitCreate}>
@@ -109,10 +137,8 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.name}
                     onChange={onInputChange}
                   />
-                  <label
-                    htmlFor=""
-                    className="pe-3 pt-3 form-label"
-                    name="name">
+                  {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
+            
                     Descripcion
                   </label>
                   <input
@@ -122,6 +148,8 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.description}
                     onChange={onInputChange}
                   />
+{error.description && <p className={style.dato_incorrecto}>{error.description}</p>}
+
 
                   <select
                     defaultValue={"DEFAULT"}
@@ -149,6 +177,8 @@ export const ModalCreateDish = () => {
                     })}
                   </select>
                   <br />
+          
+
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Calorias
                   </label>
@@ -159,6 +189,8 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.calories}
                     onChange={onInputChange}
                   />
+{error.calories && <p className={style.dato_incorrecto}>{error.calories}</p>}
+
 
                   <select
                     defaultValue={"DEFAULT"}
@@ -198,6 +230,20 @@ export const ModalCreateDish = () => {
                     <option value={false}>no</option>
                   </select>
                   <br />
+
+                  
+                  <label htmlFor="" className="pe-3 pt-3 form-label">
+                    Glutenfree
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="glutenfree"
+                    value={inputCreateDish.glutenfree}
+                    onChange={onInputChange}
+                  />
+                  {error.glutenfree && <p className={style.dato_incorrecto}>{error.glutenfree}</p>}
+
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Precio
                   </label>
@@ -208,7 +254,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.price}
                     onChange={onInputChange}
                   />
-
+{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Imagen
                   </label>
@@ -217,11 +263,13 @@ export const ModalCreateDish = () => {
                     className="form-control"
                     onChange={handleOnChangeImage}
                   />
+                  
                   <div className="modal-footer">
                     <button
                       type="button"
                       className="btn btn-secondary"
-                      data-bs-dismiss="modal">
+                      data-bs-dismiss="modal"
+                    >
                       Cerrar
                     </button>
                     <button type="submit" className="btn btn-primary">
@@ -234,6 +282,7 @@ export const ModalCreateDish = () => {
           </div>
         </div>
       </div>
-    </>
+   
   );
 };
+

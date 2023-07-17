@@ -1,16 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './Card.module.css'
 
 import { FaRegCreditCard } from 'react-icons/fa'
 import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai'
+import { Link } from 'react-router-dom'
 
-function Card({type, image, name, price, rating, description, id, addToCart}) {
+function Card({type, image, name, price, rating, description, id}) {
+
+  const [selectedStars, setSelectedStars] = useState(0);
+
+  const handleStarClick = (stars) => {
+    setSelectedStars(stars);
+  };
+
+  const renderStars = () => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      const starIcon = i <= selectedStars ? (
+        <AiTwotoneStar key={i} className={style.ratingIcon} onClick={() => handleStarClick(i)} />
+      ) : (
+        <AiOutlineStar key={i} className={style.ratingIcon} onClick={() => handleStarClick(i)} />
+      );
+      stars.push(starIcon);
+    }
+    return stars;
+  };
 
   return (
     <div className={style.cardContainer}>
       <p className={style.type}>{type}</p>
       <div className={style.cardContent}>
-        {rating? <div className={style.rating}><AiTwotoneStar className={style.ratingIcon} /><span className={style.ratingText}>{rating}</span></div>:<div className={style.rating}><AiOutlineStar className={style.ratingIcon} /><AiOutlineStar className={style.ratingIcon} /><AiOutlineStar className={style.ratingIcon} /><AiOutlineStar className={style.ratingIcon} /><AiOutlineStar className={style.ratingIcon} /></div> }
+        <div className={style.rating}>{renderStars()}</div> 
         
         <img className={style.imageCard} src={image} alt={name} />
         <div className={style.cardInfo}>
@@ -20,7 +40,9 @@ function Card({type, image, name, price, rating, description, id, addToCart}) {
         </div>
       </div>
       <span className={style.price}>${price}</span>
-      <button className={style.button} onClick={()=>addToCart(id)}>Agregar a la orden</button>
+      <Link to={`/detail/${id}`} className={style.link}>
+        Agregar a la orden
+      </Link>
     </div>
   )
 }

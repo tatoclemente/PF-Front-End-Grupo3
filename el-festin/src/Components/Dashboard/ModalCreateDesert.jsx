@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
+import { validacionDesert } from './Validaciones/validacionDesert'
+import style from "./Dashboard.module.css"
+
 
 export const ModalCreateDesert = () => {
   let initialState = {
@@ -11,13 +14,20 @@ export const ModalCreateDesert = () => {
 
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
   const [filed, setFiled] = useState(null);
+  const [error, setError] = useState({});
+
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
       ...inputCreateDesert,
       [target.name]: target.value,
     });
+    setError(validacionDesert({
+      ...inputCreateDesert,
+      [target.name]: target.value,
+    }));
   };
+
 
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
@@ -41,6 +51,8 @@ export const ModalCreateDesert = () => {
       throw error.message;
     }
   };
+    
+  
 
   return (
     <div className="container-fluid">
@@ -84,6 +96,7 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.name}
                   onChange={onInputChange}
                 />
+                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -95,6 +108,7 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.stock}
                   onChange={onInputChange}
                 />
+                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -106,6 +120,7 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.price}
                   onChange={onInputChange}
                 />
+                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Imagen
                 </label>
@@ -121,7 +136,7 @@ export const ModalCreateDesert = () => {
                     data-bs-dismiss="modal">
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button  type="submit" className="btn btn-primary">
                     Crear
                   </button>
                 </div>

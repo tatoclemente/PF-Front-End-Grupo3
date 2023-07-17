@@ -417,3 +417,57 @@ export const dataDrinks = [
     type: "vinos",
   },
 ];
+
+
+export const sides = [
+  {
+    name: "salsa fileto",
+    type: "salsas",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "cuatro quesos",
+    type: "salsas",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "bolognesa",
+    type: "salsas",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "papas fritas",
+    type: "acompañamientos",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "pure de papas",
+    type: "acompañamientos",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "ensalada lechuga y tomate",
+    type: "acompañamientos",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+  {
+    name: "ensalada de tomate y huevo",
+    type: "acompañamientos",
+    available: true,
+    price: 1000,
+    image: null,
+  },
+];
+

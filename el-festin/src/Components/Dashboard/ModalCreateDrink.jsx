@@ -4,6 +4,10 @@ import { server } from "../../Helpers/EndPoint";
 import { volumeDrink } from "../../Helpers/objetosHelp";
 import { typeDrink } from "../../Helpers/objetosHelp";
 
+import {validacionDrink} from './Validaciones/validacionDrink'
+import style from "./Dashboard.module.css"
+
+
 export const ModalCreateDrink = () => {
   let initialState = {
     name: "",
@@ -15,15 +19,19 @@ export const ModalCreateDrink = () => {
   };
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
+
   const [filed, setFiled] = useState(null);
-
-
+  const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
     setInputCreateDrink({
       ...inputCreateDrink,
       [target.name]: target.value,
     });
+    setError(validacionDrink({
+      ...inputCreateDrink,
+      [target.name]: target.value,
+    }));
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -94,6 +102,8 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.name}
                   onChange={onInputChange}
                 />
+{error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
+
                 <select
                   defaultValue={"DEFAULT"}
                   className="form-group mt-4"
@@ -107,6 +117,7 @@ export const ModalCreateDrink = () => {
                   })}
                 </select>
                 <br />
+{error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
 
                 <select
                   defaultValue={"DEFAULT"}
@@ -145,6 +156,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.stock}
                   onChange={onInputChange}
                 />
+                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -156,6 +168,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
+
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Image
                 </label>
@@ -164,6 +177,9 @@ export const ModalCreateDrink = () => {
                   className="form-control"
                   onChange={handleOnChangeImage}
                 />
+
+                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+
                 <div className="modal-footer">
                   <button
                     type="button"

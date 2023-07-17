@@ -1,6 +1,11 @@
-import { useState } from "react";
+
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
+
+import React, { useState } from "react";
+import {validacionGuar} from "./Validaciones/validacionGuar"
+import style from "./Dashboard.module.css"
+
 
 export const ModalCreateSide = () => {
   let initialState = {
@@ -11,13 +16,21 @@ export const ModalCreateSide = () => {
   };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
+
   const [filed, setFiled] = useState(null);
+
+  const [error, setError] = useState({});
+
 
   const onInputChange = ({ target }) => {
     setInputCreateSide({
       ...inputCreateSide,
       [target.name]: target.value,
     });
+    setError(validacionGuar({
+      ...inputCreateSide,
+      [target.name]:  target.value
+    }))
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -88,6 +101,7 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.name}
                   onChange={onInputChange}
                 />
+                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
 
                 <select
                   defaultValue={"DEFAULT"}
@@ -112,6 +126,7 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.price}
                   onChange={onInputChange}
                 />
+{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
 
                 <br />
                 <select
@@ -136,7 +151,9 @@ export const ModalCreateSide = () => {
                   onChange={handleOnChangeImage}
                 />
 
+
                 <br />
+
 
                 <div className="modal-footer">
                   <button
