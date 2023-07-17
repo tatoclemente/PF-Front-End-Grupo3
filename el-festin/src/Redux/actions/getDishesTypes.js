@@ -8,6 +8,8 @@ export const getTypes = () => (dispatch) => {
         if(!a.find(d => d === e)) a.push(e)
         return a
       }, [])
+      resultado = resultado.map((t, id) => {return{name: t, id: id++}})
+      console.log(resultado)
     dispatch(getAllDishesTypes(resultado));
 
 };
