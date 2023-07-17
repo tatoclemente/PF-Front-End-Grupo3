@@ -8,7 +8,7 @@ export const Navbar = ({ isDashboard }) => {
     <>
       <div className="container-fluid position-relative navbarLanding">
         <div className="container-fluid position-absolute top-0 start-0">
-          <div class="d-flex justify-content-between pt-4 align-items-center">
+          <div className="d-flex justify-content-between pt-4 align-items-center">
             <Link className="navbar-brand d-none d-lg-block ps-lg-5" href="/*">
               <img src={logo} alt="logo" className="img-width-logo" />
             </Link>
