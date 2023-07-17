@@ -1,3 +1,4 @@
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,6 +15,7 @@ import ravioles2 from "./images/ravioles2.jpg";
 import {getDrinks} from '../../Redux/actions/actionsDrinks/getAllDrinks'
 import { useDispatch, useSelector} from "react-redux";
 import styles from "./DetailPage.module.css";
+import { sides } from "../../utils/mock";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -47,6 +49,22 @@ function SamplePrevArrow(props) {
 
 const Detail = ({ dishDetail }) => {
 
+
+  const pastaGarnish = sides.filter((side) => side.type === "salsas");
+
+  const resGarnish = sides.filter((side) => side.type === "acompañamientos");
+
+  const sandwichGarnish = sides.filter((side) => side.name === "papas fritas");
+
+  const garnish =
+    dishDetail.subtype === "pastas"
+      ? pastaGarnish
+      : dishDetail.subtype === "carnes"
+      ? resGarnish
+      : dishDetail.subtype === "sandwich"
+      ? sandwichGarnish
+      : [];
+  
   const settings = {
     dots: false,
     infinite: true,
@@ -93,14 +111,39 @@ const Detail = ({ dishDetail }) => {
       <div className={styles.leftInfo}>
         <h1 className={styles.name}>{dishDetail.name}</h1>
         <img
-          src={ravioles}
+          src={dishDetail.image}
           className={styles.mainImage}
           alt={dishDetail.name}
         />
         <div className={styles.additionalContainer}>
           <p className={styles.guarnicionTitle}>seleccione una guarnición</p>
-          <div className={styles.guarnicionContainer}>
+          <div className={styles.guarnicionContent}>
+            {garnish.map((side, index) => {
+              return (
+                <div className={styles.guarnicionContainer} key={index}>
+                  <img
+                    src={ravioles2}
+                    className={styles.secondaryImage}
+                    alt="Otra imagen de Ravioles de Jamón y Queso"
+                  />
+                  <div className={styles.guanicionNameContainer}>
+                    <span className={styles.guarnicionName}>{side.name}</span>
+                  </div>
+                  <h5 className={styles.secondaryPrices}>{`$ ${side.price}`}</h5>                  
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className={styles.selectedAdditionalContainer}>
+          <div className={styles.selectedAdditional}>
             <img
+
+              src={agua}
+              className={styles.secondaryImage}
+              alt="Agua mineral sin gas"
+
               src={ravioles2}
               className={styles.secondaryImage}
               alt="Otra imagen de Ravioles de Jamón y Queso"
@@ -118,7 +161,13 @@ const Detail = ({ dishDetail }) => {
           </div>
         </div>
         <div className={styles.containerPrice}>
+
+          <h2
+            className={styles.titles}
+          >{`Suma total: $ ${dishDetail.price}`}</h2>
+
           <h2 className={styles.titles}>{`${dishDetail.price}`}</h2>
+
         </div>
       </div>
 
