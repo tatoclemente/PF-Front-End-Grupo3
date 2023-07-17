@@ -81,20 +81,37 @@
   height: 120px;
   padding-bottom: .5rem;
   border-bottom: 2px solid var(--gray);
-  background-color: rgb(216, 149, 149);
 }
+
+.guarnicionTitle {
+  text-transform: uppercase;
+}
+
+.guarnicionContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guarnicionContainer img {
+  margin: 0 .3rem;
+}
+
 .secondaryImage {
-  width: auto;
+  width: 80px;
   height: 70px;
   border-radius: 5px;
   object-fit: contain;
+  border-radius: 10px;
 }
 
 .containerInfo {
   display: flex;
   align-items: flex-start;
   height: 150px;
-  border: 1px solid black;
+  box-shadow: 0 1px 4px var(--shadow);
+  border-radius: 10px;
+  padding: .3rem;
 }
 
 .imageWithInfo {
