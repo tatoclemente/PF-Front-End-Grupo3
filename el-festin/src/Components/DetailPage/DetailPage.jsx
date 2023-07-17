@@ -15,6 +15,7 @@ import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DetailPage.module.css";
 import { sides } from "../../utils/mock";
+import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 
 const Detail = ({ dishDetail }) => {
   const pastaGarnish = sides.filter((side) => side.type === "salsas");
@@ -72,16 +73,16 @@ const Detail = ({ dishDetail }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const drinksImages = [
-    { id: 1, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
-    { id: 2, url: cocacola, name: "Coca-Cola", price: 1200 },
-    { id: 3, url: sprite, name: "Sprite", price: 1200 },
-    { id: 4, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
-    { id: 5, url: cocacola, name: "Coca-Cola", price: 1200 },
-    { id: 6, url: sprite, name: "Sprite", price: 1200 },
-    { id: 7, url: cocacola, name: "Coca-Cola", price: 1200 },
-    { id: 8, url: sprite, name: "Sprite", price: 1200 },
-  ];
+  // const drinksImages = [
+  //   { id: 1, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
+  //   { id: 2, url: cocacola, name: "Coca-Cola", price: 1200 },
+  //   { id: 3, url: sprite, name: "Sprite", price: 1200 },
+  //   { id: 4, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
+  //   { id: 5, url: cocacola, name: "Coca-Cola", price: 1200 },
+  //   { id: 6, url: sprite, name: "Sprite", price: 1200 },
+  //   { id: 7, url: cocacola, name: "Coca-Cola", price: 1200 },
+  //   { id: 8, url: sprite, name: "Sprite", price: 1200 },
+  // ];
 
   const dessertsImages = [
     { id: 7, url: tiramisu, name: "Tiramisú", price: 2800 },
@@ -96,12 +97,17 @@ const Detail = ({ dishDetail }) => {
 
   const dispatch = useDispatch();
   const drinks = useSelector((state) => state.drinks.drinks);
+  const desserts = useSelector((state) => state.desserts.desserts);
 
   useEffect(() => {
     dispatch(getDrinks());
+    dispatch(getDesserts())
   }, [dispatch, dishDetail]);
 
-  console.log(drinks);
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   return (
     <div className={styles.container}>
@@ -145,37 +151,43 @@ const Detail = ({ dishDetail }) => {
         <h3 className={styles.subTitles}>Bebidas</h3>
         <div className={styles.containerInfo}>
           <Slider {...settings} className={styles.slideContainer}>
-            {drinksImages.map((image, index) => (
+            {drinks?.map((drink, index) => {
+              const capitalizedString = capitalizeFirstLetter(drink.name);
+
+              return (
+           
               <div key={index} className={styles.imageWithInfo}>
                 <img
-                  src={image.url}
-                  alt={image.id}
+                  src={drink.image}
+                  alt={drink.name}
                   className={styles.secondaryImage}
                 />
-                <h4 className={styles.secondaryNames}>{image.name}</h4>
+                <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
                 <h5
                   className={styles.secondaryPrices}
-                >{`+ $${image.price}`}</h5>
+                >{`+ $${drink.price}`}</h5>
               </div>
-            ))}
+            )})}
           </Slider>
         </div>
         <h3 className={styles.subTitles}>Postres</h3>
         <div className={styles.containerInfo}>
           <Slider {...settings} className={styles.slideContainer}>
-            {dessertsImages.map((image) => (
-              <div key={image.id} className={styles.imageWithInfo}>
+            {desserts.map((dessert, index) => {
+              const capitalizedString = capitalizeFirstLetter(dessert.name);
+              return (
+              <div key={index} className={styles.imageWithInfo}>
                 <img
-                  src={image.url}
-                  alt={image.id}
+                  src={dessert.image}
+                  alt={dessert.name}
                   className={styles.secondaryImage}
                 />
-                <h4 className={styles.secondaryNames}>{image.name}</h4>
+                <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
                 <h5
                   className={styles.secondaryPrices}
-                >{`+ $${image.price}`}</h5>
+                >{`+ $${dessert.price}`}</h5>
               </div>
-            ))}
+            )})}
           </Slider>
         </div>
         <div className={styles.buttonContainer}>
