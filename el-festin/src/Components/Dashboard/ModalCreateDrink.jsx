@@ -1,4 +1,6 @@
 import { useState } from "react";
+import {validacionDrink} from './Validaciones/validacionDrink'
+import style from "./dashBoard.module.css"
 
 export const ModalCreateDrink = () => {
   let initialState = {
@@ -12,12 +14,17 @@ export const ModalCreateDrink = () => {
   };
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
+  const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
     setInputCreateDrink({
       ...inputCreateDrink,
       [target.name]: target.value,
     });
+    setError(validacionDrink({
+      ...inputCreateDrink,
+      [target.name]: target.value,
+    }));
   };
 
   const onSubmitCreate = (e) => {
@@ -67,6 +74,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.name}
                   onChange={onInputChange}
                 />
+                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Medida
                 </label>
@@ -77,6 +85,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.volume}
                   onChange={onInputChange}
                 />
+                {error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   tipo de bebida
@@ -109,6 +118,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.stock}
                   onChange={onInputChange}
                 />
+                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -120,6 +130,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
+                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                 <div className="modal-footer">
                   <button
                     type="button"

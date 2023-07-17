@@ -1,34 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
+import {getTypes} from '../../Redux/actions/getDishesTypes'
+import style from "./dashBoard.module.css"
 
 export const ModalCreateDish = () => {
   let initialState = {
     name: "",
     description: "",
     type: "",
-    subtype: "",
+    subtype: [],
     calories: "",
     glutenfree: "",
     vegetarian: "",
-    dailyspecial: "",
-    especial: "",
+    plateoftheday: "",
     price: "",
   };
 
   const [inputCreateDish, setInputCreateDish] = useState(initialState);
+  const [error, setError] = useState({});
+  const  repDish  = useSelector(state => state.dishes.dishes);
+  const dispatch = useDispatch()
+
+
+
+  useEffect(() => {
+    dispatch(getTypes())
+  },[])
 
   const onInputChange = ({ target }) => {
     setInputCreateDish({
       ...inputCreateDish,
       [target.name]: target.value,
     });
+    setError(validacionDishName({repDish, inputCreateDish}))
+    setError(validacionDish({
+      ...inputCreateDish,
+      [target.name]: target.value,
+    }))
+
+  
+    ;
   };
+  
 
   const onSubmitCreate = (e) => {
     e.preventDefault();
+    if(repDish.find(e => e.name === inputCreateDish.name)){
+     window.alert("El postre ya existe")
+     return
+  }
+    if (!error.name && !error.description && !error.subtype && !error.calories && !error.price) {
+      console.log(inputCreateDish);
+      setInputCreateDish(initialState);
+      window.alert("Postre creado correctamente");
+
+
+    } else {
+      console.log(error)
+      window.alert("Postre no creado");
+    }
   };
 
+  
+
+
+
   return (
-    <>
+  
       <div className="container-fluid">
         <button
           type="button"
@@ -70,6 +110,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.name}
                     onChange={onInputChange}
                   />
+                  {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
                   <label
                     htmlFor=""
                     className="pe-3 pt-3 form-label"
@@ -83,6 +124,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.description}
                     onChange={onInputChange}
                   />
+                  {error.description && <p className={style.dato_incorrecto}>{error.description}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     tipo de plato (plato principal, entrada, Etc)
                   </label>
@@ -96,14 +138,7 @@ export const ModalCreateDish = () => {
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Subtipo ("pastas", "ensaladas", "carnes")
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="subtype"
-                    value={inputCreateDish.subtype}
-                    onChange={onInputChange}
-                  />
-
+          
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Calorias
                   </label>
@@ -114,6 +149,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.calories}
                     onChange={onInputChange}
                   />
+                  {error.calories && <p className={style.dato_incorrecto}>{error.calories}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Glutenfree
                   </label>
@@ -124,6 +160,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.glutenfree}
                     onChange={onInputChange}
                   />
+                  {error.glutenfree && <p className={style.dato_incorrecto}>{error.glutenfree}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Vegetariana
                   </label>
@@ -134,16 +171,18 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.vegetarian}
                     onChange={onInputChange}
                   />
+                  {error.vegetarian && <p className={style.dato_incorrecto}>{error.vegetarian}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     dailyspecial
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    name="dailyspecial"
+                    name="plateoftheday"
                     value={inputCreateDish.dailyspecial}
                     onChange={onInputChange}
                   />
+                  {error.plateoftheday && <p className={style.dato_incorrecto}>{error.plateoftheday}</p>}
                   <label htmlFor="" className="pe-3 pt-3 form-label">
                     Precio
                   </label>
@@ -154,6 +193,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.price}
                     onChange={onInputChange}
                   />
+                  {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                   <div className="modal-footer">
                     <button
                       type="button"
@@ -171,6 +211,7 @@ export const ModalCreateDish = () => {
           </div>
         </div>
       </div>
-    </>
+   
   );
 };
+

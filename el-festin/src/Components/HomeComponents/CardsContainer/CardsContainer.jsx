@@ -74,7 +74,7 @@ const CardsContainer = () => {
               <div key={index}>
                 <Card
                   type={dish.type}
-                  image={logo}
+                  image={dish.image}
                   name={dish.name}
                   price={dish.price}
                   rating={dish.rating}

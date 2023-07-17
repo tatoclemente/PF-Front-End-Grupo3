@@ -6,6 +6,6 @@ export const getDishes = ( ) => (dispatch) =>{
     dispatch(getAllDishes(dishes))
 }
 
-
+    
 
 

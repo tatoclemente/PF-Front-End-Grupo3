@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { validacionDesert } from './Validaciones/validacionDesert'
+import style from "./dashBoard.module.css"
 
 export const ModalCreateDesert = () => {
   let initialState = {
@@ -9,16 +11,30 @@ export const ModalCreateDesert = () => {
   };
 
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
+  const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
       ...inputCreateDesert,
       [target.name]: target.value,
     });
+    setError(validacionDesert({
+      ...inputCreateDesert,
+      [target.name]: target.value,
+    }));
   };
+
+
 
   const onSubmitCreate = (e) => {
     e.preventDefault();
+    if (Object.keys(error).length === 0) {
+      console.log(inputCreateDesert);
+      setInputCreateDesert(initialState);
+      window.alert("Postre creado correctamente");
+    } else {
+      window.alert("Postre no creado");
+    }
   };
 
   return (
@@ -63,6 +79,7 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.name}
                   onChange={onInputChange}
                 />
+                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -70,10 +87,11 @@ export const ModalCreateDesert = () => {
                 <input
                   type="text"
                   className="form-control"
-                  name="calories"
+                  name="stock"
                   value={inputCreateDesert.stock}
                   onChange={onInputChange}
                 />
+                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -85,6 +103,7 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.price}
                   onChange={onInputChange}
                 />
+                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Imagen
                 </label>
@@ -102,7 +121,7 @@ export const ModalCreateDesert = () => {
                     data-bs-dismiss="modal">
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button  type="submit" className="btn btn-primary">
                     Crear
                   </button>
                 </div>
