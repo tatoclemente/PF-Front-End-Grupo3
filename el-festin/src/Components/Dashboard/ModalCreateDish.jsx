@@ -1,13 +1,10 @@
-
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
 import { useEffect, useState } from "react";
-import React from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
-import {getTypes} from '../../Redux/actions/getDishesTypes'
-import style from "./Dashboard.module.css"
-
+import { useSelector, useDispatch } from "react-redux";
+import { validacionDish } from "./Validaciones/validacionDish";
+import { getTypes } from "../../Redux/actions/getDishesTypes";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateDish = () => {
   let initialState = {
@@ -27,30 +24,27 @@ export const ModalCreateDish = () => {
   const [filed, setFiled] = useState(null);
 
   const [error, setError] = useState({});
-  const  repDish  = useSelector(state => state.dishes.dishes);
-  const dispatch = useDispatch()
 
+  const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
 
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTypes())
-  },[])
-
+    dispatch(getTypes());
+  }, []);
 
   const onInputChange = ({ target }) => {
     setInputCreateDish({
       ...inputCreateDish,
       [target.name]: target.value,
     });
-    setError(validacionDish({
-      ...inputCreateDish,
-      [target.name]: target.value,
-    }))
-
-  
-    ;
+    setError(
+      validacionDish({
+        ...inputCreateDish,
+        [target.name]: target.value,
+      })
+    );
   };
-  
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
@@ -82,207 +76,195 @@ export const ModalCreateDish = () => {
   formData.append("dailyspecial", inputCreateDish.dailyspecial);
   formData.append("image", filed);
 
-  
-  
-  
-
-  
-
-
-
-
   return (
-  
-      <div className="container-fluid">
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-        >
-          Crear Plato
-        </button>
+    <div className="container-fluid text-dark">
+      <button
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop">
+        Crear Plato
+      </button>
 
-        <div
-          className="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="staticBackdropLabel">
-                  Crear plato nuevo
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={onSubmitCreate}>
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    value={inputCreateDish.name}
-                    onChange={onInputChange}
-                  />
-                  {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-            
-                    Descripcion
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="description"
-                    value={inputCreateDish.description}
-                    onChange={onInputChange}
-                  />
-{error.description && <p className={style.dato_incorrecto}>{error.description}</p>}
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Crear plato nuevo
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={onSubmitCreate}>
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={inputCreateDish.name}
+                  onChange={onInputChange}
+                />
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
+                <label>Descripcion</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="description"
+                  value={inputCreateDish.description}
+                  onChange={onInputChange}
+                />
+                {error.description && (
+                  <p className={style.dato_incorrecto}>{error.description}</p>
+                )}
 
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="mt-4"
+                  name="type"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Tipos de plato
+                  </option>
 
-                  <select
-                    defaultValue={"DEFAULT"}
-                    className="mt-4"
-                    name="type"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled className="">
-                      Tipos de plato
-                    </option>
+                  <option value="plato principal">Plato principal</option>
+                  <option value="entrada">Entrada</option>
+                </select>
+                <br />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="subtype"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Subtipos
+                  </option>
+                  {subtiposDish?.map((subtipo,key) => {
+                    return <option key={key} value={subtipo}>{subtipo}</option>;
+                  })}
+                </select>
+                <br />
 
-                    <option value="plato principal">Plato principal</option>
-                    <option value="entrada">Entrada</option>
-                  </select>
-                  <br />
-                  <select
-                    defaultValue={"DEFAULT"}
-                    className="form-group mt-4"
-                    name="subtype"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled className="">
-                      Subtipos
-                    </option>
-                    {subtiposDish.map((subtipo) => {
-                      return <option value={subtipo}>{subtipo}</option>;
-                    })}
-                  </select>
-                  <br />
-          
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Calorias
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="calories"
+                  value={inputCreateDish.calories}
+                  onChange={onInputChange}
+                />
+                {error.calories && (
+                  <p className={style.dato_incorrecto}>{error.calories}</p>
+                )}
 
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Calorias
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="calories"
-                    value={inputCreateDish.calories}
-                    onChange={onInputChange}
-                  />
-{error.calories && <p className={style.dato_incorrecto}>{error.calories}</p>}
-
-
-                  <select
-                    defaultValue={"DEFAULT"}
-                    className="form-group mt-4"
-                    name="glutenfree"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled className="">
-                      Glutenfree
-                    </option>
-
-                    <option value={true}>Si</option>
-                    <option value={false}>no</option>
-                  </select>
-                  <br />
-                  <select
-                    defaultValue={"DEFAULT"}
-                    className="form-group mt-4"
-                    name="vegetarian"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled className="">
-                      Vegetariano
-                    </option>
-
-                    <option value={true}>Si</option>
-                    <option value={false}>no</option>
-                  </select>
-                  <br />
-                  <select
-                    defaultValue={"DEFAULT"}
-                    className="form-group mt-4"
-                    name="dailyspecial"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled className="">
-                      Especial del dia
-                    </option>
-                    <option value={true}>Si</option>
-                    <option value={false}>no</option>
-                  </select>
-                  <br />
-
-                  
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="glutenfree"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
                     Glutenfree
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="glutenfree"
-                    value={inputCreateDish.glutenfree}
-                    onChange={onInputChange}
-                  />
-                  {error.glutenfree && <p className={style.dato_incorrecto}>{error.glutenfree}</p>}
+                  </option>
 
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Precio
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="price"
-                    value={inputCreateDish.price}
-                    onChange={onInputChange}
-                  />
-{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
-                  <label htmlFor="" className="pe-3 pt-3 form-label">
-                    Imagen
-                  </label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={handleOnChangeImage}
-                  />
-                  
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Cerrar
-                    </button>
-                    <button type="submit" className="btn btn-primary">
-                      Crear
-                    </button>
-                  </div>
-                </form>
-              </div>
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                <br />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="vegetarian"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Vegetariano
+                  </option>
+
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                <br />
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="dailyspecial"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Especial del dia
+                  </option>
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                <br />
+
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Glutenfree
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="glutenfree"
+                  value={inputCreateDish.glutenfree}
+                  onChange={onInputChange}
+                />
+                {error.glutenfree && (
+                  <p className={style.dato_incorrecto}>{error.glutenfree}</p>
+                )}
+
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Precio
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="price"
+                  value={inputCreateDish.price}
+                  onChange={onInputChange}
+                />
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Imagen
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={handleOnChangeImage}
+                />
+
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Cerrar
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Crear
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-   
+    </div>
   );
 };
-

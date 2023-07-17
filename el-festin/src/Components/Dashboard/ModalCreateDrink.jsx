@@ -61,7 +61,7 @@ export const ModalCreateDrink = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-dark">
       <button
         type="button"
         className="btn btn-primary"
@@ -112,8 +112,8 @@ export const ModalCreateDrink = () => {
                   <option value="DEFAULT" disabled className="">
                     Medida
                   </option>
-                  {volumeDrink.map((volume) => {
-                    return <option value={volume}>{volume}</option>;
+                  {volumeDrink.map((volume,key) => {
+                    return <option key={key} value={volume}>{volume}</option>;
                   })}
                 </select>
                 <br />
@@ -127,8 +127,8 @@ export const ModalCreateDrink = () => {
                   <option value="DEFAULT" disabled className="">
                     tipo de bebida
                   </option>
-                  {typeDrink.map((type) => {
-                    return <option value={type}>{type}</option>;
+                  {typeDrink.map((type,key) => {
+                    return <option key={key} value={type}>{type}</option>;
                   })}
                 </select>
                 <br />

@@ -60,7 +60,7 @@ export const ModalCreateSide = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-dark">
       <button
         type="button"
         className="btn btn-primary"
