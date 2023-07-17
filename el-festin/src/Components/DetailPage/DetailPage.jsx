@@ -20,16 +20,30 @@ const Detail = ({ dishDetail }) => {
           alt={dishDetail.name}
         />
         <div className={styles.additionalContainer}>
+          <p className={styles.guarnicionTitle}>seleccione una guarnición</p>
+          <div className={styles.guarnicionContainer}>
             <img
             src={ravioles2}
             className={styles.secondaryImage}
             alt="Otra imagen de Ravioles de Jamón y Queso"
           />
+           <img
+            src={ravioles2}
+            className={styles.secondaryImage}
+            alt="Otra imagen de Ravioles de Jamón y Queso"
+          />
+           <img
+            src={ravioles2}
+            className={styles.secondaryImage}
+            alt="Otra imagen de Ravioles de Jamón y Queso"
+          />
+          </div>
         </div>
         <div className={styles.containerPrice}>
           <h2 className={styles.titles}>{`$ ${dishDetail.price}`}</h2>
         </div>
       </div>
+      
       <div className={styles.rightInfo}>
         <h2 className={styles.title}>
           ¿Con qué te gustaría acompañar tu orden?
@@ -88,7 +102,7 @@ const Detail = ({ dishDetail }) => {
           </div>
         </div>
         <div className={styles.buttonContainer}>
-          <button className={styles.buttonAdd}>Agregar al carrito</button>
+          <button className={styles.buttonAdd} onClick={() => window.confirm(`Esta por agregar ${dishDetail.name} al carrito, es correcto?`)}>Agregar al carrito</button>
         </div>
       </div>
     </div>
