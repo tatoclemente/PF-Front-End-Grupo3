@@ -74,8 +74,9 @@ export const ModalCreateDish = () => {
           type="button"
           className="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">
-          Crear de plato
+          data-bs-target="#staticBackdrop"
+        >
+          Crear Plato
         </button>
 
         <div
@@ -85,7 +86,8 @@ export const ModalCreateDish = () => {
           data-bs-keyboard="false"
           tabindex="-1"
           aria-labelledby="staticBackdropLabel"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -96,7 +98,8 @@ export const ModalCreateDish = () => {
                   type="button"
                   className="btn-close"
                   data-bs-dismiss="modal"
-                  aria-label="Close"></button>
+                  aria-label="Close"
+                ></button>
               </div>
               <div className="modal-body">
                 <form onSubmit={onSubmitCreate}>
@@ -114,7 +117,8 @@ export const ModalCreateDish = () => {
                   <label
                     htmlFor=""
                     className="pe-3 pt-3 form-label"
-                    name="name">
+                    name="name"
+                  >
                     Descripcion
                   </label>
                   <input
@@ -198,7 +202,8 @@ export const ModalCreateDish = () => {
                     <button
                       type="button"
                       className="btn btn-secondary"
-                      data-bs-dismiss="modal">
+                      data-bs-dismiss="modal"
+                    >
                       Cerrar
                     </button>
                     <button type="submit" className="btn btn-primary">

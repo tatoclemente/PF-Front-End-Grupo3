@@ -1,15 +1,13 @@
+
 import React, { useEffect } from "react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import ravioles from "./images/ravioles.jpg";
-import agua from "./images/agua.png";
-import cocacola from "./images/cocacola.png";
-import sprite from "./images/sprite.jpg";
-import tiramisu from "./images/tiramisu.jpg";
-import alfajor from "./images/alfajor.jpg";
+
+
+
 import ravioles2 from "./images/ravioles2.jpg";
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +16,8 @@ import { sides } from "../../utils/mock";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 
 const Detail = ({ dishDetail }) => {
+
+
   const pastaGarnish = sides.filter((side) => side.type === "salsas");
 
   const resGarnish = sides.filter((side) => side.type === "acompañamientos");
@@ -73,27 +73,7 @@ const Detail = ({ dishDetail }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  // const drinksImages = [
-  //   { id: 1, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
-  //   { id: 2, url: cocacola, name: "Coca-Cola", price: 1200 },
-  //   { id: 3, url: sprite, name: "Sprite", price: 1200 },
-  //   { id: 4, url: agua, name: "Agua Mineral sin Gas", price: 1000 },
-  //   { id: 5, url: cocacola, name: "Coca-Cola", price: 1200 },
-  //   { id: 6, url: sprite, name: "Sprite", price: 1200 },
-  //   { id: 7, url: cocacola, name: "Coca-Cola", price: 1200 },
-  //   { id: 8, url: sprite, name: "Sprite", price: 1200 },
-  // ];
 
-  const dessertsImages = [
-    { id: 7, url: tiramisu, name: "Tiramisú", price: 2800 },
-    { id: 8, url: alfajor, name: "Alfajor", price: 2500 },
-    { id: 9, url: tiramisu, name: "Tiramisú", price: 2800 },
-    { id: 10, url: alfajor, name: "Alfajor", price: 2500 },
-    { id: 11, url: tiramisu, name: "Tiramisú", price: 2800 },
-    { id: 12, url: alfajor, name: "Alfajor", price: 2500 },
-    { id: 13, url: tiramisu, name: "Tiramisú", price: 2800 },
-    { id: 14, url: alfajor, name: "Alfajor", price: 2500 },
-  ];
 
   const dispatch = useDispatch();
   const drinks = useSelector((state) => state.drinks.drinks);
@@ -108,6 +88,8 @@ const Detail = ({ dishDetail }) => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+
+
 
   return (
     <div className={styles.container}>
@@ -141,7 +123,14 @@ const Detail = ({ dishDetail }) => {
           </div>
         </div>
 
-        <h2 className={styles.titles}>{`Suma total: $ ${dishDetail.price}`}</h2>
+    
+        <div className={styles.containerPrice}>
+
+          <h2
+            className={styles.titles}
+          >{`Suma total: $ ${dishDetail.price}`}</h2>
+
+        </div>
       </div>
 
       <div className={styles.rightInfo}>
