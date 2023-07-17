@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { validacionDesert } from './Validaciones/validacionDesert'
-import style from "./dashBoard.module.css"
+import style from "./Dashboard.module.css"
 
 export const ModalCreateDesert = () => {
   let initialState = {

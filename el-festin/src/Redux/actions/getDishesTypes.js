@@ -14,6 +14,5 @@ export const getTypes = () => async (dispatch) => {
     } catch (error) {
       console.log(error.message);
     }
->>>>>>>>> Temporary merge branch 2
 };
 

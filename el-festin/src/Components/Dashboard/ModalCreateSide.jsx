@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {validacionGuar} from "./Validaciones/validacionGuar"
-import style from "./dashBoard.module.css"
+import style from "./Dashboard.module.css"
 
 export const ModalCreateSide = () => {
   let initialState = {

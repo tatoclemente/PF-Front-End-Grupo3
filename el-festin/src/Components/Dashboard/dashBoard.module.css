@@ -1,6 +1,45 @@
-.dato_incorrecto {
-    margin-left: 15px;
-    color: #DF4545;
-    font-size: 12px;
-    font-weight: 700;
-  }
+.sidebar {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 25%;
+  background-color: #313045; /* Puedes cambiar el color de fondo aquí */
+  color: #fff;
+  padding-top: 30px;
+}
+.sidebar.hidden {
+  display: none;
+}
+
+.user {
+  padding: 10px;
+  border-bottom: 1px solid #555; /* Línea separadora entre el logotipo y el nombre de usuario */
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.options li {
+  padding: 8px;
+  cursor: pointer;
+}
+.buttonDelete {
+  margin-left: 12px;
+}
+
+.toggleButton {
+  position: absolute;
+  bottom: 76%;
+  left: 0px;
+  background-color: #313045;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}
