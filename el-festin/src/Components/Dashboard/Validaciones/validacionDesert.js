@@ -30,17 +30,6 @@ const validacionDesert = ( input ) =>{
         errors.stock = "El stock no puede ser mayor a 99999"
     }
 
-    if(!input.glutenfree){
-        errors.glutenfree = "El campo es obligatorio"
-    }
-
-    if(!input.vegetarian){
-        errors.vegetarian = "El campo es obligatorio"
-    }
-
-    if(!input.plateoftheday){
-        errors.plateoftheday = "El campo es obligatorio"
-    }
 
     return errors;
     
