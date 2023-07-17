@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {validacionDrink} from './Validaciones/validacionDrink'
-import style from "./dashBoard.module.css"
+import style from "./Dashboard.module.css"
 
 export const ModalCreateDrink = () => {
   let initialState = {

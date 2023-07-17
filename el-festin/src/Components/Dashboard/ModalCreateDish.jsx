@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import {validacionDish, validacionDishName} from './Validaciones/validacionDish'
 import {getTypes} from '../../Redux/actions/getDishesTypes'
-import style from "./dashBoard.module.css"
+import style from "./Dashboard.module.css"
 
 export const ModalCreateDish = () => {
   let initialState = {
