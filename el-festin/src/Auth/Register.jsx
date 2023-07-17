@@ -84,7 +84,6 @@ function Register() {
             name="name"
             value={register.name}
             onChange={handleChange}
-            required
           />
           {setValidateInput.name && register.name && (
             <p className={Styles.error}>{errors.name}</p>
@@ -107,7 +106,6 @@ function Register() {
             name="phoneNumber"
             value={register.phoneNumber}
             onChange={(e) => handleChange(e)}
-            required
           />
           {setValidateInput.name && register.phoneNumber && (
             <p className={Styles.error}>{errors.phoneNumber}</p>
@@ -120,7 +118,6 @@ function Register() {
             name="email"
             value={register.email}
             onChange={handleChange}
-            required
           />
           {setValidateInput.name && register.email && (
             <p className={Styles.error}>{errors.email}</p>
@@ -134,7 +131,6 @@ function Register() {
               name="password"
               value={register.password}
               onChange={handleChange}
-              required
             />
             {setValidateInput.name && register.password && (
               <p className={Styles.error}>{errors.password}</p>

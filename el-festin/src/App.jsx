@@ -11,19 +11,18 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
-import { RegisterPage } from './Views/Register/RegisterPage'
-
+import { RegisterPage } from "./Views/Register/RegisterPage";
 
 function App() {
   let location = useLocation();
-  // let isLoginPage = location.pathname.includes("/login");
+
   return (
     <div className={style.appContainer}>
-
-      {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Navbar /> : undefined}
-{/* 
-      {!isLoginPage ? <Navbar /> : undefined} */}
-
+      {location.pathname !== "/login" &&
+      location.pathname !== "/dashboard" &&
+      location.pathname !== "/login/auth/register" ? (
+        <Navbar />
+      ) : undefined}
 
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -38,17 +37,17 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/detail/:id" element={<Detail />} />
                 <Route path="/dashboard" element={<DashboardView />} />
-
               </Routes>
             </PrivateRoute>
           }
         />
       </Routes>
 
-      {location.pathname !== "/login" && location.pathname !== "/dashboard" ? <Footer /> : undefined}
-{/* 
-      {!isLoginPage ? <Footer /> : undefined} */}
-
+      {location.pathname !== "/login" &&
+      location.pathname !== "/dashboard" &&
+      location.pathname !== "/login/auth/register" ? (
+        <Footer />
+      ) : undefined}
     </div>
   );
 }
