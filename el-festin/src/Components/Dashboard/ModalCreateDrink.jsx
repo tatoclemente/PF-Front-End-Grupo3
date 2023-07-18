@@ -5,6 +5,7 @@ import { volumeDrink } from "../../Helpers/objetosHelp";
 import { typeDrink } from "../../Helpers/objetosHelp";
 import { validacionDrink } from "./Validaciones/validacionDrink";
 import "../Dashboard/dashboard.css";
+
 import style from "./Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
@@ -62,12 +63,13 @@ export const ModalCreateDrink = () => {
   };
 
   return (
-    <div className="container-fluid text-dark">
+    <div className="container-fluid">
       <button
         type="button"
-        className="btn btn-primary"
+        className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop1">
+        data-bs-target="#staticBackdrop1"
+      >
         Crear Bebida
       </button>
 
@@ -78,7 +80,8 @@ export const ModalCreateDrink = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -89,7 +92,8 @@ export const ModalCreateDrink = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -106,6 +110,7 @@ export const ModalCreateDrink = () => {
                 {error.name && (
                   <p className={style.dato_incorrecto}>{error.name}</p>
                 )}
+
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
                 </label>
@@ -130,6 +135,7 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
+
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Image
@@ -198,11 +204,14 @@ export const ModalCreateDrink = () => {
                 </div>
                 <br />
 
+
+               
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">

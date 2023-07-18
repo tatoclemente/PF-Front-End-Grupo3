@@ -1,8 +1,12 @@
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
 import { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { validacionDish } from "./Validaciones/validacionDish";
+import {
+  validacionDish,
+  validacionDishName,
+} from "./Validaciones/validacionDish";
 import { getTypes } from "../../Redux/actions/getDishesTypes";
 import style from "./Dashboard.module.css";
 import "../Dashboard/dashboard.css";
@@ -25,9 +29,7 @@ export const ModalCreateDish = () => {
   const [filed, setFiled] = useState(null);
 
   const [error, setError] = useState({});
-
-  const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
-
+  const repDish = useSelector((state) => state.dishes.dishes);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export const ModalCreateDish = () => {
       ...inputCreateDish,
       [target.name]: target.value,
     });
+    setError(validacionDishName({ repDish, inputCreateDish }));
     setError(
       validacionDish({
         ...inputCreateDish,
@@ -47,43 +50,36 @@ export const ModalCreateDish = () => {
     );
   };
 
-  const onSubmitCreate = async (e) => {
+  const onSubmitCreate = (e) => {
     e.preventDefault();
-
-    try {
-      const { data } = await axios.post(`${server}/dish`, formData);
-
-      if (data.name) {
-        alert("Plato creado correctamente");
-      }
-    } catch (error) {
-      throw error.message;
+    if (repDish.find((e) => e.name === inputCreateDish.name)) {
+      window.alert("El postre ya existe");
+      return;
+    }
+    if (
+      !error.name &&
+      !error.description &&
+      !error.subtype &&
+      !error.calories &&
+      !error.price
+    ) {
+      console.log(inputCreateDish);
+      setInputCreateDish(initialState);
+      window.alert("Postre creado correctamente");
+    } else {
+      console.log(error);
+      window.alert("Postre no creado");
     }
   };
 
-  let handleOnChangeImage = ({ target }) => {
-    setFiled(target.files[0]);
-  };
-
-  const formData = new FormData();
-  formData.append("name", inputCreateDish.name);
-  formData.append("description", inputCreateDish.description);
-  formData.append("type", inputCreateDish.type);
-  formData.append("calories", inputCreateDish.calories);
-  formData.append("price", inputCreateDish.price);
-  formData.append("subtype", inputCreateDish.subtype);
-  formData.append("glutenfree", inputCreateDish.glutenfree);
-  formData.append("vegetarian", inputCreateDish.vegetarian);
-  formData.append("dailyspecial", inputCreateDish.dailyspecial);
-  formData.append("image", filed);
-
   return (
-    <div className="container-fluid text-dark">
+    <div className="container-fluid">
       <button
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">
+        data-bs-target="#staticBackdrop"
+      >
         Crear Plato
       </button>
 
@@ -94,7 +90,8 @@ export const ModalCreateDish = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -105,7 +102,8 @@ export const ModalCreateDish = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -122,7 +120,9 @@ export const ModalCreateDish = () => {
                 {error.name && (
                   <p className={style.dato_incorrecto}>{error.name}</p>
                 )}
-                <label>Descripcion</label>
+                <label htmlFor="" className="pe-3 pt-3 form-label" name="name">
+                  Descripcion
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -133,6 +133,7 @@ export const ModalCreateDish = () => {
                 {error.description && (
                   <p className={style.dato_incorrecto}>{error.description}</p>
                 )}
+
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Calorias
@@ -149,26 +150,29 @@ export const ModalCreateDish = () => {
                 )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Precio
+                  Vegetariana
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  name="price"
-                  value={inputCreateDish.price}
+                  name="vegetarian"
+                  value={inputCreateDish.vegetarian}
                   onChange={onInputChange}
                 />
-                {error.price && (
-                  <p className={style.dato_incorrecto}>{error.price}</p>
+                {error.vegetarian && (
+                  <p className={style.dato_incorrecto}>{error.vegetarian}</p>
                 )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Imagen
+                  dailyspecial
                 </label>
                 <input
-                  type="file"
+                  type="text"
                   className="form-control"
-                  onChange={handleOnChangeImage}
+                  name="plateoftheday"
+                  value={inputCreateDish.dailyspecial}
+                  onChange={onInputChange}
                 />
+
                 <div className="dropdown">
                   <select
                     defaultValue={"DEFAULT"}
@@ -250,11 +254,13 @@ export const ModalCreateDish = () => {
                 </div>
                 <br />
 
+
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">

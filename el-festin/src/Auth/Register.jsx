@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
-import logoGoogle from "../Assets/logo1.png";
-import logoFacebook from "../Assets/logo2.png";
 import Validate from "./validateRegister";
 import Styles from "./Register.module.css";
 
@@ -140,24 +138,6 @@ function Register() {
         <button className={Styles.button} type="submit">
           Registrarse
         </button>
-        <li className={Styles.liButtonsAuth}>
-          <button className={Styles.buttonAuth}>
-            <span>
-              <img src={logoGoogle} alt="google" className={Styles.imgButton} />
-            </span>
-            Registrarse con Google
-          </button>
-          <button className={Styles.buttonAuth1}>
-            <span>
-              <img
-                src={logoFacebook}
-                alt="facebook"
-                className={Styles.imgButton}
-              />
-            </span>
-            Registrarse con Facebook
-          </button>
-        </li>
       </form>
     </div>
   );

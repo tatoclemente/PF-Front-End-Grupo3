@@ -8,22 +8,20 @@ import {
 
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+
+import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+
 
 export const Dashboard = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarVisible((prev) => !prev);
-  };
-
   return (
     <>
       <div>
         <Navbar isDashboard={true} />
       </div>
       <div
-        className={`${Styles.sidebar} ${sidebarVisible ? "" : Styles.hidden}`}>
+        className={`${Styles.sidebar} ${sidebarVisible ? "" : Styles.hidden}`}
+      >
         <div className={Styles.user}>
           <h4>Administrador</h4>
         </div>
@@ -66,13 +64,6 @@ export const Dashboard = () => {
           </li>
         </ul>
       </div>
-      <button className={Styles.toggleButton} onClick={toggleSidebar}>
-        {sidebarVisible ? (
-          <AiOutlineClose size="20" />
-        ) : (
-          <AiOutlineMenu size="20" />
-        )}
-      </button>
     </>
   );
 };
