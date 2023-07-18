@@ -1,7 +1,6 @@
 .mainContainer {
     width: 82vw;
     height: 10rem;
-    margin-bottom: 1.5rem;
     padding: .7rem 1.7rem .5rem .5rem;
 } 
 
@@ -9,7 +8,9 @@
     margin: 0 auto;
     text-transform: uppercase;
     width: 90%;
+    height: 100%;
     font-weight: 700;
+    padding: .5rem 0;
 }
 
 .categoryContainer {
@@ -23,9 +24,7 @@
     cursor: pointer;
     transition: .5s ease-in-out;
 }
-.categoryContainer:hover {
-    transform: scale(1.05);
-}
+
 .categoryContainer:hover .imgCategory{
     box-shadow: 1px 4px 7px var(--shadow);
 }
@@ -40,4 +39,8 @@
     border-radius: 50%;
     margin-bottom: .5rem;
     transition: .5s ease-in-out;
+}
+
+.imgCategory:hover {
+    transform: scale(1.05);
 }
