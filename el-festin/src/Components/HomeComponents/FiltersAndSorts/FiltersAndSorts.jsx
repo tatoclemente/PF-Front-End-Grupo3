@@ -69,43 +69,49 @@ const handleCalories = (e) => {
       </div>
       
       <div className={style.filteredContent} isCollapsed={isCollapsed}>
-        <h6>FILTROS Y ORDENAMIENTOS</h6>
-        <div className={style.filters}>
-        <label>¿Sin gluten?</label>
-        <select className={style.select} onChange={handleGluten}>
-          <option selected disabled>Con o sin gluten</option>
-          <option value="all">Todos</option>
-          <option value="gluten">Con gluten</option>
-          <option value="noGluten">Sin gluten</option>
-        </select>
-        </div>
-       
-        <div className={style.filters}>
-        <label>¿Vegetariano?</label>
-        <select className={style.select} onChange={handleVeggy}>
-          <option selected disabled>Elige comida vegetariana</option>
-          <option value="all">Todos</option>
-          <option value="veggy">Vegetariano</option>
-          <option value="noVeggy">No vegetariano</option>
-        </select>
+        <div className={style.filtersContainer}>
+          <h6>APLICAR FILTROS</h6>
+          <div className={style.filters}>
+          <label>¿Sin gluten?</label>
+          <select className={style.select} onChange={handleGluten}>
+            <option selected disabled>Con o sin gluten</option>
+            <option value="all">Todos</option>
+            <option value="gluten">Con gluten</option>
+            <option value="noGluten">Sin gluten</option>
+          </select>
+          </div>
+        
+          <div className={style.filters}>
+          <label>¿Vegetariano?</label>
+          <select className={style.select} onChange={handleVeggy}>
+            <option selected disabled>Elige comida vegetariana</option>
+            <option value="all">Todos</option>
+            <option value="veggy">Vegetariano</option>
+            <option value="noVeggy">No vegetariano</option>
+          </select>
+          </div>
         </div>
 
-        <div className={style.filters}>
-        <label>Ordene por calorías</label>
-        <select className={style.select} onChange={handleCalories}>
-          <option selected disabled>Elige por calorias</option>
-          <option value="asc">Menor a mayor</option>
-          <option value="desc">Mayor a menor</option>
-        </select>
-        </div>
-       
-        <div className={style.filters}>
-        <label>Ordene por precio</label>
-        <select className={style.select} onChange={handlePrice}>
-          <option selected disabled>Elige ordenar por precio</option>
-          <option value="asc">Menor a mayor</option>
-          <option value="desc">Mayor a menor</option>
-        </select>
+        <div className={style.filtersContainer}>
+          <h6>ORDENAMIETOS</h6>
+
+          <div className={style.filters}>
+            <label>Ordene por calorías</label>
+            <select className={style.select} onChange={handleCalories}>
+              <option selected disabled>Elige por calorias</option>
+              <option value="asc">Más Calorías</option>
+              <option value="desc">Menos Calorías</option>
+            </select>
+          </div>
+
+          <div className={style.filters}>
+          <label>Ordene por precio</label>
+          <select className={style.select} onChange={handlePrice}>
+            <option selected disabled>Elige ordenar por precio</option>
+            <option value="asc">Menor precio</option>
+            <option value="desc">Mayor precio</option>
+          </select>
+          </div>
         </div>
      
       </div>

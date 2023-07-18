@@ -82,6 +82,10 @@
 .btnCollapsed:hover + .text {
     opacity: 1;
 }
+
+.filtersContainer {
+    margin-top:2rem;
+}
 .filters {
     margin: 1rem 0;
     display: flex;
@@ -104,7 +108,7 @@
     transform: translateX(-50%); /* Centrado horizontal */
     margin-left: auto; /* Margen izquierdo automático */
     margin-right: auto; 
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Transición personalizada */
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1); /* Transición personalizada */
   }
 
   .filteredContent h6{
