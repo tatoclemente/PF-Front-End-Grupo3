@@ -47,7 +47,7 @@ const handleCalories = (e) => {
           ? { width: "5px", transition: "width 0.5s ease-in-out" }
           : { width: "18vw", transition: "width 0.5s ease-in-out" }
       }
-      className={style.mainContainer}
+      className={`${style.mainContainer} ${isCollapsed ? style.collapsed : ""}`}
     >
       <div
         style={
@@ -68,34 +68,45 @@ const handleCalories = (e) => {
         {isCollapsed?<p className={style.text}>abrir barra de filtros</p>:null}
       </div>
       
-      <div className={style.filteredContent}>
+      <div className={style.filteredContent} isCollapsed={isCollapsed}>
+        <h6>FILTROS Y ORDENAMIENTOS</h6>
+        <div className={style.filters}>
+        <label>¿Sin gluten?</label>
         <select className={style.select} onChange={handleGluten}>
           <option selected disabled>Con o sin gluten</option>
           <option value="all">Todos</option>
           <option value="gluten">Con gluten</option>
           <option value="noGluten">Sin gluten</option>
         </select>
-
+        </div>
+       
+        <div className={style.filters}>
+        <label>¿Vegetariano?</label>
         <select className={style.select} onChange={handleVeggy}>
           <option selected disabled>Elige comida vegetariana</option>
           <option value="all">Todos</option>
           <option value="veggy">Vegetariano</option>
           <option value="noVeggy">No vegetariano</option>
         </select>
+        </div>
 
-       
+        <div className={style.filters}>
+        <label>Ordene por calorías</label>
         <select className={style.select} onChange={handleCalories}>
-          <option select disabled>Elige por calorias</option>
+          <option selected disabled>Elige por calorias</option>
           <option value="asc">Menor a mayor</option>
           <option value="desc">Mayor a menor</option>
         </select>
-
-
+        </div>
+       
+        <div className={style.filters}>
+        <label>Ordene por precio</label>
         <select className={style.select} onChange={handlePrice}>
-          <option select disabled>Elige ordenar por precio</option>
+          <option selected disabled>Elige ordenar por precio</option>
           <option value="asc">Menor a mayor</option>
           <option value="desc">Mayor a menor</option>
         </select>
+        </div>
      
       </div>
     

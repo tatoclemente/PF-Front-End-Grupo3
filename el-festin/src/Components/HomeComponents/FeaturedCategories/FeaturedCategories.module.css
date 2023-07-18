@@ -1,7 +1,6 @@
 .mainContainer {
     width: 82vw;
     height: 10rem;
-    margin-bottom: 1.5rem;
     padding: .7rem 1.7rem .5rem .5rem;
 } 
 
@@ -9,7 +8,9 @@
     margin: 0 auto;
     text-transform: uppercase;
     width: 90%;
+    height: 100%;
     font-weight: 700;
+    padding: .5rem 0;
 }
 
 .categoryContainer {
