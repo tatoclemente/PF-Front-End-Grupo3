@@ -5,24 +5,14 @@ import { ModalCreateDrink } from "./ModalCreateDrink";
 import { ModalCreateSide } from "./ModalCreateSide";
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
-import { AiOutlineMenu } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
 
 export const Dashboard = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarVisible((prev) => !prev);
-  };
-
   return (
     <>
       <div>
         <Navbar isDashboard={true} />
       </div>
-      <div
-        className={`${Styles.sidebar} ${sidebarVisible ? "" : Styles.hidden}`}
-      >
+      <div className={Styles.sidebar}>
         <div className={Styles.user}>
           <h4>Administrador</h4>
         </div>
@@ -65,13 +55,6 @@ export const Dashboard = () => {
           </li>
         </ul>
       </div>
-      <button className={Styles.toggleButton} onClick={toggleSidebar}>
-        {sidebarVisible ? (
-          <AiOutlineClose size="20" />
-        ) : (
-          <AiOutlineMenu size="20" />
-        )}
-      </button>
     </>
   );
 };

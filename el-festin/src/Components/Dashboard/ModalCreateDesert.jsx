@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { validacionDesert } from './Validaciones/validacionDesert'
-import style from "./Dashboard.module.css"
+import { validacionDesert } from "./Validaciones/validacionDesert";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateDesert = () => {
   let initialState = {
@@ -18,13 +18,13 @@ export const ModalCreateDesert = () => {
       ...inputCreateDesert,
       [target.name]: target.value,
     });
-    setError(validacionDesert({
-      ...inputCreateDesert,
-      [target.name]: target.value,
-    }));
+    setError(
+      validacionDesert({
+        ...inputCreateDesert,
+        [target.name]: target.value,
+      })
+    );
   };
-
-
 
   const onSubmitCreate = (e) => {
     e.preventDefault();
@@ -41,9 +41,10 @@ export const ModalCreateDesert = () => {
     <div className="container-fluid">
       <button
         type="button"
-        className="btn btn-primary"
+        className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop2">
+        data-bs-target="#staticBackdrop2"
+      >
         Crear Postre
       </button>
 
@@ -54,7 +55,8 @@ export const ModalCreateDesert = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -65,7 +67,8 @@ export const ModalCreateDesert = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -79,7 +82,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.name}
                   onChange={onInputChange}
                 />
-                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -91,7 +96,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.stock}
                   onChange={onInputChange}
                 />
-                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
+                {error.stock && (
+                  <p className={style.dato_incorrecto}>{error.stock}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -103,7 +110,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.price}
                   onChange={onInputChange}
                 />
-                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Imagen
                 </label>
@@ -118,10 +127,11 @@ export const ModalCreateDesert = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
-                  <button  type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-primary">
                     Crear
                   </button>
                 </div>
