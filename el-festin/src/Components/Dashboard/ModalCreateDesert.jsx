@@ -136,7 +136,7 @@ export const ModalCreateDesert = () => {
                     data-bs-dismiss="modal">
                     Cerrar
                   </button>
-                  <button  type="submit" className="btn btn-primary">
+                  <button  type="submit" className="btn buttonCrear">
                     Crear
                   </button>
                 </div>

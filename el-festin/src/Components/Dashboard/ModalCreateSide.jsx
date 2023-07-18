@@ -1,11 +1,9 @@
-
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
 
 import React, { useState } from "react";
-import {validacionGuar} from "./Validaciones/validacionGuar"
-import style from "./Dashboard.module.css"
-
+import { validacionGuar } from "./Validaciones/validacionGuar";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateSide = () => {
   let initialState = {
@@ -21,16 +19,17 @@ export const ModalCreateSide = () => {
 
   const [error, setError] = useState({});
 
-
   const onInputChange = ({ target }) => {
     setInputCreateSide({
       ...inputCreateSide,
       [target.name]: target.value,
     });
-    setError(validacionGuar({
-      ...inputCreateSide,
-      [target.name]:  target.value
-    }))
+    setError(
+      validacionGuar({
+        ...inputCreateSide,
+        [target.name]: target.value,
+      })
+    );
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -44,13 +43,11 @@ export const ModalCreateSide = () => {
   formData.append("available", inputCreateSide.available);
   formData.append("image", filed);
 
-  
-
   const onSubmitCreate = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${server}/side`, formData);
-      
+
       if (data.name) {
         alert("Guarnicion creada con exito");
       }
@@ -101,21 +98,9 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.name}
                   onChange={onInputChange}
                 />
-                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="type"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled>
-                    tipo de guarnicion
-                  </option>
-
-                  <option value="salsa">Salsa</option>
-                  <option value="acompañamiento">acompañamiento</option>
-                </select>
-                <br />
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
                 </label>
@@ -126,22 +111,9 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.price}
                   onChange={onInputChange}
                 />
-{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
-
-                <br />
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="available"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled>
-                    Disponible
-                  </option>
-
-                  <option value={true}>Si</option>
-                  <option value={false}>no</option>
-                </select>
-                <br />
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Imagen
                 </label>
@@ -150,10 +122,37 @@ export const ModalCreateSide = () => {
                   className="form-control"
                   onChange={handleOnChangeImage}
                 />
+                <div className="dropdown pe-2">
+                 <label htmlFor="" className="form-label">Guarnicion</label>
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group"
+                    name="type"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled>
+                     Tipo de guarnicion
+                    </option>
 
+                    <option value="salsa">Salsa</option>
+                    <option value="acompañamiento">acompañamiento</option>
+                  </select>
+                </div>
 
-                <br />
+                <div className="dropdown px-2 pb-3">
+                  <label htmlFor="" className="form-label">Disponible</label>
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group "
+                    name="available"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled>
+                      Disponible
+                    </option>
 
+                    <option value={true}>Si</option>
+                    <option value={false}>no</option>
+                  </select>
+                </div>
 
                 <div className="modal-footer">
                   <button
@@ -162,7 +161,7 @@ export const ModalCreateSide = () => {
                     data-bs-dismiss="modal">
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>
                 </div>

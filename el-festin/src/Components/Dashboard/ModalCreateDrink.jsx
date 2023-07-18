@@ -3,10 +3,9 @@ import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
 import { volumeDrink } from "../../Helpers/objetosHelp";
 import { typeDrink } from "../../Helpers/objetosHelp";
-
-import {validacionDrink} from './Validaciones/validacionDrink'
-import style from "./Dashboard.module.css"
-
+import { validacionDrink } from "./Validaciones/validacionDrink";
+import "../Dashboard/dashboard.css";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
   let initialState = {
@@ -28,10 +27,12 @@ export const ModalCreateDrink = () => {
       ...inputCreateDrink,
       [target.name]: target.value,
     });
-    setError(validacionDrink({
-      ...inputCreateDrink,
-      [target.name]: target.value,
-    }));
+    setError(
+      validacionDrink({
+        ...inputCreateDrink,
+        [target.name]: target.value,
+      })
+    );
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -51,10 +52,10 @@ export const ModalCreateDrink = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${server}/drink`, formData);
-   
-      if(data.name){
-      alert("Bebida creada con exito")
-    }
+
+      if (data.name) {
+        alert("Bebida creada con exito");
+      }
     } catch (error) {
       throw error.message;
     }
@@ -102,50 +103,9 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.name}
                   onChange={onInputChange}
                 />
-{error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="volume"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled className="">
-                    Medida
-                  </option>
-                  {volumeDrink.map((volume,key) => {
-                    return <option key={key} value={volume}>{volume}</option>;
-                  })}
-                </select>
-                <br />
-{error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
-
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="type"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled className="">
-                    tipo de bebida
-                  </option>
-                  {typeDrink.map((type,key) => {
-                    return <option key={key} value={type}>{type}</option>;
-                  })}
-                </select>
-                <br />
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="alcohol"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled>
-                    contiene alcohol
-                  </option>
-
-                  <option value={true}>Si</option>
-                  <option value={false}>no</option>
-                </select>
-                <br />
-
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
                 </label>
@@ -156,7 +116,9 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.stock}
                   onChange={onInputChange}
                 />
-                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
+                {error.stock && (
+                  <p className={style.dato_incorrecto}>{error.stock}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -178,7 +140,63 @@ export const ModalCreateDrink = () => {
                   onChange={handleOnChangeImage}
                 />
 
-                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
+                <div className="dropdown">
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="volume"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Medida
+                  </option>
+                  {volumeDrink.map((volume, key) => {
+                    return (
+                      <option key={key} value={volume}>
+                        {volume}
+                      </option>
+                    );
+                  })}
+                </select>
+                </div>
+                {error.volume && (
+                  <p className={style.dato_incorrecto}>{error.volume}</p>
+                )}
+                <div className="dropdown px-2 pb-3">
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group  mt-4"
+                    name="type"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      tipo de bebida
+                    </option>
+                    {typeDrink.map((type, key) => {
+                      return (
+                        <option key={key} value={type}>
+                          {type}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="dropdown">
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group"
+                  name="alcohol"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled>
+                    contiene alcohol
+                  </option>
+
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                </div>
+                <br />
 
                 <div className="modal-footer">
                   <button
@@ -187,7 +205,7 @@ export const ModalCreateDrink = () => {
                     data-bs-dismiss="modal">
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>
                 </div>

@@ -8,8 +8,7 @@ import {
 
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
-import { AiOutlineMenu,AiOutlineClose } from "react-icons/ai";
-
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 export const Dashboard = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
