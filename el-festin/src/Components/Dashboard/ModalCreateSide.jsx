@@ -1,3 +1,6 @@
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
+
 import React, { useState } from "react";
 import { validacionGuar } from "./Validaciones/validacionGuar";
 import style from "./Dashboard.module.css";
@@ -5,12 +8,15 @@ import style from "./Dashboard.module.css";
 export const ModalCreateSide = () => {
   let initialState = {
     name: "",
-    stock: "",
+    type: "",
     price: "",
-    image: "",
+    available: null,
   };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
+
+  const [filed, setFiled] = useState(null);
+
   const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
@@ -26,12 +32,32 @@ export const ModalCreateSide = () => {
     );
   };
 
-  const onSubmitCreate = (e) => {
+  let handleOnChangeImage = ({ target }) => {
+    setFiled(target.files[0]);
+  };
+
+  const formData = new FormData();
+  formData.append("name", inputCreateSide.name);
+  formData.append("type", inputCreateSide.type);
+  formData.append("price", inputCreateSide.price);
+  formData.append("available", inputCreateSide.available);
+  formData.append("image", filed);
+
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(`${server}/side`, formData);
+
+      if (data.name) {
+        alert("Guarnicion creada con exito");
+      }
+    } catch (error) {
+      throw error.message;
+    }
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-dark">
       <button
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
@@ -79,17 +105,20 @@ export const ModalCreateSide = () => {
                   <p className={style.dato_incorrecto}>{error.name}</p>
                 )}
 
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Tipo
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="calories"
-                  value={inputCreateSide.stock}
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="type"
                   onChange={onInputChange}
-                />
+                >
+                  <option value="DEFAULT" disabled>
+                    tipo de guarnicion
+                  </option>
 
+                  <option value="salsa">Salsa</option>
+                  <option value="acompañamiento">acompañamiento</option>
+                </select>
+                <br />
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
                 </label>

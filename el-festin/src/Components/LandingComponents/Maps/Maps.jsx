@@ -28,6 +28,8 @@ function Location() {
 
 
  return (
+  <div>
+  <h2 className={style.title}>NUESTRA UBICACIÓN</h2>
     <div className={style.containerMaps}>
       <div className={style.containerM}>
   <GoogleMap 
@@ -41,7 +43,8 @@ function Location() {
     />
   </GoogleMap>
   </div>
-  <h2 className={style.containerUb}>Nuestra ubicacion</h2>
+  {/* <h2 className={style.containerUb}>Nuestra ubicacion</h2> */}
+  </div>
   </div>
  );
 

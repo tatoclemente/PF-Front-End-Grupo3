@@ -1,29 +1,43 @@
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
-
-
-import ravioles2 from "./images/ravioles2.jpg";
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./DetailPage.module.css";
-import { sides } from "../../utils/mock";
+// import { sides } from "../../utils/mock";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
+import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 
 const Detail = ({ dishDetail }) => {
+  const dispatch = useDispatch();
+  const drinks = useSelector((state) => state.drinks.drinks);
+  const desserts = useSelector((state) => state.desserts.desserts);
+  const sides = useSelector((state) => state.sides.sides);
+
+  // const [form, setForm] = useState({
+  //   id,
+  //   user_id,
+  //   dish_id,
+  //   drik_id,
+  //   cantidad_drink,
+  //   desert_id,
+  // })
 
 
-  const pastaGarnish = sides.filter((side) => side.type === "salsas");
+  const pastaGarnish = sides.filter((side) => side.type === "salsa");
 
-  const resGarnish = sides.filter((side) => side.type === "acompañamientos");
+  const resGarnish = sides.filter((side) => side.type === "acompañamiento");
 
-  const sandwichGarnish = sides.filter((side) => side.name === "papas fritas");
+  const papas = { ...sides.find((side) => side.name.toLowerCase() === "papa fritas") };
+  const batatas = { ...sides.find((side) => side.name.toLowerCase() === "batatas fritas") };
 
+
+  const sandwichGarnish = [papas, batatas].filter((side) => side !== null);
+
+ 
   const garnish =
     dishDetail.subtype === "pastas"
       ? pastaGarnish
@@ -33,6 +47,8 @@ const Detail = ({ dishDetail }) => {
       ? sandwichGarnish
       : [];
 
+
+      console.log("GARNISH", garnish);
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -63,6 +79,8 @@ const Detail = ({ dishDetail }) => {
     );
   }
 
+  const length = garnish.length === 2 ? 2 : 3;
+
   const settings = {
     dots: false,
     infinite: true,
@@ -73,23 +91,25 @@ const Detail = ({ dishDetail }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-
-
-  const dispatch = useDispatch();
-  const drinks = useSelector((state) => state.drinks.drinks);
-  const desserts = useSelector((state) => state.desserts.desserts);
+  const settingsSlide = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: length,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
 
   useEffect(() => {
     dispatch(getDrinks());
-    dispatch(getDesserts())
-  }, [dispatch, dishDetail]);
-
+    dispatch(getDesserts());
+    dispatch(getSides());
+  }, [dispatch]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-
-
 
   return (
     <div className={styles.container}>
@@ -103,33 +123,42 @@ const Detail = ({ dishDetail }) => {
         <div className={styles.additionalContainer}>
           <p className={styles.guarnicionTitle}>seleccione una guarnición</p>
           <div className={styles.guarnicionContent}>
-            {garnish.map((side, index) => {
-              return (
-                <div className={styles.guarnicionContainer} key={index}>
-                  <img
-                    src={ravioles2}
-                    className={styles.secondaryImage}
-                    alt="Otra imagen de Ravioles de Jamón y Queso"
-                  />
-                  <div className={styles.guanicionNameContainer}>
-                    <span className={styles.guarnicionName}>{side.name}</span>
-                  </div>
-                  <h5
-                    className={styles.secondaryPrices}
-                  >{`$ ${side.price}`}</h5>
-                </div>
-              );
-            })}
+            {
+              garnish.length > 0 ? (
+                <Slider {...settingsSlide}>
+                  {garnish.map((side, index) => {
+                    return (
+                      <div className={styles.guarnicionContainer} key={index}>
+                        <img
+                          src={side.image}
+                          className={styles.secondaryImage}
+                          alt="Otra imagen de Ravioles de Jamón y Queso"
+                        />
+                        <div className={styles.guanicionNameContainer}>
+                          <span className={styles.guarnicionName}>
+                            {side.name}
+                          </span>
+                        </div>
+                        <h5
+                          className={styles.secondaryPrices}
+                        >{`$ ${side.price}`}</h5>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              ) : (
+                <p>No hay guarniciones para este plato.</p>
+              ) }
           </div>
         </div>
+        <div className={styles.selectedAdditionalContainer}>
 
-    
+        </div>
+
         <div className={styles.containerPrice}>
-
           <h2
             className={styles.titles}
           >{`Suma total: $ ${dishDetail.price}`}</h2>
-
         </div>
       </div>
 
@@ -144,19 +173,19 @@ const Detail = ({ dishDetail }) => {
               const capitalizedString = capitalizeFirstLetter(drink.name);
 
               return (
-           
-              <div key={index} className={styles.imageWithInfo}>
-                <img
-                  src={drink.image}
-                  alt={drink.name}
-                  className={styles.secondaryImage}
-                />
-                <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
-                <h5
-                  className={styles.secondaryPrices}
-                >{`+ $${drink.price}`}</h5>
-              </div>
-            )})}
+                <div key={index} className={styles.imageWithInfo}>
+                  <img
+                    src={drink.image}
+                    alt={drink.name}
+                    className={styles.secondaryImage}
+                  />
+                  <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
+                  <h5
+                    className={styles.secondaryPrices}
+                  >{`+ $${drink.price}`}</h5>
+                </div>
+              );
+            })}
           </Slider>
         </div>
         <h3 className={styles.subTitles}>Postres</h3>
@@ -165,18 +194,19 @@ const Detail = ({ dishDetail }) => {
             {desserts.map((dessert, index) => {
               const capitalizedString = capitalizeFirstLetter(dessert.name);
               return (
-              <div key={index} className={styles.imageWithInfo}>
-                <img
-                  src={dessert.image}
-                  alt={dessert.name}
-                  className={styles.secondaryImage}
-                />
-                <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
-                <h5
-                  className={styles.secondaryPrices}
-                >{`+ $${dessert.price}`}</h5>
-              </div>
-            )})}
+                <div key={index} className={styles.imageWithInfo}>
+                  <img
+                    src={dessert.image}
+                    alt={dessert.name}
+                    className={styles.secondaryImage}
+                  />
+                  <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
+                  <h5
+                    className={styles.secondaryPrices}
+                  >{`+ $${dessert.price}`}</h5>
+                </div>
+              );
+            })}
           </Slider>
         </div>
         <div className={styles.buttonContainer}>

@@ -7,10 +7,10 @@ export const ModalCreateDesert = () => {
     name: "",
     stock: "",
     price: "",
-    image: "",
   };
 
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
+  const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
 
   const onInputChange = ({ target }) => {
@@ -26,19 +26,21 @@ export const ModalCreateDesert = () => {
     );
   };
 
-  const onSubmitCreate = (e) => {
+  const onSubmitCreate = async (e) => {
     e.preventDefault();
-    if (Object.keys(error).length === 0) {
-      console.log(inputCreateDesert);
-      setInputCreateDesert(initialState);
-      window.alert("Postre creado correctamente");
-    } else {
-      window.alert("Postre no creado");
+    try {
+      const { data } = await axios.post(`${server}/desert`, formData);
+
+      if (data.name) {
+        alert("Postre creada con exito");
+      }
+    } catch (error) {
+      throw error.message;
     }
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid text-dark">
       <button
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
@@ -119,9 +121,7 @@ export const ModalCreateDesert = () => {
                 <input
                   type="file"
                   className="form-control"
-                  name="price"
-                  value={inputCreateDesert.image}
-                  onChange={onInputChange}
+                  onChange={handleOnChangeImage}
                 />
                 <div className="modal-footer">
                   <button

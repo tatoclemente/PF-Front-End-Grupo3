@@ -1,3 +1,5 @@
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,13 +17,16 @@ export const ModalCreateDish = () => {
     type: "",
     subtype: [],
     calories: "",
-    glutenfree: "",
-    vegetarian: "",
-    plateoftheday: "",
+    glutenfree: null,
+    vegetarian: null,
+    dailyspecial: null,
     price: "",
   };
 
   const [inputCreateDish, setInputCreateDish] = useState(initialState);
+
+  const [filed, setFiled] = useState(null);
+
   const [error, setError] = useState({});
   const repDish = useSelector((state) => state.dishes.dishes);
   const dispatch = useDispatch();
@@ -70,7 +75,7 @@ export const ModalCreateDish = () => {
     <div className="container-fluid">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`}
+        className="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
