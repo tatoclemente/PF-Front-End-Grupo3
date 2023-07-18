@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   ModalCreateDesert,
   ModalCreateDish,
@@ -9,23 +8,17 @@ import {
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
 
-import { AiOutlineMenu } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
-
-
 export const Dashboard = () => {
   return (
     <>
       <div>
         <Navbar isDashboard={true} />
       </div>
-      <div
-        className={`${Styles.sidebar} ${sidebarVisible ? "" : Styles.hidden}`}
-      >
+      <div className={Styles.sidebar}>
         <div className={Styles.user}>
           <h4>Administrador</h4>
         </div>
-        <h6>Dashboard</h6>
+        {/* <h6>Dashboard</h6> */}
         <ul className={Styles.options}>
           <li>
             <ModalCreateDish />
