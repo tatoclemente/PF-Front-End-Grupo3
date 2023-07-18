@@ -131,7 +131,10 @@ export const ModalCreateDesert = () => {
                   >
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+
+                  <button  type="submit" className="btn buttonCrear">
+
+
                     Crear
                   </button>
                 </div>

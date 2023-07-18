@@ -1,0 +1,37 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.dropdown select {
+  background-color: #313045;
+  color: whitesmoke;
+  padding: 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.buttonCrear {
+  background-color: #313045;
+  color: whitesmoke;
+}
+
+.buttonCrear:hover{
+  background-color: #313045de;
+}
+
+.dropdown select:hover {
+  background-color: #313045cc;
+  color: whitesmoke;
+}
+
+.dropdown select option[disabled] {
+  color: #999;
+}
+
+.dropdown select option:hover {
+  background-color: #ddd;
+}

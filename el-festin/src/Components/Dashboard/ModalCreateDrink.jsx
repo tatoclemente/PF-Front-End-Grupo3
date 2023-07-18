@@ -1,5 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
+import { volumeDrink } from "../../Helpers/objetosHelp";
+import { typeDrink } from "../../Helpers/objetosHelp";
 import { validacionDrink } from "./Validaciones/validacionDrink";
+import "../Dashboard/dashboard.css";
+
 import style from "./Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
@@ -104,52 +110,6 @@ export const ModalCreateDrink = () => {
                 {error.name && (
                   <p className={style.dato_incorrecto}>{error.name}</p>
                 )}
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Medida
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={inputCreateDrink.volume}
-                  onChange={onInputChange}
-                />
-                {error.volume && (
-                  <p className={style.dato_incorrecto}>{error.volume}</p>
-                )}
-
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="type"
-                  onChange={onInputChange}
-                >
-                  <option value="DEFAULT" disabled className="">
-                    tipo de bebida
-                  </option>
-                  {typeDrink.map((type, key) => {
-                    return (
-                      <option key={key} value={type}>
-                        {type}
-                      </option>
-                    );
-                  })}
-                </select>
-                <br />
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="alcohol"
-                  onChange={onInputChange}
-                >
-                  <option value="DEFAULT" disabled>
-                    contiene alcohol
-                  </option>
-
-                  <option value={true}>Si</option>
-                  <option value={false}>no</option>
-                </select>
-                <br />
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -175,9 +135,77 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
+
+
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  onChange={handleOnChangeImage}
+                />
+
                 {error.price && (
                   <p className={style.dato_incorrecto}>{error.price}</p>
                 )}
+                <div className="dropdown">
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group mt-4"
+                  name="volume"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled className="">
+                    Medida
+                  </option>
+                  {volumeDrink.map((volume, key) => {
+                    return (
+                      <option key={key} value={volume}>
+                        {volume}
+                      </option>
+                    );
+                  })}
+                </select>
+                </div>
+                {error.volume && (
+                  <p className={style.dato_incorrecto}>{error.volume}</p>
+                )}
+                <div className="dropdown px-2 pb-3">
+                  <select
+                    defaultValue={"DEFAULT"}
+                    className="form-group  mt-4"
+                    name="type"
+                    onChange={onInputChange}>
+                    <option value="DEFAULT" disabled className="">
+                      tipo de bebida
+                    </option>
+                    {typeDrink.map((type, key) => {
+                      return (
+                        <option key={key} value={type}>
+                          {type}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="dropdown">
+                <select
+                  defaultValue={"DEFAULT"}
+                  className="form-group"
+                  name="alcohol"
+                  onChange={onInputChange}>
+                  <option value="DEFAULT" disabled>
+                    contiene alcohol
+                  </option>
+
+                  <option value={true}>Si</option>
+                  <option value={false}>no</option>
+                </select>
+                </div>
+                <br />
+
+
+               
                 <div className="modal-footer">
                   <button
                     type="button"
@@ -186,7 +214,7 @@ export const ModalCreateDrink = () => {
                   >
                     Cerrar
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>
                 </div>
