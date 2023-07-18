@@ -1,12 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-import { server } from "../../Helpers/EndPoint";
-import { volumeDrink } from "../../Helpers/objetosHelp";
-import { typeDrink } from "../../Helpers/objetosHelp";
-
-import {validacionDrink} from './Validaciones/validacionDrink'
-import style from "./Dashboard.module.css"
-
+import { validacionDrink } from "./Validaciones/validacionDrink";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
   let initialState = {
@@ -28,10 +22,12 @@ export const ModalCreateDrink = () => {
       ...inputCreateDrink,
       [target.name]: target.value,
     });
-    setError(validacionDrink({
-      ...inputCreateDrink,
-      [target.name]: target.value,
-    }));
+    setError(
+      validacionDrink({
+        ...inputCreateDrink,
+        [target.name]: target.value,
+      })
+    );
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -51,22 +47,23 @@ export const ModalCreateDrink = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${server}/drink`, formData);
-   
-      if(data.name){
-      alert("Bebida creada con exito")
-    }
+
+      if (data.name) {
+        alert("Bebida creada con exito");
+      }
     } catch (error) {
       throw error.message;
     }
   };
 
   return (
-    <div className="container-fluid text-dark">
+    <div className="container-fluid">
       <button
         type="button"
-        className="btn btn-primary"
+        className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop1">
+        data-bs-target="#staticBackdrop1"
+      >
         Crear Bebida
       </button>
 
@@ -77,7 +74,8 @@ export const ModalCreateDrink = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -88,7 +86,8 @@ export const ModalCreateDrink = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -102,33 +101,38 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.name}
                   onChange={onInputChange}
                 />
-{error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
-
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="volume"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled className="">
-                    Medida
-                  </option>
-                  {volumeDrink.map((volume,key) => {
-                    return <option key={key} value={volume}>{volume}</option>;
-                  })}
-                </select>
-                <br />
-{error.volume && <p className={style.dato_incorrecto}>{error.volume}</p>}
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
+                <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Medida
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={inputCreateDrink.volume}
+                  onChange={onInputChange}
+                />
+                {error.volume && (
+                  <p className={style.dato_incorrecto}>{error.volume}</p>
+                )}
 
                 <select
                   defaultValue={"DEFAULT"}
                   className="form-group mt-4"
                   name="type"
-                  onChange={onInputChange}>
+                  onChange={onInputChange}
+                >
                   <option value="DEFAULT" disabled className="">
                     tipo de bebida
                   </option>
-                  {typeDrink.map((type,key) => {
-                    return <option key={key} value={type}>{type}</option>;
+                  {typeDrink.map((type, key) => {
+                    return (
+                      <option key={key} value={type}>
+                        {type}
+                      </option>
+                    );
                   })}
                 </select>
                 <br />
@@ -136,7 +140,8 @@ export const ModalCreateDrink = () => {
                   defaultValue={"DEFAULT"}
                   className="form-group mt-4"
                   name="alcohol"
-                  onChange={onInputChange}>
+                  onChange={onInputChange}
+                >
                   <option value="DEFAULT" disabled>
                     contiene alcohol
                   </option>
@@ -156,7 +161,9 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.stock}
                   onChange={onInputChange}
                 />
-                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
+                {error.stock && (
+                  <p className={style.dato_incorrecto}>{error.stock}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -168,23 +175,15 @@ export const ModalCreateDrink = () => {
                   value={inputCreateDrink.price}
                   onChange={onInputChange}
                 />
-
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Image
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={handleOnChangeImage}
-                />
-
-                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
-
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn btn-primary">

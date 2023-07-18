@@ -1,63 +1,36 @@
 .form {
   background-color: #313045;
-  margin: 0 auto;
-  margin-left: 150px;
-  padding: 20px;
-  width: 350px;
+  margin-left: 25%;
+  padding: 2rem;
+  width: 60%;
+  height: auto;
 }
 .img {
+  max-width: 100%;
   margin-bottom: 10px;
 }
 
 .label {
   color: white;
-  font-size: 16px;
-  margin-bottom: 2px;
+  font-size: 0.9rem;
 }
 .input {
-  width: 320px;
-  height: 35px;
-  margin-bottom: 2px;
-  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
   cursor: pointer;
+  margin-bottom: 1rem;
 }
 .button {
-  width: 100px;
-  height: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  justify-self: center;
+  width: 70%;
+  height: 30%;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.5rem;
+  border: none;
   cursor: pointer;
 }
 .error {
-  font-size: 10px;
+  font-size: 0.7rem;
   color: #d9343a;
-}
-.liButtonsAuth {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.buttonAuth {
-  background-color: #1d81ce;
-  padding-right: 20px;
-  border-radius: 8px;
-  border: none;
-  color: white;
-  margin-bottom: 10px;
-}
-
-.buttonAuth1 {
-  background-color: #3b5998;
-  border-radius: 8px;
-  border: none;
-  color: white;
-}
-
-.imgButton {
-  width: 30px;
-  height: auto;
 }

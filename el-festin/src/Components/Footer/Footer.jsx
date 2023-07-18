@@ -74,7 +74,7 @@ function Footer() {
         </a>
       </div>
       <button className={Styles.buttonUp} onClick={() => onClickUp()}>
-        <BsArrowUpCircleFill size={50} color="#fdc52d" />
+        <BsArrowUpCircleFill size={40} color="#fdc52d" />
       </button>
       <select className={Styles.select}>
         <option value="ES">ES</option>

@@ -1,11 +1,9 @@
-
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
 
 import React, { useState } from "react";
-import {validacionGuar} from "./Validaciones/validacionGuar"
-import style from "./Dashboard.module.css"
-
+import { validacionGuar } from "./Validaciones/validacionGuar";
+import style from "./Dashboard.module.css";
 
 export const ModalCreateSide = () => {
   let initialState = {
@@ -21,16 +19,17 @@ export const ModalCreateSide = () => {
 
   const [error, setError] = useState({});
 
-
   const onInputChange = ({ target }) => {
     setInputCreateSide({
       ...inputCreateSide,
       [target.name]: target.value,
     });
-    setError(validacionGuar({
-      ...inputCreateSide,
-      [target.name]:  target.value
-    }))
+    setError(
+      validacionGuar({
+        ...inputCreateSide,
+        [target.name]: target.value,
+      })
+    );
   };
 
   let handleOnChangeImage = ({ target }) => {
@@ -44,13 +43,11 @@ export const ModalCreateSide = () => {
   formData.append("available", inputCreateSide.available);
   formData.append("image", filed);
 
-  
-
   const onSubmitCreate = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${server}/side`, formData);
-      
+
       if (data.name) {
         alert("Guarnicion creada con exito");
       }
@@ -63,9 +60,10 @@ export const ModalCreateSide = () => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className="btn btn-primary"
+        className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop3">
+        data-bs-target="#staticBackdrop3"
+      >
         Crear Guarnicion
       </button>
 
@@ -76,7 +74,8 @@ export const ModalCreateSide = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -87,7 +86,8 @@ export const ModalCreateSide = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -101,13 +101,16 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.name}
                   onChange={onInputChange}
                 />
-                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
 
                 <select
                   defaultValue={"DEFAULT"}
                   className="form-group mt-4"
                   name="type"
-                  onChange={onInputChange}>
+                  onChange={onInputChange}
+                >
                   <option value="DEFAULT" disabled>
                     tipo de guarnicion
                   </option>
@@ -126,40 +129,15 @@ export const ModalCreateSide = () => {
                   value={inputCreateSide.price}
                   onChange={onInputChange}
                 />
-{error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
-
-                <br />
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="available"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled>
-                    Disponible
-                  </option>
-
-                  <option value={true}>Si</option>
-                  <option value={false}>no</option>
-                </select>
-                <br />
-                <label htmlFor="" className="pe-3 pt-3 form-label">
-                  Imagen
-                </label>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={handleOnChangeImage}
-                />
-
-
-                <br />
-
-
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn btn-primary">
