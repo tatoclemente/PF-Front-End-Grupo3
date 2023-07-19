@@ -16,9 +16,6 @@ export const dishesSlice = createSlice({
             state.sortedDishes = action.payload
             state.dishesFilter = action.payload
         },
-        getAllBebidas: (state, action) => {
-            state.bebidas = action.payload
-        },
         sortDishesByType: (state, action) => {
             console.log(action.payload);
             let filteredD = state.dishesFilter.filter(el => el.subtype.includes(action.payload))
@@ -87,7 +84,7 @@ export const dishesSlice = createSlice({
     }
 })
 
-export const {getAllBebidas, 
+export const {
     getAllDishes, 
     getAllDishesTypes,
     sortDishesByType,
