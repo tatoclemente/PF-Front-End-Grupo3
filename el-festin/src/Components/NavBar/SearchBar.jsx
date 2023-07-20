@@ -4,8 +4,7 @@ import { getFilterName } from "../../Redux/actions/getFilterName";
 
 export const SearchBar = ({ path }) => {
   const [input, setInput] = useState("");
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const onInputChange = ({ target }) => {
     setInput(target.value);
@@ -13,9 +12,8 @@ export const SearchBar = ({ path }) => {
 
   const onSubmitSearch = (e) => {
     e.preventDefault();
-    dispatch(getFilterName(input))
+    dispatch(getFilterName(input));
   };
-
   if (path !== "/") {
     return (
       <form onSubmit={onSubmitSearch} className="search-input-container">

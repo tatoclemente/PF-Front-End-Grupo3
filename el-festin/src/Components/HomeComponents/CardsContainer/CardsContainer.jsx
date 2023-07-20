@@ -1,13 +1,12 @@
 import style from "./CardsContainer.module.css";
 import { getDishes } from "../../../Redux/actions/getAllDishes";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../../../images/default-image.jpg";
+
 import Card from "../../Card/Card";
 import { useEffect, useRef, useState } from "react";
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
 // import { sides } from "../../../utils/mock";
-import axios from "axios";
 
 export const scrollToTopRef = (containerRef) => {
   if (containerRef.current) {
@@ -30,10 +29,10 @@ const CardsContainer = () => {
   // const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
-    if (allDishes === 0) {
+    if (allDishes.length === 0) {
       dispatch(getDishes());
     }
-  }, [dispatch]);
+  }, [dispatch, allDishes]);
 
   // Constante de recetas por página
   const perPage = 6;
@@ -57,7 +56,7 @@ const CardsContainer = () => {
   // Me guardo el total de las páginas a travez de la funcion getTotalPage(),
   // que recibe toda la informacion necesaria para calcularlo
 
-  const totalPages = Math.ceil(allDishes?.length / perPage);
+  const totalPages = Math.ceil(allDishes.length / perPage);
 
   const addToCart = (id) => {
     window.alert(`orden ${id} agregada al carrito`);
@@ -73,7 +72,7 @@ const CardsContainer = () => {
         />
       </div>
       <div className={style.cardsContainer}>
-        {allDishes?.slice(startIdx, endIdx).map((dish, index) => {
+        {allDishes.slice(startIdx, endIdx).map((dish, index) => {
           return (
             <div key={index}>
               <Card

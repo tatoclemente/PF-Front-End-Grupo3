@@ -25,7 +25,7 @@ export const Login = () => {
   return (
     <ul className="">
       <li className="d-flex justify-content-center align-items-center mt-3">
-        <img src={logo} alt="image-logo" className="img-fluid w-25" />
+        <img src={logo} alt="imagen-logo" className="img-fluid w-25" />
       </li>
 
       <li className="text-white fs-2 mt-5 d-flex justify-content-center align-items-center">

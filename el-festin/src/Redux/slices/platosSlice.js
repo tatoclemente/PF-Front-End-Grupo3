@@ -1,6 +1,4 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-
 
 export const dishesSlice = createSlice({
   name: "dishes-bebidas",
@@ -98,8 +96,7 @@ export const dishesSlice = createSlice({
           : asc.sort((a, b) => a.calories - b.calories);
       state.dishes = ascSort;
     },
-
-    filterDishesByName: (state, {payload}) => {
+    filterDishesByName: (state, { payload }) => {
       state.dishes = payload;
     },
   },
@@ -114,7 +111,7 @@ export const {
   sortDishesByVeggy,
   sortByPrice,
   sortByCalories,
-  filterDishesByName,
+  filterDishesByName
 } = dishesSlice.actions;
 
 export default dishesSlice.reducer;
