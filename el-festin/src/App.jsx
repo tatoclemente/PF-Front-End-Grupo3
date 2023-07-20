@@ -18,16 +18,16 @@ function App() {
 
   return (
     <div className={style.appContainer}>
-      {location.pathname !== "/login" &&
+      {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
-      location.pathname !== "/login/auth/register" ? (
+      location.pathname !== "/auth/register" ? (
         <Navbar />
       ) : undefined}
 
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login/auth/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
         <Route
           path="/*"
           element={
@@ -43,9 +43,9 @@ function App() {
         />
       </Routes>
 
-      {location.pathname !== "/login" &&
+      {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
-      location.pathname !== "/login/auth/register" ? (
+      location.pathname !== "/auth/register" ? (
         <Footer />
       ) : undefined}
     </div>

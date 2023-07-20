@@ -25,7 +25,7 @@ export const Login = () => {
   return (
     <ul className="">
       <li className="d-flex justify-content-center align-items-center mt-3">
-        <img src={logo} alt="image-logo" className="img-fluid w-25" />
+        <img src={logo} alt="imagen-logo" className="img-fluid w-25" />
       </li>
 
       <li className="text-white fs-2 mt-5 d-flex justify-content-center align-items-center">
@@ -92,7 +92,7 @@ export const Login = () => {
       <li className="d-flex justify-content-center align-items-center pt-4">
         <p className="text-white fs-5 pb-2 pt-2 fs-5">
           No tienes cuenta? &nbsp;
-          <Link to="auth/register" className="color-register-b">
+          <Link to="/auth/register" className="color-register-b">
             Registrate aqui
           </Link>
         </p>
