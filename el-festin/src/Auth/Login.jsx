@@ -92,7 +92,7 @@ export const Login = () => {
       <li className="d-flex justify-content-center align-items-center pt-4">
         <p className="text-white fs-5 pb-2 pt-2 fs-5">
           No tienes cuenta? &nbsp;
-          <Link to="auth/register" className="color-register-b">
+          <Link to="/auth/register" className="color-register-b">
             Registrate aqui
           </Link>
         </p>
