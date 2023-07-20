@@ -1,25 +1,35 @@
-import React, { useState } from "react";
-//import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
 import Validate from "./validateRegister";
 import Styles from "./Register.module.css";
+import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers.js";
 
 function Register() {
   const logo =
     "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
-  //const dispatch = useDispatch();
-  //const users = useSelector((state) => state.email);
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+ 
   const [register, setRegister] = useState({
     name: "",
     lastName: "",
     phoneNumber: "",
+    birthDate: "",
     email: "",
     password: "",
+
   });
   const [validateInput, setValidateInput] = useState(false);
   const [errors, setErrors] = useState({}); //estado manejar errores de validacion.
   const PasswordVisibility = () => {
     setValidateInput(!validateInput);
   };
+
+  useEffect(() => {
+    dispatch(getUsers());
+
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -38,31 +48,36 @@ function Register() {
       })
     );
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const emailExists = users.some((user) => user.email.toLowerCase() === register.email.toLowerCase());
+    const errorsValue = Object.values(errors);
+    
+    if (errorsValue.length === 0 && register.email.length) {
+      if (emailExists) {
+        alert("Ya existe un usuario con ese email");
+      } else {
+        dispatch(postUsers(register));
+        alert("¡Ha sido registrado exitosamente!");
+  
+        setRegister({
+          name: "",
+          lastName: "",
+          phoneNumber: "",
+          birthDate: "",
+          email: "",
+          password: "",
+        });
+      }
+    } else {
+      let errorsMessage = errorsValue.filter((error)=> error !== "")
+      if(errorsMessage){
+        alert("Por favor complete todos los campos correctamente")
+      }
+    }
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const existingemail = users.map((us) => us.email);
-  //   const errorsValue = Object.values(errors);
-  //   if (errorsValue.length === 0 && register.name.length) {
-  //     if (existingemail.includes(register.email)) {
-  //       alert("User email already exists");
-  //     } else {
-  //       dispatch(postUsers(register));
-  //       alert("Registered user");
-
-  //       setRegister({
-  //         name: "",
-  //         lastName: "",
-  //         phoneNumber: "",
-  //         email: "",
-  //         password: "",
-  //       });
-  //     }
-  //   }
-  // };
+  
 
   return (
     <div className={Styles.container}>
@@ -109,12 +124,26 @@ function Register() {
             <p className={Styles.error}>{errors.phoneNumber}</p>
           )}
 
+
+<label className={Styles.label}>Fecha de nacimiento</label>
+          <input
+            className={Styles.input}
+            type="date"
+            name="birthDate"
+            value={register.birthDate}
+            onChange={handleChange}
+          />
+
+
+
+
           <label className={Styles.label}>Email</label>
           <input
             className={Styles.input}
             type="email"
             name="email"
             value={register.email}
+            autoComplete="off"
             onChange={handleChange}
           />
           {setValidateInput.name && register.email && (
@@ -128,6 +157,7 @@ function Register() {
               type="password"
               name="password"
               value={register.password}
+              autoComplete="off"
               onChange={handleChange}
             />
             {setValidateInput.name && register.password && (
