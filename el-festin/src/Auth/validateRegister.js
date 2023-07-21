@@ -11,23 +11,23 @@ export default function Validate(register) {
   }
 
   if (register.name.length > 20) {
-    errors.name = "El nombre debe tener maximo 20 caracteres";
+    errors.name = "El nombre debe tener máximo 20 caracteres";
   }
   if (!regex.test(register.lastName)) {
     errors.lastName = "Caracteres inválidos";
   }
   if (register.lastName.length > 25) {
-    errors.lastName = "El apellido debe tener maximo 25 caracteres";
+    errors.lastName = "El apellido debe tener máximo 25 caracteres";
   }
   if (!regexPhone.test(register.phoneNumber)) {
-    errors.phoneNumber = "Numero de telefono invalido";
+    errors.phoneNumber = "Número de telefono inválido";
   }
   if (!regexEmail.test(register.email)) {
-    errors.email = "Dirección de correo electrónico no válida";
+    errors.email = "Dirección de correo electrónico inválida";
   }
   if (!regexPassword.test(register.password)) {
     errors.password =
-      "La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito";
+      "La contraseña debe tener de 8 a 16 caracteres, al menos un dígito";
   }
 
   return errors;
