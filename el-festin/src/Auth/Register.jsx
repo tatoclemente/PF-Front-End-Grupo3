@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
 import Validate from "./validateRegister";
-import Styles from "./Register.module.css";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers.js";
 import { useAuth } from "../Context/authContext.js";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { MdArrowBackIosNew } from "react-icons/md"
 import "./register.css";
 
 function Register() {
-  const logo =
-    "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
+  // const logo =
+  //   "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
@@ -92,6 +93,9 @@ function Register() {
 
   return (
     <div className="container">
+        <Link to="/auth/login">
+      <MdArrowBackIosNew className="backButton text-white position-absolute mt-1 fs-3"  style={{ left: "51%" }}/>
+      </Link>
       <form onSubmit={handleSubmit}>
         <ul className="list-unstyled">
           {/* <li className="d-flex justify-content-center align-items-center mt-3">
@@ -110,9 +114,9 @@ function Register() {
             <label className="inputDistance text-white fs-6 pb-2 pt-4">Nombre</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="login-input-container">
+          <div className="register-input-container">
             <input
-              className="login-input"
+              className="register-input"
               type="text"
               name="name"
               value={register.name}
@@ -127,9 +131,9 @@ function Register() {
             <label className="inputDistance text-white fs-6 pb-2 pt-3">Apellido</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="login-input-container">
+          <div className="register-input-container">
             <input
-              className="login-input"
+              className="register-input"
               type="text"
               name="lastName"
               value={register.lastName}
@@ -145,9 +149,9 @@ function Register() {
             <label className="inputDistance text-white fs-6 pb-2 pt-3">Telefono</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="login-input-container">
+          <div className="register-input-container">
             <input
-              className="login-input"
+              className="register-input"
               type="text"
               name="phoneNumber"
               value={register.phoneNumber}
@@ -163,7 +167,7 @@ function Register() {
           </li>
           <li className="d-flex justify-content-center align-items-center">
             <input
-              className="login-input"
+              className="register-input"
               type="date"
               name="birthDate"
               value={register.birthDate}
@@ -174,9 +178,9 @@ function Register() {
             <label className="inputDistance text-white fs-6 pb-2 pt-3">Email</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="login-input-container">
+          <div className="register-input-container">
             <input
-              className="login-input"
+              className="register-input"
               type="email"
               name="email"
               value={register.email}
@@ -193,9 +197,9 @@ function Register() {
             <label className="inputDistance text-white fs-6 pb-2 pt-3">Contraseña</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-            <div className="login-input-container">
+            <div className="register-input-container">
               <input
-                className="login-input"
+                className="register-input"
                 onClick={PasswordVisibility}
                 type="password"
                 name="password"
@@ -211,7 +215,7 @@ function Register() {
           <li className="d-flex justify-content-center align-items-center">
             <button
               type="submit"
-              className="buttonDistance d-flex justify-content-center align-items-center btn-login fs-6 fw-bold"
+              className="buttonDistance d-flex justify-content-center align-items-center btn-register fs-6 fw-bold"
             >
               Registrarse
             </button>
