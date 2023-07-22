@@ -4,15 +4,16 @@ import logo1 from "../Assets/logo1.png";
 import logo2 from "../Assets/logo2.png";
 import { logo } from "../Helpers/ImageUrl";
 import { Link } from "react-router-dom";
-import "./login.css";
 import { useAuth } from "../Context/authContext";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers";
+import "./login.css";
+import { MdArrowBackIosNew } from "react-icons/md"
 
 export const Login = () => {
   const users = useSelector((state) => state.users.users);
 
-  const { login, logingWithGoogle, resetPassword } = useAuth();
+  const { login, logingWithGoogle, resetPassword, logingWithFacebook } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState({
@@ -78,14 +79,14 @@ export const Login = () => {
       console.error("Error de autenticación:", error.message);
     }
   };
-  // const handleFacebookLogin = async () => {
-  //   try {
-  //     await logingWithFacebook();
-  //     navigate("/home");
-  //   } catch (error) {
-  //     console.error("Error de autenticación:", error.message);
-  //   }
-  // };
+  const handleFacebookLogin = async () => {
+    try {
+      await logingWithFacebook();
+      navigate("/home");
+    } catch (error) {
+      console.error("Error de autenticación:", error.message);
+    }
+  };
   const handleResetPassword = async () => {
     if (!user.email) return setErrors({ email: "Ingrese un email" });
     try {
@@ -100,18 +101,22 @@ export const Login = () => {
 
   return (
     <ul className="">
-      <li className="d-flex justify-content-center align-items-center mt-3">
-        <img src={logo} alt="imagen-logo" className="img-fluid w-25" />
+        <Link to="/">
+      <MdArrowBackIosNew className="backButton text-white position-absolute mt-4 fs-3"  style={{ left: "51%" }}/>
+      </Link>
+      <li className="d-flex justify-content-center align-items-center">
+        <img src={logo} alt="imagen-logo" className="img-fluid w-25 mt-4" />
       </li>
 
-      <li className="text-white fs-2 mt-5 d-flex justify-content-center align-items-center">
-        Ingresa aqui
+      <li className="text-white fs-3 mt-4 d-flex justify-content-center align-items-center">
+        Ingresa aquí
       </li>
       <form onSubmit={handleSubmit}>
         <li className="d-flex justify-content-center align-items-center">
-          <label className="text-white fs-5 pb-2 pt-4">Email</label>
+          <label className="text-white fs-6 pb-2 pt-4">Email</label>
         </li>
         <li className="d-flex justify-content-center align-items-center">
+        <div className="register-input-container">
           <input
             type="text"
             className="login-input"
@@ -119,12 +124,15 @@ export const Login = () => {
             value={user.email}
             onChange={handleChange}
           />
+           {errors.email && <p className="error-message text-danger position-absolute">{errors.email}</p>}
+          </div>
         </li>
-        {errors.email && <p className="text-danger">{errors.email}</p>}
+        
         <li className="d-flex justify-content-center align-items-center">
-          <label className="text-white fs-5 pb-2 pt-4">Contraseña</label>
+          <label className="text-white fs-6 pb-2 pt-4">Contraseña</label>
         </li>
         <li className="d-flex justify-content-center align-items-center">
+        <div className="register-input-container">
           <input
             type="text"
             className="login-input"
@@ -132,22 +140,24 @@ export const Login = () => {
             value={user.password}
             onChange={handleChange}
           />
+          {errors.password && <p className="error-message text-danger position-absolute">{errors.password}</p>}
+          </div>
         </li>
-        {errors.password && <p className="text-danger">{errors.password}</p>}
-        <li className=" d-flex justify-content-center pt-1">
+        
+        <li className=" d-flex justify-content-center pt-4 fs-6">
           <a
             href="#!"
             className="color-register-b"
             onClick={handleResetPassword}
           >
-            Olvidaste la contraseña
+            ¿Olvidaste la contraseña?
           </a>
         </li>
 
         <li className="d-flex justify-content-center align-items-center">
           <button
             type="submit"
-            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-5 fw-bold"
+            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-6 fw-bold"
           >
             Entrar
           </button>
@@ -156,7 +166,7 @@ export const Login = () => {
 
       <li className="d-flex justify-content-center align-items-center pt-4">
         <button
-          className="btn-google-rounded text-white fs-5"
+          className="btn-google-rounded text-white fs-6"
           onClick={handleGoogleLogin}
         >
           <span>
@@ -169,10 +179,10 @@ export const Login = () => {
           Continuar con Google
         </button>
       </li>
-      <li className="d-flex justify-content-center align-items-center pt-4">
+      <li className="d-flex justify-content-center align-items-center pt-3">
         <button
-          className="btn-face-rounded text-white fs-5"
-          //onClick={handleFacebookLogin}
+          className="btn-face-rounded text-white fs-6"
+          onClick={handleFacebookLogin}
         >
           <span>
             <img
@@ -185,8 +195,8 @@ export const Login = () => {
         </button>
       </li>
       <li className="d-flex justify-content-center align-items-center pt-4">
-        <p className="text-white fs-5 pb-2 pt-2 fs-5">
-          No tienes cuenta? &nbsp;
+        <p className="text-white fs-5 pt-1 fs-6">
+          ¿No tienes cuenta? &nbsp;
           <Link to="/auth/register" className="color-register-b">
             Registrate aqui
           </Link>

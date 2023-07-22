@@ -1,6 +1,7 @@
 import React from "react";
 import { Login } from "../../Auth/Login";
 import loginPhoto from "../../Assets/loginPhoto.jpg";
+import "./LoginPage.css"
 
 export const LoginPage = () => {
   return (
