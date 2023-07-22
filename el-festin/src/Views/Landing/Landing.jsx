@@ -13,7 +13,7 @@ function Landing() {
       <Suggestions/>
       <Buttons/>
       <CarouselPhotos />
-      <Maps/>
+      {/* <Maps /> */}
     </div>
   );
 }

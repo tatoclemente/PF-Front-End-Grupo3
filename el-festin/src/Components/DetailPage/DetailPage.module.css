@@ -1,18 +1,17 @@
 .container {
   display: flex;
-  border: solid 1px #b4b4b4;
   border-radius: 5px;
   height: calc(100vh - 112px);
 }
 
 .leftInfo {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
   width: 30vw;
   height: 100%;
-  padding: 1rem 0;
+  padding: 0;
   border-right: 1px solid var(--gray);
 }
 
@@ -20,17 +19,17 @@
   color: var(--main-color);
   font-size: 1.5rem;
   text-shadow: .5px .5px 1px var(--shadow);
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   background-color: var(--background-darkblue);
   width: 100%;
-  padding: .1rem 0 .4rem 0;
+  padding: 0;
 }
 
 .rightInfo {
   width: 70vw;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 1rem 2rem 2rem 2rem;
   color: #313045;
   height: 100%;
   justify-content: space-around;
@@ -62,6 +61,7 @@
   color: var(--primary-dark);
   font-size: 1rem;
   margin: 0px;
+  transform: translateX(-.5rem);
 }
 
 .containerPrice {
@@ -70,21 +70,23 @@
 }
 
 .mainImage {
-  width: 75%;
-  height: 25vh;
+  width: 70%;
+  height: 20vh;
   border-radius: 5px;
   border-radius: 15px;
   box-shadow: 1px 4px 7px var(--shadow);
-  margin-bottom: .5rem;
+  margin-bottom: .3rem;
+  object-fit: cover;
 }
 
 
 /* ADICIONAL PLATO PRINCIPAL */
 .additionalContainer {
   width: 95%;
-  height: 190px;
+  height: 170px;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--gray);
+  margin-bottom: 1rem;
+  /* border-bottom: 2px solid var(--gray); */
 }
 
 .additionalContainer p {
@@ -120,42 +122,156 @@
   object-fit: cover;
 }
 
-.selectedAdditionalContainer {
-  height: 100px;
-  width: 85%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 .guarnicionContainer:hover img {
   border: 1px solid var(--main-color);
   box-shadow: 1px 4px 7px var(--shadow);
 }
 
 .guanicionNameContainer {
+  display: flex;
+  flex-direction: column;
   min-height: 2.5rem;
 }
 
+.additionalNameContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 2rem;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
 .guarnicionName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-transform: uppercase;
-  font-size: .65rem;
+  width: 90%;
+  font-size: .7rem;
   font-weight: 500;
-  height: 2.5rem;
+  color: #707070;
+  margin: 5px;
+  padding: 0 .5rem;
+  line-height: 1;
+}
+.additionalName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  width: 90%;
+  font-size: .7rem;
+  font-weight: 500;
+  color: #707070;
+  position: absolute;
+  top: -1.7rem;
+  line-height: 1;
+}
+
+.selectedAdditionalContainer {
+  height: 170px;
   width: 100%;
-  color: var(--primary-dark);
-  line-height: 0;
+  padding: 0 2rem;
+  box-shadow: 1px 4px 7px var(--shadow);
+  border-radius: 10px; 
 }
 
 .selectedAdditional {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: 100px;
+  height: 170px;
+  padding: .3rem 0;
+}
+
+.selectedAdditionalImage {
   width: 70px;
   height: 70px;
+  border-radius: 5px;
+  object-fit: cover;
   border-radius: 10px;
   border: 1px solid var(--main-color);
+}
+.selectedAdditionalName {
+  font-size: .8rem;
+}
+.selectedAdditionalContent {
+  width: 100px;
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: .3rem 0;
+}
+.selectedAdditionalItem {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
   overflow: hidden;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+}
+.selectedItem {
+  width: 100px;
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: .3rem 0;
 
+}
+.quantityButtonsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.removeGarnishButton {
+  height: 1.5rem;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 1px 4px 4px var(--shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+
+.removeGarnishButton:hover {
+  background-color: var(--main-color);
 }
 
 
+.quantityButton {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 1px 4px 4px var(--shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantityButton:hover {
+  background-color: var(--main-color);
+}
 
 .secondaryImage {
   width: 70px;
@@ -196,6 +312,7 @@
 }
 
 .buttonAdd {
+  width: 40%;
   background-color: #313045;
   color: white;
   border: none;
@@ -207,7 +324,6 @@
   cursor: pointer;
   border-radius: 4px;
   transition-duration: 0.4s;
-  margin-top: 20px;
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -219,5 +335,7 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
 }
