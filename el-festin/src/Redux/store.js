@@ -13,7 +13,7 @@ export default configureStore ({
         drinks: drinkSlice,
         desserts: dessertSlice,
         sides: sideSlice,
-        users: usersSlice
+        users: usersSlice,
         order: orderSlice,
     }
 }) 
