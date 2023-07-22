@@ -25,76 +25,74 @@ const Detail = ({ dishDetail }) => {
   }, [dispatch]);
 
   // Estado local para la orden seleccionada
-  // const [order, setOrder] = useState({
-  //   dish: dishDetail,
-  //   garnish: null,
-  //   drinks: [],
-  //   desserts: [],
-  // });
-
-  // Estado local para la orden seleccionada
   const [order, setOrder] = useState({
-    dish: dishDetail,
+    dish: {
+      ...dishDetail,
+      quantity: dishDetail.quantity || 1,
+    },
     garnish: null,
     drinks: [],
     desserts: [],
   });
 
-
   // Funciones para actualizar el estado local de la orden
   const selectGarnish = (selectedGarnish) => {
-    setOrder((prevOrder) => ({ ...prevOrder, garnish: selectedGarnish }));
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      garnish: { ...selectedGarnish, quantity: 1 }, // Establecer cantidad en 1 para la guarnición seleccionada
+    }));
   };
 
-   // Nueva función para obtener la cantidad total de bebidas y postres seleccionados
-   const getTotalItems = () => {
-    const totalDrinks = order.drinks.reduce((total, drink) => total + drink.cantidad, 0);
-    const totalDesserts = order.desserts.reduce((total, dessert) => total + dessert.cantidad, 0);
-    return totalDrinks + totalDesserts;
+  const removeGarnish = () => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      garnish: null,
+    }));
   };
 
   // Función para obtener la cantidad total de bebidas seleccionadas
-const getTotalDrinks = () => {
-  return order.drinks.reduce((total, drink) => total + drink.cantidad, 0);
-};
+  const getTotalDrinks = () => {
+    return order.drinks.reduce((total, drink) => total + drink.quantity, 0);
+  };
 
-// Función para obtener la cantidad total de postres seleccionados
-const getTotalDesserts = () => {
-  return order.desserts.reduce((total, dessert) => total + dessert.cantidad, 0);
-};
+  // Función para obtener la cantidad total de postres seleccionados
+  const getTotalDesserts = () => {
+    return order.desserts.reduce(
+      (total, dessert) => total + dessert.quantity,
+      0
+    );
+  };
 
-  
   // Función para obtener la cantidad total de bebidas seleccionadas
   const selectDrink = (selectedDrink) => {
-
-    const totalItemsDrink = getTotalDrinks() 
+    const totalItemsDrink = getTotalDrinks();
 
     if (totalItemsDrink >= 2) {
-      alert('No puedes seleccionar más de dos bebidas en total.');
+      alert("No puedes seleccionar más de dos bebidas en total.");
       return;
     }
 
+    const existingDrink = order.drinks.find(
+      (drink) => drink.id === selectedDrink.id
+    );
 
-    const existingDrink = order.drinks.find((drink) => drink.id === selectedDrink.id);
-  
     if (existingDrink) {
-      if (existingDrink.cantidad === 2) {
-        alert('No puedes seleccionar más de dos unidades de esta bebida.');
+      if (existingDrink.quantity === 2) {
+        alert("No puedes seleccionar más de dos unidades de esta bebida.");
         return;
       }
-      
-  
+
       setOrder((prevOrder) => ({
         ...prevOrder,
         drinks: prevOrder.drinks.map((drink) =>
           drink.id === selectedDrink.id
-            ? { ...drink, cantidad: drink.cantidad + 1 }
+            ? { ...drink, quantity: drink.quantity + 1 }
             : drink
         ),
       }));
     } else {
       if (getTotalDrinks() < 2) {
-        const updatedDrink = { ...selectedDrink, cantidad: 1 };
+        const updatedDrink = { ...selectedDrink, quantity: 1 };
         setOrder((prevOrder) => ({
           ...prevOrder,
           drinks: [...prevOrder.drinks, updatedDrink],
@@ -104,32 +102,35 @@ const getTotalDesserts = () => {
       }
     }
   };
-  
-  const selectDessert = (selectedDessert) => {
 
-    const totalItemsDesserts = getTotalDesserts() 
+  const selectDessert = (selectedDessert) => {
+    const totalItemsDesserts = getTotalDesserts();
     if (totalItemsDesserts >= 2) {
-      alert('No puedes seleccionar más de dos postres en total.');
+      alert("No puedes seleccionar más de dos postres en total.");
       return;
     }
 
-    const existingDessert = order.desserts.find((dessert) => dessert.id === selectedDessert.id);
-  
+    const existingDessert = order.desserts.find(
+      (dessert) => dessert.id === selectedDessert.id
+    );
+
     if (existingDessert) {
-      if (existingDessert.cantidad === 2) {
-        alert('No puedes seleccionar más de dos unidades de este postre.');
+      if (existingDessert.quantity === 2) {
+        alert("No puedes seleccionar más de dos unidades de este postre.");
         return;
       }
-  
+
       setOrder((prevOrder) => ({
         ...prevOrder,
         desserts: prevOrder.desserts.map((dessert) =>
-          dessert.id === selectedDessert.id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
+          dessert.id === selectedDessert.id
+            ? { ...dessert, quantity: dessert.quantity + 1 }
+            : dessert
         ),
       }));
     } else {
       if (getTotalDesserts() < 2) {
-        const updatedDessert = { ...selectedDessert, cantidad: 1 };
+        const updatedDessert = { ...selectedDessert, quantity: 1 };
         setOrder((prevOrder) => ({
           ...prevOrder,
           desserts: [...prevOrder.desserts, updatedDessert],
@@ -139,19 +140,14 @@ const getTotalDesserts = () => {
       }
     }
   };
-  
-
-  
-  
-  
 
   const drinkTotalPrice = order.drinks.reduce(
-    (total, drink) => total + (drink.price || 0) * drink.cantidad,
+    (total, drink) => total + (drink.price || 0) * drink.quantity,
     0
   );
 
   const dessertTotalPrice = order.desserts.reduce(
-    (total, dessert) => total + (dessert.price || 0) * dessert.cantidad,
+    (total, dessert) => total + (dessert.price || 0) * dessert.quantity,
     0
   );
 
@@ -161,90 +157,87 @@ const getTotalDesserts = () => {
     drinkTotalPrice +
     dessertTotalPrice;
 
-    const increaseQuantity = (item) => {
-      const totalItemsDrink = getTotalDrinks() 
-      const totalItemsDesserts = getTotalDesserts() 
+  const increaseDrinksQuantity = (item) => {
+    const totalItemsDrink = getTotalDrinks();
+    // const totalItemsDesserts = getTotalDesserts()
 
-    
-      // Verificar si ya se han seleccionado 4 elementos en total
-      if (totalItemsDrink >= 2) {
-        alert('No puedes seleccionar más de dos bebidas en total.');
-        return;
-      }
+    // Verificar si ya se ha seleccionado el mismo elemento 2 veces
+    if (item.cantidad === 2) {
+      alert("No puedes seleccionar más de dos unidades de este elemento.");
+      return;
+    }
 
-      if (totalItemsDesserts >= 2) {
-        alert('No puedes seleccionar más de dos postres en total.');
-        return;
-      }
-    
-      // Verificar si ya se ha seleccionado el mismo elemento 2 veces
-      if (item.cantidad === 2) {
-        alert('No puedes seleccionar más de dos unidades de este elemento.');
-        return;
-      }
-    
-      if (item.type === 'bebida' && getTotalDrinks() >= 2) {
-        alert('No puedes seleccionar más de dos bebidas.');
-        return;
-      }
-    
-      if (item.type === 'postre' && getTotalDesserts() >= 2) {
-        alert('No puedes seleccionar más de dos postres.');
-        return;
-      }
-    
-      // Incrementar la cantidad del elemento seleccionado
-      setOrder((prevOrder) => ({
-        ...prevOrder,
-        drinks: prevOrder.drinks.map((drink) =>
-          drink.id === item.id ? { ...drink, cantidad: drink.cantidad + 1 } : drink
-        ),
-        desserts: prevOrder.desserts.map((dessert) =>
-          dessert.id === item.id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
-        ),
-      }));
-    };
-    
-    const decreaseQuantity = (item) => {
-      setOrder((prevOrder) => ({
-        ...prevOrder,
-        drinks: prevOrder.drinks.map((drink) =>
-          drink.id === item.id && drink.cantidad > 0
-            ? { ...drink, cantidad: drink.cantidad - 1 }
+    // Verificar si ya se han seleccionado 2 elementos en total
+    if (totalItemsDrink >= 2) {
+      alert("No puedes seleccionar más de dos bebidas en total.");
+      return;
+    }
+
+    if (item.type === "bebida" && getTotalDrinks() >= 2) {
+      alert("No puedes seleccionar más de dos bebidas.");
+      return;
+    }
+
+    // Incrementar la cantidad del elemento seleccionado
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      drinks: prevOrder.drinks.map((drink) =>
+        drink.id === item.id
+          ? { ...drink, quantity: drink.quantity + 1 }
+          : drink
+      ),
+    }));
+  };
+
+  const increaseDessertsQuantity = (item) => {
+    const totalItemsDesserts = getTotalDesserts();
+
+    // Verificar si ya se ha seleccionado el mismo elemento 2 veces
+    if (item.quantity === 2) {
+      alert("No puedes seleccionar más de dos unidades de este elemento.");
+      return;
+    }
+
+    if (totalItemsDesserts >= 2) {
+      alert("No puedes seleccionar más de dos postres en total.");
+      return;
+    }
+
+    if (item.type === "postre" && getTotalDesserts() >= 2) {
+      alert("No puedes seleccionar más de dos postres.");
+      return;
+    }
+
+    // Incrementar la cantidad del elemento seleccionado
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      desserts: prevOrder.desserts.map((dessert) =>
+        dessert.id === item.id
+          ? { ...dessert, quantity: dessert.quantity + 1 }
+          : dessert
+      ),
+    }));
+  };
+
+  const decreaseQuantity = (item) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      drinks: prevOrder.drinks
+        .map((drink) =>
+          drink.id === item.id && drink.quantity > 0
+            ? { ...drink, quantity: drink.quantity - 1 }
             : drink
-        ),
-        desserts: prevOrder.desserts.map((dessert) =>
-          dessert.id === item.id && dessert.cantidad > 0
-            ? { ...dessert, cantidad: dessert.cantidad - 1 }
+        )
+        .filter((drink) => drink.quantity > 0), // Elimina los elementos con cantidad 0
+      desserts: prevOrder.desserts
+        .map((dessert) =>
+          dessert.id === item.id && dessert.quantity > 0
+            ? { ...dessert, quantity: dessert.quantity - 1 }
             : dessert
-        ),
-      }));
-    };
-    
-    
-    
-
-    const addToCartHandler = () => {
-      // Verificar si la cantidad total de bebidas y postres seleccionados es igual a 4
-      if (order.drinkCount + order.dessertCount === 4) {
-        // Realizar un dispatch para agregar la orden al carrito global
-        dispatch(addToCart(order));
-        // Limpiar el estado local de la orden después de agregarla al carrito
-        setOrder({
-          dish: dishDetail,
-          garnish: null,
-          drinks: [],
-          desserts: [],
-          drinkCount: 0,
-          dessertCount: 0,
-        });
-        // Opcional: Mostrar una notificación o mensaje de éxito al usuario
-        alert("¡Producto agregado al carrito con éxito!");
-      } else {
-        alert("Debes seleccionar dos bebidas y dos postres para agregar al carrito.");
-      }
-    };
-    
+        )
+        .filter((dessert) => dessert.quantity > 0), // Elimina los elementos con cantidad 0
+    }));
+  };
 
   const pastaGarnish = sides.filter((side) => side.type === "salsa");
 
@@ -270,9 +263,9 @@ const getTotalDesserts = () => {
       : [];
 
   // Filtrar los elementos con cantidad mayor a 0 antes de mostrarlos en el Slider
-  const selectedDrinks = order.drinks.filter((drink) => drink.cantidad > 0);
+  const selectedDrinks = order.drinks.filter((drink) => drink.quantity > 0);
   const selectedDesserts = order.desserts.filter(
-    (dessert) => dessert.cantidad > 0
+    (dessert) => dessert.quantity > 0
   );
 
   const combinedItems = [
@@ -350,6 +343,61 @@ const getTotalDesserts = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  const typeAdditional = (item) =>
+    order.garnish === item
+      ? "Guarnición:"
+      : order.drinks.includes(item)
+      ? "Bebida:"
+      : order.desserts.includes(item)
+      ? "Postre:"
+      : "";
+
+  //DISPATCH DE LA ORDEN AL ESTADO GLOBAL
+
+  const addToCartHandler = () => {
+    // Verificar si hay al menos un artículo seleccionado (guarnición, bebida o postre)
+    if (order.garnish || order.drinks.length > 0 || order.desserts.length > 0) {
+      // Realizar un dispatch para agregar la orden al carrito global
+      dispatch(addToCart(order));
+      // Limpiar el estado local de la orden después de agregarla al carrito
+      setOrder({
+        dish: dishDetail,
+        garnish: null,
+        drinks: [],
+        desserts: [],
+      });
+      // Opcional: Mostrar una notificación o mensaje de éxito al usuario
+      alert("¡Producto agregado al carrito con éxito!");
+    } else {
+      alert("Debes seleccionar al menos un artículo para agregar al carrito.");
+    }
+  };
+
+  // Función para mostrar la confirmación con los nombres de los items seleccionados
+  const showConfirmation = () => {
+    const dishQuantity = order.dish.quantity ? order.dish.quantity : 1;
+    // Obtener los nombres de los items seleccionados en la orden
+    const selectedItemsNames = [
+      order.garnish
+        ? [`${dishQuantity} ${order.dish.name} con ${order.garnish.name}`]
+        : [`${dishQuantity} ${order.dish.name}`],
+      // ...(order.garnish ? [order.garnish.name] : []), // Agrega el nombre de la guarnición si existe
+      ...order.drinks.map((drink) => `${drink.quantity} ${drink.name}`), // Agrega los nombres de las bebidas seleccionadas
+      ...order.desserts.map((dessert) => `${dessert.quantity} ${dessert.name}`), // Agrega los nombres de los postres seleccionados
+    ];
+
+    // Construir el mensaje de confirmación
+    const confirmationMessage = `Esta por agregar los siguientes items al carrito: ${selectedItemsNames.join(
+      ", "
+    )}. ¿Es correcto?`;
+
+    // console.log(confirmationMessage);
+    // Mostrar la ventana de confirmación al usuario
+    if (window.confirm(confirmationMessage)) {
+      addToCartHandler(); // Llamada a la función para agregar al carrito
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.leftInfo}>
@@ -399,13 +447,7 @@ const getTotalDesserts = () => {
               {combinedItems.map((item, index) => (
                 <div key={index} className={styles.selectedAdditional}>
                   <span className={styles.selectedAdditionalName}>
-                    {order.garnish === item
-                      ? "Guarnición:"
-                      : order.drinks.includes(item)
-                      ? "Bebida:"
-                      : order.desserts.includes(item)
-                      ? "Postre:"
-                      : ""}
+                    {typeAdditional(item)}
                   </span>{" "}
                   <div className={styles.selectedAdditionalContent}>
                     <img
@@ -415,7 +457,7 @@ const getTotalDesserts = () => {
                     />
                     <div className={styles.additionalNameContainer}>
                       <span className={styles.additionalName}>{item.name}</span>
-                      {order.garnish !== item && ( // Evita renderizar los botones para guarniciones
+                      {order.garnish !== item ? ( // Evita renderizar los botones para guarniciones
                         <div className={styles.quantityButtonsContainer}>
                           <button
                             className={styles.quantityButton}
@@ -423,12 +465,26 @@ const getTotalDesserts = () => {
                           >
                             -
                           </button>
-                          <span>{item.cantidad}</span>
+                          <span>{item.quantity}</span>
                           <button
                             className={styles.quantityButton}
-                            onClick={() => increaseQuantity(item)}
+                            onClick={
+                              typeAdditional(item) === "Bebida:"
+                                ? () => increaseDrinksQuantity(item)
+                                : () => increaseDessertsQuantity(item)
+                            }
                           >
                             +
+                          </button>
+                        </div>
+                      )
+                      :( // Botón para eliminar la selección de la guarnición
+                        <div className={styles.removeButtonContainer}>
+                          <button
+                            className={styles.removeGarnishButton}
+                            onClick={removeGarnish}
+                          >
+                            Eliminar
                           </button>
                         </div>
                       )}
@@ -500,14 +556,7 @@ const getTotalDesserts = () => {
           <div className={styles.containerPrice}>
             <h2 className={styles.titles}>{`Suma total: $ ${price}`}</h2>
           </div>
-          <button
-            className={styles.buttonAdd}
-            onClick={() =>
-              window.confirm(
-                `Esta por agregar ${dishDetail.name} al carrito, es correcto?`
-              )
-            }
-          >
+          <button className={styles.buttonAdd} onClick={showConfirmation}>
             Agregar al carrito
           </button>
         </div>
