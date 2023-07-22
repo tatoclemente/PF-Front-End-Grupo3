@@ -1,9 +1,7 @@
-import React from 'react'
+import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
 
 function ShoppingCart() {
-  return (
-    <div>ShoppingCart</div>
-  )
+  return <MercadoPago />;
 }
 
-export default ShoppingCart
+export default ShoppingCart;

@@ -13,7 +13,11 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
 import { RegisterPage } from "./Views/Register/RegisterPage";
+
+import ShoppingCart from "./Views/ShoppingCart/ShoppingCart";
+
 import { Profile } from "./Components/Profile/Profile";
+
 
 function App() {
   let location = useLocation();
@@ -25,6 +29,7 @@ function App() {
       location.pathname !== "/auth/register" ? (
         <Navbar />
       ) : undefined}
+      
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -32,13 +37,13 @@ function App() {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/detail/:id" element={<Detail />} />
           <Route
             path="/*"
             element={
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/detail/:id" element={<Detail />} />
                   <Route path="/dashboard" element={<DashboardView />} />
                 </Routes>
               </PrivateRoute>
