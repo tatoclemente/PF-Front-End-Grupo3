@@ -2,7 +2,7 @@ import style from "./CardsContainer.module.css";
 import { getDishes } from "../../../Redux/actions/getAllDishes";
 import {getDrinks} from '../../../Redux/actions/actionsDrinks/getAllDrinks'
 import { useDispatch, useSelector } from "react-redux";
-
+import logo from "../../../images/default-image.jpg";
 import Card from "../../Card/Card";
 import { useEffect, useRef, useState } from "react";
 import Pagination from "../../Pagination/Pagination";

@@ -4,18 +4,20 @@ import drinkSlice  from "./slices/bebidasSlice";
 import dessertSlice from "./slices/postresSlice";
 import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
+import orderSlice from "./slices/orderSlice";
 
 const reducer = combineReducers({
     dishes: dishesSlice,
         drinks: drinkSlice,
         desserts: dessertSlice,
         sides: sideSlice,
-        users: usersSlice
+        users: usersSlice,
+        order: orderSlice
 })
 
 
 export default configureStore ({
-    reducer
+    reducer    
 }) 
 
 
