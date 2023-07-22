@@ -7,17 +7,25 @@
   color: var(--main-color);
 }
 
+.backButton{
+  cursor: pointer;
+}
+
+.backButton:hover{
+transform: scale(1.1);
+}
+
 .login-input {
   border-radius: 15px;
   border: 1px solid #ccc;
   transition: border-color 0.3s ease;
-  padding-left: 20px;
-  height: 40px;
-  width: 450px;
+  padding: 10px;
+  height: 32px;
+  width: 350px;
 }
 
 .img-login-button{
-  width: 50px;
+  width: 45px;
   height: auto;
   padding-right: 8px;
 }
@@ -38,19 +46,14 @@
   background-color:var(--main-color-75);
 }
 
-
-
-
-
 .img-cover{
   object-fit: cover;
 }
 
 .btn-google-rounded {
   width: 350px;
-  height: 60px;
+  height: 50px;
   border-radius: 30px;
-  padding: 10px;
   font-size: 16px;
   text-align: center;
   background-color:#1D81CE;
@@ -59,9 +62,8 @@
 }
 .btn-face-rounded {
   width: 350px;
-  height: 60px;
+  height: 50px;
   border-radius: 30px;
-  padding: 10px;
   font-size: 16px;
   text-align: center;
   background-color:#3B5998;
@@ -73,7 +75,11 @@
   background-color:#3b5898a7;
 }
 
-
 .btn-google-rounded:hover {
   background-color:#1d81ceaa;
+}
+
+.error-message {
+  font-size: 12px;
+  margin-top: 3px;
 }
