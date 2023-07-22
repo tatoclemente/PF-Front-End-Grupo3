@@ -13,6 +13,7 @@ import {AuthProvider} from "./Context/authContext"
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
 import { RegisterPage } from "./Views/Register/RegisterPage";
+import ShoppingCart from "./Views/ShoppingCart/ShoppingCart";
 
 function App() {
   let location = useLocation();
@@ -39,6 +40,8 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/detail/:id" element={<Detail />} />
                 <Route path="/dashboard" element={<DashboardView />} />
+                <Route path="/shoppingCart" element={<ShoppingCart />} />
+
               {/* </Routes>
             </PrivateRoute>
           }
