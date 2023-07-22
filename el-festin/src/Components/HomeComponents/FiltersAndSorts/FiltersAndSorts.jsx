@@ -1,17 +1,43 @@
 import React from 'react'
 import style from './FiltersAndSorts.module.css'
-import { useDispatch  } from 'react-redux'
-import { sortDishesByGluten, sortDishesByVeggy, sortByCalories, sortByPrice } from '../../../Redux/slices/platosSlice';
+import { useDispatch, useSelector  } from 'react-redux'
+import { sortDishesByGluten, sortDishesByVeggy, sortByCalories, sortByPrice, sortDishesByType } from '../../../Redux/slices/platosSlice';
+import { sortDrinksByAlchol, sortDrinksByPrice, sortDrinksByVolume} from '../../../Redux/slices/bebidasSlice';
 import { RiArrowLeftSLine } from "react-icons/ri";
+import { useEffect } from 'react'
+import { getDrTypes } from '../../../Redux/actions/actionsDrinks/getDrinksTypes';
 
 
 
 
 
-function FiltersAndSorts({ state }) {
-  
-  const [isCollapsed, setIsCollapsed] = state;
+function FiltersAndSorts(props) {
+  const [isCollapsed, setIsCollapsed] = props.state;
 const dispatch = useDispatch();
+const drinkType = useSelector((state) => state.drinks.drinksTypes)
+
+
+useEffect(()=>{
+  dispatch(getDrTypes())
+},[])
+
+const handleVolume = (e) =>{
+  const val = e.target.value;
+  dispatch(sortDrinksByVolume(val))
+}
+
+const handleAlcohol = (e) =>{
+  const val = e.target.value;
+  dispatch(sortDrinksByAlchol(val))
+}
+const handlePriceDrink = (e) =>{
+  const val = e.target.value;
+  
+  dispatch(sortDrinksByPrice(val))
+
+}
+
+
 
 const handleGluten = (e) => {
   const val = e.target.value;
@@ -68,10 +94,13 @@ const handleCalories = (e) => {
         {isCollapsed?<p className={style.text}>abrir barra de filtros</p>:null}
       </div>
       
-      <div className={style.filteredContent} isCollapsed={isCollapsed}>
+     
+     <div className={style.filteredContent} isCollapsed={isCollapsed}>
+      {props.stateFood !== 'all' ? <div> 
         <div className={style.filtersContainer}>
           <h6>APLICAR FILTROS</h6>
-          <div className={style.filters}>
+          {props.stateFood === 'dishes' ?<div>
+           <div className={style.filters}>
           <label>¿Sin gluten?</label>
           <select className={style.select} onChange={handleGluten}>
             <option selected disabled>Con o sin gluten</option>
@@ -89,12 +118,26 @@ const handleCalories = (e) => {
             <option value="veggy">Vegetariano</option>
             <option value="noVeggy">No vegetariano</option>
           </select>
+          </div> 
+          </div> : null}
+          {props.stateFood === 'drinks' ? <div>
+          <div className={style.filters}>
+          <label>¿Sin alcohol?</label>
+          <select className={style.select} onChange={handleAlcohol}>
+            <option selected disabled>Con o sin alcohol</option>
+            <option value="all">Todos</option>
+            <option value="alcohol">Con alcohol</option>
+            <option value="noAlcohol">Sin alcohol</option>
+          </select>
           </div>
+          </div> : null}
         </div>
 
         <div className={style.filtersContainer}>
           <h6>ORDENAMIETOS</h6>
 
+          {props.stateFood === 'dishes' ?
+          <div>
           <div className={style.filters}>
             <label>Ordene por calorías</label>
             <select className={style.select} onChange={handleCalories}>
@@ -112,11 +155,33 @@ const handleCalories = (e) => {
             <option value="desc">Mayor precio</option>
           </select>
           </div>
-        </div>
+        </div> : null}
+        {props.stateFood === 'drinks' ?
+          <div>
+          <div className={style.filters}>
+            <label>Ordene por volumen</label>
+            <select className={style.select} onChange={handleVolume}>
+              <option selected disabled>Elige por volumen</option>
+              <option value="asc">Más volumen</option>
+              <option value="desc">Menos volumen</option>
+            </select>
+          </div>
+
+          <div className={style.filters}>
+          <label>Ordene por precio</label>
+          <select className={style.select} onChange={handlePriceDrink}>
+            <option selected disabled>Elige por precio</option>
+            <option value="asc">Mayor precio</option>
+            <option value="desc">Menor precio</option>
+          </select>
+          </div>
+        </div> : null}
      
       </div>
-    
+      </div>: null}
+    </div> 
     </div>
+    
   );
 }
 
