@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 
 export const Navbar = ({ isDashboard }) => {
+  const location = useLocation();
+
+  const landing = location.pathname
   return (
     <>
       <div className="container-fluid position-relative navbarLanding">
@@ -14,7 +17,7 @@ export const Navbar = ({ isDashboard }) => {
             </Link>
             {isDashboard ? null : (
               <div className="d-none d-lg-block">
-                <SearchBar />
+                <SearchBar path={landing}/>
               </div>
             )}
             {isDashboard ? (
@@ -26,7 +29,7 @@ export const Navbar = ({ isDashboard }) => {
             ) : (
               <div className="d-none d-lg-block pe-3">
                 <Link
-                  to="/login"
+                  to="/auth/login"
                   className="text-decoration-none text-white fs-3"
                 >
                   {" "}

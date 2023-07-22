@@ -7,45 +7,48 @@ import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
+import { AuthProvider } from "./Context/authContext";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
 import { RegisterPage } from "./Views/Register/RegisterPage";
+import { Profile } from "./Components/Profile/Profile";
 
 function App() {
   let location = useLocation();
 
   return (
     <div className={style.appContainer}>
-      {location.pathname !== "/login" &&
+      {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
-      location.pathname !== "/login/auth/register" ? (
+      location.pathname !== "/auth/register" ? (
         <Navbar />
       ) : undefined}
-
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login/auth/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/*"
-          element={
-            <PrivateRoute>
-              <Routes>
-                <Route path="/home" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/detail/:id" element={<Detail />} />
-                <Route path="/dashboard" element={<DashboardView />} />
-              </Routes>
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-
-      {location.pathname !== "/login" &&
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route
+            path="/*"
+            element={
+              <PrivateRoute>
+                <Routes>
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/detail/:id" element={<Detail />} />
+                  <Route path="/dashboard" element={<DashboardView />} />
+                </Routes>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+      {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
-      location.pathname !== "/login/auth/register" ? (
+      location.pathname !== "/auth/register" ? (
         <Footer />
       ) : undefined}
     </div>

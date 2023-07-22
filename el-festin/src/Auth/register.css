@@ -1,0 +1,46 @@
+.bg-color-blue {
+    background-color: var(--background-darkblue);
+    margin-left: -12px;
+  }
+  
+  .color-register-b{
+    color: var(--main-color);
+  }
+  
+  .register-input {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+    padding: 10px;
+    height: 32px;
+    width: 350px;
+  }
+  
+  .btn-register{
+    width: 180px;
+    height: 32px;
+    border-radius: 30px;
+    padding: 10px;
+    font-size: 16px;
+   text-align: center;
+    background-color:var(--main-color);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-register:hover {
+    background-color:var(--main-color-75);
+  }
+  
+  .error-message {
+    font-size: 12px;
+    margin-top: 3px;
+  }
+  
+  .inputDistance{
+  margin-top: 2px;
+  }
+  
+  .buttonDistance{
+    margin-top: 30px;
+  }
