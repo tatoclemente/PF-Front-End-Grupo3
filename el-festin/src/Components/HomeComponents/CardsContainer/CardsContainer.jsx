@@ -1,5 +1,6 @@
 import style from "./CardsContainer.module.css";
 import { getDishes } from "../../../Redux/actions/getAllDishes";
+import {getDrinks} from '../../../Redux/actions/actionsDrinks/getAllDrinks'
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../../images/default-image.jpg";
 import Card from "../../Card/Card";
@@ -18,13 +19,19 @@ export const scrollToTopRef = (containerRef) => {
 };
 
 // {type, image, name, price, rating, description, id, addToCart}
-const CardsContainer = () => {
+const CardsContainer = (props) => {
+  let {allThings} = props
   const [currentPage, setCurrentPage] = useState(0);
+  
   const containerRef = useRef(null);
 
   const dispatch = useDispatch();
 
   const allDishes = useSelector((state) => state.dishes.dishes);
+  const allDrinks = useSelector((state) => state.drinks.drinks);
+  
+
+  
 
   // const [dishes, setDishes] = useState([]);
 
@@ -32,7 +39,11 @@ const CardsContainer = () => {
     if (allDishes.length === 0) {
       dispatch(getDishes());
     }
-  }, [dispatch, allDishes]);
+    if(allDrinks.length === 0){
+      dispatch(getDrinks());
+    }}
+    
+  , [dispatch, allDishes]);
 
   // Constante de recetas por página
   const perPage = 6;
@@ -56,7 +67,7 @@ const CardsContainer = () => {
   // Me guardo el total de las páginas a travez de la funcion getTotalPage(),
   // que recibe toda la informacion necesaria para calcularlo
 
-  const totalPages = Math.ceil(allDishes.length / perPage);
+  const totalPages = Math.ceil(allThings.length / perPage);
 
   const addToCart = (id) => {
     window.alert(`orden ${id} agregada al carrito`);
@@ -72,7 +83,7 @@ const CardsContainer = () => {
         />
       </div>
       <div className={style.cardsContainer}>
-        {allDishes.slice(startIdx, endIdx).map((dish, index) => {
+        {allThings.slice(startIdx, endIdx).map((dish, index) => {
           return (
             <div key={index}>
               <Card
