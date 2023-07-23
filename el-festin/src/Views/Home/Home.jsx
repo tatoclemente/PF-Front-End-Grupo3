@@ -18,7 +18,6 @@ const Home = () => {
   
   const dishType = useSelector((state) => state.dishes.dishesTypes);
 
-
   const handleType = (e) => {
     const val = e.target.getAttribute("data-value");
     dispatch(sortDishesByType(val));
@@ -41,7 +40,7 @@ const Home = () => {
   // const allDeserts = useSelector((state) => state.desserts.desserts);
   // console.log(allDeserts)
   const all = allDishes.concat(allDrinks)
-  console.log(all)
+  // console.log(all)
 
   useEffect(() => {
     if (allDishes.length === 0) {

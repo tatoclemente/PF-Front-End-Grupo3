@@ -4,7 +4,7 @@ import drinkSlice  from "./slices/bebidasSlice";
 import dessertSlice from "./slices/postresSlice";
 import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
-import orderSlice from "./slices/orderSlice";
+import orderSlice, { cartMiddleware } from "./slices/orderSlice";
 
 const reducer = combineReducers({
     dishes: dishesSlice,
@@ -12,12 +12,19 @@ const reducer = combineReducers({
         desserts: dessertSlice,
         sides: sideSlice,
         users: usersSlice,
-        order: orderSlice
+        cart: orderSlice,
+        // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cartMiddleware),
+    
 })
 
 
-export default configureStore ({
-    reducer    
-}) 
+const customizedMiddleware = (getDefaultMiddleware) =>
+  getDefaultMiddleware().concat(cartMiddleware);
 
+const store = configureStore({
+  reducer: reducer,
+  middleware: customizedMiddleware,
+});
+
+export default store;
 

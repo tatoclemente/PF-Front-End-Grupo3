@@ -7,10 +7,13 @@
   align-items: center;
   position: fixed;
   top: 0;
-  left: 0;border-bottom: 2px solid var(--main-color);
+  left: 0;
+  border-bottom: 2px solid var(--main-color);
 
 }
-
+.cart {
+  cursor: pointer;
+}
 .bg-countCart {
   background-color: #fbc32c;
 }
