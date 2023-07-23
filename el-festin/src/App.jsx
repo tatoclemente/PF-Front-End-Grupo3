@@ -15,7 +15,10 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
 import { RegisterPage } from "./Views/Register/RegisterPage";
+
+
 import { Profile } from "./Components/Profile/Profile";
+
 
 function App() {
   let location = useLocation();
@@ -51,7 +54,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/detail/:id" element={<Detail toggleCart={toggleCart} />} />
-          {/* <Route path="/shopping-cart" element={<ShoppingCart />} /> */}
           <Route
             path="/*"
             element={

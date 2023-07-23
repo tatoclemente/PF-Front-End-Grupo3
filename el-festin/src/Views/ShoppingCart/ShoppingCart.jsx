@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
+import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";

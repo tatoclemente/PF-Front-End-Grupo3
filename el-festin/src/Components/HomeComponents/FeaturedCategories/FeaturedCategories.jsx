@@ -1,12 +1,9 @@
 import Style from "./FeaturedCategories.module.css";
 import logo from "../../../images/default-image.jpg";
-import { getTypes } from "../../../Redux/actions/getDishesTypes";
-import { useSelector, useDispatch } from "react-redux";
-import { sortDishesByType } from "../../../Redux/slices/platosSlice";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useEffect } from "react";
+
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -38,22 +35,8 @@ function SamplePrevArrow(props) {
   );
 }
 
-const FeaturedCategories = () => {
-  const dishType = useSelector((state) => state.dishes.dishesTypes);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dishType.length === 0 &&
-    dispatch(getTypes());
-  }, [dispatch, dishType]);
-
-
-  const handleType = (e) => {
-    const val = e.target.getAttribute("data-value");
-    console.log(val);
-    dispatch(sortDishesByType(val));
-  };
+const FeaturedCategories = ( props) => {
+ 
 
   // Configuración del slider
   const sliderSettings = {
@@ -96,13 +79,26 @@ const FeaturedCategories = () => {
   return (
     <div className={Style.mainContainer}>
       <Slider className={Style.listContainer} {...sliderSettings}>
-        {dishType &&
-          dishType.map((type, index) => (
+      <div
+              data-value={'all'}
+              className={Style.categoryContainer}
+              onClick={props.handleToShow}
+            >
+              <img
+                data-value={'all'}
+                className={Style.imgCategory}
+                src={logo}
+                alt=" "
+              />
+              <p>Todos</p>
+            </div>
+        {
+          props.dishType.map((type, index) => (
             <div
               data-value={type}
               key={index}
               className={Style.categoryContainer}
-              onClick={handleType}
+              onClick={props.handleType}
             >
               <img
                 data-value={type}
@@ -113,6 +109,32 @@ const FeaturedCategories = () => {
               <p>{type}</p>
             </div>
           ))}
+           <div
+              data-value={'drinks'}
+              className={Style.categoryContainer}
+              onClick={props.handleToShow}
+            >
+              <img
+                data-value={'drinks'}
+                className={Style.imgCategory}
+                src={logo}
+                alt=" "
+              />
+              <p>Bebidas</p>
+            </div>
+            <div
+              data-value={'deserts'}
+              className={Style.categoryContainer}
+              onClick={props.handleToShow}
+            >
+              <img
+                data-value={'deserts'}
+                className={Style.imgCategory}
+                src={logo}
+                alt=" "
+              />
+              <p>Postres</p>
+            </div>
       </Slider>
     </div>
   );
