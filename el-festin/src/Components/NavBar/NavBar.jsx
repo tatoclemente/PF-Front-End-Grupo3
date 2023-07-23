@@ -2,9 +2,14 @@ import { Link,useLocation } from "react-router-dom";
 import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
+import { useSelector } from "react-redux";
+import calculateTotalItems from "../functions/calculateTotalItems";
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();
+  const order = useSelector(state => state.cart)
+
+  const totalItems = calculateTotalItems(order)
 
   const landing = location.pathname
   return (
@@ -27,7 +32,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                 </Link>
               </div>
             ) : (
-              <div className="d-none d-lg-flex align-items-center pe-5">
+              <div className="d-none d-lg-flex align-items-center pe-4">
                 <Link
                   to="/auth/login"
                   className="text-decoration-none text-white fs-3"
@@ -41,8 +46,8 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                     alt="cart"
                     className="img-width-cart position-relative"
                   />
-                  <span className="position-absolute top-50 start-110 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
-                    5
+                  <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
+                    {totalItems}
                   </span>
                 </div>
               </div>

@@ -15,6 +15,7 @@ import styles from "./DetailPage.module.css";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import { addToCart } from "../../Redux/slices/orderSlice";
+import capitalizeFirstLetter from "../functions/capitalizeFirstLetter";
 
 const Detail = ({ dishDetail, toggleCart }) => {
   const dispatch = useDispatch();
@@ -393,9 +394,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+ 
 
   const typeAdditional = (item) =>
     order.garnish === item
@@ -460,15 +459,17 @@ const Detail = ({ dishDetail, toggleCart }) => {
       showCancelButton: true,
       confirmButtonText: 'Seguir comprando',
       denyButtonText: `Ir a pagar`,
+      denyButtonColor: 'var(--main-color)',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        addToCartHandler(); // Llamada a la función para agregar al carrito
         Navigate('/home')
       } else if (result.isDenied) {
+        addToCartHandler(); // Llamada a la función para agregar al carrito
         toggleCart()
         Navigate('/home')
       }
-      addToCartHandler(); // Llamada a la función para agregar al carrito
     })
 
     // if (window.confirm(confirmationMessage)) {
