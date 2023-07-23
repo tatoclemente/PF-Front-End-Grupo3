@@ -68,7 +68,7 @@ const handleCalories = (e) => {
         {isCollapsed?<p className={style.text}>abrir barra de filtros</p>:null}
       </div>
       
-      <div className={style.filteredContent} isCollapsed={isCollapsed}>
+      <div className={style.filteredContent} iscollapsed={isCollapsed}>
         <div className={style.filtersContainer}>
           <h6>APLICAR FILTROS</h6>
           <div className={style.filters}>

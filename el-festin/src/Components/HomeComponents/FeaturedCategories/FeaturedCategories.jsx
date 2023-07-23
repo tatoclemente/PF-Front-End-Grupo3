@@ -39,13 +39,15 @@ function SamplePrevArrow(props) {
 }
 
 const FeaturedCategories = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTypes());
-  }, [dispatch]);
-
   const dishType = useSelector((state) => state.dishes.dishesTypes);
-  console.log(dishType);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dishType.length === 0 &&
+    dispatch(getTypes());
+  }, [dispatch, dishType]);
+
 
   const handleType = (e) => {
     const val = e.target.getAttribute("data-value");

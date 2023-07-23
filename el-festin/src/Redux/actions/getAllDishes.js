@@ -17,5 +17,3 @@ export const getDishes = () => async (dispatch) => {
     }
   };
     
-
-

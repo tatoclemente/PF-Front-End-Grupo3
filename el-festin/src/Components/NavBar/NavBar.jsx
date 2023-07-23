@@ -3,7 +3,7 @@ import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 
-export const Navbar = ({ isDashboard }) => {
+export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();
 
   const landing = location.pathname
@@ -27,7 +27,7 @@ export const Navbar = ({ isDashboard }) => {
                 </Link>
               </div>
             ) : (
-              <div className="d-none d-lg-block pe-3">
+              <div className="d-none d-lg-flex align-items-center pe-5">
                 <Link
                   to="/auth/login"
                   className="text-decoration-none text-white fs-3"
@@ -35,7 +35,7 @@ export const Navbar = ({ isDashboard }) => {
                   {" "}
                   Ingresar{" "}
                 </Link>
-                <Link to="/cart" className="text-end">
+                <div className="text-end cart" onClick={toggleCart}>
                   <img
                     src={cart}
                     alt="cart"
@@ -44,7 +44,7 @@ export const Navbar = ({ isDashboard }) => {
                   <span className="position-absolute top-50 start-110 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
                     5
                   </span>
-                </Link>
+                </div>
               </div>
             )}
           </div>

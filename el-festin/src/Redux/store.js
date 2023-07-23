@@ -4,7 +4,7 @@ import drinkSlice  from "./slices/bebidasSlice";
 import dessertSlice from "./slices/postresSlice";
 import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
-import orderSlice from "./slices/orderSlice";
+import orderSlice, { cartMiddleware } from "./slices/orderSlice";
 
 
 export default configureStore ({
@@ -14,8 +14,9 @@ export default configureStore ({
         desserts: dessertSlice,
         sides: sideSlice,
         users: usersSlice,
-        order: orderSlice,
-    }
+        cart: orderSlice,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cartMiddleware),
 }) 
 
 
