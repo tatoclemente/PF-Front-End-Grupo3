@@ -32,6 +32,7 @@ function App() {
 
   return (
     <div className={style.appContainer}>
+           <AuthProvider>
       {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
       location.pathname !== "/auth/register" ? (
@@ -47,12 +48,12 @@ function App() {
       <ShoppingCart isOpen={isCartOpen} onCloseCart={toggleCart} />
     
 
-      <AuthProvider>
+ 
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home toggleCart={toggleCart} />} />
           <Route path="/about" element={<About />} />
           <Route path="/detail/:id" element={<Detail toggleCart={toggleCart} />} />
           <Route
@@ -67,13 +68,14 @@ function App() {
             }
           />
         </Routes>
-      </AuthProvider>
+      
       {location.pathname !== "/auth/login" &&
       location.pathname !== "/dashboard" &&
       location.pathname !== "/auth/register" &&
       location.pathname !== "/shopping-cart" ? (
         <Footer />
       ) : undefined}
+      </AuthProvider>
 {/* 
       {location.pathname === "/shopping-cart" ? (
         <div className={style.overlay} />

@@ -9,7 +9,7 @@ import { sortDishesByType } from "../../Redux/slices/platosSlice";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./Home.module.css"
 
-const Home = () => {
+const Home = ({ toggleCart }) => {
   const { CardsContainer, FiltersAndSorts, FeaturedCategories } = HomeComponents;
   const [stateFood, setStateFood] = useState('all')
   const [stateSort, setStateSort] = useState(' ')
@@ -35,7 +35,7 @@ const Home = () => {
 
   const handleToShow = (e) => {
     const val = e.target.getAttribute("data-value");
-    console.log(val);
+  
     if(val === 'drinks'){
       if(allDrinks.length === 0){
         dispatch(getDrinks());
@@ -105,7 +105,7 @@ stateSort === 'asc'
           }
         >
           <FeaturedCategories handleToShow={handleToShow} handleType={handleType} dishType={dishType} />
-          <CardsContainer allThings={allThings}/>
+          <CardsContainer allThings={allThings} toggleCart={toggleCart}/>
         </div>
       </div>
     </div>

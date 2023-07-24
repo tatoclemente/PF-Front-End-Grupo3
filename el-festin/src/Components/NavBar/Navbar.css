@@ -9,13 +9,15 @@
   top: 0;
   left: 0;
   border-bottom: 2px solid var(--main-color);
-
 }
+
 .cart {
   cursor: pointer;
+  box-shadow: 1px 1px 5px var(--shadow);
 }
 .bg-countCart {
   background-color: #fbc32c;
+  box-shadow: 1px 1px 5px var(--shadow);
 }
 
  /* .padding-ingresar {
@@ -76,4 +78,55 @@
   color: #000;
   cursor: pointer;
   border-left: 3px solid #0000006f;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.dropdown-button {
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  background-color: #f9f9f9;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 8px 0;
+  display: none;
+}
+
+
+.dropdown-container:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+.sign-in {
+  padding: 0 1rem .3rem 1rem;
+  border-radius: 20px;
+  transition: .5s ease-in-out;
+  border-bottom: 2px solid transparent;
+}
+.sign-in:hover {
+  border-bottom: 2px solid var(--main-color);
+  color: var(--main-color) !important;
 }

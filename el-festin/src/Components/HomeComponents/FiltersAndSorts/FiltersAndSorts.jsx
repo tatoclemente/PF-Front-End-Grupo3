@@ -91,6 +91,7 @@ const val = e.target.value;
 
       <div className={style.filteredContent} isCollapsed={isCollapsed}>
         
+
         {props.stateFood !== "all" ? (
           <div>
             <div className={style.filtersContainer}>
@@ -99,8 +100,8 @@ const val = e.target.value;
                   <h6>APLICAR FILTROS</h6>
                   <div className={style.filters}>
                     <label>¿Sin gluten?</label>
-                    <select className={style.select} onChange={handleGluten}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleGluten} defaultValue='title'>
+                      <option value='title' disabled>
                         Con o sin gluten
                       </option>
                       <option value="all">Todos</option>
@@ -111,8 +112,8 @@ const val = e.target.value;
 
                   <div className={style.filters}>
                     <label>¿Vegetariano?</label>
-                    <select className={style.select} onChange={handleVeggy}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleVeggy} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige comida vegetariana
                       </option>
                       <option value="all">Todos</option>
@@ -127,8 +128,8 @@ const val = e.target.value;
                   <h6>APLICAR FILTROS</h6>
                   <div className={style.filters}>
                     <label>¿Sin alcohol?</label>
-                    <select className={style.select} onChange={handleAlcohol}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleAlcohol} defaultValue='title'>
+                      <option value='title' disabled>
                         Con o sin alcohol
                       </option>
                       <option value="all">Todos</option>
@@ -165,8 +166,8 @@ const val = e.target.value;
                 <div>
                   <div className={style.filters}>
                     <label>Ordene por volumen</label>
-                    <select className={style.select} onChange={handleVolume}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleVolume} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige por volumen
                       </option>
                       <option value="asc">Más volumen</option>
@@ -180,6 +181,7 @@ const val = e.target.value;
                 {props.stateFood === "dishes" ? (
                 <div>
                   <div className={style.filters}>
+
                     <label>Ordene por calorías</label>
                     <select className={style.select} onChange={handleCalories}>
                       <option selected disabled>
