@@ -13,9 +13,11 @@
 
 .cart {
   cursor: pointer;
+  box-shadow: 1px 1px 5px var(--shadow);
 }
 .bg-countCart {
   background-color: #fbc32c;
+  box-shadow: 1px 1px 5px var(--shadow);
 }
 
  /* .padding-ingresar {
@@ -80,7 +82,8 @@
 
 .dropdown-container {
   position: relative;
-  display: inline-block
+  display: inline-block;
+  margin-right: 1rem;
 }
 
 .dropdown-button {
@@ -115,4 +118,15 @@
 
 .dropdown-menu a:hover {
   background-color: #f1f1f1;
+}
+
+.sign-in {
+  padding: 0 1rem .3rem 1rem;
+  border-radius: 20px;
+  transition: .5s ease-in-out;
+  border-bottom: 2px solid transparent;
+}
+.sign-in:hover {
+  border-bottom: 2px solid var(--main-color);
+  color: var(--main-color) !important;
 }

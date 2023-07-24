@@ -37,8 +37,8 @@ export const Profile = () => {
 
   
 
-  console.log(user)
-  console.log(dataUser)
+  // console.log(user)
+  // console.log(dataUser)
 
  if (loading) return <h1>loading...</h1>
 

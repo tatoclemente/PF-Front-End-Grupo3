@@ -8,7 +8,7 @@ import {
   removeFromCart,
   clearCart,
 } from "../../Redux/slices/orderSlice";
-import capitalizeFirstLetter from "../../Components/functions/capitalizeFirstLetter";
+import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -16,33 +16,30 @@ import axios from "axios";
 function ShoppingCart({ isOpen, onCloseCart }) {
   const dispatch = useDispatch();
 
-
-
   const cartStyle = {
     right: isOpen ? "0" : "-100%",
   };
 
   const order = useSelector((state) => state.cart); 
 
+  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
   const formattedCart = order.map((item) => {
-    const formattedItem = {
-      quantity: item.quantity,
-    };
+    const formattedItem = {};
 
     if (item.dish) {
-      formattedItem.dish = {
+      formattedItem.dish = [{
         id: item.dish.id,
         price: item.dish.price,
         quantity: item.dish.quantity,
-      };
+      }];
     }
 
     if (item.garnish) {
-      formattedItem.garnish = {
+      formattedItem.garnish = [{
         id: item.garnish.id,
         price: item.garnish.price,
         quantity: item.garnish.quantity,
-      };
+      }];
     }
 
     if (item.drinks.length > 0) {
@@ -64,7 +61,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     return formattedItem;
   });
 
-  console.log("CART", formattedCart);
+  //? --> VER LO QUE SE HA FORMATEADO
+  // console.log("CART", formattedCart);
 
   // ...
 
@@ -164,8 +162,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
             const hasGarnish = item.garnish !== null;
             const hasDrink = item.drinks.length > 0;
             const hasDessert = item.desserts.length > 0;
+            const hasDish = item.dish !== null;
             const totalPrice =
-              parseFloat(item.dish.price) * item.dish.quantity +
+              (hasDish ? parseFloat(item.dish.price) * item.dish.quantity : 0) +
               (hasGarnish
                 ? parseFloat(item.garnish.price) * item.garnish.quantity
                 : 0) +
@@ -181,10 +180,10 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                     0
                   )
                 : 0);
-            const capitalizeSubtitle = capitalizeFirstLetter(item.dish.type);
+            const capitalizeSubtitle = hasDish ? capitalizeFirstLetter(item.dish.type): '';
             return (
               <div key={index} className={style.productContainer}>
-                <div>
+                { hasDish && <div>
                   <p className={style.subTitle}>{capitalizeSubtitle}</p>
                   <div className={style.dishDetails}>
                     <div className={style.dishDetailsHeader}>
@@ -210,7 +209,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         </div>
                       </div>
                     </div>
-                    {console.log(item.dish.id)}
+      
                     <div className={style.quantityButtons}>
                       <button
                         className={style.buttonDelete}
@@ -236,12 +235,13 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div>}
 
                 <div>
-                  <p className={style.subTitle}>Acompañamientos</p>
+
+                 {hasDessert || hasDrink && <p className={style.subTitle}>{ hasDrink && hasDessert ? 'Bebidas y postres' : hasDessert ? 'Postres' : hasDrink ? 'Bebidas' : null}</p>} 
                   {/* Mapear las bebidas */}
-                  {item.drinks.map((drink, drinkIndex) => (
+                  { hasDrink && item.drinks.map((drink, drinkIndex) => (
                     <div key={drinkIndex} className={style.additionalContainer}>
                       <div className={style.dishDetailsHeader}>
                         <img
@@ -291,7 +291,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                   ))}
 
                   {/* Mapear los postres */}
-                  {item.desserts.map((dessert, dessertIndex) => (
+                  {hasDessert && item.desserts.map((dessert, dessertIndex) => (
                     <div
                       key={dessertIndex}
                       className={style.additionalContainer}

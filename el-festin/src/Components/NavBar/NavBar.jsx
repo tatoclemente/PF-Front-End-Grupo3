@@ -1,48 +1,48 @@
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
-import calculateTotalItems from "../functions/calculateTotalItems";
-import profileImg from "./images/profile.png"
+import calculateTotalItems from "../../functions/calculateTotalItems";
+import profileImg from "./images/profile.png";
 import { useAuth } from "../../Context/authContext";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { useEffect, useState } from "react";
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();
   const { user, logout } = useAuth();
-  const dispatch = useDispatch()
-  const order = useSelector(state => state.cart)
+  const dispatch = useDispatch();
+  const order = useSelector((state) => state.cart);
   const users = useSelector((state) => state.users.users);
   const [isOpen, setIsOpen] = useState(false);
 
+  // console.log(users);
   const handleOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async() => {
-    await logout()
-  }
+  const handleLogout = async () => {
+    await logout();
+  };
 
-  const totalItems = calculateTotalItems(order)
+  const totalItems = calculateTotalItems(order);
 
-  const landing = location.pathname
+  const landing = location.pathname;
 
-  console.log(user)
+  // console.log(user);
 
-  useEffect(()=>{
-    dispatch(getUsers())
-  }, [])
-
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
 
   return (
     <>
       <div className="container-fluid position-relative navbarLanding">
         <div className="container-fluid position-absolute top-0 start-0">
           <div className="d-flex justify-content-between pt-4 align-items-center">
-            <Link className="navbar-brand d-none d-lg-block ps-lg-5" to="/*">
+            <Link className="navbar-brand d-none d-lg-block ps-lg-5" to="/">
               <img src={logo} alt="logo" className="img-width-logo" />
             </Link>
             {isDashboard ? null : (
@@ -50,6 +50,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                 <SearchBar path={landing} />
               </div>
             )}
+            <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
             {isDashboard ? (
               <div className="d-none d-lg-block pe-3">
                 <Link to="/" className="text-decoration-none text-white fs-3">
@@ -58,26 +59,38 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
               </div>
             ) : user ? (
               <div className="dropdown-container">
-      <button className="dropdown-button" onClick={handleOpen}>
-      { user.photoURL ? <img src={user.photoURL} width="50" height="50" style={{borderRadius: "30px",  border: "2px solid white"}}></img>: <img src={profileImg} width="50" height="50"></img>}
-      </button>
-      {isOpen && (
-        <div className="dropdown-menu">
-          <a href="/profile">Mi cuenta</a>
-          <a onClick={handleLogout}>Cerrar sesión</a>
-        </div>
-      )}
-    </div>
+                <button className="dropdown-button" onClick={handleOpen}>
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      width="50"
+                      height="50"
+                      style={{
+                        borderRadius: "30px",
+                        border: "2px solid white",
+                      }}
+                    ></img>
+                  ) : (
+                    <img src={profileImg} width="50" height="50"></img>
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="dropdown-menu">
+                    <Link to="/profile">Mi cuenta</Link>
+                    <Link onClick={handleLogout}>Cerrar sesión</Link>
+                  </div>
+                )}
+              </div>
             ) : (
-              <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
+              
                 <Link
                   to="/auth/login"
-                  className="text-decoration-none text-white fs-3"
+                  className="text-decoration-none text-white fs-4 me-2 sign-in"
                 >
                   {" "}
                   Ingresar{" "}
                 </Link>
-              </div>
+           
             )}
             {isDashboard ? null : (
               <div className="text-end cart" onClick={toggleCart}>
@@ -91,12 +104,13 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                 </span>
               </div>
             )}
+            </div>
           </div>
         </div>
       </div>
     </>
   );
-            }
+};
 //  <nav className="navbarLanding">
 //         <Link className="navbar-brand d-none d-lg-block ps-lg-5" href="/*">
 //           <img src={logo} alt="logo" className="img-width-logo" />

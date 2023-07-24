@@ -92,9 +92,11 @@ const CardsContainer = (props) => {
                 name={dish.name}
                 price={dish.price}
                 rating={dish.rating}
+                volume={dish.volume}
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}
+                toggleCart={props.toggleCart}
               />
             </div>
           );
