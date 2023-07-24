@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "./Home.module.css"
 
 const Home = ({ toggleCart }) => {
+
+  const [currentPage, setCurrentPage] = useState(0);
+
   const { CardsContainer, FiltersAndSorts, FeaturedCategories } = HomeComponents;
   const [stateFood, setStateFood] = useState('all')
   const [stateSort, setStateSort] = useState(' ')
@@ -23,6 +26,8 @@ const Home = ({ toggleCart }) => {
     const val = e.target.getAttribute("data-value");
     dispatch(sortDishesByType(val));
     setStateFood('dishes')
+
+    setCurrentPage(0)
   };
 
 
@@ -55,6 +60,8 @@ const Home = ({ toggleCart }) => {
       dispatch(getDesserts())
       setStateFood('all')
     }
+
+    setCurrentPage(0)
   };
   const allDishes = useSelector((state) => state.dishes.dishes);
   const allDrinks = useSelector((state) => state.drinks.drinks);
@@ -105,7 +112,7 @@ stateSort === 'asc'
           }
         >
           <FeaturedCategories handleToShow={handleToShow} handleType={handleType} dishType={dishType} />
-          <CardsContainer allThings={allThings} toggleCart={toggleCart}/>
+          <CardsContainer allThings={allThings} toggleCart={toggleCart} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div>
       </div>
     </div>
