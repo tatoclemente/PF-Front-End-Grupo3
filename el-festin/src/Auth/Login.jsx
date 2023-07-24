@@ -7,19 +7,23 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../Context/authContext";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers";
+import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
 import "./login.css";
-import { MdArrowBackIosNew } from "react-icons/md"
+import { MdArrowBackIosNew } from "react-icons/md";
 
 export const Login = () => {
-  const users = useSelector((state) => state.users.users);
+  const usersDB = useSelector((state) => state.users.users);
 
-  const { login, logingWithGoogle, resetPassword, logingWithFacebook } = useAuth();
+  const { user, login, logingWithGoogle, resetPassword } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
+  const [users, setUsers] = useState({
     email: "",
     password: "",
   });
+  const [userGoogle, setUserGoogle] = useState(null);
+  const [userDataSent, setUserDataSent] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -34,23 +38,32 @@ export const Login = () => {
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
+  useEffect(() => {
+    // Update the userGoogle state when the user is authenticated
+    if (user) {
+      setUserGoogle({
+        name: user.displayName,
+        email: user.email,
+      });
+    }
+  }, [user]);
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUsers({ ...users, [e.target.name]: e.target.value });
     clearErrors();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const noEmail = users.every(
-      (us) => us.email.toLowerCase() !== user.email.toLowerCase()
+    const noEmail = usersDB.every(
+      (us) => us.email.toLowerCase() !== users.email.toLowerCase()
     );
-    const noPassword = users.every((us) => us.password !== user.password);
+    const noPassword = usersDB.every((us) => us.password !== users.password);
 
-    if (!user.email || !user.password) {
+    if (!users.email || !users.password) {
       setErrors({
-        email: user.email ? "" : "El correo electrónico es obligatorio",
-        password: user.password ? "" : "La contraseña es obligatoria",
+        email: users.email ? "" : "El correo electrónico es obligatorio",
+        password: users.password ? "" : "La contraseña es obligatoria",
       });
     } else if (noEmail) {
       setErrors({ email: "No existe un usuario con ese correo electrónico" });
@@ -58,9 +71,9 @@ export const Login = () => {
       setErrors({ password: "Contraseña incorrecta" });
     } else {
       try {
-        await login(user.email, user.password);
+        await login(users.email, users.password);
         navigate("/home");
-        setUser({
+        setUsers({
           email: "",
           password: "",
         });
@@ -74,23 +87,27 @@ export const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await logingWithGoogle();
+
+      dispatch(postUsers(userGoogle));
+      setUserDataSent(true);
       navigate("/home");
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
   };
-  const handleFacebookLogin = async () => {
-    try {
-      await logingWithFacebook();
-      navigate("/home");
-    } catch (error) {
-      console.error("Error de autenticación:", error.message);
-    }
-  };
+
+  // const handleFacebookLogin = async () => {
+  //   try {
+  //     await logingWithFacebook();
+  //     navigate("/home");
+  //   } catch (error) {
+  //     console.error("Error de autenticación:", error.message);
+  //   }
+  // };
   const handleResetPassword = async () => {
-    if (!user.email) return setErrors({ email: "Ingrese un email" });
+    if (!users.email) return setErrors({ email: "Ingrese un email" });
     try {
-      await resetPassword(user.email);
+      await resetPassword(users.email);
       alert(
         "Se ha enviado un correo a tu email para restablecer tu contraseña"
       );
@@ -101,8 +118,11 @@ export const Login = () => {
 
   return (
     <ul className="">
-        <Link to="/">
-      <MdArrowBackIosNew className="backButton text-white position-absolute mt-4 fs-3"  style={{ left: "51%" }}/>
+      <Link to="/">
+        <MdArrowBackIosNew
+          className="backButton text-white position-absolute mt-4 fs-3"
+          style={{ left: "51%" }}
+        />
       </Link>
       <li className="d-flex justify-content-center align-items-center">
         <img src={logo} alt="imagen-logo" className="img-fluid w-25 mt-4" />
@@ -116,34 +136,42 @@ export const Login = () => {
           <label className="text-white fs-6 pb-2 pt-4">Email</label>
         </li>
         <li className="d-flex justify-content-center align-items-center">
-        <div className="register-input-container">
-          <input
-            type="text"
-            className="login-input"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-          />
-           {errors.email && <p className="error-message text-danger position-absolute">{errors.email}</p>}
+          <div className="register-input-container">
+            <input
+              type="text"
+              className="login-input"
+              name="email"
+              value={users.email}
+              onChange={handleChange}
+            />
+            {errors.email && (
+              <p className="error-message text-danger position-absolute">
+                {errors.email}
+              </p>
+            )}
           </div>
         </li>
-        
+
         <li className="d-flex justify-content-center align-items-center">
           <label className="text-white fs-6 pb-2 pt-4">Contraseña</label>
         </li>
         <li className="d-flex justify-content-center align-items-center">
-        <div className="register-input-container">
-          <input
-            type="text"
-            className="login-input"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-          />
-          {errors.password && <p className="error-message text-danger position-absolute">{errors.password}</p>}
+          <div className="register-input-container">
+            <input
+              type="password"
+              className="login-input"
+              name="password"
+              value={users.password}
+              onChange={handleChange}
+            />
+            {errors.password && (
+              <p className="error-message text-danger position-absolute">
+                {errors.password}
+              </p>
+            )}
           </div>
         </li>
-        
+
         <li className=" d-flex justify-content-center pt-4 fs-6">
           <a
             href="#!"
@@ -179,21 +207,22 @@ export const Login = () => {
           Continuar con Google
         </button>
       </li>
-      <li className="d-flex justify-content-center align-items-center pt-3">
-        <button
-          className="btn-face-rounded text-white fs-6"
-          onClick={handleFacebookLogin}
-        >
-          <span>
-            <img
-              src={logo2}
-              alt="logo de facebook"
-              className="img-fluid img-login-button"
-            />
-          </span>{" "}
-          Continuar con Facebook
-        </button>
-      </li>
+      {/* <li className="d-flex justify-content-center align-items-center pt-3">
+  <button
+    className="btn-face-rounded text-white fs-6"
+    onClick={handleFacebookLogin}
+  >
+    <span>
+      <img
+        src={logo2}
+        alt="logo de facebook"
+        className="img-fluid img-login-button"
+      />
+    </span>{" "}
+    Continuar con Facebook
+  </button>
+</li> */}
+
       <li className="d-flex justify-content-center align-items-center pt-4">
         <p className="text-white fs-5 pt-1 fs-6">
           ¿No tienes cuenta? &nbsp;
