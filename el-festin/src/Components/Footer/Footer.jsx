@@ -27,7 +27,7 @@ function Footer() {
         <Link to="/home" style={{ textDecoration: "none" }}>
           <h5 className={Styles.h5}>Pedidos</h5>
         </Link>
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/auth/login" style={{ textDecoration: "none" }}>
           <h5 className={Styles.h5}>Iniciar Sesión</h5>
         </Link>
         <Link to="/about" style={{ textDecoration: "none" }}>

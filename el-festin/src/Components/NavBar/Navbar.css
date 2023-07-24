@@ -9,8 +9,8 @@
   top: 0;
   left: 0;
   border-bottom: 2px solid var(--main-color);
-
 }
+
 .cart {
   cursor: pointer;
 }
@@ -76,4 +76,43 @@
   color: #000;
   cursor: pointer;
   border-left: 3px solid #0000006f;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block
+}
+
+.dropdown-button {
+  background-color: transparent;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  background-color: #f9f9f9;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 8px 0;
+  display: none;
+}
+
+
+.dropdown-container:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
 }
