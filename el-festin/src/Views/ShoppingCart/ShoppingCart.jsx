@@ -16,8 +16,6 @@ import axios from "axios";
 function ShoppingCart({ isOpen, onCloseCart }) {
   const dispatch = useDispatch();
 
-
-
   const cartStyle = {
     right: isOpen ? "0" : "-100%",
   };
@@ -164,8 +162,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
             const hasGarnish = item.garnish !== null;
             const hasDrink = item.drinks.length > 0;
             const hasDessert = item.desserts.length > 0;
+            const hasDish = item.dish !== null;
             const totalPrice =
-              parseFloat(item.dish.price) * item.dish.quantity +
+              (hasDish ? parseFloat(item.dish.price) * item.dish.quantity : 0) +
               (hasGarnish
                 ? parseFloat(item.garnish.price) * item.garnish.quantity
                 : 0) +
@@ -181,10 +180,10 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                     0
                   )
                 : 0);
-            const capitalizeSubtitle = capitalizeFirstLetter(item.dish.type);
+            const capitalizeSubtitle = hasDish ? capitalizeFirstLetter(item.dish.type): '';
             return (
               <div key={index} className={style.productContainer}>
-                <div>
+                { hasDish && <div>
                   <p className={style.subTitle}>{capitalizeSubtitle}</p>
                   <div className={style.dishDetails}>
                     <div className={style.dishDetailsHeader}>
@@ -210,7 +209,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         </div>
                       </div>
                     </div>
-                    {console.log(item.dish.id)}
+      
                     <div className={style.quantityButtons}>
                       <button
                         className={style.buttonDelete}
@@ -236,12 +235,12 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div>}
 
                 <div>
                   <p className={style.subTitle}>Acompañamientos</p>
                   {/* Mapear las bebidas */}
-                  {item.drinks.map((drink, drinkIndex) => (
+                  { hasDrink && item.drinks.map((drink, drinkIndex) => (
                     <div key={drinkIndex} className={style.additionalContainer}>
                       <div className={style.dishDetailsHeader}>
                         <img
@@ -291,7 +290,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                   ))}
 
                   {/* Mapear los postres */}
-                  {item.desserts.map((dessert, dessertIndex) => (
+                  {hasDessert && item.desserts.map((dessert, dessertIndex) => (
                     <div
                       key={dessertIndex}
                       className={style.additionalContainer}

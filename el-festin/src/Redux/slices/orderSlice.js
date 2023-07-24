@@ -13,22 +13,24 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       console.log("addToCart", action.payload);
       const { dish, garnish, drinks, desserts } = action.payload;
+    
+      // Crear un objeto newItem con las propiedades proporcionadas o valores por defecto si son null
       const newItem = {
-        dish: dish,
-        garnish: garnish,
-        drinks: drinks,
-        desserts: desserts,
+        dish: dish || null,
+        garnish: garnish || null,
+        drinks: drinks || [],
+        desserts: desserts || [],
       };
-
+    
       const existingItemIndex = state.findIndex((item) => {
         return (
-          item.dish.id === newItem.dish.id &&
+          item.dish?.id === newItem.dish?.id &&
           item.garnish?.id === newItem.garnish?.id &&
           compareItems(item.drinks, newItem.drinks) &&
           compareItems(item.desserts, newItem.desserts)
         );
       });
-
+    
       if (existingItemIndex !== -1) {
         // Si el pedido ya existe en el carrito, solo actualiza la cantidad
         state[existingItemIndex].quantity += 1;
@@ -37,26 +39,6 @@ const cartSlice = createSlice({
         state.push({ ...newItem, quantity: 1 });
       }
     },
-
-
-    
-
-    // removeFromCart: (state, action) => {
-    //   console.log("removeFromCart", action.payload);
-    //   const { dish, garnish, drinks, desserts } = action.payload;
-
-    //   return state.filter((item) => {
-    //     const hasGarnish = item.garnish !== null;
-    //     const hasDrinks = item.drinks !== undefined;
-
-    //     const isDishMatch = item.dish && item.dish.id === dish?.id;
-    //     const isGarnishMatch = hasGarnish && item.garnish && item.garnish.id === garnish?.id;
-    //     const areDrinksMatch = hasDrinks && compareItems(item.drinks, drinks);
-    //     const areDessertsMatch = compareItems(item.desserts, desserts);
-
-    //     return !(isDishMatch && isGarnishMatch && areDrinksMatch && areDessertsMatch);
-    //   });
-    // },
 
       // Action para eliminar un producto del carrito por su ID
       removeFromCart: (state, action) => {
@@ -82,22 +64,6 @@ const cartSlice = createSlice({
         }
         return state;
       },
-  
-    
-    
-
-    // updateCartItemQuantity: (state, action) => {
-    //   console.log("updateCartItemQuantity", action.payload);
-
-    //   const { id, quantity } = action.payload;
-    //   return state.map((item) => {
-    //     if (item.dish.id === id) {
-    //       return { ...item, quantity: quantity };
-    //     }
-    //     return item;
-    //   });
-    // },
-
 
     updateCartItemQuantity: (state, action) => {
       const { id, quantity } = action.payload;
@@ -207,3 +173,5 @@ const findProductById = (state, id) => {
   // Si no se encontró el producto, retornar null
   return null;
 };
+
+// localStorage.removeItem("cart");

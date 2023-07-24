@@ -636,7 +636,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
             <h2 className={styles.titles}>{`Suma total: $ ${price}`}</h2>
           </div>
           <button className={styles.buttonAdd} onClick={showConfirmation}>
-            Agregar al carrito
+            agregar a orden
           </button>
         </div>
       </div>
