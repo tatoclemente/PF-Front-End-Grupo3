@@ -1,16 +1,14 @@
 import React from "react";
 import style from "./FiltersAndSorts.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import {
   sortDishesByGluten,
   sortDishesByVeggy,
   sortByCalories,
-  sortByPrice,
-  sortDishesByType,
+  
 } from "../../../Redux/slices/platosSlice";
 import {
   sortDrinksByAlchol,
-  sortDrinksByPrice,
   sortDrinksByVolume,
 } from "../../../Redux/slices/bebidasSlice";
 import { RiArrowLeftSLine } from "react-icons/ri";
@@ -20,7 +18,6 @@ import { getDrTypes } from "../../../Redux/actions/actionsDrinks/getDrinksTypes"
 function FiltersAndSorts(props) {
   const [isCollapsed, setIsCollapsed] = props.state;
   const dispatch = useDispatch();
-  const drinkType = useSelector((state) => state.drinks.drinksTypes);
 
   useEffect(() => {
     dispatch(getDrTypes());
@@ -35,11 +32,7 @@ function FiltersAndSorts(props) {
     const val = e.target.value;
     dispatch(sortDrinksByAlchol(val));
   };
-  const handlePriceDrink = (e) => {
-    const val = e.target.value;
-
-    dispatch(sortDrinksByPrice(val));
-  };
+ 
 
   const handleGluten = (e) => {
     const val = e.target.value;
@@ -51,10 +44,6 @@ function FiltersAndSorts(props) {
     dispatch(sortDishesByVeggy(val));
   };
 
-  const handlePrice = (e) => {
-    const val = e.target.value;
-    dispatch(sortByPrice(val));
-  };
 
   const handleCalories = (e) => {
     const val = e.target.value;
@@ -64,6 +53,11 @@ function FiltersAndSorts(props) {
   const handleToggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const handlePriceAll = (e) =>{
+const val = e.target.value;
+ props.setStateSort(val)
+  }
 
   return (
     <div
@@ -96,12 +90,13 @@ function FiltersAndSorts(props) {
       </div>
 
       <div className={style.filteredContent} isCollapsed={isCollapsed}>
+        
         {props.stateFood !== "all" ? (
           <div>
             <div className={style.filtersContainer}>
-              <h6>APLICAR FILTROS</h6>
               {props.stateFood === "dishes" ? (
                 <div>
+                  <h6>APLICAR FILTROS</h6>
                   <div className={style.filters}>
                     <label>¿Sin gluten?</label>
                     <select className={style.select} onChange={handleGluten}>
@@ -129,6 +124,7 @@ function FiltersAndSorts(props) {
               ) : null}
               {props.stateFood === "drinks" ? (
                 <div>
+                  <h6>APLICAR FILTROS</h6>
                   <div className={style.filters}>
                     <label>¿Sin alcohol?</label>
                     <select className={style.select} onChange={handleAlcohol}>
@@ -145,34 +141,27 @@ function FiltersAndSorts(props) {
             </div>
 
             <div className={style.filtersContainer}>
-              <h6>ORDENAMIETOS</h6>
-
-              {props.stateFood === "dishes" ? (
-                <div>
-                  <div className={style.filters}>
-                    <label>Ordene por calorías</label>
-                    <select className={style.select} onChange={handleCalories}>
-                      <option selected disabled>
-                        Elige por calorias
-                      </option>
-                      <option value="asc">Más Calorías</option>
-                      <option value="desc">Menos Calorías</option>
-                    </select>
-                  </div>
-
-                  <div className={style.filters}>
+            </div>
+          </div>
+        ) : null}
+            <div  className={style.filtersContainer}>
+        <h6>ORDENAMIETOS</h6>
+        <div className={style.filters}>
+        
                     <label>Ordene por precio</label>
-                    <select className={style.select} onChange={handlePrice}>
+                    <select
+                      className={style.select}
+                      onChange={handlePriceAll}
+                    >
                       <option selected disabled>
-                        Elige ordenar por precio
+                        Elige por precio
                       </option>
-                      <option value="asc">Menor precio</option>
-                      <option value="desc">Mayor precio</option>
+                      <option value="asc">Mayor precio</option>
+                      <option value="dsc">Menor precio</option>
                     </select>
                   </div>
-                </div>
-              ) : null}
-              {props.stateFood === "drinks" ? (
+
+                  {props.stateFood === "drinks" ? (
                 <div>
                   <div className={style.filters}>
                     <label>Ordene por volumen</label>
@@ -185,24 +174,25 @@ function FiltersAndSorts(props) {
                     </select>
                   </div>
 
-                  <div className={style.filters}>
-                    <label>Ordene por precio</label>
-                    <select
-                      className={style.select}
-                      onChange={handlePriceDrink}
-                    >
-                      <option selected disabled>
-                        Elige por precio
-                      </option>
-                      <option value="asc">Mayor precio</option>
-                      <option value="desc">Menor precio</option>
-                    </select>
-                  </div>
+                  
                 </div>
               ) : null}
-            </div>
-          </div>
-        ) : null}
+                {props.stateFood === "dishes" ? (
+                <div>
+                  <div className={style.filters}>
+                    <label>Ordene por calorías</label>
+                    <select className={style.select} onChange={handleCalories}>
+                      <option selected disabled>
+                        Elige por calorias
+                      </option>
+                      <option value="asc">Más Calorías</option>
+                      <option value="desc">Menos Calorías</option>
+                    </select>
+                  </div>
+
+                </div>
+              ) : null}
+        </div> 
       </div>
     </div>
   );

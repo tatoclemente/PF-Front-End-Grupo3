@@ -9,11 +9,15 @@ initialState:{
 reducers:{
     setDesserts: (state, action) => {
         state.desserts = action.payload
+    }, filterDessertsByName: (state, {payload}) =>{
+        
+        state.desserts = []
     }
+
 }
 
 });
 
-export const { setDesserts } = dessertSlice.actions;
+export const { setDesserts, filterDessertsByName } = dessertSlice.actions;
 
 export default dessertSlice.reducer;

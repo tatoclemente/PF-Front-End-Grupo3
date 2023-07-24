@@ -5,7 +5,7 @@ import { SearchBar } from "./SearchBar";
 import { useSelector } from "react-redux";
 import calculateTotalItems from "../functions/calculateTotalItems";
 
-export const Navbar = ({ isDashboard, toggleCart }) => {
+export const Navbar = ({ isDashboard, toggleCart}) => {
   const location = useLocation();
   const order = useSelector(state => state.cart)
 
