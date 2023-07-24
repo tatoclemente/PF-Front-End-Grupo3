@@ -47,12 +47,18 @@ reducers:{
             state.drinks = drank
     }
 }, sortDrinksByVolume: (state, action) =>{
-    let asc = [...state.drinks];
-      let ascSort =
-        action.payload === "asc"
-          ? asc.sort((a, b) => b.volume - a.volume)
-          : asc.sort((a, b) => a.volume - b.volume);
-      state.drinks = ascSort;
+    let sortedDrinks = [...state.drinks];
+    const extractVolume = (drink) => {
+      const volumeString = drink.volume;
+      const volumeNumber = parseFloat(volumeString);
+  
+      return isNaN(volumeNumber) ? 0 : volumeNumber; 
+    };
+    sortedDrinks.sort((a, b) => {
+      const volumeA = extractVolume(a);
+      const volumeB = extractVolume(b);
+      return action.payload === "asc" ? volumeA - volumeB : volumeB - volumeA;
+    })
 }, filterDrinksByName: (state,{payload}) =>{
     state.drinks = []
 }
