@@ -17,7 +17,6 @@ export const scrollToTopRef = (containerRef) => {
 // {type, image, name, price, rating, description, id, addToCart}
 const CardsContainer = (props) => {
   let {allThings} = props
-  const [currentPage, setCurrentPage] = useState(0);
   
   const containerRef = useRef(null);
 
@@ -33,7 +32,7 @@ const CardsContainer = (props) => {
 
   //? ME GUARDO LOS VALORES PARA USAR EN EL SLICE QUE RENDERIZA LAS RECETAS QUE MUETRO POR PAGINA
   // El startIndex lo calculo con el valor alcual de la pagina mulriplicado por el maximo de recetas por página
-  const startIdx = currentPage * perPage;
+  const startIdx = props.currentPage * perPage;
   // El end =Index lo calculo con el valor del Indice de inicio + el total de recetas por página
   const endIdx = startIdx + perPage;
 
@@ -41,7 +40,7 @@ const CardsContainer = (props) => {
   // DESPACHO EL CAMBIO DE PAGINA
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 0 && pageNumber < totalPages) {
-      setCurrentPage(pageNumber);
+      props.setCurrentPage(pageNumber);
       scrollToTopRef(containerRef);
       setTimeout(() => scrollToTop(), 100); // Llamo a scrollToTop después de 100 milisegundos
     } // pasra esperar aue el estado se actualice correctamente
@@ -60,7 +59,7 @@ const CardsContainer = (props) => {
     <div className={style.mainContainer} ref={containerRef}>
       <div>
         <Pagination
-          currentPage={currentPage}
+          currentPage={props.currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
@@ -87,7 +86,7 @@ const CardsContainer = (props) => {
       </div>
       <div className={style.pagination}>
         <Pagination
-          currentPage={currentPage}
+          currentPage={props.currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
