@@ -8,7 +8,7 @@ import {
   removeFromCart,
   clearCart,
 } from "../../Redux/slices/orderSlice";
-import capitalizeFirstLetter from "../../Components/functions/capitalizeFirstLetter";
+import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -22,25 +22,24 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   const order = useSelector((state) => state.cart); 
 
+  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
   const formattedCart = order.map((item) => {
-    const formattedItem = {
-      quantity: item.quantity,
-    };
+    const formattedItem = {};
 
     if (item.dish) {
-      formattedItem.dish = {
+      formattedItem.dish = [{
         id: item.dish.id,
         price: item.dish.price,
         quantity: item.dish.quantity,
-      };
+      }];
     }
 
     if (item.garnish) {
-      formattedItem.garnish = {
+      formattedItem.garnish = [{
         id: item.garnish.id,
         price: item.garnish.price,
         quantity: item.garnish.quantity,
-      };
+      }];
     }
 
     if (item.drinks.length > 0) {
@@ -62,7 +61,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     return formattedItem;
   });
 
-  console.log("CART", formattedCart);
+  //? --> VER LO QUE SE HA FORMATEADO
+  // console.log("CART", formattedCart);
 
   // ...
 
@@ -238,7 +238,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                 </div>}
 
                 <div>
-                  <p className={style.subTitle}>Acompañamientos</p>
+
+                 {hasDessert || hasDrink && <p className={style.subTitle}>{ hasDrink && hasDessert ? 'Bebidas y postres' : hasDessert ? 'Postres' : hasDrink ? 'Bebidas' : null}</p>} 
                   {/* Mapear las bebidas */}
                   { hasDrink && item.drinks.map((drink, drinkIndex) => (
                     <div key={drinkIndex} className={style.additionalContainer}>

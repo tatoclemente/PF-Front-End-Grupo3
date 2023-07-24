@@ -95,7 +95,7 @@ function FiltersAndSorts(props) {
         ) : null}
       </div>
 
-      <div className={style.filteredContent} isCollapsed={isCollapsed}>
+      <div className={style.filteredContent}>
         {props.stateFood !== "all" ? (
           <div>
             <div className={style.filtersContainer}>
@@ -104,8 +104,8 @@ function FiltersAndSorts(props) {
                 <div>
                   <div className={style.filters}>
                     <label>¿Sin gluten?</label>
-                    <select className={style.select} onChange={handleGluten}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleGluten} defaultValue='title'>
+                      <option value='title' disabled>
                         Con o sin gluten
                       </option>
                       <option value="all">Todos</option>
@@ -116,8 +116,8 @@ function FiltersAndSorts(props) {
 
                   <div className={style.filters}>
                     <label>¿Vegetariano?</label>
-                    <select className={style.select} onChange={handleVeggy}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleVeggy} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige comida vegetariana
                       </option>
                       <option value="all">Todos</option>
@@ -131,8 +131,8 @@ function FiltersAndSorts(props) {
                 <div>
                   <div className={style.filters}>
                     <label>¿Sin alcohol?</label>
-                    <select className={style.select} onChange={handleAlcohol}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleAlcohol} defaultValue='title'>
+                      <option value='title' disabled>
                         Con o sin alcohol
                       </option>
                       <option value="all">Todos</option>
@@ -151,8 +151,8 @@ function FiltersAndSorts(props) {
                 <div>
                   <div className={style.filters}>
                     <label>Ordene por calorías</label>
-                    <select className={style.select} onChange={handleCalories}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleCalories} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige por calorias
                       </option>
                       <option value="asc">Más Calorías</option>
@@ -162,8 +162,8 @@ function FiltersAndSorts(props) {
 
                   <div className={style.filters}>
                     <label>Ordene por precio</label>
-                    <select className={style.select} onChange={handlePrice}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handlePrice} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige ordenar por precio
                       </option>
                       <option value="asc">Menor precio</option>
@@ -176,8 +176,8 @@ function FiltersAndSorts(props) {
                 <div>
                   <div className={style.filters}>
                     <label>Ordene por volumen</label>
-                    <select className={style.select} onChange={handleVolume}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleVolume} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige por volumen
                       </option>
                       <option value="asc">Más volumen</option>
@@ -190,8 +190,9 @@ function FiltersAndSorts(props) {
                     <select
                       className={style.select}
                       onChange={handlePriceDrink}
+                      defaultValue='title'
                     >
-                      <option selected disabled>
+                      <option value='title' disabled>
                         Elige por precio
                       </option>
                       <option value="asc">Mayor precio</option>

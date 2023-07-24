@@ -96,6 +96,7 @@ const CardsContainer = (props) => {
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}
+                toggleCart={props.toggleCart}
               />
             </div>
           );

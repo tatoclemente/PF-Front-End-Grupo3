@@ -51,7 +51,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/auth/register" element={<RegisterPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Home toggleCart={toggleCart} />} />
           <Route path="/about" element={<About />} />
           <Route path="/detail/:id" element={<Detail toggleCart={toggleCart} />} />
           <Route

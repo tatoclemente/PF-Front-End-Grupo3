@@ -3,7 +3,7 @@ import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 import { useSelector } from "react-redux";
-import calculateTotalItems from "../functions/calculateTotalItems";
+import calculateTotalItems from "../../functions/calculateTotalItems";
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();

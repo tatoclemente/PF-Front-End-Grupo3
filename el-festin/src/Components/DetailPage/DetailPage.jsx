@@ -15,13 +15,14 @@ import styles from "./DetailPage.module.css";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import { addToCart } from "../../Redux/slices/orderSlice";
-import capitalizeFirstLetter from "../functions/capitalizeFirstLetter";
+import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 
 const Detail = ({ dishDetail, toggleCart }) => {
   const dispatch = useDispatch();
   const allDrinks = useSelector((state) => state.drinks.drinks);
   const desserts = useSelector((state) => state.desserts.desserts);
   const sides = useSelector((state) => state.sides.sides);
+  const orderCart = useSelector(state=> state.cart) 
 
   useEffect(() => {
     dispatch(getDrinks());
@@ -408,6 +409,15 @@ const Detail = ({ dishDetail, toggleCart }) => {
   //DISPATCH DE LA ORDEN AL ESTADO GLOBAL
 
   const addToCartHandler = () => {
+
+    if(orderCart.length > 4) {
+      swal.fire({
+        title:"Ups, Lo siento!",
+        text: "Has alcanzado el máximo de 5 ordenes por compra.",
+        icon: 'info'
+      });
+      return;
+    }
 
     // Verificar si hay al menos un artículo seleccionado (guarnición, bebida o postre)
     if (order.dish || order.garnish || order.drinks.length > 0 || order.desserts.length > 0) {

@@ -5,65 +5,80 @@ import { createSlice } from "@reduxjs/toolkit";
 const storedCart = localStorage.getItem("cart");
 const initialState = storedCart ? JSON.parse(storedCart) : [];
 
-
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialState,
   reducers: {
     addToCart: (state, action) => {
-      console.log("addToCart", action.payload);
+      // console.log("addToCart", action.payload);
       const { dish, garnish, drinks, desserts } = action.payload;
-    
-      // Crear un objeto newItem con las propiedades proporcionadas o valores por defecto si son null
+
+      // Crea un objeto newItem con las propiedades proporcionadas o valores por defecto si son null
       const newItem = {
         dish: dish || null,
         garnish: garnish || null,
         drinks: drinks || [],
         desserts: desserts || [],
       };
-    
-      const existingItemIndex = state.findIndex((item) => {
-        return (
-          item.dish?.id === newItem.dish?.id &&
-          item.garnish?.id === newItem.garnish?.id &&
-          compareItems(item.drinks, newItem.drinks) &&
-          compareItems(item.desserts, newItem.desserts)
-        );
-      });
-    
-      if (existingItemIndex !== -1) {
-        // Si el pedido ya existe en el carrito, solo actualiza la cantidad
-        state[existingItemIndex].quantity += 1;
+
+      if (newItem.dish === null) {
+        state.push(newItem);
       } else {
-        // Si el pedido no existe en el carrito, agrégalo con cantidad 1
-        state.push({ ...newItem, quantity: 1 });
+        const existingItemIndex = state.findIndex((item) => {
+          return (
+            item.dish?.id === newItem.dish?.id &&
+            item.garnish?.id === newItem.garnish?.id &&
+            compareItems(item.drinks, newItem.drinks) &&
+            compareItems(item.desserts, newItem.desserts)
+          );
+        });
+
+        if (existingItemIndex !== -1) {
+          // Si el pedido ya existe en el carrito, solo actualiza la cantidad
+          state[existingItemIndex].quantity += 1;
+        } else {
+          // Si el pedido no existe en el carrito, agrégalo con cantidad 1
+          state.push({ ...newItem, quantity: 1 });
+        }
       }
     },
 
-      // Action para eliminar un producto del carrito por su ID
-      removeFromCart: (state, action) => {
-        const productId = action.payload;
-        const product = findProductById(state, productId);
-        if (product) {
+    removeFromCart: (state, action) => {
+      const productId = action.payload;
+      const product = findProductById(state, productId);
+    
+      if (product) {
+        return state.filter((item) => {
+          // Filtrar el objeto completo del carrito que contiene el producto a eliminar
           switch (product.type) {
             case "dish":
-              return state.filter((item) => item.dish?.id !== productId);
+              return item.dish?.id !== productId;
             case "drink":
-              return state.map((item) => ({
-                ...item,
-                drinks: item.drinks.filter((drink) => drink.id !== productId),
-              }));
+              if (item.drinks.length === 1) {
+                return item.drinks[0].id !== productId;
+              } else {
+                return {
+                  ...item,
+                  drinks: item.drinks.filter((drink) => drink.id !== productId),
+                };
+              }
             case "dessert":
-              return state.map((item) => ({
-                ...item,
-                desserts: item.desserts.filter((dessert) => dessert.id !== productId),
-              }));
+              if (item.desserts.length === 1) {
+                return item.desserts[0].id !== productId;
+              } else {
+                return {
+                  ...item,
+                  desserts: item.desserts.filter((dessert) => dessert.id !== productId),
+                };
+              }
             default:
-              return state;
+              return true;
           }
-        }
-        return state;
-      },
+        });
+      }
+      return state;
+    },
+    
 
     updateCartItemQuantity: (state, action) => {
       const { id, quantity } = action.payload;
@@ -73,18 +88,32 @@ const cartSlice = createSlice({
         switch (product.type) {
           case "dish":
             return state.map((item) =>
-              item.dish.id === id ? { ...item.dish, quantity: quantity } : item.dish
+              item.dish.id === id
+                ? { ...item.dish, quantity: quantity }
+                : item.dish
             );
           case "drink":
             return state.map((item) =>
               item.drinks.some((drink) => drink.id === id)
-                ? { ...item, drinks: item.drinks.map((drink) => (drink.id === id ? { ...drink, quantity: quantity } : drink)) }
+                ? {
+                    ...item,
+                    drinks: item.drinks.map((drink) =>
+                      drink.id === id ? { ...drink, quantity: quantity } : drink
+                    ),
+                  }
                 : item
             );
           case "dessert":
             return state.map((item) =>
               item.desserts.some((dessert) => dessert.id === id)
-                ? { ...item, desserts: item.desserts.map((dessert) => (dessert.id === id ? { ...dessert, quantity: quantity } : dessert)) }
+                ? {
+                    ...item,
+                    desserts: item.desserts.map((dessert) =>
+                      dessert.id === id
+                        ? { ...dessert, quantity: quantity }
+                        : dessert
+                    ),
+                  }
                 : item
             );
           default:
@@ -94,9 +123,6 @@ const cartSlice = createSlice({
       return state;
     },
 
-    
-    
-    
     clearCart: (state) => {
       return [];
     },
@@ -119,7 +145,6 @@ const compareItems = (arr1, arr2) => {
   });
 };
 
-
 // Función de utilidad para guardar el carrito en localStorage
 const saveCartToLocalStorage = (cart) => {
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -128,7 +153,6 @@ const saveCartToLocalStorage = (cart) => {
 export const { addToCart, removeFromCart, updateCartItemQuantity, clearCart } =
   cartSlice.actions;
 export default cartSlice.reducer;
-
 
 // Middleware para guardar el carrito en localStorage cuando cambia
 export const cartMiddleware = (store) => (next) => (action) => {
@@ -144,7 +168,6 @@ export const cartMiddleware = (store) => (next) => (action) => {
   }
   return result;
 };
-
 
 // Función para encontrar un producto por su ID en el carrito
 const findProductById = (state, id) => {
