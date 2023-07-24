@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { getDishes } from "../../Redux/actions/getAllDishes";
 import { getTypes } from "../../Redux/actions/getDishesTypes";
-// import {getDesserts} from '../../Redux/actions/actionsDesserts/getAllDesserts'
+ import {getDesserts} from '../../Redux/actions/actionsDesserts/getAllDesserts'
 import { sortDishesByType } from "../../Redux/slices/platosSlice";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./Home.module.css"
@@ -12,6 +12,7 @@ import style from "./Home.module.css"
 const Home = ({ toggleCart }) => {
   const { CardsContainer, FiltersAndSorts, FeaturedCategories } = HomeComponents;
   const [stateFood, setStateFood] = useState('all')
+  const [stateSort, setStateSort] = useState(' ')
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const dispatch = useDispatch();
@@ -24,50 +25,61 @@ const Home = ({ toggleCart }) => {
     setStateFood('dishes')
   };
 
+
+  useEffect(() => {
+      dispatch(getDishes());
+      dispatch(getDrinks());
+      dispatch(getDesserts())
+    dispatch(getTypes());
+  }, []);
+
   const handleToShow = (e) => {
     const val = e.target.getAttribute("data-value");
   
     if(val === 'drinks'){
+      if(allDrinks.length === 0){
+        dispatch(getDrinks());
+      }
       setStateFood('drinks')
+    }
+    if(val === 'desserts'){
+      if(allDeserts.length === 0){
+        dispatch(getDesserts())
+      }
+      setStateFood('desserts')
     } 
     if(val === 'all'){
       dispatch(sortDishesByType(val));
+      dispatch(getDishes());
+      dispatch(getDrinks());
+      dispatch(getDesserts())
       setStateFood('all')
     }
-  }
+  };
   const allDishes = useSelector((state) => state.dishes.dishes);
   const allDrinks = useSelector((state) => state.drinks.drinks);
-  // const allDeserts = useSelector((state) => state.desserts.desserts);
-  // console.log(allDeserts)
-  const all = allDishes.concat(allDrinks)
-  // console.log(all)
-
-  useEffect(() => {
-    if (allDishes.length === 0) {
-      dispatch(getDishes());
-    }
-    if(allDrinks.length === 0){
-      dispatch(getDrinks());
-    }
-    // if(allDeserts.length === 0){
-    //   dispatch(getDesserts())
-    // }
-
-    dispatch(getTypes());
-  }, [dispatch, allDishes.length, allDrinks.length]);
+ const allDeserts = useSelector((state) => state.desserts.desserts);
+  const all = allDishes.concat(allDrinks).concat(allDeserts);
+  
 
 
   const allDishesFiltered = all.filter((d) => d.description);
   const allDrinksFiltered = all.filter((d) => d.volume);
-  
-  
+  const allDesertsFiltered = all.filter((d) => !d.description && !d.volume)
 
-  let allThings = 
+  let allT = 
   stateFood === 'all' ? all : 
-  stateFood === 'dishes' 
-  ? allDishesFiltered : all || 
-  stateFood === 'drinks' 
-  ? allDrinksFiltered : all 
+  stateFood === 'dishes' ? allDishesFiltered :
+  stateFood === 'drinks' ? allDrinksFiltered :
+  stateFood === 'desserts' ? allDesertsFiltered : all;
+
+
+let allThings = 
+stateSort === ' ' ? allT :
+stateSort === 'asc'
+    ? allT.sort((a, b) => b.price - a.price)
+    : allT.sort((a, b) => a.price - b.price);
+
 
   
   
@@ -82,7 +94,7 @@ const Home = ({ toggleCart }) => {
           }
           className={style.sideBar}
         >
-          <FiltersAndSorts stateFood={stateFood} state={[isCollapsed, setIsCollapsed]} />
+          <FiltersAndSorts setStateSort={setStateSort} stateFood={stateFood} state={[isCollapsed, setIsCollapsed]} />
         </div>
         <div
           className={style.productsContent}

@@ -53,13 +53,8 @@ reducers:{
           ? asc.sort((a, b) => b.volume - a.volume)
           : asc.sort((a, b) => a.volume - b.volume);
       state.drinks = ascSort;
-}, sortDrinksByPrice: (state, action ) =>{
-    let asc = [...state.drinks];
-    let ascSort =
-      action.payload === "asc"
-        ? asc.sort((a, b) => b.price - a.price)
-        : asc.sort((a, b) => a.price - b.price);
-    state.drinks = ascSort;
+}, filterDrinksByName: (state,{payload}) =>{
+    state.drinks = []
 }
 }
 
@@ -70,8 +65,8 @@ export const { setDrinks,
     sortDrinksByGas,
     sortDrinksByAlchol,
     filterDrinksByType,
-    sortDrinksByPrice,
-    sortDrinksByVolume
+    sortDrinksByVolume,
+    filterDrinksByName
  } = drinkSlice.actions;
 
 export default drinkSlice.reducer;

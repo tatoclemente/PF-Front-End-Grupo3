@@ -1,10 +1,6 @@
 import style from "./CardsContainer.module.css";
-import { getDishes } from "../../../Redux/actions/getAllDishes";
-import {getDrinks} from '../../../Redux/actions/actionsDrinks/getAllDrinks'
-import { useDispatch, useSelector } from "react-redux";
-import logo from "../../../images/default-image.jpg";
 import Card from "../../Card/Card";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
 // import { sides } from "../../../utils/mock";
@@ -25,25 +21,12 @@ const CardsContainer = (props) => {
   
   const containerRef = useRef(null);
 
-  const dispatch = useDispatch();
-
-  const allDishes = useSelector((state) => state.dishes.dishes);
-  const allDrinks = useSelector((state) => state.drinks.drinks);
   
 
   
 
   // const [dishes, setDishes] = useState([]);
 
-  useEffect(() => {
-    if (allDishes.length === 0) {
-      dispatch(getDishes());
-    }
-    if(allDrinks.length === 0){
-      dispatch(getDrinks());
-    }}
-    
-  , [dispatch, allDishes]);
 
   // Constante de recetas por página
   const perPage = 6;
