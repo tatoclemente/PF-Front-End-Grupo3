@@ -17,6 +17,7 @@ export const dishesSlice = createSlice({
       state.sortedDishes = action.payload;
       state.dishesFilter = action.payload;
       state.dishCloud = action.payload
+      console.log('se lleno el estado platos')
     },
     getAllBebidas: (state, action) => {
       state.bebidas = action.payload;
@@ -81,14 +82,6 @@ export const dishesSlice = createSlice({
         state.dishes = vegg;
       }
     },
-    sortByPrice: (state, action) => {
-      let asc = [...state.dishes];
-      let ascSort =
-        action.payload === "asc"
-          ? asc.sort((a, b) => b.price - a.price)
-          : asc.sort((a, b) => a.price - b.price);
-      state.dishes = ascSort;
-    },
     sortByCalories: (state, action) => {
       let asc = [...state.dishes];
       let ascSort =
@@ -98,7 +91,8 @@ export const dishesSlice = createSlice({
       state.dishes = ascSort;
     },
     filterDishesByName: (state, { payload }) => {
-      state.dishes = payload;
+      state.dishes = payload
+     
     },
   },
 });

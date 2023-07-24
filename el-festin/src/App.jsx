@@ -23,6 +23,7 @@ import { Profile } from "./Components/Profile/Profile";
 function App() {
   let location = useLocation();
 
+
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const toggleCart = () => {

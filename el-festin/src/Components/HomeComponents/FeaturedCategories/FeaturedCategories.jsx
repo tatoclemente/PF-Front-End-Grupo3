@@ -123,12 +123,12 @@ const FeaturedCategories = ( props) => {
               <p>Bebidas</p>
             </div>
             <div
-              data-value={'deserts'}
+              data-value={'desserts'}
               className={Style.categoryContainer}
               onClick={props.handleToShow}
             >
               <img
-                data-value={'deserts'}
+                data-value={'desserts'}
                 className={Style.imgCategory}
                 src={logo}
                 alt=" "

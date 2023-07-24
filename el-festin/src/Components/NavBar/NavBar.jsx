@@ -10,7 +10,7 @@ import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { useEffect, useState } from "react";
 // import Modal from 'react-modal';
 
-export const Navbar = ({ isDashboard, toggleCart }) => {
+export const Navbar = ({ isDashboard, toggleCart}) => {
   const location = useLocation();
   const { user, logout } = useAuth();
   const dispatch = useDispatch();
