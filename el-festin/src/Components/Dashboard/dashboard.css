@@ -1,0 +1,74 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.dropdown select {
+  background-color: #313045;
+  color: whitesmoke;
+  padding: 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-width {
+  width: 700px;
+  height: auto;
+}
+
+.buttonCrear {
+  background-color: #313045;
+  color: whitesmoke;
+}
+
+.buttonCrear:hover {
+  background-color: #313045de;
+}
+
+.dropdown select:hover {
+  background-color: #313045cc;
+  color: whitesmoke;
+}
+
+.dropdown select option[disabled] {
+  color: #999;
+}
+
+.dropdown select option:hover {
+  background-color: #ddd;
+}
+
+.button {
+  position: relative;
+  width: 104px;
+  height: 54px;
+  border: solid 4px black;
+
+  border-radius: 6px;
+  cursor: pointer;
+  background-color:#FBC32C;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-inner {
+  position: absolute;
+  width: 47px;
+  height: 46px;
+  border-radius: 5%;
+
+  top: 0;
+  background-color:  #313045;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.button.on .button-inner {
+  transform: translateX(50px);
+}
+
+.bg-disabled {
+  background-color: #999999bf;
+}

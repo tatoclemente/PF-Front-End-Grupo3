@@ -1,0 +1,29 @@
+.title {
+  color: #FBC32C;
+  font-size: 2rem;
+  margin-top: 0.2%;
+  margin-bottom: 2%;
+}
+
+.carousel {
+  width: 90vw;
+  max-width: 1280px;
+  margin: 2% auto;
+}
+
+.slide {
+  text-align: center;
+  padding: 10px;
+  margin: 0 10px; /* Ajusta el espacio horizontal entre las diapositivas */
+}
+
+.image {
+  width: 100%;
+  max-width: 400px; /* Establece un ancho máximo para las imágenes */
+  height: 300px; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
+  object-fit: cover; /* Ajusta el modo de ajuste de la imagen */
+  border-radius: 10px;
+  margin-right: 2%; /* Ajusta el margen derecho utilizando porcentajes */
+  max-width: 100%;
+  max-height: 100%;
+}

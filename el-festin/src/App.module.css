@@ -1,3 +1,22 @@
 .appContainer {
+  width: 100%;
   text-align: center;
+  overflow-x: hidden;
+}
+
+.title {
+  color:  var(--primary-light);
+  background-color: var(--background-darkblue);
+}
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+  z-index: 998; /* Asegura que la capa se muestre por encima de la página anterior, pero debajo del carrito */
+  backdrop-filter: blur(2px); /* Aplica un efecto de desenfoque al fondo */
 }

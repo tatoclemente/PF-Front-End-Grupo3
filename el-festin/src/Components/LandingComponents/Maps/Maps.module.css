@@ -1,0 +1,34 @@
+.containerMaps {
+    border-radius: 15px;
+    display: flex;
+    margin: 1rem 0;
+    max-width: 100%;
+    max-height: 550px;
+  }
+  
+  .containerUb {
+    margin-top: 20px;
+    margin-right: 23px;
+    height: 70px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 190px;
+    font-weight: 700;
+    background-color: #313045;
+    font-size: 23px;
+    color: #707070;
+    text-align: left;
+    padding: 4px;
+  }
+  
+  .containerM {
+    background-color: #313045;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .title {
+    color: #FBC32C;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }

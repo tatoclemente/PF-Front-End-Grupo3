@@ -1,5 +1,32 @@
+:root{
+  --main-color: #FBC32C;
+  
+  /* opacity 75% */
+  --main-color-75: #FBC32CBF;
+  /* opacity 50% */
+  --main-color-50: #FBC32C80;
+  /* background color */
+  --background-darkblue: #313045;
+  /* texts or actions*/
+  --primary-light: #fff;
+  --primary-dark: #151819;
+  --text-blue-light: #356ae6;
+  --text-blue: #024bf5;
+
+
+  --gray: #707070;
+
+  --shadow: #31304572;
+
+  --button-hover-blue: #2D63E0;
+
+  --positive: #34E64F;
+  --negative: #D9343A;
+}
+
 body {
-  margin: 0;
+  margin:0;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

@@ -1,0 +1,36 @@
+.form {
+  background-color: #313045;
+  margin-left: 25%;
+  padding: 2rem;
+  width: 60%;
+  height: auto;
+}
+.img {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.label {
+  color: white;
+  font-size: 0.9rem;
+}
+.input {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.button {
+  width: 70%;
+  height: 30%;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+.error {
+  font-size: 0.7rem;
+  color: #d9343a;
+}
