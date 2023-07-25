@@ -38,13 +38,14 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/dashboard" element={<DashboardView />} />
           <Route
             path="/*"
             element={
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/dashboard" element={<DashboardView />} />
+                
                 </Routes>
               </PrivateRoute>
             }

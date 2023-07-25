@@ -1,11 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { server } from "../../Helpers/EndPoint";
-import { volumeDrink } from "../../Helpers/objetosHelp";
-import { typeDrink } from "../../Helpers/objetosHelp";
-import { validacionDrink } from "./Validaciones/validacionDrink";
-import "../Dashboard/dashboard.css";
-import style from "./Dashboard.module.css";
+import { server } from "../../../Helpers/EndPoint";
+import { volumeDrink } from "../../../Helpers/objetosHelp";
+import { typeDrink } from "../../../Helpers/objetosHelp";
+import { validacionDrink } from "../Validaciones/validacionDrink";
+import "../dashboard.css";
+import style from "../Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
   let initialState = {
