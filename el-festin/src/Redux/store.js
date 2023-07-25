@@ -1,21 +1,30 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import dishesSlice from './slices/platosSlice'
 import drinkSlice  from "./slices/bebidasSlice";
 import dessertSlice from "./slices/postresSlice";
 import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
-import orderSlice from "./slices/orderSlice";
+import orderSlice, { cartMiddleware } from "./slices/orderSlice";
 
-
-export default configureStore ({
-    reducer:{
-        dishes: dishesSlice,
+const reducer = combineReducers({
+    dishes: dishesSlice,
         drinks: drinkSlice,
         desserts: dessertSlice,
         sides: sideSlice,
         users: usersSlice,
-        order: orderSlice,
-    }
-}) 
+        cart: orderSlice,
+        // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cartMiddleware),
+    
+})
 
+
+const customizedMiddleware = (getDefaultMiddleware) =>
+  getDefaultMiddleware().concat(cartMiddleware);
+
+const store = configureStore({
+  reducer: reducer,
+  middleware: customizedMiddleware,
+});
+
+export default store;
 

@@ -4,25 +4,33 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import swal from 'sweetalert2';
+
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom'
+
 import styles from "./DetailPage.module.css";
 // import { sides } from "../../utils/mock";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import { addToCart } from "../../Redux/slices/orderSlice";
+import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 
-const Detail = ({ dishDetail }) => {
+const Detail = ({ dishDetail, toggleCart }) => {
   const dispatch = useDispatch();
   const allDrinks = useSelector((state) => state.drinks.drinks);
   const desserts = useSelector((state) => state.desserts.desserts);
   const sides = useSelector((state) => state.sides.sides);
+  const orderCart = useSelector(state=> state.cart) 
 
   useEffect(() => {
     dispatch(getDrinks());
     dispatch(getDesserts());
     dispatch(getSides());
   }, [dispatch]);
+
+  const Navigate = useNavigate()
 
   // Estado local para la orden seleccionada
   const [order, setOrder] = useState({
@@ -68,7 +76,11 @@ const Detail = ({ dishDetail }) => {
     const totalItemsDrink = getTotalDrinks();
 
     if (totalItemsDrink >= 2) {
-      alert("No puedes seleccionar más de dos bebidas en total.");
+      swal.fire({
+        title:"Ups, Lo siento!", 
+        text: "No puedes seleccionar más de dos bebidas en total.",
+        icon: 'info'
+      });
       return;
     }
 
@@ -78,7 +90,11 @@ const Detail = ({ dishDetail }) => {
 
     if (existingDrink) {
       if (existingDrink.quantity === 2) {
-        alert("No puedes seleccionar más de dos unidades de esta bebida.");
+        swal.fire({
+          title:"Ups, Lo siento!",
+          text: "No puedes seleccionar más de dos unidades de esta bebida.",
+          icon: 'info'
+        });
         return;
       }
 
@@ -98,7 +114,11 @@ const Detail = ({ dishDetail }) => {
           drinks: [...prevOrder.drinks, updatedDrink],
         }));
       } else {
-        alert("No puedes seleccionar más de dos bebidas.");
+        swal.fire({
+          title:"Ups, Lo siento!",
+          text: " No puedes seleccionar más de dos bebidas.",
+          icon: 'info'
+        });
       }
     }
   };
@@ -106,7 +126,11 @@ const Detail = ({ dishDetail }) => {
   const selectDessert = (selectedDessert) => {
     const totalItemsDesserts = getTotalDesserts();
     if (totalItemsDesserts >= 2) {
-      alert("No puedes seleccionar más de dos postres en total.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos postres en total.',
+        icon: 'info'
+      })
       return;
     }
 
@@ -116,7 +140,11 @@ const Detail = ({ dishDetail }) => {
 
     if (existingDessert) {
       if (existingDessert.quantity === 2) {
-        alert("No puedes seleccionar más de dos unidades de este postre.");
+        swal.fire({
+          title: 'Ups, Lo siento!',
+          text: 'No puedes seleccionar más de dos unidades de este postre.',
+          icon: 'info'
+        })
         return;
       }
 
@@ -136,7 +164,11 @@ const Detail = ({ dishDetail }) => {
           desserts: [...prevOrder.desserts, updatedDessert],
         }));
       } else {
-        alert("No puedes seleccionar más de dos postres.");
+        swal.fire({
+          title: 'Ups, Lo siento!',
+          text: 'No puedes seleccionar más de dos postres.',
+          icon: 'info'
+        })
       }
     }
   };
@@ -163,18 +195,31 @@ const Detail = ({ dishDetail }) => {
 
     // Verificar si ya se ha seleccionado el mismo elemento 2 veces
     if (item.cantidad === 2) {
-      alert("No puedes seleccionar más de dos unidades de este elemento.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos unidades de este elemento.',
+        icon: 'info'
+      })
       return;
     }
 
     // Verificar si ya se han seleccionado 2 elementos en total
     if (totalItemsDrink >= 2) {
-      alert("No puedes seleccionar más de dos bebidas en total.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos bebidas en total.',
+        icon: 'info'
+      })
       return;
     }
 
     if (item.type === "bebida" && getTotalDrinks() >= 2) {
-      alert("No puedes seleccionar más de dos bebidas.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos bebidas.',
+        icon: 'info'
+      })
+      alert("");
       return;
     }
 
@@ -194,17 +239,28 @@ const Detail = ({ dishDetail }) => {
 
     // Verificar si ya se ha seleccionado el mismo elemento 2 veces
     if (item.quantity === 2) {
-      alert("No puedes seleccionar más de dos unidades de este elemento.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos unidades de este elemento.',
+        icon: 'info'
+      })
       return;
     }
 
     if (totalItemsDesserts >= 2) {
-      alert("No puedes seleccionar más de dos postres en total.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos postres en total.',
+      })
       return;
     }
 
     if (item.type === "postre" && getTotalDesserts() >= 2) {
-      alert("No puedes seleccionar más de dos postres.");
+      swal.fire({
+        title: 'Ups, Lo siento!',
+        text: 'No puedes seleccionar más de dos postres.',
+        icon: 'info'
+      })
       return;
     }
 
@@ -339,9 +395,7 @@ const Detail = ({ dishDetail }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+ 
 
   const typeAdditional = (item) =>
     order.garnish === item
@@ -355,8 +409,18 @@ const Detail = ({ dishDetail }) => {
   //DISPATCH DE LA ORDEN AL ESTADO GLOBAL
 
   const addToCartHandler = () => {
+
+    if(orderCart.length > 4) {
+      swal.fire({
+        title:"Ups, Lo siento!",
+        text: "Has alcanzado el máximo de 5 ordenes por compra.",
+        icon: 'info'
+      });
+      return;
+    }
+
     // Verificar si hay al menos un artículo seleccionado (guarnición, bebida o postre)
-    if (order.garnish || order.drinks.length > 0 || order.desserts.length > 0) {
+    if (order.dish || order.garnish || order.drinks.length > 0 || order.desserts.length > 0) {
       // Realizar un dispatch para agregar la orden al carrito global
       dispatch(addToCart(order));
       // Limpiar el estado local de la orden después de agregarla al carrito
@@ -367,9 +431,13 @@ const Detail = ({ dishDetail }) => {
         desserts: [],
       });
       // Opcional: Mostrar una notificación o mensaje de éxito al usuario
-      alert("¡Producto agregado al carrito con éxito!");
-    } else {
-      alert("Debes seleccionar al menos un artículo para agregar al carrito.");
+      swal.fire({
+        // position: 'top-end',
+        icon: 'success',
+        title: '¡Producto agregado al carrito con éxito!',
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   };
 
@@ -387,15 +455,36 @@ const Detail = ({ dishDetail }) => {
     ];
 
     // Construir el mensaje de confirmación
-    const confirmationMessage = `Esta por agregar los siguientes items al carrito: ${selectedItemsNames.join(
+    const confirmationMessage = `${selectedItemsNames.join(
       ", "
-    )}. ¿Es correcto?`;
+    )}`;
+
 
     // console.log(confirmationMessage);
     // Mostrar la ventana de confirmación al usuario
-    if (window.confirm(confirmationMessage)) {
-      addToCartHandler(); // Llamada a la función para agregar al carrito
-    }
+    swal.fire({
+      title: 'Está agregando lo siguinete a la orden:',
+      text: confirmationMessage,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Seguir comprando',
+      denyButtonText: `Ir a pagar`,
+      denyButtonColor: 'var(--main-color)',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        addToCartHandler(); // Llamada a la función para agregar al carrito
+        Navigate('/home')
+      } else if (result.isDenied) {
+        addToCartHandler(); // Llamada a la función para agregar al carrito
+        toggleCart()
+        Navigate('/home')
+      }
+    })
+
+    // if (window.confirm(confirmationMessage)) {
+    //   addToCartHandler(); // Llamada a la función para agregar al carrito
+    // }
   };
 
   return (
@@ -557,7 +646,7 @@ const Detail = ({ dishDetail }) => {
             <h2 className={styles.titles}>{`Suma total: $ ${price}`}</h2>
           </div>
           <button className={styles.buttonAdd} onClick={showConfirmation}>
-            Agregar al carrito
+            agregar a orden
           </button>
         </div>
       </div>

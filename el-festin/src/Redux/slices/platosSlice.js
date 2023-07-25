@@ -8,6 +8,7 @@ export const dishesSlice = createSlice({
     dishesTypes: [],
     filteredDishTypes: [],
     sortedDishes: [],
+    dishCloud: []
   },
   reducers: {
     getAllDishes: (state, action) => {
@@ -15,15 +16,16 @@ export const dishesSlice = createSlice({
       state.filteredDishTypes = action.payload;
       state.sortedDishes = action.payload;
       state.dishesFilter = action.payload;
+      state.dishCloud = action.payload
+      console.log('se lleno el estado platos')
     },
     getAllBebidas: (state, action) => {
       state.bebidas = action.payload;
     },
     sortDishesByType: (state, action) => {
       console.log(action.payload);
-      let filteredD = state.dishesFilter.filter((el) =>
-        el.subtype.includes(action.payload)
-      );
+      let filteredD = action.payload === 'all' ? state.dishCloud : state.dishesFilter.filter((el) =>
+        el.subtype.includes(action.payload));
 
       state.dishes = filteredD;
       state.sortedDishes = filteredD;
@@ -80,14 +82,6 @@ export const dishesSlice = createSlice({
         state.dishes = vegg;
       }
     },
-    sortByPrice: (state, action) => {
-      let asc = [...state.dishes];
-      let ascSort =
-        action.payload === "asc"
-          ? asc.sort((a, b) => b.price - a.price)
-          : asc.sort((a, b) => a.price - b.price);
-      state.dishes = ascSort;
-    },
     sortByCalories: (state, action) => {
       let asc = [...state.dishes];
       let ascSort =
@@ -97,7 +91,8 @@ export const dishesSlice = createSlice({
       state.dishes = ascSort;
     },
     filterDishesByName: (state, { payload }) => {
-      state.dishes = payload;
+      state.dishes = payload
+     
     },
     deleteDish: (state, { payload }) => {
 

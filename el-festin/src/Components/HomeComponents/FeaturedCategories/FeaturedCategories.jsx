@@ -1,14 +1,26 @@
 import Style from "./FeaturedCategories.module.css";
-import logo from "../../../images/default-image.jpg";
-import { getTypes } from "../../../Redux/actions/getDishesTypes";
-import { useSelector, useDispatch } from "react-redux";
-import { sortDishesByType } from "../../../Redux/slices/platosSlice";
+// import logo from "../../../images/default-image.jpg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useEffect } from "react";
+
+import {
+  todos,
+  carnes,
+  bebidas,
+  // sandwiches,
+  // fritos,
+  ensaladas,
+  // guisados,
+  postres,
+  // sopas,
+  minutas,
+  pastas,
+  pescados,
+} from "./images/index";
 
 function SampleNextArrow(props) {
+
   const { className, style, onClick } = props;
   return (
     <div
@@ -22,6 +34,7 @@ function SampleNextArrow(props) {
     />
   );
 }
+
 
 function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
@@ -38,28 +51,15 @@ function SamplePrevArrow(props) {
   );
 }
 
-const FeaturedCategories = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTypes());
-  }, [dispatch]);
-
-  const dishType = useSelector((state) => state.dishes.dishesTypes);
-  console.log(dishType);
-
-  const handleType = (e) => {
-    const val = e.target.getAttribute("data-value");
-    console.log(val);
-    dispatch(sortDishesByType(val));
-  };
+const FeaturedCategories = (props) => {
 
   // Configuración del slider
   const sliderSettings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 7,
-    slidesToScroll: 4,
+    slidesToScroll: 2,
     initialSlide: 0,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -94,23 +94,130 @@ const FeaturedCategories = () => {
   return (
     <div className={Style.mainContainer}>
       <Slider className={Style.listContainer} {...sliderSettings}>
-        {dishType &&
-          dishType.map((type, index) => (
-            <div
+        <div
+          data-value={"all"}
+          className={Style.categoryContainer}
+          onClick={props.handleToShow}
+        >
+          <img
+            data-value={"all"}
+            className={Style.imgCategory}
+            src={todos}
+            alt=" "
+          />
+          <p>Todos</p>
+        </div>
+        <div
+          data-value={"pastas"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"pastas"}
+            className={Style.imgCategory}
+            src={pastas}
+            alt="pastas"
+          />
+          <p>Pastas</p>
+        </div>
+
+        <div
+          data-value={"carnes"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"carnes"}
+            className={Style.imgCategory}
+            src={carnes}
+            alt="carnes"
+          />
+          <p>Carnes</p>
+        </div>
+
+        <div
+          data-value={"ensaladas"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"ensaladas"}
+            className={Style.imgCategory}
+            src={ensaladas}
+            alt="ensaladas"
+          />
+          <p>Ensaladas</p>
+        </div>
+
+        <div
+          data-value={"pescados y mariscos"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"pescados y mariscos"}
+            className={Style.imgCategory}
+            src={pescados}
+            alt="pescados y mariscos"
+          />
+          <p>Pescados y mariscos</p>
+        </div>
+
+        <div
+          data-value={"minutas"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"minutas"}
+            className={Style.imgCategory}
+            src={minutas}
+            alt="minutas"
+          />
+          <p>Minutas</p>
+        </div>
+        {/* {props.dishType.map((type, index) => (
+          <div
+            data-value={type}
+            key={index}
+            className={Style.categoryContainer}
+            onClick={props.handleType}
+          >
+            <img
               data-value={type}
-              key={index}
-              className={Style.categoryContainer}
-              onClick={handleType}
-            >
-              <img
-                data-value={type}
-                className={Style.imgCategory}
-                src={logo}
-                alt=" "
-              />
-              <p>{type}</p>
-            </div>
-          ))}
+              className={Style.imgCategory}
+              src={logo}
+              alt=" "
+            />
+            <p>{type}</p>
+          </div>
+        ))} */}
+        <div
+          data-value={"drinks"}
+          className={Style.categoryContainer}
+          onClick={props.handleToShow}
+        >
+          <img
+            data-value={"drinks"}
+            className={Style.imgCategory}
+            src={bebidas}
+            alt=" "
+          />
+          <p>Bebidas</p>
+        </div>
+        <div
+          data-value={"desserts"}
+          className={Style.categoryContainer}
+          onClick={props.handleToShow}
+        >
+          <img
+            data-value={"desserts"}
+            className={Style.imgCategory}
+            src={postres}
+            alt=" "
+          />
+          <p>Postres</p>
+        </div>
       </Slider>
     </div>
   );

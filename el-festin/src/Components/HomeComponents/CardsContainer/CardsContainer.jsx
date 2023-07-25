@@ -1,9 +1,6 @@
 import style from "./CardsContainer.module.css";
-import { getDishes } from "../../../Redux/actions/getAllDishes";
-import { useDispatch, useSelector } from "react-redux";
-import logo from "../../../images/default-image.jpg";
 import Card from "../../Card/Card";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
 // import { sides } from "../../../utils/mock";
@@ -18,28 +15,24 @@ export const scrollToTopRef = (containerRef) => {
 };
 
 // {type, image, name, price, rating, description, id, addToCart}
-const CardsContainer = () => {
-  const [currentPage, setCurrentPage] = useState(0);
+const CardsContainer = (props) => {
+  let {allThings} = props
+  
   const containerRef = useRef(null);
 
-  const dispatch = useDispatch();
+  
 
-  const allDishes = useSelector((state) => state.dishes.dishes);
+  
 
   // const [dishes, setDishes] = useState([]);
 
-  useEffect(() => {
-    if (allDishes.length === 0) {
-      dispatch(getDishes());
-    }
-  }, [dispatch, allDishes]);
 
   // Constante de recetas por página
   const perPage = 6;
 
   //? ME GUARDO LOS VALORES PARA USAR EN EL SLICE QUE RENDERIZA LAS RECETAS QUE MUETRO POR PAGINA
   // El startIndex lo calculo con el valor alcual de la pagina mulriplicado por el maximo de recetas por página
-  const startIdx = currentPage * perPage;
+  const startIdx = props.currentPage * perPage;
   // El end =Index lo calculo con el valor del Indice de inicio + el total de recetas por página
   const endIdx = startIdx + perPage;
 
@@ -47,7 +40,7 @@ const CardsContainer = () => {
   // DESPACHO EL CAMBIO DE PAGINA
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 0 && pageNumber < totalPages) {
-      setCurrentPage(pageNumber);
+      props.setCurrentPage(pageNumber);
       scrollToTopRef(containerRef);
       setTimeout(() => scrollToTop(), 100); // Llamo a scrollToTop después de 100 milisegundos
     } // pasra esperar aue el estado se actualice correctamente
@@ -56,7 +49,7 @@ const CardsContainer = () => {
   // Me guardo el total de las páginas a travez de la funcion getTotalPage(),
   // que recibe toda la informacion necesaria para calcularlo
 
-  const totalPages = Math.ceil(allDishes.length / perPage);
+  const totalPages = Math.ceil(allThings.length / perPage);
 
   const addToCart = (id) => {
     window.alert(`orden ${id} agregada al carrito`);
@@ -66,13 +59,13 @@ const CardsContainer = () => {
     <div className={style.mainContainer} ref={containerRef}>
       <div>
         <Pagination
-          currentPage={currentPage}
+          currentPage={props.currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
       </div>
       <div className={style.cardsContainer}>
-        {allDishes.slice(startIdx, endIdx).map((dish, index) => {
+        {allThings.slice(startIdx, endIdx).map((dish, index) => {
           return (
             <div key={index}>
               <Card
@@ -81,9 +74,11 @@ const CardsContainer = () => {
                 name={dish.name}
                 price={dish.price}
                 rating={dish.rating}
+                volume={dish.volume}
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}
+                toggleCart={props.toggleCart}
               />
             </div>
           );
@@ -91,7 +86,7 @@ const CardsContainer = () => {
       </div>
       <div className={style.pagination}>
         <Pagination
-          currentPage={currentPage}
+          currentPage={props.currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />

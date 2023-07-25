@@ -3,7 +3,7 @@ import DetailPage from "../../Components/DetailPage/DetailPage";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function Detail() {
+function Detail({ toggleCart }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [dishDetail, setDishDetail] = useState({});
@@ -40,7 +40,7 @@ function Detail() {
 
   return (
     <div>
-      {loading ? <p>Please Wait...</p> : <DetailPage dishDetail={dishDetail} />}
+      {loading ? <p>Please Wait...</p> : <DetailPage dishDetail={dishDetail} toggleCart={toggleCart}/>}
     </div>
   );
 }

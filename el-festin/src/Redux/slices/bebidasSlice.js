@@ -46,25 +46,21 @@ reducers:{
         
             state.drinks = drank
     }
-
-
-}, sortDrinksByGas: (state, action) => {
-    if(action.payload === 'all'){
-        let drin = state.sortedDrinks
-        state.drinks = drin
-    }
-    if(action.payload === 'gas'){
-        let drin = [...state.drinks]
-        let drk = drin.filter(el => el.gas === true)
-        let drank = drk.length === 0 ? state.sortedDrinks.filter(el => el.gas === true) : drk
-        state.drinks = drank
-    }
-    if(action.payload === 'noGas'){
-        let drin = [...state.drinks]
-        let drk = drin.filter(el => el.gas === false)
-        let drank = drk.length === 0 ? state.sortedDrinks.filter(el => el.gas === false) : drk
-        state.drinks = drank
-}
+}, sortDrinksByVolume: (state, action) =>{
+    let sortedDrinks = [...state.drinks];
+    const extractVolume = (drink) => {
+      const volumeString = drink.volume;
+      const volumeNumber = parseFloat(volumeString);
+  
+      return isNaN(volumeNumber) ? 0 : volumeNumber; 
+    };
+    sortedDrinks.sort((a, b) => {
+      const volumeA = extractVolume(a);
+      const volumeB = extractVolume(b);
+      return action.payload === "asc" ? volumeA - volumeB : volumeB - volumeA;
+    })
+}, filterDrinksByName: (state,{payload}) =>{
+    state.drinks = []
 }
 }
 
@@ -75,6 +71,8 @@ export const { setDrinks,
     sortDrinksByGas,
     sortDrinksByAlchol,
     filterDrinksByType,
+    sortDrinksByVolume,
+    filterDrinksByName
  } = drinkSlice.actions;
 
 export default drinkSlice.reducer;

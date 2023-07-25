@@ -2,19 +2,20 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getFilterName } from "../../Redux/actions/getFilterName";
 
-export const SearchBar = ({ path }) => {
+export const SearchBar = (props) => {
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
 
   const onInputChange = ({ target }) => {
     setInput(target.value);
+    
   };
 
   const onSubmitSearch = (e) => {
     e.preventDefault();
     dispatch(getFilterName(input));
   };
-  if (path !== "/") {
+  if (props.path !== "/") {
     return (
       <form onSubmit={onSubmitSearch} className="search-input-container">
         <input
