@@ -1,5 +1,5 @@
 import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
-import React from "react";
+import React, { useState } from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,10 +12,48 @@ import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useAuth } from "../../Context/authContext";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
+
+  //* MERCADO PAGO
+
+  const [preferenceId, setPreferenceId] = useState(null);
+  initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
+
+  const createPreference = async () => {
+    try {
+      const { data } = await axios.post(`${server}/mercadopago`, {
+        title: "Producto",
+        description: "Producto",
+        unit_price: 10,
+        quantity: 1,
+      });
+      const { id } = data;
+      return id;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleBuy = async () => {
+    const id = await createPreference();
+
+    if (id) setPreferenceId(id);
+  };
+
+  //*MERCADO PAGO
+
   const dispatch = useDispatch();
 
+  const usersDB = useSelector(state => state.users.users)
+  const { user } = useAuth();
+  
+  const currentUser = usersDB.find(u => u.email === user?.email)
+
+  console.log(currentUser?.id);
+  
   const cartStyle = {
     right: isOpen ? "0" : "-100%",
   };
@@ -118,12 +156,26 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     dispatch(clearCart());
   };
 
-  const handlePaySubmit = (e) => {
+
+  const pedido = {
+    userId: currentUser?.id,
+    order: formattedCart,
+  } 
+
+  const handlePaySubmit = async (e) => {
     e.preventDefault()
 
+     // Crear la preferencia de pago
+     if (!preferenceId) {
+      await handleBuy();
+      return; // No envíes la orden al backend todavía, ya que el usuario será redirigido a Mercado Pago
+    }
+
     try {
-      const {data} = axios.post(`${server}/order`, formattedCart)
-      if (data) {
+      const data = await axios.post(`${server}/completeOrder`, pedido)
+      // const data = await axios.post(`http://localhost:3001/completeOrder`, pedido)
+      console.log("DATA POST_________", data.data);
+      if (Object.keys(data).length > 0) {
         clearAllCart();
         onCloseCart();
         Swal.fire({
@@ -131,7 +183,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           icon: 'success',
           title: '¡Su orden ha sido procesada!',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         })
       }  else {
         Swal.fire({
@@ -344,6 +396,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           })
         )}
       </div>
+      {/* <MercadoPago /> */}
       <button
       onClick={handlePaySubmit}
         disabled={order === null || order.length === 0}
@@ -355,6 +408,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       >
         PAGAR <span>{` Suma total $${calculateTotalPrice()}`}</span>
       </button>
+      {preferenceId && <Wallet initialization={{ preferenceId }} />}
       {order.length !== 0 && (
         <button className={style.clearButton} onClick={clearAllCart}>
           YA NO QUIERO ESTA LA ORDEN

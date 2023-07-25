@@ -162,8 +162,8 @@ const val = e.target.value;
                   <div className={style.filters}>
 
                     <label>Ordene por calorías</label>
-                    <select className={style.select} onChange={handleCalories}>
-                      <option selected disabled>
+                    <select className={style.select} onChange={handleCalories} defaultValue='title'>
+                      <option value='title' disabled>
                         Elige por calorias
                       </option>
                       <option value="asc">Más Calorías</option>
