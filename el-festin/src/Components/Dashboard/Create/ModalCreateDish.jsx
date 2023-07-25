@@ -1,13 +1,13 @@
-import axios from "axios";
-import { server } from "../../Helpers/EndPoint";
 import { useEffect, useState } from "react";
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { server } from "../../../Helpers/EndPoint";
+import { validacionDish } from "../Validaciones/validacionDish";
+import { getTypes } from "../../../Redux/actions/getDishesTypes";
+import style from "../Dashboard.module.css";
+import "../dashboard.css";
 
-import { validacionDish } from "./Validaciones/validacionDish";
-import { getTypes } from "../../Redux/actions/getDishesTypes";
-import style from "./Dashboard.module.css";
-import "../Dashboard/dashboard.css";
+
 
 export const ModalCreateDish = () => {
   let initialState = {

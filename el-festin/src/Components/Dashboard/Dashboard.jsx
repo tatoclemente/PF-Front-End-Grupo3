@@ -3,10 +3,10 @@ import {
   ModalCreateDish,
   ModalCreateDrink,
   ModalCreateSide,
-} from "./index";
-
+} from "./Create/index";
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
+import { DeleteDish } from "./Delete/DeleteDish";
 
 export const Dashboard = () => {
   return (
@@ -36,9 +36,7 @@ export const Dashboard = () => {
         <hr />
         <ul className={Styles.options}>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Plato
-            </button>
+            <DeleteDish/>
           </li>
           <li>
             <button className={`btn btn-primary ${Styles.buttonDelete}`}>

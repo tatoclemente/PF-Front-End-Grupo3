@@ -1,9 +1,9 @@
 import axios from "axios";
-import { server } from "../../Helpers/EndPoint";
+import { server } from "../../../Helpers/EndPoint";
 
 import { useState } from "react";
-import { validacionGuar } from "./Validaciones/validacionGuar";
-import style from "./Dashboard.module.css";
+import { validacionGuar } from "../Validaciones/validacionGuar";
+import style from "../Dashboard.module.css";
 
 export const ModalCreateSide = () => {
   let initialState = {
