@@ -136,7 +136,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     e.preventDefault()
 
     try {
-      const data = await axios.post(`http://localhost:3001/completeOrder`, pedido)
+      const data = await axios.post(`${server}/completeOrder`, pedido)
       console.log("DATA POST_________", data);
       if (Object.keys(data).length > 0) {
         clearAllCart();
