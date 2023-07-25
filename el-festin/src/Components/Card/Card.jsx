@@ -141,7 +141,7 @@ function Card({type, image, name, price, volume, rating, description, id, toggle
 
   return (
     <div className={style.cardContainer}>
-      <p className={style.type}>{type? type : 'Postre'}</p>
+      <p className={style.type}>{type? type : 'Postres'}</p>
       <div className={style.cardContent}>
         <div className={style.rating}>{renderStars()}</div> 
         
