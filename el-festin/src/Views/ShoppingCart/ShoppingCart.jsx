@@ -14,12 +14,17 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useAuth } from "../../Context/authContext";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
 
   //* MERCADO PAGO
 
   const [preferenceId, setPreferenceId] = useState(null);
+  const [isPreferenceCreated, setIsPreferenceCreated] = useState(false);
+
+  const navigate = useNavigate()
+
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
 
   const createPreference = async () => {
@@ -160,15 +165,33 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   const pedido = {
     userId: currentUser?.id,
     order: formattedCart,
-  } 
+  }
 
   const handlePaySubmit = async (e) => {
     e.preventDefault()
 
-     // Crear la preferencia de pago
-     if (!preferenceId) {
+    if(pedido.userId === undefined) { 
+      Swal.fire({
+        icon: 'info',
+        title: 'Ups, siento!',
+        text: 'Debe estar registrado para pagar esta orden',
+        confirmButtonText: 'Registrarme Ahora!',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) { 
+          onCloseCart()
+          navigate('/login')
+        }
+      })
+      return
+    }
+
+    // Crear la preferencia de pago si aún no ha sido creada
+    if (!isPreferenceCreated) {
+
       await handleBuy();
-      return; // No envíes la orden al backend todavía, ya que el usuario será redirigido a Mercado Pago
+      setIsPreferenceCreated(true);
+      // Actualizar el estado a true cuando se crea la preferencia de pago
     }
 
     try {
@@ -408,7 +431,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       >
         PAGAR <span>{` Suma total $${calculateTotalPrice()}`}</span>
       </button>
-      {preferenceId && <Wallet initialization={{ preferenceId }} />}
+      {isPreferenceCreated && <Wallet initialization={{ preferenceId }} />}
       {order.length !== 0 && (
         <button className={style.clearButton} onClick={clearAllCart}>
           YA NO QUIERO ESTA LA ORDEN
