@@ -84,7 +84,7 @@ const val = e.target.value;
         ) : null}
       </div>
 
-      <div className={style.filteredContent} isCollapsed={isCollapsed}>
+      <div className={style.filteredContent}>
         
 
         {props.stateFood !== "all" ? (
@@ -148,8 +148,9 @@ const val = e.target.value;
                     <select
                       className={style.select}
                       onChange={handlePriceAll}
+                      defaultValue='title'
                     >
-                      <option selected disabled>
+                      <option value='title' disabled>
                         Elige por precio
                       </option>
                       <option value="asc">Mayor precio</option>

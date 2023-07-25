@@ -90,6 +90,7 @@ export const Login = () => {
         const { data } = await axios.post(`${server}/user`, {
           name: result.displayName,
           email: result.email,
+          lastName: ''
         });
         console.log("data",data)
         if (data) {
