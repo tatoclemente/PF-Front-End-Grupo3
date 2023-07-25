@@ -1,10 +1,11 @@
+import { server } from '../../Helpers/EndPoint';
 import {getAllDishesTypes } from '../slices/platosSlice'
 import axios from 'axios';
 
 export const getTypes = () => async (dispatch) => {
 
     try {
-      const { data } = await axios.get("http://pf-server-production.up.railway.app/dish");
+      const { data } = await axios.get(`${server}/dish`);
       const dishTypes = data.map((a) => a.subtype);
       let resultado = dishTypes.reduce((a, e) => {
           if(!a.find(d => d === e)) a.push(e)
