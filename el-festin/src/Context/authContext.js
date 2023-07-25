@@ -20,7 +20,7 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const signup = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
@@ -30,9 +30,10 @@ export function AuthProvider({ children }) {
 
   const logout = () => signOut(auth);
 
-  const logingWithGoogle = () => {
+  const logingWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    return result.user;
   };
   const logingWithFacebook = () => {
     const provider = new FacebookAuthProvider();
@@ -46,15 +47,23 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsuscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false)
+      setLoading(false);
     });
-    return ()=> unsuscribe()
+    return () => unsuscribe();
   }, []);
 
   return (
     <authContext.Provider
-      value={{ signup, login, logout, user, loading, logingWithGoogle, logingWithFacebook, resetPassword }}
-    >
+      value={{
+        signup,
+        login,
+        logout,
+        user,
+        loading,
+        logingWithGoogle,
+        logingWithFacebook,
+        resetPassword,
+      }}>
       {children}
     </authContext.Provider>
   );
