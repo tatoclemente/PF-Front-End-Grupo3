@@ -1,4 +1,4 @@
-import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
+// import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
 import React, { useState } from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
 
+  const order = useSelector((state) => state.cart); 
+
   //* MERCADO PAGO
 
   const [preferenceId, setPreferenceId] = useState(null);
@@ -28,11 +30,38 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
 
   const createPreference = async () => {
+    const orderDescriptions = order.reduce((descriptions, item) => {
+      if (item.dish) {
+        const dishDescription = item.garnish
+          ? `${item.quantity} ${item.dish.name} con ${item.garnish.name}`
+          : `${item.quantity} ${item.dish.name}`;
+        descriptions.push(dishDescription);
+      }
+  
+      if (item.drinks) {
+        item.drinks.forEach((drink) => {
+          descriptions.push(`${drink.quantity} ${drink.name}`);
+        });
+      }
+  
+      if (item.desserts) {
+        item.desserts.forEach((dessert) => {
+          descriptions.push(`${dessert.quantity} ${dessert.name}`);
+        });
+      }
+  
+      return descriptions;
+    }, []);
+  
+    const preferenceDescription = orderDescriptions.join(", ");
+
+    console.log(preferenceDescription);
+  
     try {
       const { data } = await axios.post(`${server}/mercadopago`, {
-        title: "Producto",
-        description: "Producto",
-        unit_price: 10,
+        title: "Compra en El Festín online",
+        description: preferenceDescription,
+        unit_price: calculateTotalPrice(),
         quantity: 1,
       });
       const { id } = data;
@@ -63,7 +92,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     right: isOpen ? "0" : "-100%",
   };
 
-  const order = useSelector((state) => state.cart); 
+
 
   //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
   const formattedCart = order.map((item) => {
