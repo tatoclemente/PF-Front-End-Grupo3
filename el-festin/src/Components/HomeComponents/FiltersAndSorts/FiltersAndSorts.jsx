@@ -9,7 +9,7 @@ import {
 } from "../../../Redux/slices/platosSlice";
 import {
   sortDrinksByAlchol,
-  sortDrinksByVolume,
+  
 } from "../../../Redux/slices/bebidasSlice";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useEffect } from "react";
@@ -22,11 +22,6 @@ function FiltersAndSorts(props) {
   useEffect(() => {
     dispatch(getDrTypes());
   }, []);
-
-  const handleVolume = (e) => {
-    const val = e.target.value;
-    dispatch(sortDrinksByVolume(val));
-  };
 
   const handleAlcohol = (e) => {
     const val = e.target.value;
@@ -162,22 +157,6 @@ const val = e.target.value;
                     </select>
                   </div>
 
-                  {props.stateFood === "drinks" ? (
-                <div>
-                  <div className={style.filters}>
-                    <label>Ordene por volumen</label>
-                    <select className={style.select} onChange={handleVolume} defaultValue='title'>
-                      <option value='title' disabled>
-                        Elige por volumen
-                      </option>
-                      <option value="asc">Más volumen</option>
-                      <option value="desc">Menos volumen</option>
-                    </select>
-                  </div>
-
-                  
-                </div>
-              ) : null}
                 {props.stateFood === "dishes" ? (
                 <div>
                   <div className={style.filters}>
