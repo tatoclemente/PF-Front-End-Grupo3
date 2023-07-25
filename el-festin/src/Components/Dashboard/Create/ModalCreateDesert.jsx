@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import { server } from "../../Helpers/EndPoint";
-import { validacionDesert } from './Validaciones/validacionDesert'
-import style from "./Dashboard.module.css"
+import { server } from "../../../Helpers/EndPoint";
+import { validacionDesert } from '../Validaciones/validacionDesert'
+import style from "../Dashboard.module.css"
 
 
 export const ModalCreateDesert = () => {

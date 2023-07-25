@@ -55,14 +55,19 @@ function App() {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/home" element={<Home toggleCart={toggleCart} />} />
           <Route path="/about" element={<About />} />
+
+        
+          <Route path="/dashboard" element={<DashboardView />} />
+
           <Route path="/detail/:id" element={<Detail toggleCart={toggleCart} />} />
+
           <Route
             path="/*"
             element={
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/dashboard" element={<DashboardView />} />
+                
                 </Routes>
               </PrivateRoute>
             }

@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import logo1 from "../Assets/logo1.png";
-import logo2 from "../Assets/logo2.png";
+import { server } from "../Helpers/EndPoint";
 import { logo } from "../Helpers/ImageUrl";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Context/authContext";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers";
-import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
+import { postUser } from "../Redux/slices/usersSlice";
 import "./login.css";
 import { MdArrowBackIosNew } from "react-icons/md";
+import axios from "axios";
 
 export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
 
   const { user, login, logingWithGoogle, resetPassword } = useAuth();
-  console.log(user);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [users, setUsers] = useState({
@@ -23,6 +24,7 @@ export const Login = () => {
     password: "",
   });
   const [userGoogle, setUserGoogle] = useState(null);
+  console.log("userGoogle", userGoogle);
   const [userDataSent, setUserDataSent] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
@@ -38,15 +40,6 @@ export const Login = () => {
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
-  useEffect(() => {
-    // Update the userGoogle state when the user is authenticated
-    if (user) {
-      setUserGoogle({
-        name: user.displayName,
-        email: user.email,
-      });
-    }
-  }, [user]);
 
   const handleChange = (e) => {
     setUsers({ ...users, [e.target.name]: e.target.value });
@@ -86,11 +79,24 @@ export const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await logingWithGoogle();
+      const result = await logingWithGoogle();
+      console.log("result", result);
+      const finder = usersDB.find((us) => us.email === result.email);
+      console.log("finder",finder);
 
-      dispatch(postUsers(userGoogle));
-      setUserDataSent(true);
-      navigate("/home");
+      if (finder) {
+        navigate("/home");
+      } else {
+        const { data } = await axios.post(`${server}/user`, {
+          name: result.displayName,
+          email: result.email,
+        });
+        console.log("data",data)
+        if (data) {
+          dispatch(postUser(data));
+          navigate("/home");
+        }
+      }
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
@@ -176,8 +182,7 @@ export const Login = () => {
           <a
             href="#!"
             className="color-register-b"
-            onClick={handleResetPassword}
-          >
+            onClick={handleResetPassword}>
             ¿Olvidaste la contraseña?
           </a>
         </li>
@@ -185,8 +190,7 @@ export const Login = () => {
         <li className="d-flex justify-content-center align-items-center">
           <button
             type="submit"
-            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-6 fw-bold"
-          >
+            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-6 fw-bold">
             Entrar
           </button>
         </li>
@@ -195,8 +199,7 @@ export const Login = () => {
       <li className="d-flex justify-content-center align-items-center pt-4">
         <button
           className="btn-google-rounded text-white fs-6"
-          onClick={handleGoogleLogin}
-        >
+          onClick={handleGoogleLogin}>
           <span>
             <img
               src={logo1}

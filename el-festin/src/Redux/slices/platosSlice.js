@@ -94,6 +94,9 @@ export const dishesSlice = createSlice({
       state.dishes = payload
      
     },
+    deleteDish: (state, { payload }) => {
+
+    },
   },
 });
 
@@ -106,7 +109,8 @@ export const {
   sortDishesByVeggy,
   sortByPrice,
   sortByCalories,
-  filterDishesByName
+  filterDishesByName,
+  deleteDish
 } = dishesSlice.actions;
 
 export default dishesSlice.reducer;
