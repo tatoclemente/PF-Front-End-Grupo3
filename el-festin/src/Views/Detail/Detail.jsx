@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DetailPage from "../../Components/DetailPage/DetailPage";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { server } from "../../Helpers/EndPoint";
 
 function Detail({ toggleCart }) {
   const { id } = useParams();
@@ -13,7 +14,7 @@ function Detail({ toggleCart }) {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://pf-server-production.up.railway.app/id/${id}`
+          `${server}/id/${id}`
         );
         if (data.name) {
           setDishDetail(data);

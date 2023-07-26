@@ -1,9 +1,10 @@
+import { server } from '../../../Helpers/EndPoint';
 import { postUser } from '../../slices/usersSlice';
 import axios from 'axios';
 
 export const postUsers = (userData) => async (dispatch) => {
     try {
-        const { data } = await axios.post('https://pf-server-production.up.railway.app/user', userData);
+        const { data } = await axios.post(`${server}/user`, userData);
         console.log(data);
         dispatch(postUser(data));
     } catch (error) {
