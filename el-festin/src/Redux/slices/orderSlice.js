@@ -45,45 +45,71 @@ const cartSlice = createSlice({
 
     removeFromCart: (state, action) => {
       const productId = action.payload;
+      // console.log("REMOVE FROM CART", productId);
+
       const product = findProductById(state, productId);
-    
+      // console.log("ORDER TYPE", product.type);
+
       if (product) {
-        return state.filter((item) => {
-          // Filtrar el objeto completo del carrito que contiene el producto a eliminar
-          switch (product.type) {
-            case "dish":
-              return item.dish?.id !== productId;
-            case "drink":
-              if (item.drinks.length === 1) {
-                return item.drinks[0].id !== productId;
-              } else {
+        switch (product.type) {
+          case "dish":
+            // console.log("Dish ID to remove:", productId);
+            return state.filter((item) => item.dish?.id !== productId);
+
+          case "drink":
+            // console.log("Drink ID to remove:", productId);
+            return state.map((item) => {
+              if (
+                item.drinks?.length === 1 &&
+                item.drinks[0]?.id === productId
+              ) {
+                return { ...item, drinks: [] };
+              } else if (item.drinks?.some((drink) => drink.id === productId)) {
                 return {
                   ...item,
                   drinks: item.drinks.filter((drink) => drink.id !== productId),
                 };
-              }
-            case "dessert":
-              if (item.desserts.length === 1) {
-                return item.desserts[0].id !== productId;
               } else {
+                return item;
+              }
+            });
+
+          case "dessert":
+            // console.log("Dessert ID to remove:", productId);
+            return state.map((item) => {
+              if (
+                item.desserts?.length === 1 &&
+                item.desserts[0]?.id === productId
+              ) {
+                return { ...item, desserts: [] };
+              } else if (
+                item.desserts?.some((dessert) => dessert.id === productId)
+              ) {
                 return {
                   ...item,
-                  desserts: item.desserts.filter((dessert) => dessert.id !== productId),
+                  desserts: item.desserts.filter(
+                    (dessert) => dessert.id !== productId
+                  ),
                 };
+              } else {
+                return item;
               }
-            default:
-              return true;
-          }
-        });
+            });
+
+          default:
+            return state;
+        }
       }
+
       return state;
     },
-    
+
+    // carritoSlice.js
 
     updateCartItemQuantity: (state, action) => {
       const { id, quantity } = action.payload;
       const product = findProductById(state, id);
-      console.log("PRODUCTO ENCONTRADO", product);
+
       if (product) {
         switch (product.type) {
           case "dish":
@@ -141,7 +167,7 @@ const compareItems = (arr1, arr2) => {
 
   return arr1.every((item1) => {
     const foundItem = arr2.find((item2) => item2.id === item1.id);
-    return foundItem && foundItem.cantidad === item1.cantidad;
+    return foundItem && foundItem.quantity === item1.quantity;
   });
 };
 
