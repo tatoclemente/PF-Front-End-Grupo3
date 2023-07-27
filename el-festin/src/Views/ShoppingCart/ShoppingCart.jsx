@@ -1,5 +1,5 @@
 // import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
-import React, { useState } from "react";
+import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,161 +13,34 @@ import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useAuth } from "../../Context/authContext";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
 import { useNavigate } from "react-router-dom";
+import { formattedDescription } from "../../functions/formattedDescription";
+import { formattedCart } from "../../functions/formattedCart";
+import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
+  const order = useSelector((state) => state.cart);
 
-  const order = useSelector((state) => state.cart); 
+  const navigate = useNavigate();
 
   //* MERCADO PAGO
 
-  const [preferenceId, setPreferenceId] = useState(null);
-  const [isPreferenceCreated, setIsPreferenceCreated] = useState(false);
-
-  const navigate = useNavigate()
-
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
-
-  const createPreference = async () => {
-    const orderDescriptions = order.reduce((descriptions, item) => {
-      if (item.dish) {
-        const dishDescription = item.garnish
-          ? `${item.quantity} ${item.dish.name} con ${item.garnish.name}`
-          : `${item.quantity} ${item.dish.name}`;
-        descriptions.push(dishDescription);
-      }
-  
-      if (item.drinks) {
-        item.drinks.forEach((drink) => {
-          descriptions.push(`${drink.quantity} ${drink.name}`);
-        });
-      }
-  
-      if (item.desserts) {
-        item.desserts.forEach((dessert) => {
-          descriptions.push(`${dessert.quantity} ${dessert.name}`);
-        });
-      }
-  
-      return descriptions;
-    }, []);
-  
-    const preferenceDescription = orderDescriptions.join(", ");
-
-    console.log(preferenceDescription);
-  
-    try {
-      const { data } = await axios.post(`${server}/mercadopago`, {
-        title: "Compra en El Festín online",
-        description: preferenceDescription,
-        unit_price: calculateTotalPrice(),
-        quantity: 1,
-      });
-      const { id } = data;
-      return id;
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleBuy = async () => {
-    const id = await createPreference();
-
-    if (id) setPreferenceId(id);
-  };
 
   //*MERCADO PAGO
 
   const dispatch = useDispatch();
 
-  const usersDB = useSelector(state => state.users.users)
+  const usersDB = useSelector((state) => state.users.users);
   const { user } = useAuth();
-  
-  const currentUser = usersDB.find(u => u.email === user?.email)
+
+  const currentUser = usersDB.find((u) => u.email === user?.email);
 
   console.log(currentUser?.id);
-  
-  const cartStyle = {
-    right: isOpen ? "0" : "-100%",
-  };
-
-
-
-  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
-  const formattedCart = order.map((item) => {
-    const formattedItem = {};
-
-    if (item.dish) {
-      formattedItem.dish = [{
-        id: item.dish.id,
-        price: item.dish.price,
-        quantity: item.dish.quantity,
-      }];
-    }
-
-    if (item.garnish) {
-      formattedItem.garnish = [{
-        id: item.garnish.id,
-        price: item.garnish.price,
-        quantity: item.garnish.quantity,
-      }];
-    }
-
-    if (item.drinks.length > 0) {
-      formattedItem.drinks = item.drinks.map((drink) => ({
-        id: drink.id,
-        price: drink.price,
-        quantity: drink.quantity,
-      }));
-    }
-
-    if (item.desserts.length > 0) {
-      formattedItem.desserts = item.desserts.map((dessert) => ({
-        id: dessert.id,
-        price: dessert.price,
-        quantity: dessert.quantity,
-      }));
-    }
-
-    return formattedItem;
-  });
-
-  //? --> VER LO QUE SE HA FORMATEADO
-  // console.log("CART", formattedCart);
-
-  // ...
 
   // Función para calcular el precio total de todos los ítems en el carrito
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    order.forEach((item) => {
-      const hasGarnish = item.garnish !== null;
-
-      if (item.dish && item.dish.price) {
-        totalPrice += parseFloat(item.dish.price) * item.dish.quantity; // Multiplicar el precio del plato por la cantidad
-      }
-
-      if (hasGarnish && item.garnish && item.garnish.price) {
-        totalPrice += parseFloat(item.garnish.price);
-      }
-
-      // Sumar el precio de las bebidas
-      item.drinks.forEach((drink) => {
-        if (drink.price) {
-          totalPrice += parseFloat(drink.price) * drink.quantity; // Multiplicar el precio de la bebida por la cantidad
-        }
-      });
-
-      // Sumar el precio de los postres
-      item.desserts.forEach((dessert) => {
-        if (dessert.price) {
-          totalPrice += parseFloat(dessert.price) * dessert.quantity; // Multiplicar el precio del postre por la cantidad
-        }
-      });
-    });
-    return totalPrice;
-  };
+  const totalPrice = calculateTotalPrice(order);
 
   // ...
 
@@ -190,65 +63,75 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     dispatch(clearCart());
   };
 
+  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
+  const formattedOrder = formattedCart(order);
+  //? --> VER LO QUE SE HA FORMATEADO
+  // console.log("CART", formattedOrder);
 
+  // Armo el objeto para enviar al back
   const pedido = {
     userId: currentUser?.id,
-    order: formattedCart,
-  }
+    order: formattedOrder,
+  };
 
   const handlePaySubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if(pedido.userId === undefined) { 
+    if (pedido.userId === undefined) {
       Swal.fire({
-        icon: 'info',
-        title: 'Ups, siento!',
-        text: 'Debe estar registrado para pagar esta orden',
-        confirmButtonText: 'Registrarme Ahora!',
+        icon: "info",
+        title: "Ups, siento!",
+        text: "Debe estar registrado para pagar esta orden",
+        confirmButtonText: "Registrarme Ahora!",
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) { 
-          onCloseCart()
-          navigate('/login')
+        if (result.isConfirmed) {
+          onCloseCart();
+          navigate("/login");
         }
-      })
-      return
-    }
-
-    // Crear la preferencia de pago si aún no ha sido creada
-    if (!isPreferenceCreated) {
-
-      await handleBuy();
-      setIsPreferenceCreated(true);
-      // Actualizar el estado a true cuando se crea la preferencia de pago
+      });
+      return;
     }
 
     try {
-      const data = await axios.post(`${server}/completeOrder`, pedido)
-      // const data = await axios.post(`http://localhost:3001/completeOrder`, pedido)
+      const data = await axios.post(`${server}/completeOrder`, pedido);
       console.log("DATA POST_________", data.data);
       if (Object.keys(data).length > 0) {
-        clearAllCart();
-        onCloseCart();
         Swal.fire({
           // position: 'top-end',
-          icon: 'success',
-          title: '¡Su orden ha sido procesada!',
+          icon: "success",
+          title: "¡Lo estamos redirecionando para su pago!",
           showConfirmButton: false,
-          timer: 2000
-        })
-      }  else {
+          timer: 2000,
+        });
+        const description = formattedDescription(order);
+        console.log("DESCRIPCION_________", description);
+        const { data } = await axios.post(`${server}/mercadopago`, {
+          title: "Compra en El Festín online",
+          description,
+          unit_price: totalPrice,
+          quantity: 1,
+        });
+        const { init_point } = data;
+        window.location.href = init_point;
+        clearAllCart();
+        onCloseCart();
+      } else {
         Swal.fire({
-          icon: 'error',
-          title: '¡Hubo un error. Su orden fue rechazada!',
+          icon: "error",
+          title: "¡Hubo un error. Su orden fue rechazada!",
           showConfirmButton: false,
-          timer: 2000
-          })
+          timer: 2000,
+        });
       }
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
+
+  const cartStyle = {
+    right: isOpen ? "0" : "-100%",
+  };
 
   return (
     <div className={style.shoppingCartContainer} style={cartStyle}>
@@ -284,44 +167,47 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                     0
                   )
                 : 0);
-            const capitalizeSubtitle = hasDish ? capitalizeFirstLetter(item.dish.type): '';
+            const capitalizeSubtitle = hasDish
+              ? capitalizeFirstLetter(item.dish.type)
+              : "";
             return (
               <div key={index} className={style.productContainer}>
-                { hasDish && <div>
-                  <p className={style.subTitle}>{capitalizeSubtitle}</p>
-                  <div className={style.dishDetails}>
-                    <div className={style.dishDetailsHeader}>
-                      <img
-                        className={style.productImage}
-                        src={item.dish.image}
-                        alt={item.dish.name}
-                      />
-                      <div className={style.dishDetailsInfo}>
-                        <h3 className={style.productName}>
-                          {item.dish.name}{" "}
-                          {hasGarnish && `con ${item.garnish.name}`}
-                        </h3>
-                        <div className={style.dishDetailsInfoUnitPrice}>
-                          <p className={style.unitPrice}>
-                            Precio del plato: ${item.dish.price}
-                          </p>
-                          {hasGarnish && (
+                {hasDish && (
+                  <div>
+                    <p className={style.subTitle}>{capitalizeSubtitle}</p>
+                    <div className={style.dishDetails}>
+                      <div className={style.dishDetailsHeader}>
+                        <img
+                          className={style.productImage}
+                          src={item.dish.image}
+                          alt={item.dish.name}
+                        />
+                        <div className={style.dishDetailsInfo}>
+                          <h3 className={style.productName}>
+                            {item.dish.name}{" "}
+                            {hasGarnish && `con ${item.garnish.name}`}
+                          </h3>
+                          <div className={style.dishDetailsInfoUnitPrice}>
                             <p className={style.unitPrice}>
-                              Precio de la guarnición: ${item.garnish.price}
+                              Precio del plato: ${item.dish.price}
                             </p>
-                          )}
+                            {hasGarnish && (
+                              <p className={style.unitPrice}>
+                                Precio de la guarnición: ${item.garnish.price}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-      
-                    <div className={style.quantityButtons}>
-                      <button
-                        className={style.buttonDelete}
-                        onClick={() => removeItem(item.dish.id)}
-                      >
-                        Eliminar
-                      </button>
-                      {/* <div className={style.quantityContainer}>
+
+                      <div className={style.quantityButtons}>
+                        <button
+                          className={style.buttonDelete}
+                          onClick={() => removeItem(item.dish.id)}
+                        >
+                          Eliminar
+                        </button>
+                        {/* <div className={style.quantityContainer}>
                       <button className={style.buttonQuantity} onClick={() => decreaseQuantity(item.dish.id, item.dish.quantity)}>
                         -
                       </button>
@@ -329,119 +215,139 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         +
                       </button>
                     </div> */}
-                    </div>
-                    <div className={style.dishDetailsFooter}>
-                      <p className={style.totalPrice}>
-                        Su orden suma: ${totalPrice}
-                      </p>
-                      <p className={style.quantity}>
-                        Cantidad: {item.dish.quantity}
-                      </p>
+                      </div>
+                      <div className={style.dishDetailsFooter}>
+                        <p className={style.totalPrice}>
+                          Su orden suma: ${totalPrice}
+                        </p>
+                        <p className={style.quantity}>
+                          Cantidad: {item.dish.quantity}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>}
+                )}
 
                 <div>
-
-                 {hasDessert || hasDrink && <p className={style.subTitle}>{ hasDrink && hasDessert ? 'Bebidas y postres' : hasDessert ? 'Postres' : hasDrink ? 'Bebidas' : null}</p>} 
+                  {hasDessert ||
+                    (hasDrink && (
+                      <p className={style.subTitle}>
+                        {hasDrink && hasDessert
+                          ? "Bebidas y postres"
+                          : hasDessert
+                          ? "Postres"
+                          : hasDrink
+                          ? "Bebidas"
+                          : null}
+                      </p>
+                    ))}
                   {/* Mapear las bebidas */}
-                  { hasDrink && item.drinks.map((drink, drinkIndex) => (
-                    <div key={drinkIndex} className={style.additionalContainer}>
-                      <div className={style.dishDetailsHeader}>
-                        <img
-                          className={style.productImage}
-                          src={drink.image}
-                          alt={drink.name}
-                        />
-                        <div className={style.dishDetailsInfo}>
-                          <h3 className={style.productName}>{drink.name}</h3>
+                  {hasDrink &&
+                    item.drinks.map((drink, drinkIndex) => (
+                      <div
+                        key={drinkIndex}
+                        className={style.additionalContainer}
+                      >
+                        <div className={style.dishDetailsHeader}>
+                          <img
+                            className={style.productImage}
+                            src={drink.image}
+                            alt={drink.name}
+                          />
+                          <div className={style.dishDetailsInfo}>
+                            <h3 className={style.productName}>{drink.name}</h3>
 
-                          <div className={style.dishDetailsInfoUnitPrice}>
-                            <p className={style.volumeDrink}>{drink.volume}</p>
+                            <div className={style.dishDetailsInfoUnitPrice}>
+                              <p className={style.volumeDrink}>
+                                {drink.volume}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className={style.quantityButtons}>
-                        <button
-                          className={style.buttonDelete}
-                          onClick={() => removeItem(drink.id)}
-                        >
-                          Eliminar
-                        </button>
-                        <div className={style.quantityContainer}>
+                        <div className={style.quantityButtons}>
                           <button
-                            className={style.buttonQuantity}
-                            onClick={() =>
-                              decreaseQuantity(drink.id, drink.quantity)
-                            }
+                            className={style.buttonDelete}
+                            onClick={() => removeItem(drink.id)}
                           >
-                            -
+                            Eliminar
                           </button>
-                          <button
-                            className={style.buttonQuantity}
-                            onClick={() =>
-                              increaseQuantity(drink.id, drink.quantity)
-                            }
-                          >
-                            +
-                          </button>
+                          <div className={style.quantityContainer}>
+                            <button
+                              className={style.buttonQuantity}
+                              onClick={() =>
+                                decreaseQuantity(drink.id, drink.quantity)
+                              }
+                            >
+                              -
+                            </button>
+                            <button
+                              className={style.buttonQuantity}
+                              onClick={() =>
+                                increaseQuantity(drink.id, drink.quantity)
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className={style.dishDetailsFooterAdditionals}>
+                          <p>Precio: ${drink.price}</p>
+                          <p>Cantidad: {drink.quantity}</p>
                         </div>
                       </div>
-                      <div className={style.dishDetailsFooterAdditionals}>
-                        <p>Precio: ${drink.price}</p>
-                        <p>Cantidad: {drink.quantity}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
 
                   {/* Mapear los postres */}
-                  {hasDessert && item.desserts.map((dessert, dessertIndex) => (
-                    <div
-                      key={dessertIndex}
-                      className={style.additionalContainer}
-                    >
-                      <div className={style.dishDetailsHeader}>
-                        <img
-                          className={style.productImage}
-                          src={dessert.image}
-                          alt={dessert.name}
-                        />
-                        <div className={style.dishDetailsInfo}>
-                          <h3 className={style.productName}>{dessert.name}</h3>
+                  {hasDessert &&
+                    item.desserts.map((dessert, dessertIndex) => (
+                      <div
+                        key={dessertIndex}
+                        className={style.additionalContainer}
+                      >
+                        <div className={style.dishDetailsHeader}>
+                          <img
+                            className={style.productImage}
+                            src={dessert.image}
+                            alt={dessert.name}
+                          />
+                          <div className={style.dishDetailsInfo}>
+                            <h3 className={style.productName}>
+                              {dessert.name}
+                            </h3>
+                          </div>
+                        </div>
+                        <div className={style.quantityButtons}>
+                          <button
+                            className={style.buttonDelete}
+                            onClick={() => removeItem(dessert.id)}
+                          >
+                            Eliminar
+                          </button>
+                          <div className={style.quantityContainer}>
+                            <button
+                              className={style.buttonQuantity}
+                              onClick={() =>
+                                decreaseQuantity(dessert.id, dessert.quantity)
+                              }
+                            >
+                              -
+                            </button>
+                            <button
+                              className={style.buttonQuantity}
+                              onClick={() =>
+                                increaseQuantity(dessert.id, dessert.quantity)
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className={style.dishDetailsFooterAdditionals}>
+                          <p>Precio: ${dessert.price}</p>
+                          <p>Cantidad: {dessert.quantity}</p>
                         </div>
                       </div>
-                      <div className={style.quantityButtons}>
-                        <button
-                          className={style.buttonDelete}
-                          onClick={() => removeItem(dessert.id)}
-                        >
-                          Eliminar
-                        </button>
-                        <div className={style.quantityContainer}>
-                          <button
-                            className={style.buttonQuantity}
-                            onClick={() =>
-                              decreaseQuantity(dessert.id, dessert.quantity)
-                            }
-                          >
-                            -
-                          </button>
-                          <button
-                            className={style.buttonQuantity}
-                            onClick={() =>
-                              increaseQuantity(dessert.id, dessert.quantity)
-                            }
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                      <div className={style.dishDetailsFooterAdditionals}>
-                        <p>Precio: ${dessert.price}</p>
-                        <p>Cantidad: {dessert.quantity}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             );
@@ -450,7 +356,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       </div>
       {/* <MercadoPago /> */}
       <button
-      onClick={handlePaySubmit}
+        onClick={handlePaySubmit}
         disabled={order === null || order.length === 0}
         className={
           order === null || order.length === 0
@@ -458,9 +364,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
             : style.payButton
         }
       >
-        PAGAR <span>{` Suma total $${calculateTotalPrice()}`}</span>
+        PAGAR <span>{` Suma total $${totalPrice}`}</span>
       </button>
-      {isPreferenceCreated && <Wallet initialization={{ preferenceId }} />}
       {order.length !== 0 && (
         <button className={style.clearButton} onClick={clearAllCart}>
           YA NO QUIERO ESTA LA ORDEN
