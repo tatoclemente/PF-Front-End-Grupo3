@@ -58,6 +58,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
     try {
       const { data } = await axios.post(`${server}/mercadopago`, {
+        id: user.id,
         title: "Compra en El Festín online",
         description: preferenceDescription,
         unit_price: calculateTotalPrice(),

@@ -18,7 +18,7 @@ export const LoginPage = () => {
             encontrarás la respuesta"
           </p>
         </div>
-        <div className="col-6 bg-color-blue">
+        <div className="col-6 bg-color-blue d-flex align-items-center">
           <Login />
         </div>
       </div>

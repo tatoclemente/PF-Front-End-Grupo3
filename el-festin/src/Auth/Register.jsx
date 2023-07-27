@@ -93,7 +93,7 @@ function Register() {
   };
 
   return (
-    <div className="container">
+    <div className="container d-flex justify-content-center pt-5">
       <Link to="/auth/login">
         <MdArrowBackIosNew
           className="backButton text-white position-absolute mt-1 fs-3"
