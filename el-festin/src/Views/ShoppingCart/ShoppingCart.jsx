@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { formattedDescription } from "../../functions/formattedDescription";
 import { formattedCart } from "../../functions/formattedCart";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
+import { logo } from "../../Helpers/ImageUrl";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
   const order = useSelector((state) => state.cart);
@@ -105,15 +106,18 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           timer: 2000,
         });
         const description = formattedDescription(order);
-        console.log("DESCRIPCION_________", description);
+
         const { data } = await axios.post(`${server}/mercadopago`, {
+          id: pedido.userId,
           title: "Compra en El Festín online",
           description,
+          pictureUrl: logo,
           unit_price: totalPrice,
           quantity: 1,
         });
-        const { init_point } = data;
-        window.location.href = init_point;
+        const response = data.response;
+
+        window.location.href = response.body?.init_point;
         clearAllCart();
         onCloseCart();
       } else {
