@@ -1,5 +1,5 @@
 // import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
-import React, { useState } from "react";
+import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,70 +12,24 @@ import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { initMercadoPago } from "@mercadopago/sdk-react";
 import { useNavigate } from "react-router-dom";
+import { formattedDescription } from "../../functions/formattedDescription";
+import { formattedCart } from "../../functions/formattedCart";
+import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
+import { logo } from "../../Helpers/ImageUrl";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
   const order = useSelector((state) => state.cart);
-
-  //* MERCADO PAGO
-
-  const [preferenceId, setPreferenceId] = useState(null);
-  const [isPreferenceCreated, setIsPreferenceCreated] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
 
+
+
+
+
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
-
-  const createPreference = async () => {
-    const orderDescriptions = order.reduce((descriptions, item) => {
-      if (item.dish) {
-        const dishDescription = item.garnish
-          ? `${item.quantity} ${item.dish.name} con ${item.garnish.name}`
-          : `${item.quantity} ${item.dish.name}`;
-        descriptions.push(dishDescription);
-      }
-
-      if (item.drinks) {
-        item.drinks.forEach((drink) => {
-          descriptions.push(`${drink.quantity} ${drink.name}`);
-        });
-      }
-
-      if (item.desserts) {
-        item.desserts.forEach((dessert) => {
-          descriptions.push(`${dessert.quantity} ${dessert.name}`);
-        });
-      }
-
-      return descriptions;
-    }, []);
-
-    const preferenceDescription = orderDescriptions.join(", ");
-
-    console.log(preferenceDescription);
-
-    try {
-      const { data } = await axios.post(`${server}/mercadopago`, {
-        id: user.id,
-        title: "Compra en El Festín online",
-        description: preferenceDescription,
-        unit_price: calculateTotalPrice(),
-        quantity: 1,
-      });
-      const { id } = data;
-      return id;
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleBuy = async () => {
-    const id = await createPreference();
-
-    if (id) setPreferenceId(id);
-  };
 
   //*MERCADO PAGO
 
@@ -87,88 +41,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   console.log(currentUser?.id);
 
-  const cartStyle = {
-    right: isOpen ? "0" : "-100%",
-  };
-
-  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
-  const formattedCart = order.map((item) => {
-    const formattedItem = {};
-
-    if (item.dish) {
-      formattedItem.dish = [
-        {
-          id: item.dish.id,
-          price: item.dish.price,
-          quantity: item.dish.quantity,
-        },
-      ];
-    }
-
-    if (item.garnish) {
-      formattedItem.garnish = [
-        {
-          id: item.garnish.id,
-          price: item.garnish.price,
-          quantity: item.garnish.quantity,
-        },
-      ];
-    }
-
-    if (item.drinks.length > 0) {
-      formattedItem.drinks = item.drinks.map((drink) => ({
-        id: drink.id,
-        price: drink.price,
-        quantity: drink.quantity,
-      }));
-    }
-
-    if (item.desserts.length > 0) {
-      formattedItem.desserts = item.desserts.map((dessert) => ({
-        id: dessert.id,
-        price: dessert.price,
-        quantity: dessert.quantity,
-      }));
-    }
-
-    return formattedItem;
-  });
-
-  //? --> VER LO QUE SE HA FORMATEADO
-  // console.log("CART", formattedCart);
-
-  // ...
-
   // Función para calcular el precio total de todos los ítems en el carrito
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    order.forEach((item) => {
-      const hasGarnish = item.garnish !== null;
-
-      if (item.dish && item.dish.price) {
-        totalPrice += parseFloat(item.dish.price) * item.dish.quantity; // Multiplicar el precio del plato por la cantidad
-      }
-
-      if (hasGarnish && item.garnish && item.garnish.price) {
-        totalPrice += parseFloat(item.garnish.price);
-      }
-
-      // Sumar el precio de las bebidas
-      item.drinks.forEach((drink) => {
-        if (drink.price) {
-          totalPrice += parseFloat(drink.price) * drink.quantity; // Multiplicar el precio de la bebida por la cantidad
-        }
-      });
-
-      // Sumar el precio de los postres
-      item.desserts.forEach((dessert) => {
-        if (dessert.price) {
-          totalPrice += parseFloat(dessert.price) * dessert.quantity; // Multiplicar el precio del postre por la cantidad
-        }
-      });
-    });
-    return totalPrice;
-  };
+  const totalPrice = calculateTotalPrice(order);
 
   // ...
 
@@ -191,9 +65,15 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     dispatch(clearCart());
   };
 
+  //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
+  const formattedOrder = formattedCart(order);
+  //? --> VER LO QUE SE HA FORMATEADO
+  // console.log("CART", formattedOrder);
+
+  // Armo el objeto para enviar al back
   const pedido = {
     userId: currentUser?.id,
-    order: formattedCart,
+    order: formattedOrder,
   };
 
   const handlePaySubmit = async (e) => {
@@ -215,27 +95,32 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       return;
     }
 
-    // Crear la preferencia de pago si aún no ha sido creada
-    if (!isPreferenceCreated) {
-      await handleBuy();
-      setIsPreferenceCreated(true);
-      // Actualizar el estado a true cuando se crea la preferencia de pago
-    }
-
     try {
       const data = await axios.post(`${server}/completeOrder`, pedido);
-      // const data = await axios.post(`http://localhost:3001/completeOrder`, pedido)
       console.log("DATA POST_________", data.data);
       if (Object.keys(data).length > 0) {
-        clearAllCart();
-        onCloseCart();
         Swal.fire({
           // position: 'top-end',
           icon: "success",
-          title: "¡Su orden ha sido procesada!",
+          title: "¡Lo estamos redirecionando para su pago!",
           showConfirmButton: false,
           timer: 2000,
         });
+        const description = formattedDescription(order);
+
+        const { data } = await axios.post(`${server}/mercadopago`, {
+          id: pedido.userId,
+          title: "Compra en El Festín online",
+          description,
+          pictureUrl: logo,
+          unit_price: totalPrice,
+          quantity: 1,
+        });
+        const response = data.response;
+
+        window.location.href = response.body?.init_point;
+        clearAllCart();
+        onCloseCart();
       } else {
         Swal.fire({
           icon: "error",
@@ -247,6 +132,10 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const cartStyle = {
+    right: isOpen ? "0" : "-100%",
   };
 
   return (
@@ -480,9 +369,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
             : style.payButton
         }
       >
-        PAGAR <span>{` Suma total $${calculateTotalPrice()}`}</span>
+        PAGAR <span>{` Suma total $${totalPrice}`}</span>
       </button>
-      {isPreferenceCreated && <Wallet initialization={{ preferenceId }} />}
       {order.length !== 0 && (
         <button className={style.clearButton} onClick={clearAllCart}>
           YA NO QUIERO ESTA LA ORDEN
