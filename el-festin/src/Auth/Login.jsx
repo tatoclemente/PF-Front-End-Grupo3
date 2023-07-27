@@ -4,18 +4,16 @@ import logo1 from "../Assets/logo1.png";
 import { server } from "../Helpers/EndPoint";
 import { logo } from "../Helpers/ImageUrl";
 import { Link } from "react-router-dom";
-import { useAuth } from "../Context/authContext";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers";
-import { postUser } from "../Redux/slices/usersSlice";
 import "./login.css";
 import { MdArrowBackIosNew } from "react-icons/md";
 import axios from "axios";
+import { login, logingWithGoogle, resetPassword } from "../Hook/FunctionsAuth";
 
 export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
-
-  const { user, login, logingWithGoogle, resetPassword } = useAuth();
+  const user = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,9 +21,7 @@ export const Login = () => {
     email: "",
     password: "",
   });
-  const [userGoogle, setUserGoogle] = useState(null);
-  console.log("userGoogle", userGoogle);
-  const [userDataSent, setUserDataSent] = useState(false);
+
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -40,6 +36,12 @@ export const Login = () => {
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      handleGooglePost();
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setUsers({ ...users, [e.target.name]: e.target.value });
@@ -64,7 +66,7 @@ export const Login = () => {
       setErrors({ password: "Contraseña incorrecta" });
     } else {
       try {
-        await login(users.email, users.password);
+        login(users.email, users.password);
         navigate("/home");
         setUsers({
           email: "",
@@ -76,45 +78,41 @@ export const Login = () => {
       }
     }
   };
-
+  const postUsers = async (userData) => {
+    try {
+      const { data } = await axios.post(`${server}/user`, userData);
+      console.log("data", data);
+    } catch (error) {
+      console.error("Error de post:", error.message);
+    }
+  };
   const handleGoogleLogin = async () => {
     try {
-      const result = await logingWithGoogle();
-      console.log("result", result);
-      const finder = usersDB.find((us) => us.email === result.email);
-      console.log("finder",finder);
-
-      if (finder) {
-        navigate("/home");
-      } else {
-        const { data } = await axios.post(`${server}/user`, {
-          name: result.displayName,
-          email: result.email,
-          lastName: ''
-        });
-        console.log("data",data)
-        if (data) {
-          dispatch(postUser(data));
-          navigate("/home");
-        }
-      }
+      await logingWithGoogle();
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
   };
 
-  // const handleFacebookLogin = async () => {
-  //   try {
-  //     await logingWithFacebook();
-  //     navigate("/home");
-  //   } catch (error) {
-  //     console.error("Error de autenticación:", error.message);
-  //   }
-  // };
+  const handleGooglePost = async () => {
+    const emailExist = usersDB.map((us) => us.email);
+    if (emailExist.includes(user.email)) {
+      navigate("/home");
+    } else if (!emailExist.includes(user.email)) {
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+        lastName: "",
+      };
+      await postUsers(userData);
+      navigate("/home");
+    }
+  };
   const handleResetPassword = async () => {
     if (!users.email) return setErrors({ email: "Ingrese un email" });
     try {
-      await resetPassword(users.email);
+      resetPassword(users.email);
       alert(
         "Se ha enviado un correo a tu email para restablecer tu contraseña"
       );
@@ -183,7 +181,8 @@ export const Login = () => {
           <a
             href="#!"
             className="color-register-b"
-            onClick={handleResetPassword}>
+            onClick={handleResetPassword}
+          >
             ¿Olvidaste la contraseña?
           </a>
         </li>
@@ -191,7 +190,8 @@ export const Login = () => {
         <li className="d-flex justify-content-center align-items-center">
           <button
             type="submit"
-            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-6 fw-bold">
+            className="d-flex justify-content-center align-items-center mt-3 btn-login fs-6 fw-bold"
+          >
             Entrar
           </button>
         </li>
@@ -200,7 +200,8 @@ export const Login = () => {
       <li className="d-flex justify-content-center align-items-center pt-4">
         <button
           className="btn-google-rounded text-white fs-6"
-          onClick={handleGoogleLogin}>
+          onClick={handleGoogleLogin}
+        >
           <span>
             <img
               src={logo1}
@@ -211,21 +212,6 @@ export const Login = () => {
           Continuar con Google
         </button>
       </li>
-      {/* <li className="d-flex justify-content-center align-items-center pt-3">
-  <button
-    className="btn-face-rounded text-white fs-6"
-    onClick={handleFacebookLogin}
-  >
-    <span>
-      <img
-        src={logo2}
-        alt="logo de facebook"
-        className="img-fluid img-login-button"
-      />
-    </span>{" "}
-    Continuar con Facebook
-  </button>
-</li> */}
 
       <li className="d-flex justify-content-center align-items-center pt-4">
         <p className="text-white fs-5 pt-1 fs-6">

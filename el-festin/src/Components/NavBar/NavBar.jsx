@@ -5,17 +5,18 @@ import { SearchBar } from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import calculateTotalItems from "../../functions/calculateTotalItems";
 import profileImg from "./images/profile.png";
-import { useAuth } from "../../Context/authContext";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
+import { logout } from "../../Hook/FunctionsAuth";
 import { useEffect, useState } from "react";
 // import Modal from 'react-modal';
 
-export const Navbar = ({ isDashboard, toggleCart}) => {
+export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();
-  const { user, logout } = useAuth();
+
   const dispatch = useDispatch();
   const order = useSelector((state) => state.cart);
   const users = useSelector((state) => state.users.users);
+  const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
 
   // console.log(users);
@@ -23,8 +24,8 @@ export const Navbar = ({ isDashboard, toggleCart}) => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    logout();
   };
 
   const totalItems = calculateTotalItems(order);
@@ -51,38 +52,37 @@ export const Navbar = ({ isDashboard, toggleCart}) => {
               </div>
             )}
             <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
-            {isDashboard ? (
-              <div className="d-none d-lg-block pe-3">
-                <Link to="/" className="text-decoration-none text-white fs-3">
-                  Salir
-                </Link>
-              </div>
-            ) : user ? (
-              <div className="dropdown-container">
-                <button className="dropdown-button" onClick={handleOpen}>
-                  {user.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      width="50"
-                      height="50"
-                      style={{
-                        borderRadius: "30px",
-                        border: "2px solid white",
-                      }}
-                    ></img>
-                  ) : (
-                    <img src={profileImg} width="50" height="50"></img>
+              {isDashboard ? (
+                <div className="d-none d-lg-block pe-3">
+                  <Link to="/" className="text-decoration-none text-white fs-3">
+                    Salir
+                  </Link>
+                </div>
+              ) : user ? (
+                <div className="dropdown-container">
+                  <button className="dropdown-button" onClick={handleOpen}>
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        width="50"
+                        height="50"
+                        style={{
+                          borderRadius: "30px",
+                          border: "2px solid white",
+                        }}
+                      ></img>
+                    ) : (
+                      <img src={profileImg} width="50" height="50"></img>
+                    )}
+                  </button>
+                  {isOpen && (
+                    <div className="dropdown-menu">
+                      <Link to="/profile">Mi cuenta</Link>
+                      <Link onClick={handleLogout}>Cerrar sesión</Link>
+                    </div>
                   )}
-                </button>
-                {isOpen && (
-                  <div className="dropdown-menu">
-                    <Link to="/profile">Mi cuenta</Link>
-                    <Link onClick={handleLogout}>Cerrar sesión</Link>
-                  </div>
-                )}
-              </div>
-            ) : (
-              
+                </div>
+              ) : (
                 <Link
                   to="/auth/login"
                   className="text-decoration-none text-white fs-4 me-2 sign-in"
@@ -90,20 +90,19 @@ export const Navbar = ({ isDashboard, toggleCart}) => {
                   {" "}
                   Ingresar{" "}
                 </Link>
-           
-            )}
-            {isDashboard ? null : (
-              <div className="text-end cart" onClick={toggleCart}>
-                <img
-                  src={cart}
-                  alt="cart"
-                  className="img-width-cart position-relative"
-                />
-                <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
-                  {totalItems}
-                </span>
-              </div>
-            )}
+              )}
+              {isDashboard ? null : (
+                <div className="text-end cart" onClick={toggleCart}>
+                  <img
+                    src={cart}
+                    alt="cart"
+                    className="img-width-cart position-relative"
+                  />
+                  <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
+                    {totalItems}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
