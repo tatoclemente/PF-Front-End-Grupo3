@@ -1,17 +1,18 @@
+// PrivateRoute.js
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../Context/authContext";
+import { useSelector } from "react-redux"; // Importar el useSelector de react-redux
 
 export const PrivateRoute = ({ children }) => {
-  //cuando este el state en el store de que si el usuario esta logeado :true
-  //por ahora uso la variable autenthicated
-  const {user, loading} = useAuth()
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.isLoading);
 
-  if (loading) return <h1>loading...</h1>
+  if (loading) return <h1>Loading...</h1>;
 
-  if (!user) return <Navigate to="auth/login" />
+  if (!user) return <Navigate to="auth/login" />;
 
-  return <>{children}</>
-  // let authenticated = true;
-
-  // return authenticated ? children : <Navigate to="/login" />;
+  return <>{children}</>;
 };
+
+// let authenticated = true;
+
+// return authenticated ? children : <Navigate to="/login" />;

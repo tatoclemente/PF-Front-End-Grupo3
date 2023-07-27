@@ -12,7 +12,6 @@ import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useAuth } from "../../Context/authContext";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { useNavigate } from "react-router-dom";
 import { formattedDescription } from "../../functions/formattedDescription";
@@ -21,10 +20,12 @@ import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
   const order = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
 
   //* MERCADO PAGO
+
 
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
 
@@ -33,7 +34,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   const dispatch = useDispatch();
 
   const usersDB = useSelector((state) => state.users.users);
-  const { user } = useAuth();
 
   const currentUser = usersDB.find((u) => u.email === user?.email);
 

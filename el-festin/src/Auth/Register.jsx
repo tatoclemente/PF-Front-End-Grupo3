@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
 import Validate from "./validateRegister";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers.js";
-import { useAuth } from "../Context/authContext.js";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { MdArrowBackIosNew } from "react-icons/md"
+import { MdArrowBackIosNew } from "react-icons/md";
+import { signUp } from "../Hook/FunctionsAuth.js";
 import "./register.css";
 
 function Register() {
@@ -15,9 +15,10 @@ function Register() {
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
-  const { signup } = useAuth()
-  const navigate = useNavigate()
- 
+  const user = useSelector((state) => state.auth.user);
+
+  const navigate = useNavigate();
+
   const [register, setRegister] = useState({
     name: "",
     lastName: "",
@@ -25,7 +26,6 @@ function Register() {
     birthDate: "",
     email: "",
     password: "",
-
   });
   const [validateInput, setValidateInput] = useState(false);
   const [errors, setErrors] = useState({}); //estado manejar errores de validacion.
@@ -35,7 +35,6 @@ function Register() {
 
   useEffect(() => {
     dispatch(getUsers());
-
   }, []);
 
   const handleChange = (e) => {
@@ -59,18 +58,20 @@ function Register() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const emailExists = users.some((user) => user.email.toLowerCase() === register.email.toLowerCase());
+      const emailExists = users.some(
+        (user) => user.email.toLowerCase() === register.email.toLowerCase()
+      );
       const errorsValue = Object.values(errors);
-      
+
       if (errorsValue.length === 0 && register.email.length) {
         if (emailExists) {
           alert("Ya existe un usuario con ese email");
         } else {
-          await signup(register.email, register.password)
+          signUp(register.email, register.password);
           dispatch(postUsers(register));
           alert("¡Ha sido registrado exitosamente!");
-          navigate("/home")
-    
+          navigate("/home");
+
           setRegister({
             name: "",
             lastName: "",
@@ -81,9 +82,9 @@ function Register() {
           });
         }
       } else {
-        let errorsMessage = errorsValue.filter((error)=> error !== "")
-        if(errorsMessage){
-          alert("Por favor complete todos los campos correctamente")
+        let errorsMessage = errorsValue.filter((error) => error !== "");
+        if (errorsMessage) {
+          alert("Por favor complete todos los campos correctamente");
         }
       }
     } catch (error) {
@@ -93,8 +94,11 @@ function Register() {
 
   return (
     <div className="container">
-        <Link to="/auth/login">
-      <MdArrowBackIosNew className="backButton text-white position-absolute mt-1 fs-3"  style={{ left: "51%" }}/>
+      <Link to="/auth/login">
+        <MdArrowBackIosNew
+          className="backButton text-white position-absolute mt-1 fs-3"
+          style={{ left: "51%" }}
+        />
       </Link>
       <form onSubmit={handleSubmit}>
         <ul className="list-unstyled">
@@ -111,59 +115,73 @@ function Register() {
             Registrate aquí
           </li>
           <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-4">Nombre</label>
+            <label className="inputDistance text-white fs-6 pb-2 pt-4">
+              Nombre
+            </label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="register-input-container">
-            <input
-              className="register-input"
-              type="text"
-              name="name"
-              value={register.name}
-              onChange={handleChange}
-            />
-          {setValidateInput.name && register.name && (
-              <p className="error-message text-danger position-absolute">{errors.name}</p>
-            )}
+            <div className="register-input-container">
+              <input
+                className="register-input"
+                type="text"
+                name="name"
+                value={register.name}
+                onChange={handleChange}
+              />
+              {setValidateInput.name && register.name && (
+                <p className="error-message text-danger position-absolute">
+                  {errors.name}
+                </p>
+              )}
             </div>
-            </li>
-          <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-3">Apellido</label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="register-input-container">
-            <input
-              className="register-input"
-              type="text"
-              name="lastName"
-              value={register.lastName}
-              onChange={handleChange}
-            />
-          
-          {setValidateInput.name && register.lastName && (
-              <p className="error-message text-danger position-absolute">{errors.lastName}</p>
-            )}
-            </div>
-            </li>
-          <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-3">Telefono</label>
+            <label className="inputDistance text-white fs-6 pb-2 pt-3">
+              Apellido
+            </label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="register-input-container">
-            <input
-              className="register-input"
-              type="text"
-              name="phoneNumber"
-              value={register.phoneNumber}
-              onChange={(e) => handleChange(e)}
-            /> 
-          {setValidateInput.name && register.phoneNumber && (
-              <p className="error-message text-danger position-absolute">{errors.phoneNumber}</p>
-            )}
+            <div className="register-input-container">
+              <input
+                className="register-input"
+                type="text"
+                name="lastName"
+                value={register.lastName}
+                onChange={handleChange}
+              />
+
+              {setValidateInput.name && register.lastName && (
+                <p className="error-message text-danger position-absolute">
+                  {errors.lastName}
+                </p>
+              )}
             </div>
-            </li>
+          </li>
           <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-3">Fecha de nacimiento</label>
+            <label className="inputDistance text-white fs-6 pb-2 pt-3">
+              Telefono
+            </label>
+          </li>
+          <li className="d-flex justify-content-center align-items-center">
+            <div className="register-input-container">
+              <input
+                className="register-input"
+                type="text"
+                name="phoneNumber"
+                value={register.phoneNumber}
+                onChange={(e) => handleChange(e)}
+              />
+              {setValidateInput.name && register.phoneNumber && (
+                <p className="error-message text-danger position-absolute">
+                  {errors.phoneNumber}
+                </p>
+              )}
+            </div>
+          </li>
+          <li className="d-flex justify-content-center align-items-center">
+            <label className="inputDistance text-white fs-6 pb-2 pt-3">
+              Fecha de nacimiento
+            </label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
             <input
@@ -175,26 +193,32 @@ function Register() {
             />
           </li>
           <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-3">Email</label>
+            <label className="inputDistance text-white fs-6 pb-2 pt-3">
+              Email
+            </label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
-          <div className="register-input-container">
-            <input
-              className="register-input"
-              type="email"
-              name="email"
-              value={register.email}
-              autoComplete="off"
-              onChange={handleChange}
-            />
-    
-          {setValidateInput.name && register.email && (
-              <p className="error-message text-danger position-absolute">{errors.email}</p>
-            )}
+            <div className="register-input-container">
+              <input
+                className="register-input"
+                type="email"
+                name="email"
+                value={register.email}
+                autoComplete="off"
+                onChange={handleChange}
+              />
+
+              {setValidateInput.name && register.email && (
+                <p className="error-message text-danger position-absolute">
+                  {errors.email}
+                </p>
+              )}
             </div>
-            </li>
+          </li>
           <li className="d-flex justify-content-center align-items-center">
-            <label className="inputDistance text-white fs-6 pb-2 pt-3">Contraseña</label>
+            <label className="inputDistance text-white fs-6 pb-2 pt-3">
+              Contraseña
+            </label>
           </li>
           <li className="d-flex justify-content-center align-items-center">
             <div className="register-input-container">
@@ -208,7 +232,9 @@ function Register() {
                 onChange={handleChange}
               />
               {setValidateInput.name && register.password && (
-                <p className="error-message text-danger position-absolute" >{errors.password}</p>
+                <p className="error-message text-danger position-absolute">
+                  {errors.password}
+                </p>
               )}
             </div>
           </li>
@@ -223,5 +249,6 @@ function Register() {
         </ul>
       </form>
     </div>
-  );}
+  );
+}
 export default Register;
