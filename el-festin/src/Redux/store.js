@@ -6,6 +6,7 @@ import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
 import authSlice from "./slices/authSlice";
 import orderSlice, { cartMiddleware } from "./slices/orderSlice";
+import bannerSlice from "./slices/bannerSlice";
 
 const reducer = combineReducers({
   dishes: dishesSlice,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   users: usersSlice,
   cart: orderSlice,
   auth: authSlice,
+  banner: bannerSlice,
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cartMiddleware),
 });
 
