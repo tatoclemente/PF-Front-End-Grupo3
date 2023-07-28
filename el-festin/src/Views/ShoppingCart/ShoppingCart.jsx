@@ -23,6 +23,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   const order = useSelector((state) => state.cart);
   const user = useSelector((state) => state.auth.user);
 
+  console.log(order);
+
   const navigate = useNavigate();
 
   //* MERCADO PAGO
@@ -72,6 +74,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   // Armo el objeto para enviar al back
   const pedido = {
     userId: currentUser?.id,
+    message: 'Sin totmate',
     order: formattedOrder,
   };
 
@@ -108,10 +111,10 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         const description = formattedDescription(order);
 
         const { data } = await axios.post(`${server}/mercadopago`, {
-          id: pedido.userId,
+          // id: pedido.userId,
           title: "Compra en El Festín online",
           description,
-          pictureUrl: logo,
+          picture_url: logo,
           unit_price: totalPrice,
           quantity: 1,
         });

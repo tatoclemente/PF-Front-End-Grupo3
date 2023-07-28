@@ -65,8 +65,13 @@ const Home = ({ toggleCart }) => {
   };
   const allDishes = useSelector((state) => state.dishes.dishes);
   const allDrinks = useSelector((state) => state.drinks.drinks);
- const allDeserts = useSelector((state) => state.desserts.desserts);
-  const all = allDishes.concat(allDrinks).concat(allDeserts);
+  const allDeserts = useSelector((state) => state.desserts.desserts);
+
+  const all = [];
+  if (Array.isArray(allDishes) && allDishes.length > 0) all.push(...allDishes);
+  if (Array.isArray(allDrinks) && allDrinks.length > 0) all.push(...allDrinks);
+  if (Array.isArray(allDeserts) && allDeserts.length > 0) all.push(...allDeserts);
+  // const all = allDishes.concat(allDrinks).concat(allDeserts);
   
 
 
