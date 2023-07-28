@@ -114,8 +114,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         const { data } = await axios.post(`${server}/mercadopago`, {
           // id: pedido.userId,
           title: "Compra en El Festín online",
-          description,
-          picture_url: logo,
           unit_price: totalPrice,
           quantity: 1,
         });
