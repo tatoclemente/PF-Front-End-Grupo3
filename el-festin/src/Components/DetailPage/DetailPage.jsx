@@ -360,23 +360,37 @@ const Detail = ({ dishDetail, toggleCart }) => {
     );
   }
 
-  const length = garnish.length === 1 ? 1 : garnish.length === 2 ? 2 : 3;
 
+  const lengthDesserts = desserts.length < 5 ? 4 : 6; 
+  
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: lengthDesserts,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
 
+  const lengthDrinks = allDrinks.length < 5 ? 4 : 6;
+  const settingsDrinks = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: lengthDrinks,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
+  const lengthGarnish = garnish.length === 1 ? 1 : garnish.length === 2 ? 2 : 3;
+
   const settingsSlide = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: length,
+    slidesToShow: lengthGarnish,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -592,7 +606,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
         </h2>
         <h3 className={styles.subTitles}>Bebidas</h3>
         <div className={styles.containerInfo}>
-          <Slider {...settings} className={styles.slideContainer}>
+          <Slider {...settingsDrinks} className={styles.slideContainer}>
             {allDrinks?.map((drink, index) => {
               const capitalizedString = capitalizeFirstLetter(drink.name);
 
