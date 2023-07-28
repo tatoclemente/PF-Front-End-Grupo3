@@ -16,8 +16,8 @@ function Card({type, image, name, price, volume, rating, description, id, toggle
   const desserts = useSelector((state) => state.desserts.desserts);
   const order = useSelector((state) => state.cart);
 
-  const drink = drinks.find((drink) => drink.id === id);
-    const dessert = desserts.find((dessert) => dessert.id === id);
+  const drink = Array.isArray(drinks) && drinks.find((drink) => drink.id === id);
+    const dessert = Array.isArray(desserts) && desserts.find((dessert) => dessert.id === id);
     const existingDrink = order.find((item) => item.drinks.some((d) => d.id === id));
     const existingDessert = order.find((item) => item.desserts.some((d) => d.id === id));
 
