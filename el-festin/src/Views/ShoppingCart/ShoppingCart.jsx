@@ -25,7 +25,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   const navigate = useNavigate();
 
-  //* MERCADO PAGO
+
+
 
 
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");

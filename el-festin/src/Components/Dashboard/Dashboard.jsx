@@ -4,11 +4,23 @@ import {
   ModalCreateDrink,
   ModalCreateSide,
 } from "./Create/index";
+import { useSelector } from "react-redux";
+import { getDishes } from "../../Redux/actions/getAllDishes";
+import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
+
+import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
+import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
+
+
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
-import { DeleteDish } from "./Delete/DeleteDish";
+import { Deleted } from "./Delete/Deleted";
 
 export const Dashboard = () => {
+  const allDishes = useSelector((state) => state.dishes.dishes);
+  const allDrinks = useSelector((state) => state.drinks.drinks);
+  const allDeserts = useSelector((state) => state.desserts.desserts);
+  const allSides = useSelector((state) => state.sides.sides);
   return (
     <>
       <div>
@@ -36,22 +48,17 @@ export const Dashboard = () => {
         <hr />
         <ul className={Styles.options}>
           <li>
-            <DeleteDish/>
+            <Deleted allDates={allDishes} name={"plato"} path={"dish"} getItems={getDishes} idModal={"staticBackdrop5"}/>
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Bebida
-            </button>
+            <Deleted allDates={allDrinks} name={"bebida"} path={"drink"} getItems={getDrinks} idModal={"staticBackdrop6"}/>
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Postre
-            </button>
+            <Deleted allDates={allDeserts} name={"postre"} path={"desert"} getItems={getDesserts} idModal={"staticBackdrop7"}/>
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Guarnicion
-            </button>
+            {" "}
+            <Deleted allDates={allSides} name={"guarnicion"} path={"side"} getItems={getSides}idModal={"staticBackdrop8"} />
           </li>
         </ul>
       </div>

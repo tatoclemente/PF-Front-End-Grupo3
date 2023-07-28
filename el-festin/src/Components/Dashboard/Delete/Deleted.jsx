@@ -1,52 +1,54 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { getDishes } from "../../../Redux/actions/getAllDishes";
-import { deletedDishes } from "../../../Redux/actions/actionsDish/deletedDishes";
+
+import axios from "axios";
+import { server } from "../../../Helpers/EndPoint";
+
 import Card from "../../Card/Card";
 import style from "../Dashboard.module.css";
 import "../dashboard.css";
 
-export const DeleteDish = () => {
-  const [deleteState, setDeleteState] = useState(null);
-  const [isOn, setIsOn] = useState(false);
-  const allDishes = useSelector((state) => state.dishes.dishes);
+export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
+  const [deleteState, setDeleteState] = useState("DEFAULT");
+
+  const [isOn, setIsOn] = useState(null);
+
   const dispatch = useDispatch();
 
-  let dish = allDishes.find((dish) => {
-    return dish.name === deleteState;
+  let selectedItem = allDates.find((item) => {
+    return item.name === deleteState;
   });
 
   useEffect(() => {
-    dispatch(getDishes());
+    dispatch(getItems());
   }, [dispatch]);
 
   useEffect(() => {
-    setIsOn(dish?.disabled);
-  }, [dish]);
+    setIsOn(selectedItem?.disabled);
+  }, [selectedItem]);
 
-  const onDeleteDishChange = ({ target }) => {
+  const onDeleteChange = ({ target }) => {
     setDeleteState(target.value);
   };
 
   const toggleButton = () => {
-    //el estado local tiene que tomar el valor de disabled de cada item
-
     setIsOn((prevState) => !prevState);
   };
 
-  const handleSubmitDeleted = (e) => {
+  const handleSubmitDeleted = async (e) => {
     e.preventDefault();
-    if (dish) {
-      if (isOn === false) {
-        dispatch(deletedDishes(dish.id));
-      } else {
-        //dispatch del estado restore plato
-      }
+    if (selectedItem.disabled !== isOn) {
+      await axios.put(`${server}/${path}/${selectedItem.id}`, {
+        ...selectedItem,
+        disabled: isOn,
+      });
+      setDeleteState(null);
+      dispatch(getItems());
+      setDeleteState("DEFAULT");
+      alert("Estado de plato cambiado con exito");
     } else {
-      alert("Debe selecionar un plato");
+      alert("El plato ya tiene ese estado");
     }
-    //logica para mostrar mensaje de que el plato ya esta habilitado o deshabilitado
   };
 
   return (
@@ -56,12 +58,12 @@ export const DeleteDish = () => {
           type="button"
           className={`btn btn-primary ${style.buttonDelete}`}
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop5">
-          Borrar plato
+          data-bs-target={`#${idModal}`}>
+          {`Borrar ${name}`}
         </button>
         <div
           className="modal fade"
-          id="staticBackdrop5"
+          id={idModal}
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
@@ -71,37 +73,36 @@ export const DeleteDish = () => {
             <div className="modal-content modal-width">
               <div className="modal-header">
                 <h5 className="modal-title" id="staticBackdropLabel">
-                  Borrar plato
+                  {`Borrar ${name}`}
                 </h5>
                 <button
                   type="button"
                   className="btn-close"
                   data-bs-dismiss="modal"
+                  onClick={() => setDeleteState("DEFAULT")}
                   aria-label="Close"></button>
               </div>
 
               <form onSubmit={handleSubmitDeleted} className="modal-body">
                 <label className="fw-bold fs-5 pb-2">
-                  Elija plato a borrar
+                  {`Elija ${name} a borrar`}
                 </label>{" "}
                 <br />
                 <div className="dropdown">
-                  <select
-                    defaultValue={"DEFAULT"}
-                    onChange={onDeleteDishChange}>
+                  <select value={deleteState} onChange={onDeleteChange}>
                     <option value="DEFAULT" disabled>
-                      Buscar Plato
+                      {`Buscar ${name}`}
                     </option>
-                    {allDishes.map((dish) => {
+                    {allDates.map((item) => {
                       return (
-                        <option key={dish.id} value={dish.name}>
-                          {dish.name}
+                        <option key={item.id} value={item.name}>
+                          {item.name}
                         </option>
                       );
                     })}
                   </select>
                 </div>
-                {dish ? (
+                {selectedItem ? (
                   <div
                     className={`button ${!isOn ? "on" : ""}`}
                     onClick={toggleButton}>
@@ -114,32 +115,35 @@ export const DeleteDish = () => {
                 ) : undefined}
                 <div className="d-flex justify-content-center align-item-center py-5">
                   <div className={`${isOn ? "bg-disabled" : ""}`}>
-                    {dish && (
+                    {selectedItem && (
                       <Card
-                        key={dish.id}
-                        type={dish.type}
-                        image={dish.image}
-                        name={dish.name}
-                        price={dish.price}
-                        rating={dish.rating}
-                        description={dish.description}
-                        id={dish.id}
+                        key={selectedItem.id}
+                        type={selectedItem.type}
+                        image={selectedItem.image}
+                        name={selectedItem.name}
+                        price={selectedItem.price}
+                        rating={selectedItem.rating}
+                        description={selectedItem.description}
+                        id={selectedItem.id}
                       />
                     )}
                   </div>
                 </div>
-                <div className="pb-2">
-                  {isOn ? (
-                    <h4 className="text-danger">Plato deshabilitado</h4>
-                  ) : (
-                    <h4 className="text-success">Plato Habilitado</h4>
-                  )}
-                </div>
+                {selectedItem ? (
+                  <div className="pb-2">
+                    {isOn ? (
+                      <h4 className="text-danger">{`${name} deshabilitado`}</h4>
+                    ) : (
+                      <h4 className="text-success">{`${name} Habilitado`}</h4>
+                    )}
+                  </div>
+                ) : undefined}
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                    onClick={() => setDeleteState("DEFAULT")}>
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">
