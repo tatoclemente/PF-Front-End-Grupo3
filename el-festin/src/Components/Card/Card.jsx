@@ -5,7 +5,7 @@ import { FaRegCreditCard } from 'react-icons/fa'
 import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, updateCartItemQuantity } from '../../Redux/slices/orderSlice'
+import { addToCart, updateCartItemQuantity } from '../../Redux/actions/actionOrders/actionOrders'
 import Swal from 'sweetalert2'
 
 function Card({type, image, name, price, volume, rating, description, id, toggleCart}) {

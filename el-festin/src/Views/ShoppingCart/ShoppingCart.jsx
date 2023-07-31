@@ -7,7 +7,7 @@ import {
   updateCartItemQuantity,
   removeFromCart,
   clearCart,
-} from "../../Redux/slices/orderSlice";
+} from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
@@ -17,13 +17,14 @@ import { useNavigate } from "react-router-dom";
 import { formattedDescription } from "../../functions/formattedDescription";
 import { formattedCart } from "../../functions/formattedCart";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
-import { logo } from "../../Helpers/ImageUrl";
+// import { logo } from "../../Helpers/ImageUrl";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
   const order = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
+  // console.log("USER_____", user);
 
-  console.log(order);
+  // console.log(order);
 
   const navigate = useNavigate();
 
@@ -36,12 +37,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   //*MERCADO PAGO
 
   const dispatch = useDispatch();
-
-  const usersDB = useSelector((state) => state.users.users);
-
-  const currentUser = usersDB.find((u) => u.email === user?.email);
-
-  console.log(currentUser?.id);
 
   // Función para calcular el precio total de todos los ítems en el carrito
   const totalPrice = calculateTotalPrice(order);
@@ -74,15 +69,29 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   // Armo el objeto para enviar al back
   const pedido = {
-    userId: currentUser?.id,
-    message: 'Sin totmate',
     order: formattedOrder,
   };
+
+
+  function getCustomTokenFromLocalStorage() {
+    return localStorage.getItem('customToken');
+  }
 
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
-    if (pedido.userId === undefined) {
+    const customToken = getCustomTokenFromLocalStorage();
+
+    console.log("____CUSTOM TOKEN_____",customToken);
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${customToken}`,
+      },
+    };
+
+
+    if (!customToken) {
       Swal.fire({
         icon: "info",
         title: "Ups, siento!",
@@ -92,14 +101,14 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           onCloseCart();
-          navigate("/login");
+          navigate("/auth/login");
         }
       });
       return;
     }
 
     try {
-      const data = await axios.post(`${server}/completeOrder`, pedido);
+      const data = await axios.post(`${server}/completeOrder`, pedido, config);
       console.log("DATA POST_________", data.data);
       if (Object.keys(data).length > 0) {
         Swal.fire({
@@ -111,13 +120,13 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         });
         const description = formattedDescription(order);
 
-        const { data } = await axios.post(`${server}/mercadopago`, {
+        const { data: mercadopagoData } = await axios.post(`${server}/mercadopago`, {
           // id: pedido.userId,
           title: "Compra en El Festín online",
           unit_price: totalPrice,
           quantity: 1,
         });
-        const response = data.response;
+        const response = mercadopagoData.response;
 
         window.location.href = response.body?.init_point;
         clearAllCart();
@@ -152,7 +161,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           <p>Aún no ha realizado ninguna orden</p>
         ) : (
           order.map((item, index) => {
-            const hasGarnish = item.garnish !== null;
+            const hasGarnish = item.garnish && item.garnish !== null;
             const hasDrink = item.drinks.length > 0;
             const hasDessert = item.desserts.length > 0;
             const hasDish = item.dish !== null;
