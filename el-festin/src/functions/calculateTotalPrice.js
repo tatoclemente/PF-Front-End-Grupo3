@@ -1,4 +1,9 @@
 export const calculateTotalPrice = (order) => {
+
+  if (Array.isArray(order) === false ||!order || order.length === 0) {
+    return 0; // Si el estado de order es null o está vacío, retorna 0 como precio total
+  }
+
   let totalPrice = 0;
   order.forEach((item) => {
     const hasGarnish = item.garnish !== null;

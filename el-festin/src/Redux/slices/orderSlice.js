@@ -206,7 +206,7 @@ export const cartMiddleware = (store) => (next) => (action) => {
   const updatedCart = store.getState().cart;
 
   // Guardar el carrito en el local storage
-  saveCartToLocalStorage("cart", JSON.stringify(updatedCart));
+  saveCartToLocalStorage(updatedCart);
 
   return result;
 };

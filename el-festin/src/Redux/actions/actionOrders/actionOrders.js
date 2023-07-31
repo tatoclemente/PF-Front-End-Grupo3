@@ -13,20 +13,17 @@ import {
 export const addToCart = (item) => async (dispatch, getState) => {
   // ... (lógica existente para agregar el producto al carrito)  // Despachar la acción para agregar el producto al carrito
 
+  
+  dispatch(addToCartAction(item));
   // Obtener el carrito actualizado después de agregar el producto
   let updatedCart = getState().cart;
-
-  if (updatedCart.length === 0) {
-    // Si el carrito está vacío, agregar el producto como primer elemento del carrito
-    updatedCart = [...updatedCart, item];
-  }
 
   const cartItems = {
     cartItems: updatedCart,
   };
 
   const updatedCartItems = {
-    cartItems: [...updatedCart, item],
+    cartItems: updatedCart,
   };
 
   // console.log("__UPDATE CART_____", updatedCartItems);
@@ -66,7 +63,6 @@ export const addToCart = (item) => async (dispatch, getState) => {
     // Manejar el error de manera adecuada (por ejemplo, mostrar un mensaje de error en la interfaz)
   }
 
-  dispatch(addToCartAction(item));
 };
 
 // Action para eliminar un producto del carrito

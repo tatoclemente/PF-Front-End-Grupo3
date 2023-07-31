@@ -157,7 +157,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         <h2 className={style.shoppingCartTitle}>Aquí esta su orden</h2>
       </div>
       <div className={style.shoppingCartBody}>
-        {order === null || order.length === 0 ? (
+        {Array.isArray(order) === false || order === null || order.length === 0 ? (
           <p>Aún no ha realizado ninguna orden</p>
         ) : (
           order.map((item, index) => {
