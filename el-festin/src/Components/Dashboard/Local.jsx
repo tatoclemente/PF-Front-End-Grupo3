@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocal } from "../../Redux/actions/actionsLocal/getAllLocal";
-import { server } from "../../../Helpers/EndPoint";
+import { server } from "../../Helpers/EndPoint";
 import axios from "axios";
 
 export const Local = () => {
@@ -26,11 +26,6 @@ export const Local = () => {
     setFiled(target.files[0]);
   };
 
-  const formData = new FormData();
-  formData.append("name", local.name);
-  formData.append("image", filed);
-  formData.append("disabled", local.disabled);
-
   const handleSubmitLocal = async (e) => {
     e.preventDefault();
     if (!local.name || !local.disabled || !filed) {
@@ -47,9 +42,9 @@ export const Local = () => {
     } else {
       try {
         const localData = new FormData();
-        bannerData.append("name", local.name);
-        bannerData.append("image", filed);
-        bannerData.append("disabled", local.disabled);
+        localData.append("name", local.name);
+        localData.append("image", filed);
+        localData.append("disabled", local.disabled);
 
         const response = await axios.post(`${server}/local`, localData);
         console.log("image local create successfully:", response.data);
@@ -69,7 +64,7 @@ export const Local = () => {
 
   const handleUpdateImage = async (localId) => {
     const imageToUpdate = allLocal.find((loc) => loc.id === localId);
-    console.log("image local to update:", JSON.stringify(bannerToUpdate));
+    console.log("image local to update:", JSON.stringify(imageToUpdate));
 
     if (imageToUpdate) {
       const updatedImage = {
@@ -163,14 +158,14 @@ export const Local = () => {
                 <input
                   type="text"
                   name="name"
-                  value={banner.name}
+                  value={local.name}
                   onChange={(e) => handleChangeLocal(e)}
                 />
                 <label>habilitado</label>
                 <input
                   type="text"
                   name="disabled"
-                  value={banner.disabled}
+                  value={local.disabled}
                   onChange={(e) => handleChangeLocal(e)}
                 />
                 <label htmlFor="">imagen</label>

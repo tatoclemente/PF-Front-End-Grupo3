@@ -18,6 +18,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   // console.log(users);
   const handleOpen = () => {
@@ -37,7 +38,14 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   useEffect(() => {
     dispatch(getUsers());
   }, []);
+  useEffect(() => {
+    if (user) {
+      const emailUser = users.find((u) => u.email === user.email);
+      setUserEmail(emailUser);
+    }
+  }, [user]);
 
+  const userImage = userEmail ? userEmail.image : null;
   return (
     <>
       <div className="container-fluid position-relative navbarLanding">
@@ -72,7 +80,11 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                         }}
                       ></img>
                     ) : (
-                      <img src={profileImg} width="50" height="50"></img>
+                      <img
+                        src={userImage ? userImage : profileImg}
+                        width="50"
+                        height="50"
+                      ></img>
                     )}
                   </button>
                   {isOpen && (
