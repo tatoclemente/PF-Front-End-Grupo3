@@ -2,6 +2,7 @@
 import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import {setDates} from '../../Redux/actions/actionAdmin/actionGetDates'
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateCartItemQuantity,
@@ -39,7 +40,11 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   const dispatch = useDispatch();
 
   // Función para calcular el precio total de todos los ítems en el carrito
+
+  
+
   const totalPrice = calculateTotalPrice(order);
+
 
   // ...
 
@@ -76,7 +81,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   function getCustomTokenFromLocalStorage() {
     return localStorage.getItem('customToken');
   }
-
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
@@ -101,6 +105,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           onCloseCart();
+
           navigate("/auth/login");
         }
       });
@@ -108,8 +113,12 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     }
 
     try {
+
+
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
+
       console.log("DATA POST_________", data.data);
+      dispatch(setDates(priceItem))
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',

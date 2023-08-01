@@ -11,6 +11,9 @@ import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
+import { Dates } from "./Metrics/metrics";
+import { DeleteDish } from "./Delete/DeleteDish";
+import { useState } from "react";
 import { Deleted } from "./Delete/Deleted";
 import { Updater } from "./Update/Updater";
 
@@ -19,6 +22,18 @@ export const Dashboard = () => {
   const allDrinks = useSelector((state) => state.drinks.drinks);
   const allDeserts = useSelector((state) => state.desserts.desserts);
   const allSides = useSelector((state) => state.sides.sides);
+const [things, setThings] = useState(false)
+console.log(things)
+
+const handleRender = () =>{
+  if(things === false){
+    setThings(true)
+  }
+  if(things === true){
+    setThings(false)
+  }
+}
+
   return (
     <>
       <div>
@@ -82,14 +97,29 @@ export const Dashboard = () => {
               idModal={"staticBackdrop8"}
             />
           </li>
+
+
           <hr />
           <ul className={Styles.options}>
             <li>
               <Updater allDates={allDishes} />
             </li>
           </ul>
+
         </ul>
+       <li>
+          <button onClick={handleRender}>
+            Datos
+          </button>
+        </li> 
       </div>
+      
+   
+      {things === true ? <div className={Styles.containerMetrics}>
+      <Dates/>
+      </div> : null}
+      
     </>
+    
   );
 };

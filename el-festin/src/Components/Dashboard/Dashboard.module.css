@@ -37,3 +37,9 @@
   font-size: 1rem;
   text-transform: uppercase;
 }
+
+.containerMetrics{
+position: absolute;
+  left: 25%;
+  place-items: center;
+}
