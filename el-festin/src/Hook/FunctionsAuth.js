@@ -8,23 +8,35 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 
+
 // Thunks para las acciones de autenticación usando Firebase
 export const signUp = (email, password) => {
   createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const login = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password);
+export const login = async (email, password) => {
+  const response = await signInWithEmailAndPassword(auth, email, password);
+  return response;
 };
 
 export const logout = () => {
   signOut(auth);
+  localStorage.removeItem("customToken");
+  
 };
 
 // Acciones para autenticarse con Google o Facebook
 export const logingWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider);
+  try {
+    const provider = new GoogleAuthProvider();
+    const response = await signInWithPopup(auth, provider);
+
+    // Devolver el usuario autenticado
+    return response.user;
+  } catch (error) {
+    console.error("Error de autenticación con Google:", error.message);
+    throw error;
+  }
 };
 
 // Acciones para enviar el correo de reseteo de contraseña

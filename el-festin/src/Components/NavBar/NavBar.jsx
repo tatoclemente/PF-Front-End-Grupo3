@@ -8,6 +8,7 @@ import profileImg from "./images/profile.png";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { logout } from "../../Hook/FunctionsAuth";
 import { useEffect, useState } from "react";
+import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -26,6 +27,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   };
 
   const handleLogout = () => {
+    dispatch(clearCart())
     logout();
   };
 

@@ -78,6 +78,8 @@ const CardsContainer = (props) => {
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}
+                category={dish.category}
+                totalRating={dish.totalRating}
                 toggleCart={props.toggleCart}
               />
             </div>

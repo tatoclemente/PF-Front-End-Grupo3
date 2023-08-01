@@ -14,7 +14,7 @@ import styles from "./DetailPage.module.css";
 // import { sides } from "../../utils/mock";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
-import { addToCart } from "../../Redux/slices/orderSlice";
+import { addToCart } from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 
 const Detail = ({ dishDetail, toggleCart }) => {
@@ -361,7 +361,8 @@ const Detail = ({ dishDetail, toggleCart }) => {
   }
 
 
-  const lengthDesserts = desserts.length < 5 ? 4 : 6; 
+  const lengthDesserts = desserts.length ===5 ? 5 : desserts.length < 5 ? 4 : 6 ; 
+  console.log(lengthDesserts);
   
   const settings = {
     dots: false,

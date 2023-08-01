@@ -1,5 +1,9 @@
 export const formattedCart = (order) => {
+  if (Array.isArray(order) === false ||!order || order.length === 0) {
+    return []; // Si el estado de order es null o está vacío, retorna 0 como precio total
+  }
     const formattedCart = order.map((item) => {
+     
         const formattedItem = {};
     
         if (item.dish) {
