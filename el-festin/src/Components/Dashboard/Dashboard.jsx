@@ -4,13 +4,24 @@ import {
   ModalCreateDrink,
   ModalCreateSide,
 } from "./Create/index";
+import { useSelector } from "react-redux";
+import { getDishes } from "../../Redux/actions/getAllDishes";
+import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
+import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
+import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
 import { Dates } from "./Metrics/metrics";
 import { DeleteDish } from "./Delete/DeleteDish";
 import { useState } from "react";
+import { Deleted } from "./Delete/Deleted";
+import { Updater } from "./Update/Updater";
 
 export const Dashboard = () => {
+  const allDishes = useSelector((state) => state.dishes.dishes);
+  const allDrinks = useSelector((state) => state.drinks.drinks);
+  const allDeserts = useSelector((state) => state.desserts.desserts);
+  const allSides = useSelector((state) => state.sides.sides);
 const [things, setThings] = useState(false)
 console.log(things)
 
@@ -50,30 +61,59 @@ const handleRender = () =>{
         <hr />
         <ul className={Styles.options}>
           <li>
-            <DeleteDish/>
+            <Deleted
+              allDates={allDishes}
+              name={"plato"}
+              path={"dish"}
+              getItems={getDishes}
+              idModal={"staticBackdrop5"}
+            />
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Bebida
-            </button>
+            <Deleted
+              allDates={allDrinks}
+              name={"bebida"}
+              path={"drink"}
+              getItems={getDrinks}
+              idModal={"staticBackdrop6"}
+            />
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Postre
-            </button>
+            <Deleted
+              allDates={allDeserts}
+              name={"postre"}
+              path={"desert"}
+              getItems={getDesserts}
+              idModal={"staticBackdrop7"}
+            />
           </li>
           <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Guarnicion
-            </button>
+            {" "}
+            <Deleted
+              allDates={allSides}
+              name={"guarnicion"}
+              path={"side"}
+              getItems={getSides}
+              idModal={"staticBackdrop8"}
+            />
           </li>
-         <li>
-          <button onClick={handleRender}  className={`btn btn-primary ${Styles.buttonDelete}`}>
+
+
+          <hr />
+          <ul className={Styles.options}>
+            <li>
+              <Updater allDates={allDishes} />
+            </li>
+          </ul>
+
+        </ul>
+       <li>
+          <button onClick={handleRender}>
             Datos
           </button>
         </li> 
-        </ul>
       </div>
+      
    
       {things === true ? <div className={Styles.containerMetrics}>
       <Dates/>
