@@ -15,7 +15,9 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
 
   const dispatch = useDispatch();
 
+
   let selectedItem =Array.isArray(allDates) && allDates.find((item) => {
+
     return item.name === deleteState;
   });
 

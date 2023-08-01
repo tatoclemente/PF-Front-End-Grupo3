@@ -7,14 +7,12 @@ import {
 import { useSelector } from "react-redux";
 import { getDishes } from "../../Redux/actions/getAllDishes";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
-
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
-
-
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
 import { Deleted } from "./Delete/Deleted";
+import { Updater } from "./Update/Updater";
 
 export const Dashboard = () => {
   const allDishes = useSelector((state) => state.dishes.dishes);
@@ -48,18 +46,48 @@ export const Dashboard = () => {
         <hr />
         <ul className={Styles.options}>
           <li>
-            <Deleted allDates={allDishes} name={"plato"} path={"dish"} getItems={getDishes} idModal={"staticBackdrop5"}/>
+            <Deleted
+              allDates={allDishes}
+              name={"plato"}
+              path={"dish"}
+              getItems={getDishes}
+              idModal={"staticBackdrop5"}
+            />
           </li>
           <li>
-            <Deleted allDates={allDrinks} name={"bebida"} path={"drink"} getItems={getDrinks} idModal={"staticBackdrop6"}/>
+            <Deleted
+              allDates={allDrinks}
+              name={"bebida"}
+              path={"drink"}
+              getItems={getDrinks}
+              idModal={"staticBackdrop6"}
+            />
           </li>
           <li>
-            <Deleted allDates={allDeserts} name={"postre"} path={"desert"} getItems={getDesserts} idModal={"staticBackdrop7"}/>
+            <Deleted
+              allDates={allDeserts}
+              name={"postre"}
+              path={"desert"}
+              getItems={getDesserts}
+              idModal={"staticBackdrop7"}
+            />
           </li>
           <li>
             {" "}
-            <Deleted allDates={allSides} name={"guarnicion"} path={"side"} getItems={getSides}idModal={"staticBackdrop8"} />
+            <Deleted
+              allDates={allSides}
+              name={"guarnicion"}
+              path={"side"}
+              getItems={getSides}
+              idModal={"staticBackdrop8"}
+            />
           </li>
+          <hr />
+          <ul className={Styles.options}>
+            <li>
+              <Updater allDates={allDishes} />
+            </li>
+          </ul>
         </ul>
       </div>
     </>
