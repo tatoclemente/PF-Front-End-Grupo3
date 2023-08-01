@@ -8,6 +8,7 @@ import profileImg from "./images/profile.png";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { logout } from "../../Hook/FunctionsAuth";
 import { useEffect, useState } from "react";
+import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -18,6 +19,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   // console.log(users);
   const handleOpen = () => {
@@ -25,6 +27,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   };
 
   const handleLogout = () => {
+    dispatch(clearCart())
     logout();
   };
 
@@ -37,7 +40,14 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   useEffect(() => {
     dispatch(getUsers());
   }, []);
+  useEffect(() => {
+    if (user) {
+      const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
+      setUserEmail(emailUser);
+    }
+  }, [user]);
 
+  const userImage = userEmail ? userEmail.image : null;
   return (
     <>
       <div className="container-fluid position-relative navbarLanding">
@@ -72,7 +82,11 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                         }}
                       ></img>
                     ) : (
-                      <img src={profileImg} width="50" height="50"></img>
+                      <img
+                        src={userImage ? userImage : profileImg}
+                        width="50"
+                        height="50"
+                      ></img>
                     )}
                   </button>
                   {isOpen && (

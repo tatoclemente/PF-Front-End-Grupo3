@@ -10,6 +10,7 @@ import "./login.css";
 import { MdArrowBackIosNew } from "react-icons/md";
 import axios from "axios";
 import { login, logingWithGoogle, resetPassword } from "../Hook/FunctionsAuth";
+import { setCartFromDatabase } from "../Redux/actions/actionOrders/actionOrders";
 
 export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
@@ -66,7 +67,22 @@ export const Login = () => {
       setErrors({ password: "Contraseña incorrecta" });
     } else {
       try {
-        login(users.email, users.password);
+         // Iniciar sesión en Firebase y obtener el token de acceso
+      const response = await login(users.email, users.password);
+      
+      const firebaseToken = await response.user.getIdToken();
+      console.log(firebaseToken);
+      // Enviar el token de Firebase al servidor
+      const serverResponse = await axios.post(`${server}/create-jwt`, { firebaseToken });
+
+      // Obtener el token JWT personalizado desde la respuesta del servidor
+      const customToken = serverResponse.data.token;
+      
+      dispatch(setCartFromDatabase(customToken))
+
+      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+      localStorage.setItem('customToken', customToken); 
+      // login(users.email, users.password)
         navigate("/home");
         setUsers({
           email: "",
@@ -78,6 +94,7 @@ export const Login = () => {
       }
     }
   };
+
   const postUsers = async (userData) => {
     try {
       const { data } = await axios.post(`${server}/user`, userData);
@@ -88,7 +105,23 @@ export const Login = () => {
   };
   const handleGoogleLogin = async () => {
     try {
-      await logingWithGoogle();
+      const googleUser =await logingWithGoogle();
+
+      const googleToken = await googleUser.getIdToken();
+    
+      const serverResponse = await axios.post(`${server}/create-jwt`, { firebaseToken: googleToken });
+
+        // Obtener el token JWT personalizado desde la respuesta del servidor
+      const customToken = serverResponse.data.token;
+
+      dispatch(setCartFromDatabase(customToken))
+
+      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+      localStorage.setItem('customToken', customToken); 
+
+      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+      localStorage.setItem('customToken', customToken);
+
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
@@ -105,10 +138,24 @@ export const Login = () => {
         image: user.photoURL,
         lastName: "",
       };
+
       await postUsers(userData);
+       // Obtener el token de acceso de Firebase del usuario autenticado
+      const googleToken = await user.getIdToken();
+
+      // Enviar el token de acceso de Firebase al servidor para obtener el JWT personalizado
+      const serverResponse = await axios.post(`${server}/create-jwt`, { firebaseToken: googleToken });
+
+      // Obtener el token JWT personalizado desde la respuesta del servidor
+      const customToken = serverResponse.data.token;
+
+      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+      localStorage.setItem('customToken', customToken); // O usa document.cookie para guardar en una cookie
+ 
       navigate("/home");
     }
   };
+
   const handleResetPassword = async () => {
     if (!users.email) return setErrors({ email: "Ingrese un email" });
     try {

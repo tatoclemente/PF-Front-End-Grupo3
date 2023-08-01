@@ -11,8 +11,16 @@ export const userSlice = createSlice({
       state.users = action.payload;
     },
     postUser: (state, action) => {
-      state.users.push(action.payload);
-    }, setStateFood: (state, action) =>{
+    // Obtener el token JWT personalizado desde la respuesta del servidor
+    const customToken = action.payload.token;
+    // console.log("____CUSTOM TOKEN____", customToken);
+
+    // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+    localStorage.setItem('customToken', customToken); 
+      
+      state.users.push(action.payload.newUser);
+    }, 
+    setStateFood: (state, action) =>{
       state.stateFood = action.payload
     }
   },
