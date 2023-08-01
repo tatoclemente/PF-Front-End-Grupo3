@@ -6,9 +6,23 @@ import {
 } from "./Create/index";
 import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
+import { Dates } from "./Metrics/metrics";
 import { DeleteDish } from "./Delete/DeleteDish";
+import { useState } from "react";
 
 export const Dashboard = () => {
+const [things, setThings] = useState(false)
+console.log(things)
+
+const handleRender = () =>{
+  if(things === false){
+    setThings(true)
+  }
+  if(things === true){
+    setThings(false)
+  }
+}
+
   return (
     <>
       <div>
@@ -53,8 +67,19 @@ export const Dashboard = () => {
               Borrar Guarnicion
             </button>
           </li>
+         <li>
+          <button onClick={handleRender}  className={`btn btn-primary ${Styles.buttonDelete}`}>
+            Datos de Administrador
+          </button>
+        </li> 
         </ul>
       </div>
+   
+      {things === true ? <div className={Styles.containerMetrics}>
+      <Dates/>
+      </div> : null}
+      
     </>
+    
   );
 };

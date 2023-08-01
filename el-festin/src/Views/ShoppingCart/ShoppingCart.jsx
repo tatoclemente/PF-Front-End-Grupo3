@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import {setDates} from '../../Redux/actions/actionAdmin/actionGetDates'
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateCartItemQuantity,
@@ -166,6 +167,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         }
       });
     });
+   
     return totalPrice;
   };
 
@@ -195,6 +197,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedCart,
   };
 
+  let priceItem = calculateTotalPrice();
+  
+
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
@@ -209,6 +214,8 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         if (result.isConfirmed) {
           onCloseCart();
           navigate("/login");
+         
+         
         }
       });
       return;
@@ -223,8 +230,10 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
     try {
       const data = await axios.post(`${server}/completeOrder`, pedido);
+      console.log(pedido)
       // const data = await axios.post(`http://localhost:3001/completeOrder`, pedido)
       console.log("DATA POST_________", data.data);
+      dispatch(setDates(priceItem))
       if (Object.keys(data).length > 0) {
         clearAllCart();
         onCloseCart();

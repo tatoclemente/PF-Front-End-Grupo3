@@ -4,7 +4,6 @@ export const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
-    stateFood: 'all'
   },
   reducers: {
     getAllUsers: (state, action) => {
@@ -12,8 +11,6 @@ export const userSlice = createSlice({
     },
     postUser: (state, action) => {
       state.users.push(action.payload);
-    }, setStateFood: (state, action) =>{
-      state.stateFood = action.payload
     }
   },
 });
