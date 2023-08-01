@@ -42,7 +42,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   }, []);
   useEffect(() => {
     if (user) {
-      const emailUser = users.find((u) => u.email === user.email);
+      const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
       setUserEmail(emailUser);
     }
   }, [user]);
