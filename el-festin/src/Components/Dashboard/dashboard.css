@@ -1,7 +1,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-top: 1rem;
+ 
 }
 
 .dropdown select {
@@ -16,6 +16,11 @@
 
 .modal-width {
   width: 700px;
+  height: auto;
+}
+
+.modal-width-update {
+  width: 900px;
   height: auto;
 }
 
@@ -49,7 +54,7 @@
 
   border-radius: 6px;
   cursor: pointer;
-  background-color:#FBC32C;
+  background-color: #fbc32c;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -60,7 +65,7 @@
   border-radius: 5%;
 
   top: 0;
-  background-color:  #313045;
+  background-color: #313045;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
@@ -71,4 +76,33 @@
 
 .bg-disabled {
   background-color: #999999bf;
+}
+
+.posicion-update {
+  margin-top: 65%;
+}
+
+/* Cambiar el estilo del borde al enfocar el input */
+.mi-input {
+  border: none;
+  outline: none;
+  
+  font-size: 16px;
+  width: 300px; /* Puedes ajustar el ancho según tus necesidades */
+  transition: border-width 0.3s ease;
+  background-image: linear-gradient(#313045, #313045),
+    linear-gradient(#313045, #313045), linear-gradient(#313045, #313045);
+  background-position: 0 100%, 50% 100%, 100% 100%;
+  background-size: 0 2px, 100% 2px, 0 2px;
+  background-repeat: no-repeat;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column; /* Alinea los botones uno debajo del otro */
+  gap: 10px; /* Establece la distancia entre los botones (puedes ajustar este valor) */
+}
+
+.botones .tamañoBoton{
+  flex: 1;
 }

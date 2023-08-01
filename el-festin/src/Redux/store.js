@@ -5,6 +5,7 @@ import dessertSlice from "./slices/postresSlice";
 import sideSlice from "./slices/sideSlice";
 import usersSlice from "./slices/usersSlice";
 import authSlice from "./slices/authSlice";
+import adminSlice from "./slices/adminSlice";
 import orderSlice, { cartMiddleware } from "./slices/orderSlice";
 import bannerSlice from "./slices/bannerSlice";
 import localSlice from "./slices/localSlice";
@@ -17,8 +18,10 @@ const reducer = combineReducers({
   users: usersSlice,
   cart: orderSlice,
   auth: authSlice,
+  admin: adminSlice,
   banner: bannerSlice,
   local: localSlice,
+
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cartMiddleware),
 });
 
