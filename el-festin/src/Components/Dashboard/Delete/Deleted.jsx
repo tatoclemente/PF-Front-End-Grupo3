@@ -15,7 +15,7 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
 
   const dispatch = useDispatch();
 
-  let selectedItem = allDates.find((item) => {
+  let selectedItem =Array.isArray(allDates) && allDates.find((item) => {
     return item.name === deleteState;
   });
 
@@ -93,7 +93,7 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
                     <option value="DEFAULT" disabled>
                       {`Buscar ${name}`}
                     </option>
-                    {allDates.map((item) => {
+                    {Array.isArray(allDates) && allDates.map((item) => {
                       return (
                         <option key={item.id} value={item.name}>
                           {item.name}
