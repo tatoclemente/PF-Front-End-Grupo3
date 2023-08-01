@@ -69,7 +69,7 @@ const handleRender = () =>{
           </li>
          <li>
           <button onClick={handleRender}  className={`btn btn-primary ${Styles.buttonDelete}`}>
-            Datos de Administrador
+            Datos
           </button>
         </li> 
         </ul>
