@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { FiCheck } from "react-icons/fi";
+import { validacionGuar } from "../Validaciones/validacionGuar";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
 
@@ -14,8 +16,9 @@ export const UpdateSide = ({ allDates }) => {
     type: false,
     price: false,
   });
- 
+
   const selectedItem = allDates.find((item) => item.name === updateState);
+  const [error, setError] = useState({});
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
@@ -45,6 +48,12 @@ export const UpdateSide = ({ allDates }) => {
 
   const onInputChange = ({ target }) => {
     setInputUpdate({ ...inputUpdate, [target.name]: target.value });
+    setError(
+      validacionGuar({
+        ...inputUpdate,
+        [target.name]: target.value,
+      })
+    );
   };
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
@@ -65,18 +74,41 @@ export const UpdateSide = ({ allDates }) => {
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
+      const errorValue = Object.values(error);
+      let errorMessage = errorValue.filter((err) => err !== "");
+      if (errorMessage.length > 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Complete todos los campos correctamente",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
       if (selectedItem === inputUpdate) {
-        alert("Realiza un cambio");
+        Swal.fire({
+          icon: "info",
+          title: "Ups, siento!",
+          text: "Realiza un cambio",
+          confirmButtonText: "OK",
+        });
       } else {
         const { data } = await axios.put(
           `${server}/side/${selectedItem.id}`,
           formData
         );
-        console.log(data)
+        console.log(data);
         if (data.name) {
-          alert("Se ha modificado la guarnicion");
+          Swal.fire({
+            icon: "success",
+            title: "Se ha modificado la guarnicion correctamente",
+            confirmButtonText: "OK",
+          });
         } else {
-          alert("la guarnicion no pudo modificarse");
+          Swal.fire({
+            icon: "error",
+            title: "la guarnicion no pudo modificarse",
+            confirmButtonText: "OK",
+          });
         }
       }
     } catch (error) {
@@ -90,7 +122,8 @@ export const UpdateSide = ({ allDates }) => {
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop10">
+        data-bs-target="#staticBackdrop10"
+      >
         Modificar guarnicion
       </button>
 
@@ -101,7 +134,8 @@ export const UpdateSide = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -113,7 +147,8 @@ export const UpdateSide = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}></button>
+                onClick={() => setUpdateState("DEFAULT")}
+              ></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -141,14 +176,16 @@ export const UpdateSide = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Nombre
                     </button>
 
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Precio
                     </button>
 
@@ -157,7 +194,8 @@ export const UpdateSide = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="mt-2"
                         name="type"
-                        onChange={onInputChange}>
+                        onChange={onInputChange}
+                      >
                         <option value="DEFAULT" disabled>
                           Tipos de guarnicion
                         </option>
@@ -203,12 +241,17 @@ export const UpdateSide = ({ allDates }) => {
                   />
                   <button
                     className="btn border-2 btn-outline-success"
-                    onClick={() => setInputView({ ...inputView, name: false })}>
+                    onClick={() => setInputView({ ...inputView, name: false })}
+                    disabled={error.name}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.name && (
+                    <p style={{ fontSize: "12px" }}>{error.name}</p>
+                  )}
                 </div>
               )}
-              
+
               {inputView.price && (
                 <div>
                   <label>Cambiar precio</label>
@@ -223,11 +266,14 @@ export const UpdateSide = ({ allDates }) => {
                   />
                   <button
                     className="btn border-2 btn-outline-success"
-                    onClick={() =>
-                      setInputView({ ...inputView, price: false })
-                    }>
+                    onClick={() => setInputView({ ...inputView, price: false })}
+                    disabled={error.price}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.price && (
+                    <p style={{ fontSize: "12px" }}>{error.price}</p>
+                  )}
                 </div>
               )}
               <div className="modal-footer">
@@ -235,7 +281,8 @@ export const UpdateSide = ({ allDates }) => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}>
+                  onClick={() => setUpdateState("DEFAULT")}
+                >
                   Cerrar
                 </button>
                 <button type="submit" className="btn buttonCrear">

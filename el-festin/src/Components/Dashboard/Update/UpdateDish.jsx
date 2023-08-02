@@ -4,6 +4,8 @@ import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
 import { FiCheck } from "react-icons/fi";
+import { validacionDish } from "../Validaciones/validacionDish";
+import Swal from "sweetalert2";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
 
@@ -17,6 +19,7 @@ export const UpdateDish = ({ allDates }) => {
   });
   const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
   const selectedItem = allDates.find((item) => item.name === updateState);
+  const [error, setError] = useState({});
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
@@ -50,6 +53,12 @@ export const UpdateDish = ({ allDates }) => {
 
   const onInputChange = ({ target }) => {
     setInputUpdate({ ...inputUpdate, [target.name]: target.value });
+    setError(
+      validacionDish({
+        ...inputUpdate,
+        [target.name]: target.value,
+      })
+    );
   };
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
@@ -73,17 +82,40 @@ export const UpdateDish = ({ allDates }) => {
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
+      const errorValue = Object.values(error);
+      let errorMessage = errorValue.filter((err) => err !== "");
+      if (errorMessage.length > 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Complete todos los campos correctamente",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
       if (selectedItem === inputUpdate) {
-        alert("Realiza un cambio");
+        Swal.fire({
+          icon: "info",
+          title: "Ups, siento!",
+          text: "Realiza un cambio",
+          confirmButtonText: "OK",
+        });
       } else {
         const { data } = await axios.put(
           `${server}/dish/${selectedItem.id}`,
           formData
         );
         if (data.name) {
-          alert("Se ha modificado el plato");
+          Swal.fire({
+            icon: "success",
+            title: "Se ha modificado el plato correctamente",
+            confirmButtonText: "OK",
+          });
         } else {
-          alert("el plato no pudo modificarse");
+          Swal.fire({
+            icon: "error",
+            title: "El plato no pudo modificarse",
+            confirmButtonText: "OK",
+          });
         }
       }
     } catch (error) {
@@ -97,7 +129,8 @@ export const UpdateDish = ({ allDates }) => {
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop9">
+        data-bs-target="#staticBackdrop9"
+      >
         Modificar plato
       </button>
 
@@ -108,7 +141,8 @@ export const UpdateDish = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -120,7 +154,8 @@ export const UpdateDish = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}></button>
+                onClick={() => setUpdateState("DEFAULT")}
+              ></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -148,28 +183,32 @@ export const UpdateDish = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Nombre
                     </button>
 
                     <button
                       name="description"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Descripcion
                     </button>
 
                     <button
                       name="calorias"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Calorias
                     </button>
 
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear">
+                      className="btn buttonCrear"
+                    >
                       Precio
                     </button>
 
@@ -178,7 +217,8 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="mt-2"
                         name="type"
-                        onChange={onInputChange}>
+                        onChange={onInputChange}
+                      >
                         <option value="DEFAULT" disabled>
                           Tipos de plato
                         </option>
@@ -192,7 +232,8 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group mt-2"
                         name="subtype"
-                        onChange={onInputChange}>
+                        onChange={onInputChange}
+                      >
                         <option value="DEFAULT" disabled className="">
                           Subtipos
                         </option>
@@ -210,7 +251,8 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group mt-2"
                         name="glutenfree"
-                        onChange={onInputChange}>
+                        onChange={onInputChange}
+                      >
                         <option value="DEFAULT" disabled className="">
                           Glutenfree
                         </option>
@@ -224,7 +266,8 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group mt-2"
                         name="vegetarian"
-                        onChange={onInputChange}>
+                        onChange={onInputChange}
+                      >
                         <option value="DEFAULT" disabled>
                           Vegetariano
                         </option>
@@ -271,9 +314,14 @@ export const UpdateDish = ({ allDates }) => {
                   />
                   <button
                     className="btn border-2 btn-outline-success"
-                    onClick={() => setInputView({ ...inputView, name: false })}>
+                    onClick={() => setInputView({ ...inputView, name: false })}
+                    disabled={error.name}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.name && (
+                    <p style={{ fontSize: "12px" }}>{error.name}</p>
+                  )}
                 </div>
               )}
               {inputView.description && (
@@ -292,9 +340,14 @@ export const UpdateDish = ({ allDates }) => {
                     className="btn border-2 btn-outline-success"
                     onClick={() =>
                       setInputView({ ...inputView, description: false })
-                    }>
+                    }
+                    disabled={error.description}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.description && (
+                    <p style={{ fontSize: "12px" }}>{error.description}</p>
+                  )}
                 </div>
               )}
               {inputView.calorias && (
@@ -313,9 +366,14 @@ export const UpdateDish = ({ allDates }) => {
                     className="btn border-2 btn-outline-success"
                     onClick={() =>
                       setInputView({ ...inputView, calorias: false })
-                    }>
+                    }
+                    disabled={error.calories}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.calories && (
+                    <p style={{ fontSize: "12px" }}>{error.calories}</p>
+                  )}
                 </div>
               )}
               {inputView.price && (
@@ -332,11 +390,14 @@ export const UpdateDish = ({ allDates }) => {
                   />
                   <button
                     className="btn border-2 btn-outline-success"
-                    onClick={() =>
-                      setInputView({ ...inputView, price: false })
-                    }>
+                    onClick={() => setInputView({ ...inputView, price: false })}
+                    disabled={error.price}
+                  >
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
+                  {error.price && (
+                    <p style={{ fontSize: "12px" }}>{error.price}</p>
+                  )}
                 </div>
               )}
               <div className="modal-footer">
@@ -344,7 +405,8 @@ export const UpdateDish = ({ allDates }) => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}>
+                  onClick={() => setUpdateState("DEFAULT")}
+                >
                   Cerrar
                 </button>
                 <button type="submit" className="btn buttonCrear">
