@@ -1,14 +1,10 @@
 .navbarLanding {
   background-color: #313045;
-  height: 112px;
+  height: 100px;
   width: 100%;
-  display:flex;
-  justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
   border-bottom: 2px solid var(--main-color);
+  padding: 0 1.5rem;
 }
 
 .cart {
@@ -44,23 +40,29 @@
   position: relative;
   display: flex;
   align-items: center;
+  width: 500px !important;
+}
+
+.seach-bar-nav {
+  width: 500px !important;
+  margin-left: 3rem;
+  margin-top: .1rem;
 }
 
 .mi-input {
-  border-radius: 40px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s ease;
+  border-radius: 5px 5px 8px 8px;
+  border-bottom: none;
   padding-left: 20px;
-  height: 60px;
-  width: 600px;
+  height: 55px;
+  width: 500px !important;
+  font-weight: 500;
 }
 
 .mi-input:focus {
-  outline: none;
   border-color: whitesmoke;
   padding-left: 20px;
 }
-
+/* 
 .search-line {
   height: 1px;
   width: 100%;
@@ -68,12 +70,12 @@
   position: absolute;
   bottom: 50%;
   z-index: -1;
-}
+} */
 
 .search-icon {
   position: relative;
   margin-left: -60px; /* Ajusta este valor según sea necesario */
-  padding: 8px;
+  padding: 8px 8px 6px 8px;
   background-color: #fff;
   color: #000;
   cursor: pointer;
@@ -136,7 +138,7 @@
   flex-direction: column;
   position: absolute;
   padding: 1%;
-  border-radius: 30px;
+  border-radius: 10px;
   border: 1px solid #0000006f;
   max-width: 240px;
   width: 100%;
