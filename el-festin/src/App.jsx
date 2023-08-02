@@ -2,7 +2,13 @@ import { useState } from "react";
 import style from "./App.module.css";
 import { Navbar } from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
-import { Routes, Route, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
@@ -17,9 +23,25 @@ import { DashboardView } from "./Views/Dashboard/DashboardView";
 import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
+import { useSelector } from "react-redux";
 
 function App() {
   let location = useLocation();
+
+  const navigate = useNavigate();
+
+  const userGoogle = useSelector((state) => state.auth.user);
+
+  const userDB = useSelector((state) => state.users.users);
+
+  console.log("userGOOGLE", userGoogle);
+  console.log("userdB", userDB);
+
+  //const currentUser = userDB.find((user) => user.email === userGoogle.email);
+  //console.log("curretUser",currentUser);
+  const currentUser = {
+    role: "user",
+  };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -42,7 +64,7 @@ function App() {
           <div className={style.overlay} onClick={toggleCart} />
         ) : undefined}
         <ShoppingCart isOpen={isCartOpen} onCloseCart={toggleCart} />
-
+        {/* rutas publicas (libre acceso navegando por la pagina) */}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/auth/register" element={<RegisterPage />} />
@@ -50,19 +72,25 @@ function App() {
           <Route path="/home" element={<Home toggleCart={toggleCart} />} />
           <Route path="/about" element={<About />} />
 
-          <Route path="/dashboard" element={<DashboardView />} />
+          {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
+          {/*<Route path="/*" element={<Landing />} />*/}
 
           <Route
             path="/detail/:id"
             element={<Detail toggleCart={toggleCart} />}
           />
-
+          {/* rutas privada (para degenegar acceso segun ciertos criterios) */}
           <Route
             path="/*"
             element={
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
+                  {currentUser.role !== "user" ? (
+                    <Route path="/dashboard" element={<DashboardView />} />
+                  ) : (
+                    <Route path="*" element={<Navigate to="/home" />} />
+                  )}
                 </Routes>
               </PrivateRoute>
             }

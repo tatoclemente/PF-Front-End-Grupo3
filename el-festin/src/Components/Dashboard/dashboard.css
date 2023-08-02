@@ -106,3 +106,7 @@
 .botones .tamañoBoton{
   flex: 1;
 }
+
+.buttonWidth{
+  width: 100px;
+}
