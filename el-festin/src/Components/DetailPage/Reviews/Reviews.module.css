@@ -50,6 +50,7 @@
 .userInfo img {
     width: 50%;
     height: auto;
+    border-radius: 50%;
 }
 
 .contentInfo {
