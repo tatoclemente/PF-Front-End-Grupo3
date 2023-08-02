@@ -1,0 +1,67 @@
+
+.containerM{
+    margin-top: 1%;
+    margin-left: 5%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 300px;
+    justify-content: space-between;
+}
+
+.containerAll{
+    height: 550px;
+    max-height: 600px;
+    max-width:100%;
+    justify-content: space-between;
+}
+
+.containerDishes{
+    width: 800px;
+    position: relative;
+}
+
+.contUserM{
+    width: 900px;
+    height: 400px;
+
+}
+.contImg{
+border-radius: 50%;
+max-width: 50px;
+max-height: 50px;
+}
+
+.contPag{
+    display: flex;
+    justify-content: left;
+    list-style: none;
+    gap: 11px;
+}
+
+.page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(247, 244, 242);
+    height: 50px;
+    background-color: #FBC32C;
+    width: 50px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page:hover{
+    background-color: #f6f5f4;
+    color: rgb(6, 6, 6);
+}
+.contMostSelled{
+    width: 200px;
+    height: 60px;
+    position: relative;
+    justify-self: right;
+}
+

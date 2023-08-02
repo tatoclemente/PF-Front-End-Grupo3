@@ -4,13 +4,14 @@ export const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
-    stateFood: 'all'
   },
   reducers: {
     getAllUsers: (state, action) => {
       state.users = action.payload;
     },
     postUser: (state, action) => {
+
+
     // Obtener el token JWT personalizado desde la respuesta del servidor
     const customToken = action.payload.token;
     // console.log("____CUSTOM TOKEN____", customToken);
@@ -22,6 +23,7 @@ export const userSlice = createSlice({
     }, 
     setStateFood: (state, action) =>{
       state.stateFood = action.payload
+
     }
   },
 });

@@ -1,0 +1,130 @@
+/* module.css */
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 10px 10px 0px 0px;
+  padding: 0.2rem;
+  width: 50%;
+}
+
+.inputContainer input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.inputContainer button {
+  border: none;
+  background-color: #313045;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  margin-left: 0.4rem;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  color: grey;
+  font-size: 1.5rem;
+  margin: 1rem;
+}
+
+.dropdownContainer {
+  width: 90vw;
+  max-width: 95%;
+  margin: 1% auto;
+}
+
+.imageContainer {
+ display: flex;
+ justify-content: center;
+ max-width: 250px; 
+}
+
+.images {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  margin-top: 1rem;
+  width: 17rem;
+  height: 11rem;
+  border-radius: 10px;
+}
+
+.specialButton {
+  background-color: #313045;
+  width: 100px;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 10px;
+  transition-duration: 0.4s;
+  margin: 0.5rem auto;
+  margin-left: 8%;
+}
+
+.specialButton:hover {
+  background-color: #fbc32c;
+}
+.specialButton1 {
+    background-color: #313045;
+    width: 100px;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.6rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    margin: 0.5rem auto;
+    margin-left: 8%;
+    
+  }
+  
+  .specialButton1:hover {
+    background-color: #fbc32c;
+  }
+
+.imageDisabled {
+  filter: grayscale(100%);
+  /* Aquí puedes ajustar cualquier otro estilo que desees para la imagen deshabilitada */
+}
+
+.searchResults {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  width: 50%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.show {
+  display: block;
+}
+
+/* Para ocultar los resultados de búsqueda inicialmente */
+.hidden {
+  display: none;
+}
+
+/* Agrega un poco de espacio interno al contenedor del input para dar espacio a los resultados de búsqueda */
+.inputContainer {
+  position: relative;
+}
