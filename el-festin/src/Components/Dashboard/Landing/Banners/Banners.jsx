@@ -5,6 +5,7 @@ import { server } from "../../../../Helpers/EndPoint";
 import axios from "axios";
 import style from "./Banners.module.css";
 import Slider from "react-slick";
+import Swal from "sweetalert2";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -68,12 +69,25 @@ export const Banner = () => {
   const handleSubmitBanner = async (e) => {
     e.preventDefault();
 
+    if (!banner.name || !filed) {
+      Swal.fire({
+        icon: "error",
+        title: "Por favor, completa todos los campos antes de crear el banner.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     const nameExists = allBanners.find(
       (ban) => ban.name.toLowerCase() === banner.name.toLowerCase()
     );
 
     if (nameExists) {
-      alert("Ya existe un banner con ese nombre");
+      Swal.fire({
+        icon: "error",
+        title: "Ya existe un banner con ese nombre",
+        confirmButtonText: "OK",
+      });
     } else {
       try {
         const bannerData = new FormData();
@@ -83,8 +97,11 @@ export const Banner = () => {
 
         const response = await axios.post(`${server}/banner`, bannerData);
         console.log("Banner create successfully:", response.data);
-
-        alert("Se creó el banner");
+        Swal.fire({
+          icon: "success",
+          title: "Se creó el banner",
+          confirmButtonText: "OK",
+        });
         setBanner({
           name: "",
           image: null,
@@ -152,7 +169,7 @@ export const Banner = () => {
 
   const sortedBanners = allBannersCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  )
+  );
 
   // // Agregamos un estado para almacenar el ID del banner que se está mostrando en el desplegable
   // const [selectedBannerId, setSelectedBannerId] = useState(null);
@@ -230,11 +247,13 @@ export const Banner = () => {
                 borderRadius: "8px",
               }}
             >
-              
-              <button onClick={closeModal}    type="button"
+              <button
+                onClick={closeModal}
+                type="button"
                 className={` ${style.closeButton} btn-close`}
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>{" "}
+                aria-label="Close"
+              ></button>{" "}
               {/* Botón para cerrar el modal */}
               <form
                 onSubmit={handleSubmitBanner}
@@ -259,16 +278,19 @@ export const Banner = () => {
                   Deshabilitar banner
                 </label>
                 <div className="dropdown mt-0">
-                <select
-                  name="disabled"
-                  value={banner.disabled}
-                  onChange={(e) => handleChangeBanner(e)}
-                >
-                  <option value={false}>false</option>
-                  <option value={true}>true</option>
-                </select>
+                  <select
+                    name="disabled"
+                    value={banner.disabled}
+                    onChange={(e) => handleChangeBanner(e)}
+                  >
+                    <option value={false}>false</option>
+                    <option value={true}>true</option>
+                  </select>
                 </div>
-                <label htmlFor=""   className={`${style.createBannerName} pe-3 form-label`}>
+                <label
+                  htmlFor=""
+                  className={`${style.createBannerName} pe-3 form-label`}
+                >
                   Imagen
                 </label>
                 <input
@@ -302,22 +324,21 @@ export const Banner = () => {
                     style.images
                   } custom-class`}
                 />
-             
-                  <div className={style.dropdown}>
-                    <button
-                      onClick={() => handleUpdateBanners(ban.id)}
-                      className={style.buttonChangeBanner}
-                    >
-                      {ban.disabled ? "Habilitar" : "Deshabilitar"}
-                    </button>
-                    <button
-                      onClick={() => handleDeleteBanners(ban.id)}
-                      className={style.buttonChangeBanner}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-           
+
+                <div className={style.dropdown}>
+                  <button
+                    onClick={() => handleUpdateBanners(ban.id)}
+                    className={style.buttonChangeBanner}
+                  >
+                    {ban.disabled ? "Habilitar" : "Deshabilitar"}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteBanners(ban.id)}
+                    className={style.buttonChangeBanner}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
             );
           })}
