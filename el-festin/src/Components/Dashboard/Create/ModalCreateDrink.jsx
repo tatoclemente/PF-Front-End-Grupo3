@@ -4,10 +4,12 @@ import { server } from "../../../Helpers/EndPoint";
 import { volumeDrink } from "../../../Helpers/objetosHelp";
 import { typeDrink } from "../../../Helpers/objetosHelp";
 import { validacionDrink } from "../Validaciones/validacionDrink";
+import Swal from "sweetalert2";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
 
 export const ModalCreateDrink = () => {
+  const [updateState, setUpdateState] = useState("DEFAULT");
   let initialState = {
     name: "",
     volume: "",
@@ -54,7 +56,16 @@ export const ModalCreateDrink = () => {
       const { data } = await axios.post(`${server}/drink`, formData);
 
       if (data.name) {
-        alert("Bebida creada con exito");
+        Swal.fire({
+          icon: "success",
+          title: "Bebida creada con exito",
+          confirmButtonText: "OK",
+        });
+
+        setInputCreateDrink(initialState);
+        setUpdateState("DEFAULT");
+        setFiled(null);
+        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -67,7 +78,8 @@ export const ModalCreateDrink = () => {
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop1">
+        data-bs-target="#staticBackdrop1"
+      >
         Crear Bebida
       </button>
 
@@ -78,7 +90,8 @@ export const ModalCreateDrink = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -89,7 +102,8 @@ export const ModalCreateDrink = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -144,32 +158,34 @@ export const ModalCreateDrink = () => {
                   <p className={style.dato_incorrecto}>{error.price}</p>
                 )}
                 <div className="dropdown">
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group mt-4"
-                  name="volume"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled className="">
-                    Medida
-                  </option>
-                  {volumeDrink.map((volume, key) => {
-                    return (
-                      <option key={key} value={volume}>
-                        {volume}
-                      </option>
-                    );
-                  })}
-                </select>
+                  <select
+                    value={updateState}
+                    className="form-group mt-4"
+                    name="volume"
+                    onChange={onInputChange}
+                  >
+                    <option value="DEFAULT" disabled className="">
+                      Medida
+                    </option>
+                    {volumeDrink.map((volume, key) => {
+                      return (
+                        <option key={key} value={volume}>
+                          {volume}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 {error.volume && (
                   <p className={style.dato_incorrecto}>{error.volume}</p>
                 )}
                 <div className="dropdown px-2 pb-3">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group  mt-4"
                     name="type"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled className="">
                       tipo de bebida
                     </option>
@@ -183,18 +199,19 @@ export const ModalCreateDrink = () => {
                   </select>
                 </div>
                 <div className="dropdown">
-                <select
-                  defaultValue={"DEFAULT"}
-                  className="form-group"
-                  name="alcohol"
-                  onChange={onInputChange}>
-                  <option value="DEFAULT" disabled>
-                    contiene alcohol
-                  </option>
+                  <select
+                    value={updateState}
+                    className="form-group"
+                    name="alcohol"
+                    onChange={onInputChange}
+                  >
+                    <option value="DEFAULT" disabled>
+                      contiene alcohol
+                    </option>
 
-                  <option value={true}>Si</option>
-                  <option value={false}>no</option>
-                </select>
+                    <option value={true}>Si</option>
+                    <option value={false}>no</option>
+                  </select>
                 </div>
                 <br />
 
@@ -202,7 +219,8 @@ export const ModalCreateDrink = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">

@@ -49,79 +49,73 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
 
   const userImage = userEmail ? userEmail.image : null;
   return (
-    <>
-      <div className="container-fluid position-relative navbarLanding">
-        <div className="container-fluid position-absolute top-0 start-0">
-          <div className="d-flex justify-content-between pt-4 align-items-center">
-            <Link className="navbar-brand d-none d-lg-block ps-lg-5" to="/">
-              <img src={logo} alt="logo" className="img-width-logo" />
+    <div className="d-flex justify-content-between navbarLanding">
+      <Link className="navbar-brand d-none d-lg-block" to="/">
+        <img src={logo} alt="logo" className="img-width-logo" />
+      </Link>
+      {isDashboard ? null : (
+        <div className="d-none d-lg-block seach-bar-nav">
+          <SearchBar path={landing} />
+        </div>
+      )}
+      <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
+        {isDashboard ? (
+          <div className="d-none d-lg-block pe-3">
+            <Link to="/" className="text-decoration-none text-white fs-3">
+              Salir
             </Link>
-            {isDashboard ? null : (
-              <div className="d-none d-lg-block">
-                <SearchBar path={landing} />
+          </div>
+        ) : user ? (
+          <div className="dropdown-container">
+            <button className="dropdown-button" onClick={handleOpen}>
+              {user.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  width="50"
+                  height="50"
+                  style={{
+                    borderRadius: "30px",
+                    border: "2px solid white",
+                  }}
+                ></img>
+              ) : (
+                <img
+                  src={userImage ? userImage : profileImg}
+                  width="50"
+                  height="50"
+                ></img>
+              )}
+            </button>
+            {isOpen && (
+              <div className="dropdown-menu">
+                <Link to="/profile">Mi cuenta</Link>
+                <Link onClick={handleLogout}>Cerrar sesión</Link>
               </div>
             )}
-            <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
-              {isDashboard ? (
-                <div className="d-none d-lg-block pe-3">
-                  <Link to="/" className="text-decoration-none text-white fs-3">
-                    Salir
-                  </Link>
-                </div>
-              ) : user ? (
-                <div className="dropdown-container">
-                  <button className="dropdown-button" onClick={handleOpen}>
-                    {user.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        width="50"
-                        height="50"
-                        style={{
-                          borderRadius: "30px",
-                          border: "2px solid white",
-                        }}
-                      ></img>
-                    ) : (
-                      <img
-                        src={userImage ? userImage : profileImg}
-                        width="50"
-                        height="50"
-                      ></img>
-                    )}
-                  </button>
-                  {isOpen && (
-                    <div className="dropdown-menu">
-                      <Link to="/profile">Mi cuenta</Link>
-                      <Link onClick={handleLogout}>Cerrar sesión</Link>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  to="/auth/login"
-                  className="text-decoration-none text-white fs-4 me-2 sign-in"
-                >
-                  {" "}
-                  Ingresar{" "}
-                </Link>
-              )}
-              {isDashboard ? null : (
-                <div className="text-end cart" onClick={toggleCart}>
-                  <img
-                    src={cart}
-                    alt="cart"
-                    className="img-width-cart position-relative"
-                  />
-                  <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
-                    {totalItems}
-                  </span>
-                </div>
-              )}
-            </div>
           </div>
-        </div>
+        ) : (
+          <Link
+            to="/auth/login"
+            className="text-decoration-none text-white fs-4 me-2 sign-in"
+          >
+            {" "}
+            Ingresar{" "}
+          </Link>
+        )}
+        {isDashboard ? null : (
+          <div className="text-end cart" onClick={toggleCart}>
+            <img
+              src={cart}
+              alt="cart"
+              className="img-width-cart position-relative"
+            />
+            <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
+              {totalItems}
+            </span>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 //  <nav className="navbarLanding">

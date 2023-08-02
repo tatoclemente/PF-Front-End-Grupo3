@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLocal } from "../../../../Redux/actions/actionsLocal/getAllLocal";
 import { server } from "../../../../Helpers/EndPoint";
 import axios from "axios";
+import Swal from "sweetalert2";
 import style from "./Local.module.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -62,8 +63,12 @@ export const Local = () => {
 
   const handleSubmitLocal = async (e) => {
     e.preventDefault();
-    if (!local.name ||  !filed) {
-      alert("Por favor, completa todos los campos antes de crear la imagen.");
+    if (!local.name || !filed) {
+      Swal.fire({
+        icon: "error",
+        title: "Por favor, completa todos los campos antes de crear la imagen.",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -72,7 +77,11 @@ export const Local = () => {
     );
 
     if (nameExists) {
-      alert("Ya existe una imagen del restaurante con ese nombre");
+      Swal.fire({
+        icon: "error",
+        title: "Ya existe una imagen del restaurante con ese nombre",
+        confirmButtonText: "OK",
+      });
     } else {
       try {
         const localData = new FormData();
@@ -82,8 +91,11 @@ export const Local = () => {
 
         const response = await axios.post(`${server}/local`, localData);
         console.log("image local create successfully:", response.data);
-
-        alert("Se creó la imagen");
+        Swal.fire({
+          icon: "success",
+          title: "Se creó la imagen",
+          confirmButtonText: "OK",
+        });
         setLocal({
           name: "",
           image: null,
@@ -150,7 +162,7 @@ export const Local = () => {
 
   const sortedLocal = allLocalCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  )
+  );
 
   // const [selectedLocalId, setSelectedLocalId] = useState(null);
 

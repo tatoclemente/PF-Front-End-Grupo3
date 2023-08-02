@@ -4,10 +4,12 @@ import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
 import { validacionDish } from "../Validaciones/validacionDish";
 import { getTypes } from "../../../Redux/actions/getDishesTypes";
+import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
 import "../dashboard.css";
 
 export const ModalCreateDish = () => {
+  const [updateState, setUpdateState] = useState("DEFAULT");
   let initialState = {
     name: "",
     description: "",
@@ -54,7 +56,16 @@ export const ModalCreateDish = () => {
       const { data } = await axios.post(`${server}/dish`, formData);
 
       if (data.name) {
-        alert("Plato creado correctamente");
+        Swal.fire({
+          icon: "success",
+          title: "Plato creado con exito",
+          confirmButtonText: "OK",
+        });
+
+        setInputCreateDish(initialState);
+        setUpdateState("DEFAULT");
+        setFiled(null);
+        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -83,7 +94,8 @@ export const ModalCreateDish = () => {
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">
+        data-bs-target="#staticBackdrop"
+      >
         Crear Plato
       </button>
 
@@ -94,7 +106,8 @@ export const ModalCreateDish = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -105,7 +118,8 @@ export const ModalCreateDish = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -171,10 +185,11 @@ export const ModalCreateDish = () => {
                 />
                 <div className="dropdown">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="mt-4"
                     name="type"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled>
                       Tipos de plato
                     </option>
@@ -186,10 +201,11 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown px-2">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group mt-4"
                     name="subtype"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled className="">
                       Subtipos
                     </option>
@@ -205,10 +221,11 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group mt-4"
                     name="glutenfree"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled className="">
                       Glutenfree
                     </option>
@@ -219,10 +236,11 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown pe-2">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group mt-4"
                     name="vegetarian"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled className="">
                       Vegetariano
                     </option>
@@ -234,10 +252,11 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown">
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className=" my-4"
                     name="dailyspecial"
-                    onChange={onInputChange}>
+                    onChange={onInputChange}
+                  >
                     <option value="DEFAULT" disabled className="">
                       Especial del dia
                     </option>
@@ -253,7 +272,8 @@ export const ModalCreateDish = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">
