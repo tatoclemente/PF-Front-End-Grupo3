@@ -7,26 +7,21 @@ import { FiCheck } from "react-icons/fi";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
 
-export const Updater = ({ allDates }) => {
+export const UpdateSide = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,
-    description: false,
-    calorias: false,
+    type: false,
     price: false,
   });
-  const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
+ 
   const selectedItem = allDates.find((item) => item.name === updateState);
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
-    description: "",
+
     type: "",
-    subtype: [],
-    calories: "",
-    glutenfree: null,
-    vegetarian: null,
-    dailyspecial: null,
+
     price: "",
   });
   const [filed, setFiled] = useState(null);
@@ -59,14 +54,11 @@ export const Updater = ({ allDates }) => {
 
   const formData = new FormData();
   formData.append("name", inputUpdate?.name);
-  formData.append("description", inputUpdate?.description);
+
   formData.append("type", inputUpdate?.type);
-  formData.append("calories", inputUpdate?.calories);
+
   formData.append("price", inputUpdate?.price);
-  formData.append("subtype", inputUpdate?.subtype);
-  formData.append("glutenfree", inputUpdate?.glutenfree);
-  formData.append("vegetarian", inputUpdate?.vegetarian);
-  formData.append("dailyspecial", inputUpdate?.dailyspecial);
+
   formData.append("image", filed);
 
   console.log("formdata", formData);
@@ -77,13 +69,14 @@ export const Updater = ({ allDates }) => {
         alert("Realiza un cambio");
       } else {
         const { data } = await axios.put(
-          `${server}/dish/${selectedItem.id}`,
+          `${server}/side/${selectedItem.id}`,
           formData
         );
+        console.log(data)
         if (data.name) {
-          alert("Se ha modificado el plato");
+          alert("Se ha modificado la guarnicion");
         } else {
-          alert("el plato no pudo modificarse");
+          alert("la guarnicion no pudo modificarse");
         }
       }
     } catch (error) {
@@ -97,13 +90,13 @@ export const Updater = ({ allDates }) => {
         type="button"
         className={`btn btn-primary ${style.buttonDelete}`}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop9">
-        Modificar
+        data-bs-target="#staticBackdrop10">
+        Modificar guarnicion
       </button>
 
       <div
         className="modal fade"
-        id="staticBackdrop9"
+        id="staticBackdrop10"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabindex="-1"
@@ -124,7 +117,7 @@ export const Updater = ({ allDates }) => {
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
-                Elija plato a modificar
+                Elija guarnicion a modificar
               </label>
               <br />
               <div className="dropdown pt-2">
@@ -153,20 +146,6 @@ export const Updater = ({ allDates }) => {
                     </button>
 
                     <button
-                      name="description"
-                      onClick={handleInputView}
-                      className="btn buttonCrear">
-                      Descripcion
-                    </button>
-
-                    <button
-                      name="calorias"
-                      onClick={handleInputView}
-                      className="btn buttonCrear">
-                      Calorias
-                    </button>
-
-                    <button
                       name="price"
                       onClick={handleInputView}
                       className="btn buttonCrear">
@@ -180,59 +159,14 @@ export const Updater = ({ allDates }) => {
                         name="type"
                         onChange={onInputChange}>
                         <option value="DEFAULT" disabled>
-                          Tipos de plato
+                          Tipos de guarnicion
                         </option>
 
-                        <option value="plato principal">Plato principal</option>
-                        <option value="entrada">Entrada</option>
-                      </select>
-                    </div>
-                    <div className="dropdown">
-                      <select
-                        defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
-                        name="subtype"
-                        onChange={onInputChange}>
-                        <option value="DEFAULT" disabled className="">
-                          Subtipos
-                        </option>
-                        {subtiposDish?.map((subtipo, key) => {
-                          return (
-                            <option key={key} value={subtipo}>
-                              {subtipo}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="dropdown">
-                      <select
-                        defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
-                        name="glutenfree"
-                        onChange={onInputChange}>
-                        <option value="DEFAULT" disabled className="">
-                          Glutenfree
-                        </option>
-                        <option value={true}>Si</option>
-                        <option value={false}>no</option>
+                        <option value="Salsa">Salsa</option>
+                        <option value="acompañamiento">acompañamiento</option>
                       </select>
                     </div>
 
-                    <div className="dropdown">
-                      <select
-                        defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
-                        name="vegetarian"
-                        onChange={onInputChange}>
-                        <option value="DEFAULT" disabled>
-                          Vegetariano
-                        </option>
-
-                        <option value={true}>Si</option>
-                        <option value={false}>no</option>
-                      </select>
-                    </div>
                     <li>
                       <input
                         type="file"
@@ -251,8 +185,6 @@ export const Updater = ({ allDates }) => {
                       image={inputUpdate?.image}
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
-                      rating={inputUpdate?.rating}
-                      description={inputUpdate?.description}
                     />
                   )}
                 </div>
@@ -276,48 +208,7 @@ export const Updater = ({ allDates }) => {
                   </button>
                 </div>
               )}
-              {inputView.description && (
-                <div className="">
-                  <label>Cambiar descripcion</label>
-                  <br />
-                  <input
-                    className="mi-input"
-                    type="text"
-                    placeholder="Escribe aquí"
-                    name="description"
-                    value={inputUpdate.description}
-                    onChange={onInputChange}
-                  />
-                  <button
-                    className="btn border-2 btn-outline-success"
-                    onClick={() =>
-                      setInputView({ ...inputView, description: false })
-                    }>
-                    <FiCheck style={{ fontSize: "24px" }} />
-                  </button>
-                </div>
-              )}
-              {inputView.calorias && (
-                <div>
-                  <label>Cambiar calorias</label>
-                  <br />
-                  <input
-                    className="mi-input"
-                    type="text"
-                    placeholder="Escribe aquí"
-                    name="calories"
-                    value={inputUpdate.calories}
-                    onChange={onInputChange}
-                  />
-                  <button
-                    className="btn border-2 btn-outline-success"
-                    onClick={() =>
-                      setInputView({ ...inputView, calorias: false })
-                    }>
-                    <FiCheck style={{ fontSize: "24px" }} />
-                  </button>
-                </div>
-              )}
+              
               {inputView.price && (
                 <div>
                   <label>Cambiar precio</label>
