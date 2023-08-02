@@ -2,7 +2,6 @@
 import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { setDates } from "../../Redux/actions/actionAdmin/actionGetDates";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateCartItemQuantity,
@@ -104,11 +103,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     }
 
     try {
-      let priceItem = 0;
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
       console.log("DATA POST_________", data.data);
-      dispatch(setDates(priceItem))
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',
@@ -133,14 +130,14 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         window.location.href = response.body?.init_point;
         clearAllCart();
         onCloseCart();
-      // } else {
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "¡Hubo un error. Su orden fue rechazada!",
-      //     showConfirmButton: false,
-      //     timer: 2000,
-      //   });
-      // }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "¡Hubo un error. Su orden fue rechazada!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     } catch (error) {
       console.log(error.message);
     }

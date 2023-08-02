@@ -30,7 +30,7 @@ function Reviews({ dataReviews }) {
   return (
     <div className={style.mainContainer}>
       <h1 className={style.title}>Valoraciones de nuestros clientes</h1>
-      {dataReviews.length === 0 ? <p>Este plato aún no tiene ninguna reseña</p> :
+      {dataReviews && Array.isArray(dataReviews) && dataReviews.length === 0 ? <p>Este plato aún no tiene ninguna reseña</p> :
         
         dataReviews.map(review => {
           const user = review.User;
