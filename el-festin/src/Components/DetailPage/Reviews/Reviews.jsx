@@ -50,7 +50,7 @@ function Reviews({ dataReviews }) {
             <div key={review.id} className={style.container}>
               <div className={style.cardConainer}>
                 <div className={style.userInfo}>
-                  <img src={user.image !== null ? user.image : defaultImage} className={style.profileImage} alt="profile-image" />
+                  <img src={user.image && user.image !== null ? user.image : defaultImage} className={style.profileImage} alt="profile-image" />
                   <p className={style.name}>{user.name}</p>
                 </div>
                 <div className={style.contentInfo}>
