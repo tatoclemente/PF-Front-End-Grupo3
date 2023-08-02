@@ -47,6 +47,7 @@ export const ModalCreateDesert = () => {
       if (data.name) {
         alert("Postre creada con exito");
       }
+      
     } catch (error) {
       throw error.message;
     }
