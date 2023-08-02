@@ -3,6 +3,7 @@ import DetailPage from "../../Components/DetailPage/DetailPage";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../Helpers/EndPoint";
+import Reviews from "../../Components/DetailPage/Reviews/Reviews";
 
 function Detail({ toggleCart }) {
   const { id } = useParams();
@@ -35,13 +36,20 @@ function Detail({ toggleCart }) {
     };
   }, [id]);
 
+  const dataReviews = dishDetail.Comments;
+  console.log(dataReviews);
+
   // const dishes = useSelector(state => state.dishes)
   // console.log(dishes);
   // const dishDetail = dishes.dishes.find(dish => dish.id == id)
-
-  return (
+  if(loading) 
+  return ( <div>
+    <p>Please Wait...</p>
+    </div>) 
+    else return (
     <div>
-      {loading ? <p>Please Wait...</p> : <DetailPage dishDetail={dishDetail} toggleCart={toggleCart}/>}
+      <DetailPage dishDetail={dishDetail} toggleCart={toggleCart}/>
+      <Reviews dataReviews={dataReviews} />
     </div>
   );
 }
