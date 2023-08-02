@@ -72,7 +72,8 @@ function App() {
         {location.pathname !== "/auth/login" &&
         location.pathname !== "/dashboard" &&
         location.pathname !== "/auth/register" &&
-        location.pathname !== "/shopping-cart" ? (
+        location.pathname !== "/shopping-cart" &&
+        location.pathname !== "/detail/:id" ? (
           <Footer />
         ) : undefined}
       </AuthProvider>
