@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import style from '../metrics.module.css'
 import { useSelector } from "react-redux";
+import DefaultImg from './images/profile.png'
 import { Card, Text,  Col, Grid, Title,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow, Badge} from "@tremor/react";
 
 
@@ -56,12 +57,12 @@ export const UsersMetrics = () => {
   };
 
     return(
-        <div className={style.contUserM}>
-             <Grid numItems={1}  className="gap-3">
+        <div >
+             <Grid numItems={1}  className="gap-2">
     <Col numColSpan={1}>
-  <Card decoration="top" >
+  <Card decoration="top" className="mt-2" >
     <Title>Lista de usuarios Registrados en la aplicacion</Title>
-    <Table className="mt-5">
+    <Table >
       <TableHead>
         <TableRow>
           <TableHeaderCell>Nombre</TableHeaderCell>
@@ -75,7 +76,7 @@ export const UsersMetrics = () => {
             <TableCell>{item.name}</TableCell>
             <TableCell>
               <div >
-             <img className={style.contImg} src={item.image} alt="NoImage" />
+             <img className={style.contImg} src={item.image || DefaultImg} alt="NoImage" />
                 </div></TableCell>
                 <TableCell>
                     <Text>{item.email}</Text>

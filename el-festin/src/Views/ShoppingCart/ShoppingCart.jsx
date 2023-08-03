@@ -118,7 +118,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
       console.log("DATA POST_________", data.data);
-      dispatch(setDates(priceItem))
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',
