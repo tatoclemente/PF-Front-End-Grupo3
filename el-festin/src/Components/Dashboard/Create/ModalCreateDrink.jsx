@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
 import { volumeDrink } from "../../../Helpers/objetosHelp";
@@ -12,9 +12,9 @@ export const ModalCreateDrink = () => {
   const [updateState, setUpdateState] = useState("DEFAULT");
   let initialState = {
     name: "",
-    volume: "",
-    type: "",
-    alcohol: "",
+    volume: updateState,
+    type: updateState,
+    alcohol: updateState,
     stock: 0,
     price: "",
   };
@@ -23,6 +23,7 @@ export const ModalCreateDrink = () => {
 
   const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
+  const fileInputRef = useRef(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateDrink({
@@ -65,6 +66,7 @@ export const ModalCreateDrink = () => {
         setInputCreateDrink(initialState);
         setUpdateState("DEFAULT");
         setFiled(null);
+        fileInputRef.current.value = null;
         setError({});
       }
     } catch (error) {
@@ -152,6 +154,7 @@ export const ModalCreateDrink = () => {
                   type="file"
                   className="form-control"
                   onChange={handleOnChangeImage}
+                  ref={fileInputRef}
                 />
 
                 {error.price && (
@@ -159,7 +162,7 @@ export const ModalCreateDrink = () => {
                 )}
                 <div className="dropdown">
                   <select
-                    value={updateState}
+                    value={inputCreateDrink.volume}
                     className="form-group mt-4"
                     name="volume"
                     onChange={onInputChange}
@@ -176,12 +179,10 @@ export const ModalCreateDrink = () => {
                     })}
                   </select>
                 </div>
-                {error.volume && (
-                  <p className={style.dato_incorrecto}>{error.volume}</p>
-                )}
+
                 <div className="dropdown px-2 pb-3">
                   <select
-                    value={updateState}
+                    value={inputCreateDrink.type}
                     className="form-group  mt-4"
                     name="type"
                     onChange={onInputChange}
@@ -200,7 +201,7 @@ export const ModalCreateDrink = () => {
                 </div>
                 <div className="dropdown">
                   <select
-                    value={updateState}
+                    value={inputCreateDrink.alcohol}
                     className="form-group"
                     name="alcohol"
                     onChange={onInputChange}

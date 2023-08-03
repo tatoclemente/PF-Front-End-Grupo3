@@ -103,6 +103,7 @@ export const UpdateSide = ({ allDates }) => {
             title: "Se ha modificado la guarnicion correctamente",
             confirmButtonText: "OK",
           });
+          setUpdateState("DEFAULT");
         } else {
           Swal.fire({
             icon: "error",
@@ -116,6 +117,7 @@ export const UpdateSide = ({ allDates }) => {
     }
   };
 
+  const isInputViewEnabled = inputView.name || inputView.price;
   return (
     <div className="container-fluid text-dark">
       <button
@@ -285,7 +287,11 @@ export const UpdateSide = ({ allDates }) => {
                 >
                   Cerrar
                 </button>
-                <button type="submit" className="btn buttonCrear">
+                <button
+                  type="submit"
+                  className="btn buttonCrear"
+                  disabled={isInputViewEnabled}
+                >
                   Modificar
                 </button>
               </div>

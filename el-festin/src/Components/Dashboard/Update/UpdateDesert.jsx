@@ -32,7 +32,8 @@ export const UpdateDesert = ({ allDates }) => {
 
   useEffect(() => {
     setInputUpdate(selectedItem);
-  }, [selectedItem]);
+    setInputView(updateState);
+  }, [selectedItem, updateState]);
 
   const onUpdateChange = (e) => {
     setUpdateState(e.target.value);
@@ -101,6 +102,7 @@ export const UpdateDesert = ({ allDates }) => {
             title: "Se ha modificado el postre correctamente",
             confirmButtonText: "OK",
           });
+          setUpdateState("DEFAULT");
         } else {
           Swal.fire({
             icon: "error",
@@ -113,6 +115,8 @@ export const UpdateDesert = ({ allDates }) => {
       throw error.messagge;
     }
   };
+  const isInputViewEnabled =
+    inputView.name || inputView.price || inputView.stock;
 
   return (
     <div className="container-fluid text-dark">
@@ -301,7 +305,11 @@ export const UpdateDesert = ({ allDates }) => {
                 >
                   Cerrar
                 </button>
-                <button type="submit" className="btn buttonCrear">
+                <button
+                  type="submit"
+                  className="btn buttonCrear"
+                  disabled={isInputViewEnabled}
+                >
                   Modificar
                 </button>
               </div>

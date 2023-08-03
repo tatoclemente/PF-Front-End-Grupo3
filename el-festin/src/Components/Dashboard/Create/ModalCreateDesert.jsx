@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
 import { validacionDesert } from "../Validaciones/validacionDesert";
@@ -15,6 +15,7 @@ export const ModalCreateDesert = () => {
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
   const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
+  const fileInputRef = useRef(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
@@ -41,6 +42,7 @@ export const ModalCreateDesert = () => {
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(`${server}/desert`, formData);
 
@@ -52,9 +54,9 @@ export const ModalCreateDesert = () => {
         });
         setInputCreateDesert(initialState);
         setFiled(null);
+        fileInputRef.current.value = null;
         setError({});
       }
-      
     } catch (error) {
       throw error.message;
     }
@@ -143,6 +145,7 @@ export const ModalCreateDesert = () => {
                   type="file"
                   className="form-control"
                   onChange={handleOnChangeImage}
+                  ref={fileInputRef}
                 />
                 <div className="modal-footer">
                   <button
