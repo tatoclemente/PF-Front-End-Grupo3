@@ -40,7 +40,7 @@ function App() {
   //const currentUser = userDB.find((user) => user.email === userGoogle.email);
   //console.log("curretUser",currentUser);
   const currentUser = {
-    role: "user",
+    role: "admin",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
