@@ -106,6 +106,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
       console.log("DATA POST_________", data.data);
+      const idPedido = data.data
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',
@@ -120,7 +121,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           `${server}/mercadopago`,
           {
             // id: pedido.userId,
-            title: "Compra en El Festín online",
+            title: `Compra en El Festín online -${idPedido}`,
             unit_price: totalPrice,
             quantity: 1,
           }
