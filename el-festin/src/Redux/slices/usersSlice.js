@@ -4,6 +4,7 @@ export const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
+    userOrders: []
   },
   reducers: {
     getAllUsers: (state, action) => {
@@ -20,15 +21,14 @@ export const userSlice = createSlice({
     localStorage.setItem('customToken', customToken); 
       
       state.users.push(action.payload.newUser);
-    }, 
-    setStateFood: (state, action) =>{
-      state.stateFood = action.payload
-
+    },
+    setUserOrders: (state, action) =>{
+      state.userOrders = action.payload;
     }
   },
 });
 
-export const { getAllUsers, postUser, setStateFood } = userSlice.actions;
+export const { getAllUsers, postUser } = userSlice.actions;
 
 export default userSlice.reducer;
 

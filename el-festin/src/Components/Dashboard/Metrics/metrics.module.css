@@ -3,6 +3,7 @@
     
     position: relative;
     width: 99%;
+    margin-right: 0.16%;
 }
 
 .containerDishes{
@@ -14,7 +15,7 @@
 .contUserM{
     width: 99%;
     height: 100%;
-    margin-left: 0.16%;
+    margin-left: 0.45%;
 
 }
 .contImg{
