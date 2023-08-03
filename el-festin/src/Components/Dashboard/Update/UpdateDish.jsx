@@ -14,7 +14,7 @@ export const UpdateDish = ({ allDates }) => {
   const [inputView, setInputView] = useState({
     name: false,
     description: false,
-    calorias: false,
+    calories: false,
     price: false,
   });
   const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
@@ -36,7 +36,8 @@ export const UpdateDish = ({ allDates }) => {
 
   useEffect(() => {
     setInputUpdate(selectedItem);
-  }, [selectedItem]);
+    setInputView(updateState);
+  }, [selectedItem, updateState]);
 
   const onUpdateChange = (e) => {
     setUpdateState(e.target.value);
@@ -82,16 +83,6 @@ export const UpdateDish = ({ allDates }) => {
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const errorValue = Object.values(error);
-      let errorMessage = errorValue.filter((err) => err !== "");
-      if (errorMessage.length > 0) {
-        Swal.fire({
-          icon: "error",
-          title: "Complete todos los campos correctamente",
-          confirmButtonText: "OK",
-        });
-        return;
-      }
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -104,12 +95,15 @@ export const UpdateDish = ({ allDates }) => {
           `${server}/dish/${selectedItem.id}`,
           formData
         );
+        console.log("data", data);
+
         if (data.name) {
           Swal.fire({
             icon: "success",
             title: "Se ha modificado el plato correctamente",
             confirmButtonText: "OK",
           });
+          setUpdateState("DEFAULT");
         } else {
           Swal.fire({
             icon: "error",
@@ -122,6 +116,11 @@ export const UpdateDish = ({ allDates }) => {
       throw error.messagge;
     }
   };
+  const isInputViewEnabled =
+    inputView.name ||
+    inputView.price ||
+    inputView.calories ||
+    inputView.description;
 
   return (
     <div className="container-fluid text-dark">
@@ -409,7 +408,11 @@ export const UpdateDish = ({ allDates }) => {
                 >
                   Cerrar
                 </button>
-                <button type="submit" className="btn buttonCrear">
+                <button
+                  type="submit"
+                  className="btn buttonCrear"
+                  disabled={isInputViewEnabled}
+                >
                   Modificar
                 </button>
               </div>
