@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
-
 import Card from "../../Card/Card";
+import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
 import "../dashboard.css";
 
-export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
+export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
   const [deleteState, setDeleteState] = useState("DEFAULT");
 
   const [isOn, setIsOn] = useState(null);
 
   const dispatch = useDispatch();
 
-
-  let selectedItem =Array.isArray(allDates) && allDates.find((item) => {
-
-    return item.name === deleteState;
-  });
+  let selectedItem =
+    Array.isArray(allDates) &&
+    allDates.find((item) => {
+      return item.name === deleteState;
+    });
 
   useEffect(() => {
     dispatch(getItems());
@@ -47,9 +46,17 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
       setDeleteState(null);
       dispatch(getItems());
       setDeleteState("DEFAULT");
-      alert("Estado de plato cambiado con exito");
+      Swal.fire({
+        icon: "success",
+        title: "Estado de plato cambiado con exito",
+        confirmButtonText: "OK",
+      });
     } else {
-      alert("El plato ya tiene ese estado");
+      Swal.fire({
+        icon: "error",
+        title: "El plato ya tiene ese estado",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -60,7 +67,8 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
           type="button"
           className={`btn btn-primary ${style.buttonDelete}`}
           data-bs-toggle="modal"
-          data-bs-target={`#${idModal}`}>
+          data-bs-target={`#${idModal}`}
+        >
           {`Borrar ${name}`}
         </button>
         <div
@@ -70,7 +78,8 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
           data-bs-keyboard="false"
           tabindex="-1"
           aria-labelledby="staticBackdropLabel"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div className="modal-dialog">
             <div className="modal-content modal-width">
               <div className="modal-header">
@@ -82,7 +91,8 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   onClick={() => setDeleteState("DEFAULT")}
-                  aria-label="Close"></button>
+                  aria-label="Close"
+                ></button>
               </div>
 
               <form onSubmit={handleSubmitDeleted} className="modal-body">
@@ -95,19 +105,21 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
                     <option value="DEFAULT" disabled>
                       {`Buscar ${name}`}
                     </option>
-                    {Array.isArray(allDates) && allDates.map((item) => {
-                      return (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      );
-                    })}
+                    {Array.isArray(allDates) &&
+                      allDates.map((item) => {
+                        return (
+                          <option key={item.id} value={item.name}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
                 {selectedItem ? (
                   <div
                     className={`button ${!isOn ? "on" : ""}`}
-                    onClick={toggleButton}>
+                    onClick={toggleButton}
+                  >
                     <div className="d-flex align-items-center justify-content-between pt-2 px-2">
                       <div className="text-start">Off</div>
                       <div className="text-end">On</div>
@@ -145,7 +157,8 @@ export const Deleted = ({ allDates, path, getItems, name,idModal }) => {
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
-                    onClick={() => setDeleteState("DEFAULT")}>
+                    onClick={() => setDeleteState("DEFAULT")}
+                  >
                     Cerrar
                   </button>
                   <button type="submit" className="btn buttonCrear">

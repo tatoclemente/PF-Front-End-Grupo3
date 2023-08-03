@@ -1,4 +1,3 @@
-
 import { Navbar } from "../NavBar/NavBar.jsx";
 import "./dashboard.css";
 import { Sidebar } from "./Sidebar";
@@ -11,6 +10,7 @@ import { Local } from "./Landing/LocalImages/Local";
 import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
 
 export const Dashboard = () => {
+
 
 
 
@@ -33,6 +33,7 @@ const handleRender = (e) =>{
 }
 
 
+
   return ( 
     <>
       <div>
@@ -40,7 +41,6 @@ const handleRender = (e) =>{
       </div>
       <div >
       <div className="containerALL" >
-
       <Sidebar handleRender={handleRender} setThings={setThings} />
 
       
@@ -50,23 +50,23 @@ const handleRender = (e) =>{
           <div className='marketingContent' >
             <Banner />
             <Local />
-            <DailySpecials/>
+            <DailySpecials />
           </div>
         : null}
-        <div>
-        {/* <h6>Dashboard</h6> */}
-  </div>
+
   {things === 'Metrics' ? <div className="metricContent">
       <Dates/>
       </div> : things === 'Products' ? <div className="metricContent">
       <Dates/>
       </div> : null}
+
       {things === 'Users' ? <div className="metricContent">
    <UsersData/>
       </div>: null}
 
     </div>
     </div>
+
     </>
   );
 };
