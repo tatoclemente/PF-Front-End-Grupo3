@@ -133,6 +133,7 @@
   position: relative;
   right: 0;
   top: 0;
+  left: 25%;
   height: 100%;
   width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 90vh; /* Establece aquí la altura máxima que desees */
