@@ -1,59 +1,22 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
  import style from '../metrics.module.css'
-// import { useSelector } from "react-redux";
+ import { useSelector, useDispatch } from "react-redux";
+ import { getDishesDates} from '../../../../Redux/actions/actionAdmin/actionGetDates'
 import { Card, BarChart, Title, Subtitle, Col, Grid, Text } from "@tremor/react";
-
-const platosMasVendidos = [
-    {
-        name:'Milanesa',
-        'CuantitySelled': 10
-    },
-    {
-        name:'Pollo',
-        'CuantitySelled': 30
-    },
-    {
-        
-         name:'Pucho y cafe',
-         'CuantitySelled': 1
-         
-    },
-    {
-        
-        name:'Fideos de mama',
-        'CuantitySelled': 5
-        
-   },
-   {
-        
-    name:'Salmon',
-    'CuantitySelled': 7
-    
-},
-{
-        
-    name:'pescado',
-    'CuantitySelled': 8
-    
-},
-{
-  name:'Ravioles',
-'CuantitySelled': 10,
-},
-{
-  name:'Turron',
-  'CuantitySelled': 20
-},
-{
-  name:'Master',
-  'CuantitySelled': 16
-}
-
-]
-const ITEMS_PER_PAGE = 6;
 
 
 export const OrderMetrics = () => {
+  const ITEMS_PER_PAGE = 4;
+  const dispatch = useDispatch()
+
+useEffect(() => {
+ dispatch(getDishesDates())
+},[dispatch])
+
+ let platosMasVendidos = useSelector((state) => state.admin.selledDishes)
+ console.log(platosMasVendidos)
+ 
+
   const [currentPage, setCurrentPage] = useState(1);
   const [pageNumberLimit] = useState(5); //Este es el estado local del limite de paginas el cual se puede modificar
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);//Con este estado local determino la ultima pagina a mostrar en la paginacion, este tiene un "set" para que este se pueda ir modificando 
@@ -65,9 +28,9 @@ export const OrderMetrics = () => {
   const endIndex = startIndex + ITEMS_PER_PAGE;
 
   // Obtiene los datos de la página actual
-  const currentData = platosMasVendidos.slice(startIndex, endIndex);
+  let currentData = platosMasVendidos?.slice(startIndex, endIndex);
 
-  for(let i = 1; i <= Math.ceil(platosMasVendidos.length/ ITEMS_PER_PAGE); i++) {
+  for(let i = 1; i <= Math.ceil(platosMasVendidos?.length/ ITEMS_PER_PAGE); i++) {
     pageNumbers.push(i)
   }//Con este for voy contando la cantidad de paginas que voy a tener en total
 
@@ -98,23 +61,29 @@ export const OrderMetrics = () => {
       setCurrentPage(pageNumber);
     };
 
-    const encontrarPlatoMasVendido = (platos) =>
-  platos.reduce(
+    const encontrarPlatoMasVendido = (platos) =>{
+      if(platos.CantidadVendida === 0){
+        return 
+      }
+  platos?.reduce(
     (platoMasVendido, plato) =>
-      plato['CuantitySelled'] > platoMasVendido['CuantitySelled']
+      plato['CantidadVendida'] > platoMasVendido['CantidadVendida']
         ? plato
         : platoMasVendido,
     platos[0]
   );
+    }
 
 const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
 
+
+
     return(
-        <div >
+        <div className={style.containerDishes}>
   <Grid numItems={1} numItemsSm={2} className="gap-3">
     <Col numColSpan={1} numColSpanLg={2} >
-        <div className={style.containerDishes} >
-    <Card decoration="top">
+        <div>
+    <Card decoration="top" className="mt-2">
     <Title>Platos mas Vendidos</Title>
     <Subtitle>
      Los platos mas amados por los clientes
@@ -124,14 +93,14 @@ const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
       className="mt-6"
       data={currentData}
       index="name"
-      categories={['CuantitySelled']}
+      categories={['CantidadVendida']}
       colors={["orange"]}
       yAxisWidth={50}
     />
                   <div className={style.contPag} >
                   <button className={style.page}  onClick={handlePrev}> Ant </button>
             
-                {Array.from({ length: Math.ceil(platosMasVendidos.length / ITEMS_PER_PAGE) }).map((_, index) => (
+                {Array.from({ length: Math.ceil(platosMasVendidos?.length / ITEMS_PER_PAGE) }).map((_, index) => (
               <button className={style.page} key={index} onClick={() => handlePageChange(index + 1)}>
                 {index + 1}
               </button>
@@ -143,8 +112,8 @@ const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
   <div className={style.contMostSelled}>
       <Card decoration="top">
         <Text>El plato mas vendido es:</Text>
-        <Title>{platoMasVendido.name}</Title>
-        <Text>con {platoMasVendido.CuantitySelled} vendidos</Text>
+        <Title>{platoMasVendido?.name || 'No hay plato mas vendido'}</Title>
+        <Text>con {platoMasVendido?.CantidadVendida || 'Ninguno'} vendidos</Text>
       </Card>
       </div>
     </Col>
