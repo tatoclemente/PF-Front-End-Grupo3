@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { postUsers } from "../Redux/actions/actionsUsers/postUsers.js";
 import Validate from "./validateRegister";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers.js";
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { MdArrowBackIosNew } from "react-icons/md";
@@ -65,12 +66,25 @@ function Register() {
 
       if (errorsValue.length === 0 && register.email.length) {
         if (emailExists) {
-          alert("Ya existe un usuario con ese email");
+          Swal.fire({
+            icon: "error",
+            title: "Ya existe un usuario con ese email",
+            confirmButtonText: "OK",
+          });
         } else {
           signUp(register.email, register.password);
           dispatch(postUsers(register));
-          alert("¡Ha sido registrado exitosamente!");
+          Swal.fire({
+            icon: "success",
+            title: "¡Ha sido registrado exitosamente!",
+            confirmButtonText: "OK",
+          });
           navigate("/home");
+          Swal.fire({
+            icon: "success",
+            title: "¡Bienvenido al Festin!",
+            confirmButtonText: "OK",
+          });
 
           setRegister({
             name: "",
@@ -84,7 +98,11 @@ function Register() {
       } else {
         let errorsMessage = errorsValue.filter((error) => error !== "");
         if (errorsMessage) {
-          alert("Por favor complete todos los campos correctamente");
+          Swal.fire({
+            icon: "error",
+            title: "Por favor complete todos los campos correctamente",
+            confirmButtonText: "OK",
+          });
         }
       }
     } catch (error) {

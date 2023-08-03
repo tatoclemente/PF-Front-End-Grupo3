@@ -2,7 +2,6 @@
 import React from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import {setDates} from '../../Redux/actions/actionAdmin/actionGetDates'
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateCartItemQuantity,
@@ -29,10 +28,6 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   const navigate = useNavigate();
 
-
-
-
-
   initMercadoPago("TEST-9c107084-7d18-42a0-8902-d22ab0167b1b");
 
   //*MERCADO PAGO
@@ -41,10 +36,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   // Función para calcular el precio total de todos los ítems en el carrito
 
-  
-
   const totalPrice = calculateTotalPrice(order);
-
 
   // ...
 
@@ -77,23 +69,21 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedOrder,
   };
 
-
   function getCustomTokenFromLocalStorage() {
-    return localStorage.getItem('customToken');
+    return localStorage.getItem("customToken");
   }
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
     const customToken = getCustomTokenFromLocalStorage();
 
-    console.log("____CUSTOM TOKEN_____",customToken);
+    console.log("____CUSTOM TOKEN_____", customToken);
 
     const config = {
       headers: {
         Authorization: `Bearer ${customToken}`,
       },
     };
-
 
     if (!customToken) {
       Swal.fire({
@@ -113,13 +103,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     }
 
     try {
-
-
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
       console.log("DATA POST_________", data.data);
-
-      
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',
@@ -130,12 +116,15 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         });
         const description = formattedDescription(order);
 
-        const { data: mercadopagoData } = await axios.post(`${server}/mercadopago`, {
-          // id: pedido.userId,
-          title: "Compra en El Festín online",
-          unit_price: totalPrice,
-          quantity: 1,
-        });
+        const { data: mercadopagoData } = await axios.post(
+          `${server}/mercadopago`,
+          {
+            // id: pedido.userId,
+            title: `Compra en El Festín online -${idPedido}`,
+            unit_price: totalPrice,
+            quantity: 1,
+          }
+        );
         const response = mercadopagoData.response;
 
         window.location.href = response.body?.init_point;
@@ -167,7 +156,9 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         <h2 className={style.shoppingCartTitle}>Aquí esta su orden</h2>
       </div>
       <div className={style.shoppingCartBody}>
-        {Array.isArray(order) === false || order === null || order.length === 0 ? (
+        {Array.isArray(order) === false ||
+        order === null ||
+        order.length === 0 ? (
           <p>Aún no ha realizado ninguna orden</p>
         ) : (
           order.map((item, index) => {
@@ -228,8 +219,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                       <div className={style.quantityButtons}>
                         <button
                           className={style.buttonDelete}
-                          onClick={() => removeItem(item.dish.id)}
-                        >
+                          onClick={() => removeItem(item.dish.id)}>
                           Eliminar
                         </button>
                         {/* <div className={style.quantityContainer}>
@@ -271,8 +261,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                     item.drinks.map((drink, drinkIndex) => (
                       <div
                         key={drinkIndex}
-                        className={style.additionalContainer}
-                      >
+                        className={style.additionalContainer}>
                         <div className={style.dishDetailsHeader}>
                           <img
                             className={style.productImage}
@@ -292,8 +281,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         <div className={style.quantityButtons}>
                           <button
                             className={style.buttonDelete}
-                            onClick={() => removeItem(drink.id)}
-                          >
+                            onClick={() => removeItem(drink.id)}>
                             Eliminar
                           </button>
                           <div className={style.quantityContainer}>
@@ -301,16 +289,14 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                               className={style.buttonQuantity}
                               onClick={() =>
                                 decreaseQuantity(drink.id, drink.quantity)
-                              }
-                            >
+                              }>
                               -
                             </button>
                             <button
                               className={style.buttonQuantity}
                               onClick={() =>
                                 increaseQuantity(drink.id, drink.quantity)
-                              }
-                            >
+                              }>
                               +
                             </button>
                           </div>
@@ -327,8 +313,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                     item.desserts.map((dessert, dessertIndex) => (
                       <div
                         key={dessertIndex}
-                        className={style.additionalContainer}
-                      >
+                        className={style.additionalContainer}>
                         <div className={style.dishDetailsHeader}>
                           <img
                             className={style.productImage}
@@ -344,8 +329,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         <div className={style.quantityButtons}>
                           <button
                             className={style.buttonDelete}
-                            onClick={() => removeItem(dessert.id)}
-                          >
+                            onClick={() => removeItem(dessert.id)}>
                             Eliminar
                           </button>
                           <div className={style.quantityContainer}>
@@ -353,16 +337,14 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                               className={style.buttonQuantity}
                               onClick={() =>
                                 decreaseQuantity(dessert.id, dessert.quantity)
-                              }
-                            >
+                              }>
                               -
                             </button>
                             <button
                               className={style.buttonQuantity}
                               onClick={() =>
                                 increaseQuantity(dessert.id, dessert.quantity)
-                              }
-                            >
+                              }>
                               +
                             </button>
                           </div>
@@ -387,8 +369,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           order === null || order.length === 0
             ? `${style.payButton} ${style.disabledButton}`
             : style.payButton
-        }
-      >
+        }>
         PAGAR <span>{` Suma total $${totalPrice}`}</span>
       </button>
       {order.length !== 0 && (

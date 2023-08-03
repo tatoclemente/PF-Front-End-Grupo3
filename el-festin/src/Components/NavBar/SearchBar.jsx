@@ -43,7 +43,7 @@ export const SearchBar = (props) => {
         <input
           type="text"
           placeholder="Busca comidas, bebidas o postres..."
-          className="mi-input fs-5 fw-bold"
+          className="mi-input fs-5"
           value={input}
           onChange={onInputChange}
         />

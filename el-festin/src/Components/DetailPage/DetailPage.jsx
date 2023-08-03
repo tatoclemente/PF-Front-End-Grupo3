@@ -8,7 +8,7 @@ import swal from 'sweetalert2';
 
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import styles from "./DetailPage.module.css";
 // import { sides } from "../../utils/mock";
@@ -16,13 +16,14 @@ import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts"
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
 import { addToCart } from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Detail = ({ dishDetail, toggleCart }) => {
   const dispatch = useDispatch();
   const allDrinks = useSelector((state) => state.drinks.drinks);
   const desserts = useSelector((state) => state.desserts.desserts);
   const sides = useSelector((state) => state.sides.sides);
-  const orderCart = useSelector(state=> state.cart) 
+  const orderCart = useSelector(state => state.cart)
 
   useEffect(() => {
     dispatch(getDrinks());
@@ -77,7 +78,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
 
     if (totalItemsDrink >= 2) {
       swal.fire({
-        title:"Ups, Lo siento!", 
+        title: "Ups, Lo siento!",
         text: "No puedes seleccionar más de dos bebidas en total.",
         icon: 'info'
       });
@@ -91,7 +92,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     if (existingDrink) {
       if (existingDrink.quantity === 2) {
         swal.fire({
-          title:"Ups, Lo siento!",
+          title: "Ups, Lo siento!",
           text: "No puedes seleccionar más de dos unidades de esta bebida.",
           icon: 'info'
         });
@@ -115,7 +116,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
         }));
       } else {
         swal.fire({
-          title:"Ups, Lo siento!",
+          title: "Ups, Lo siento!",
           text: " No puedes seleccionar más de dos bebidas.",
           icon: 'info'
         });
@@ -313,10 +314,10 @@ const Detail = ({ dishDetail, toggleCart }) => {
       ? pastaGarnish
       : dishDetail.subtype === "carnes" ||
         dishDetail.subtype === "pescados y mariscos"
-      ? resGarnish
-      : dishDetail.subtype === "sandwich"
-      ? sandwichGarnish
-      : [];
+        ? resGarnish
+        : dishDetail.subtype === "sandwich"
+          ? sandwichGarnish
+          : [];
 
   // Filtrar los elementos con cantidad mayor a 0 antes de mostrarlos en el Slider
   const selectedDrinks = order.drinks.filter((drink) => drink.quantity > 0);
@@ -361,9 +362,9 @@ const Detail = ({ dishDetail, toggleCart }) => {
   }
 
 
-  const lengthDesserts = desserts.length ===5 ? 5 : desserts.length < 5 ? 4 : 6 ; 
+  const lengthDesserts = desserts.length < 6 ? desserts.length : 6; 
   console.log(lengthDesserts);
-  
+
   const settings = {
     dots: false,
     infinite: true,
@@ -374,7 +375,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const lengthDrinks = allDrinks.length < 5 ? 4 : 6;
+  const lengthDrinks = allDrinks.length < 6 ? allDrinks.length : 6;
   const settingsDrinks = {
     dots: false,
     infinite: true,
@@ -410,24 +411,24 @@ const Detail = ({ dishDetail, toggleCart }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
- 
+
 
   const typeAdditional = (item) =>
     order.garnish === item
       ? "Guarnición:"
       : order.drinks.includes(item)
-      ? "Bebida:"
-      : order.desserts.includes(item)
-      ? "Postre:"
-      : "";
+        ? "Bebida:"
+        : order.desserts.includes(item)
+          ? "Postre:"
+          : "";
 
   //DISPATCH DE LA ORDEN AL ESTADO GLOBAL
 
   const addToCartHandler = () => {
 
-    if(orderCart.length > 4) {
+    if (orderCart.length > 4) {
       swal.fire({
-        title:"Ups, Lo siento!",
+        title: "Ups, Lo siento!",
         text: "Has alcanzado el máximo de 5 ordenes por compra.",
         icon: 'info'
       });
@@ -582,16 +583,16 @@ const Detail = ({ dishDetail, toggleCart }) => {
                           </button>
                         </div>
                       )
-                      :( // Botón para eliminar la selección de la guarnición
-                        <div className={styles.removeButtonContainer}>
-                          <button
-                            className={styles.removeGarnishButton}
-                            onClick={removeGarnish}
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      )}
+                        : ( // Botón para eliminar la selección de la guarnición
+                          <div className={styles.removeButtonContainer}>
+                            <button
+                              className={styles.removeGarnishButton}
+                              onClick={removeGarnish}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -602,6 +603,9 @@ const Detail = ({ dishDetail, toggleCart }) => {
       </div>
 
       <div className={styles.rightInfo}>
+        <Link className={styles.backButton} to='/home'>
+          <button className={styles.buttonStyle}><span><FaArrowLeft /></span> Volver atras</button>
+        </Link>
         <h2 className={styles.title}>
           ¿Con qué te gustaría acompañar tu orden?
         </h2>
@@ -658,7 +662,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
         </div>
         <div className={styles.buttonContainer}>
           <div className={styles.containerPrice}>
-            <h2 className={styles.titles}>{`Suma total: $ ${price}`}</h2>
+            <h2 className={styles.titles}>Suma total: <b>${price}</b></h2>
           </div>
           <button className={styles.buttonAdd} onClick={showConfirmation}>
             agregar a orden

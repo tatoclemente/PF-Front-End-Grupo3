@@ -1,0 +1,98 @@
+.mainContainer {
+    width: 100%;
+    min-height: 150px;
+    padding: 0 0 2rem 0;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    width: 100%;
+    background-color: var(--background-darkblue);
+    color: var(--main-color);
+    height: 80px;
+    margin: 0 0 1rem 0;
+}
+.container {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardConainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 150px;
+    box-shadow: 1px 1px 5px var(--shadow);
+    border-radius: 15px;
+
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 200px;
+
+}
+
+.userInfo img {
+    width: 50%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.contentInfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    margin-bottom: 1rem;
+}
+
+.rating {
+    display: flex;
+    color: var(--main-color);
+    font-size: 1.5rem;
+   
+}
+
+.ratingIcon {
+    text-shadow: 2px 2px 1px var(--shadow);
+}
+
+.date {
+    margin-right: .5rem;
+}
+
+.commentContainer {
+    background-color: rgb(245, 245, 245);
+    box-shadow: inset .3px .3px 7px var(--shadow);
+    width: 95%;
+    min-height: 80px;
+    padding: .6rem;
+    border-radius: 5px;
+}
+
+.comment {
+    font-style: italic;
+    text-align: left;
+}

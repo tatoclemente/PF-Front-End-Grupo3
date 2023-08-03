@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { server } from "../../Helpers/EndPoint";
+import Swal from "sweetalert2";
 import axios from "axios";
 import styles from "./Profile.module.css";
 
@@ -81,6 +82,11 @@ export const Profile = () => {
         const response = await axios.put(`${server}/user/${userId}`, formData);
         console.log("Data user updated successfully:", response.data);
         dispatch(getUsers(userId));
+        Swal.fire({
+          icon: "success",
+          title: "Se ha actualizado sus datos",
+          confirmButtonText: "OK",
+        });
       } catch (error) {
         console.error("Error updating data local:", error);
       }

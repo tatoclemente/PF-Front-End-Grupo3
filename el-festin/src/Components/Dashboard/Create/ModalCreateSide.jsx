@@ -1,16 +1,17 @@
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
-
 import { useState } from "react";
 import { validacionGuar } from "../Validaciones/validacionGuar";
+import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
 
 export const ModalCreateSide = () => {
+  const [updateState, setUpdateState] = useState("DEFAULT");
   let initialState = {
     name: "",
-    type: "",
+    type: updateState,
     price: "",
-    available: null,
+    available: updateState,
   };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
@@ -36,20 +37,28 @@ export const ModalCreateSide = () => {
     setFiled(target.files[0]);
   };
 
-  const formData = new FormData();
-  formData.append("name", inputCreateSide.name);
-  formData.append("type", inputCreateSide.type);
-  formData.append("price", inputCreateSide.price);
-  formData.append("available", inputCreateSide.available);
-  formData.append("image", filed);
-
   const onSubmitCreate = async (e) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("name", inputCreateSide.name);
+      formData.append("type", inputCreateSide.type);
+      formData.append("price", inputCreateSide.price);
+      formData.append("available", inputCreateSide.available);
+      formData.append("image", filed);
+
       const { data } = await axios.post(`${server}/side`, formData);
 
       if (data.name) {
-        alert("Guarnicion creada con exito");
+        Swal.fire({
+          icon: "success",
+          title: "Guarnicion creada con exito",
+          confirmButtonText: "OK",
+        });
+        setInputCreateSide(initialState);
+        setUpdateState("DEFAULT");
+        setFiled(null);
+        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -128,14 +137,17 @@ export const ModalCreateSide = () => {
                   onChange={handleOnChangeImage}
                 />
                 <div className="dropdown pe-2">
-                 <label htmlFor="" className="form-label">Guarnicion</label>
+                  <label htmlFor="" className="form-label">
+                    Guarnicion
+                  </label>
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group"
                     name="type"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled>
-                     Tipo de guarnicion
+                    onChange={onInputChange}
+                  >
+                    <option value={updateState} disabled>
+                      Tipo de guarnicion
                     </option>
 
                     <option value="salsa">Salsa</option>
@@ -144,13 +156,16 @@ export const ModalCreateSide = () => {
                 </div>
 
                 <div className="dropdown px-2 pb-3">
-                  <label htmlFor="" className="form-label">Disponible</label>
+                  <label htmlFor="" className="form-label">
+                    Disponible
+                  </label>
                   <select
-                    defaultValue={"DEFAULT"}
+                    value={updateState}
                     className="form-group "
                     name="available"
-                    onChange={onInputChange}>
-                    <option value="DEFAULT" disabled>
+                    onChange={onInputChange}
+                  >
+                    <option value={updateState} disabled>
                       Disponible
                     </option>
 
