@@ -15,7 +15,7 @@ export const Dashboard = () => {
 
 
 const [things, setThings] = useState(' ')
-console.log(things)
+// console.log(things)
 
 const handleRender = (e) =>{
   const val = e.target.getAttribute('data-value')

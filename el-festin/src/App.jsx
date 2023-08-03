@@ -24,6 +24,7 @@ import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
 import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
 
 function App() {
   let location = useLocation();
@@ -34,13 +35,20 @@ function App() {
 
   const userDB = useSelector((state) => state.users.users);
 
-  console.log("userGOOGLE", userGoogle);
-  console.log("userdB", userDB);
+  // console.log("userGOOGLE", userGoogle);
+  // console.log("userdB", userDB);
 
   //const currentUser = userDB.find((user) => user.email === userGoogle.email);
   //console.log("curretUser",currentUser);
+  function getCustomTokenFromLocalStorage() {
+    return localStorage.getItem("customToken");
+  }
+  const customToken = getCustomTokenFromLocalStorage();
+  
+  const decodeCustomToken = customToken && decodeToken(customToken);
+
   const currentUser = {
-    role: "user",
+    role: decodeCustomToken? decodeCustomToken.role : "User",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);

@@ -13,6 +13,8 @@ import axios from "axios";
 import { login, logingWithGoogle, resetPassword } from "../Hook/FunctionsAuth";
 import { setCartFromDatabase } from "../Redux/actions/actionOrders/actionOrders";
 
+import { decodeToken } from "react-jwt";
+
 export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
@@ -72,7 +74,7 @@ export const Login = () => {
         const response = await login(users.email, users.password);
 
         const firebaseToken = await response.user.getIdToken();
-        console.log(firebaseToken);
+        // console.log(firebaseToken);
         // Enviar el token de Firebase al servidor
         const serverResponse = await axios.post(`${server}/create-jwt`, {
           firebaseToken,
@@ -80,23 +82,40 @@ export const Login = () => {
 
         // Obtener el token JWT personalizado desde la respuesta del servidor
         const customToken = serverResponse.data.token;
+        // console.log("CUSTOM TOKEN___", customToken);
 
-        dispatch(setCartFromDatabase(customToken));
+        // Decodificar el token JWT personalizado para obtener la información
+        const decodeCustomToken = customToken && decodeToken(customToken);
 
-        // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
-        localStorage.setItem("customToken", customToken);
-        // login(users.email, users.password)
-        navigate("/home");
-        Swal.fire({
-          icon: "success",
-          title: "¡Bienvenido al Festin!",
-          confirmButtonText: "OK",
-        });
-        setUsers({
-          email: "",
-          password: "",
-        });
-        setErrors({});
+        // console.log("DECODED TOKEN___", decodeCustomToken);
+
+        if (decodeCustomToken) {
+
+          dispatch(setCartFromDatabase(customToken));
+
+          // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
+          localStorage.setItem("customToken", customToken);
+          // login(users.email, users.password)
+
+
+          const { role } = decodeCustomToken;
+          role !== 'User'
+            ? navigate("/dashboard")
+            : navigate("/home");
+
+          setUsers({
+            email: "",
+            password: "",
+          });
+          setErrors({});
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "¡Algo no anda bien, por favor intentelo de nuevo!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
       } catch (error) {
         console.error("Error de autenticación:", error.message);
       }
@@ -129,8 +148,6 @@ export const Login = () => {
       // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
       localStorage.setItem("customToken", customToken);
 
-      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
-      localStorage.setItem("customToken", customToken);
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
@@ -143,7 +160,8 @@ export const Login = () => {
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido al Festin!",
-        confirmButtonText: "OK",
+        showConfirmButton: false,
+        timer: 1500,
       });
     } else if (!emailExist.includes(user.email)) {
       const userData = {
@@ -185,7 +203,8 @@ export const Login = () => {
         icon: "success",
         title:
           "Se ha enviado un correo a tu email para restablecer tu contraseña",
-        confirmButtonText: "OK",
+        showConfirmButton: false,
+        timer: 1500,
       });
     } catch (error) {
       console.error("Error de restablecimiento de contraseña:", error.message);
