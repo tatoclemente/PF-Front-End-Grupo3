@@ -46,7 +46,7 @@ export const addToCart = (item) => async (dispatch, getState) => {
       if (response.data && response.data.cart.length > 0) {
         // Si el usuario ya tiene un carrito, realizar una solicitud PUT para actualizarlo con los datos actualizados del carrito local
         await axios.put(`${server}/cart`, updatedCartItems, config);
-        console.log("Carrito actualizado en el backend:", updatedCartItems);
+        console.log("Carrito actualizado en el backend:");
       } else {
         // Si el usuario no tiene un carrito, realizar una solicitud POST para crear un nuevo carrito en la base de datos
         await axios.post(`${server}/cart`, cartItems, config);
@@ -89,7 +89,7 @@ export const removeFromCart = (product) => async (dispatch, getState) => {
       // Realizar la solicitud PUT al backend para actualizar el carrito en la base de datos
       await axios.put(`${server}/cart`, { cartItems: updatedCart }, config);
 
-      console.log("Carrito actualizado en el backend:", updatedCart);
+      console.log("Carrito actualizado en el backend:");
     } else {
       console.error(
         "No se encontró el token en el local storage. No se puede actualizar el carrito en el backend."
@@ -149,7 +149,6 @@ export const clearCart = () => async (dispatch) => {
   try {
     // Despachar la acción para limpiar el carrito localmente
     dispatch(clearCartAction());
-
   
   } catch (error) {
     console.error("Error al eliminar el carrito de la base de datos:", error);
@@ -188,7 +187,7 @@ export const deleteCartDataBase = () => async () => {
 // Función para obtener el carrito desde la base de datos y establecerlo en el estado local
 export const setCartFromDatabase = (token) => async (dispatch) => {
   try {
-    console.log("ATION TOKEN", token);
+    // console.log("ATION TOKEN", token);
 
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -199,7 +198,6 @@ export const setCartFromDatabase = (token) => async (dispatch) => {
 
     const cartItems = response.data;
 
-    console.log("ATIONS CREATOR____", cartItems);
     // Despachar la acción para establecer el carrito en el estado local
     dispatch(setCartFromDatabaseAction(cartItems.cart));
   } catch (error) {

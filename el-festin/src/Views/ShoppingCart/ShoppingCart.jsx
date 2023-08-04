@@ -7,6 +7,7 @@ import {
   updateCartItemQuantity,
   removeFromCart,
   clearCart,
+  deleteCartDataBase,
 } from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
@@ -57,6 +58,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   const clearAllCart = () => {
     dispatch(clearCart());
+    dispatch(deleteCartDataBase())
   };
 
   //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
@@ -129,7 +131,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         const response = mercadopagoData.response;
 
         window.location.href = response.body?.init_point;
-        clearAllCart();
+        // clearAllCart();
         onCloseCart();
       } else {
         Swal.fire({
