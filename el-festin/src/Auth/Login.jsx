@@ -72,9 +72,9 @@ export const Login = () => {
       try {
         // Iniciar sesión en Firebase y obtener el token de acceso
         const response = await login(users.email, users.password);
-
+        console.log("RESPONSEEEE_____", response);
         const firebaseToken = await response.user.getIdToken();
-        // console.log(firebaseToken);
+        console.log("FIEBASETOKEN______", firebaseToken);
         // Enviar el token de Firebase al servidor
         const serverResponse = await axios.post(`${server}/create-jwt`, {
           firebaseToken,
@@ -126,10 +126,14 @@ export const Login = () => {
     try {
       const { data } = await axios.post(`${server}/user`, userData);
       console.log("data", data);
+      const customToken = data.token;
+      localStorage.setItem("customToken", customToken);
     } catch (error) {
       console.error("Error de post:", error.message);
     }
   };
+
+
   const handleGoogleLogin = async () => {
     try {
       const googleUser = await logingWithGoogle();
@@ -164,6 +168,7 @@ export const Login = () => {
         timer: 1500,
       });
     } else if (!emailExist.includes(user.email)) {
+    
       const userData = {
         name: user.displayName,
         email: user.email,
@@ -172,25 +177,13 @@ export const Login = () => {
       };
 
       await postUsers(userData);
-      // Obtener el token de acceso de Firebase del usuario autenticado
-      const googleToken = await user.getIdToken();
-
-      // Enviar el token de acceso de Firebase al servidor para obtener el JWT personalizado
-      const serverResponse = await axios.post(`${server}/create-jwt`, {
-        firebaseToken: googleToken,
-      });
-
-      // Obtener el token JWT personalizado desde la respuesta del servidor
-      const customToken = serverResponse.data.token;
-
-      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
-      localStorage.setItem("customToken", customToken); // O usa document.cookie para guardar en una cookie
 
       navigate("/home");
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido al Festin!",
-        confirmButtonText: "OK",
+        showConfirmButton: false,
+        timer: 1500,
       });
     }
   };
