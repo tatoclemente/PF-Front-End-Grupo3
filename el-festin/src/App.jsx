@@ -6,7 +6,8 @@ import {
   Routes,
   Route,
   useLocation,
-  Navigate,
+  // useNavigate,
+  // Navigate,
 } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
@@ -22,11 +23,23 @@ import { DashboardView } from "./Views/Dashboard/DashboardView";
 import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
+// import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
 
 function App() {
   let location = useLocation();
 
+  // const navigate = useNavigate();
+
+  // const userGoogle = useSelector((state) => state.auth.user);
+
+  // const userDB = useSelector((state) => state.users.users);
+
+  // console.log("userGOOGLE", userGoogle);
+  // console.log("userdB", userDB);
+
+  //const currentUser = userDB.find((user) => user.email === userGoogle.email);
+  //console.log("curretUser",currentUser);
   function getCustomTokenFromLocalStorage() {
     return localStorage.getItem("customToken");
   }
@@ -66,7 +79,6 @@ function App() {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/home" element={<Home toggleCart={toggleCart} />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<Navigate to="/home" />} />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
           {/*<Route path="/*" element={<Landing />} />*/}
@@ -82,11 +94,9 @@ function App() {
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
-                  {currentUser.role !== "User" ? (
+                  {currentUser.role !== "User" &&
                     <Route path="/dashboard" element={<DashboardView />} />
-                  ) : (
-                    <Route path="*" element={<Navigate to="/home" />} />
-                  )}
+                  }
                 </Routes>
               </PrivateRoute>
             }
