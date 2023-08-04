@@ -56,9 +56,7 @@ const handleRender = (e) =>{
 
   {things === 'Metrics' ? <div className="metricContent">
       <Dates/>
-      </div> : things === 'Products' ? <div className="metricContent">
-      <Dates/>
-      </div> : null}
+      </div>: null}
 
       {things === 'Users' ? <div className="metricContent">
    <UsersData/>
