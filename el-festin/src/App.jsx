@@ -6,8 +6,8 @@ import {
   Routes,
   Route,
   useLocation,
-  useNavigate,
-  Navigate,
+  // useNavigate,
+  // Navigate,
 } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
@@ -23,17 +23,17 @@ import { DashboardView } from "./Views/Dashboard/DashboardView";
 import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
 
 function App() {
   let location = useLocation();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const userGoogle = useSelector((state) => state.auth.user);
+  // const userGoogle = useSelector((state) => state.auth.user);
 
-  const userDB = useSelector((state) => state.users.users);
+  // const userDB = useSelector((state) => state.users.users);
 
   // console.log("userGOOGLE", userGoogle);
   // console.log("userdB", userDB);
@@ -94,11 +94,9 @@ function App() {
               <PrivateRoute>
                 <Routes>
                   <Route path="/profile" element={<Profile />} />
-                  {currentUser.role !== "user" ? (
+                  {currentUser.role !== "User" &&
                     <Route path="/dashboard" element={<DashboardView />} />
-                  ) : (
-                    <Route path="*" element={<Navigate to="/home" />} />
-                  )}
+                  }
                 </Routes>
               </PrivateRoute>
             }

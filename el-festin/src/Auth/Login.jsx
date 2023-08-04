@@ -19,6 +19,8 @@ export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
 
+  const [userCustomToken, setUserCustomToken] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [users, setUsers] = useState({
@@ -43,9 +45,9 @@ export const Login = () => {
 
   useEffect(() => {
     if (user) {
-      handleGooglePost();
+      handleGooglePost(userCustomToken);
     }
-  }, [user]);
+  }, [user, userCustomToken]);
 
   const handleChange = (e) => {
     setUsers({ ...users, [e.target.name]: e.target.value });
@@ -72,9 +74,9 @@ export const Login = () => {
       try {
         // Iniciar sesión en Firebase y obtener el token de acceso
         const response = await login(users.email, users.password);
-
+        console.log("RESPONSEEEE_____", response);
         const firebaseToken = await response.user.getIdToken();
-        // console.log(firebaseToken);
+        console.log("FIEBASETOKEN______", firebaseToken);
         // Enviar el token de Firebase al servidor
         const serverResponse = await axios.post(`${server}/create-jwt`, {
           firebaseToken,
@@ -102,6 +104,13 @@ export const Login = () => {
           role !== 'User'
             ? navigate("/dashboard")
             : navigate("/home");
+          Swal.fire({
+
+            icon: "success",
+            title: "¡Bienvenido al Festin!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
 
           setUsers({
             email: "",
@@ -126,10 +135,14 @@ export const Login = () => {
     try {
       const { data } = await axios.post(`${server}/user`, userData);
       console.log("data", data);
+      const customToken = data.token;
+      localStorage.setItem("customToken", customToken);
     } catch (error) {
       console.error("Error de post:", error.message);
     }
   };
+
+
   const handleGoogleLogin = async () => {
     try {
       const googleUser = await logingWithGoogle();
@@ -142,6 +155,7 @@ export const Login = () => {
 
       // Obtener el token JWT personalizado desde la respuesta del servidor
       const customToken = serverResponse.data.token;
+      setUserCustomToken(customToken);
 
       dispatch(setCartFromDatabase(customToken));
 
@@ -153,17 +167,26 @@ export const Login = () => {
     }
   };
 
-  const handleGooglePost = async () => {
+  const handleGooglePost = async (customToken) => {
     const emailExist = usersDB.map((us) => us.email);
-    if (emailExist.includes(user.email)) {
-      navigate("/home");
+
+    const decodeCustomToken = decodeToken(customToken);
+
+    if (emailExist.includes(user.email) && decodeCustomToken) {
+      const { role } = decodeCustomToken;
+      role !== 'User'
+        ? navigate("/dashboard")
+        : navigate("/home");
+
       Swal.fire({
+
         icon: "success",
         title: "¡Bienvenido al Festin!",
         showConfirmButton: false,
         timer: 1500,
       });
     } else if (!emailExist.includes(user.email)) {
+
       const userData = {
         name: user.displayName,
         email: user.email,
@@ -172,25 +195,13 @@ export const Login = () => {
       };
 
       await postUsers(userData);
-      // Obtener el token de acceso de Firebase del usuario autenticado
-      const googleToken = await user.getIdToken();
-
-      // Enviar el token de acceso de Firebase al servidor para obtener el JWT personalizado
-      const serverResponse = await axios.post(`${server}/create-jwt`, {
-        firebaseToken: googleToken,
-      });
-
-      // Obtener el token JWT personalizado desde la respuesta del servidor
-      const customToken = serverResponse.data.token;
-
-      // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
-      localStorage.setItem("customToken", customToken); // O usa document.cookie para guardar en una cookie
 
       navigate("/home");
       Swal.fire({
         icon: "success",
         title: "¡Bienvenido al Festin!",
-        confirmButtonText: "OK",
+        showConfirmButton: false,
+        timer: 1500,
       });
     }
   };
