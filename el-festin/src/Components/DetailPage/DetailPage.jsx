@@ -362,7 +362,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
   }
 
 
-  const lengthDesserts = desserts.length === 5 ? 5 : desserts.length < 5 ? 4 : 6;
+  const lengthDesserts = desserts.length < 6 ? desserts.length : 6; 
   console.log(lengthDesserts);
 
   const settings = {
@@ -375,7 +375,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
-  const lengthDrinks = allDrinks.length < 5 ? 4 : 6;
+  const lengthDrinks = allDrinks.length < 6 ? allDrinks.length : 6;
   const settingsDrinks = {
     dots: false,
     infinite: true,

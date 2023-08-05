@@ -32,7 +32,6 @@ export const DashboardModifiers = ({ comeBack }) => {
           onClick={() => comeBack(false)}>
           <FiArrowLeft
             style={{
-              marginRight: "5px",
               fontSize: "20px",
               marginTop: "2px",
             }}

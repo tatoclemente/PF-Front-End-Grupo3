@@ -239,4 +239,4 @@ const findProductById = (state, id) => {
   return null;
 };
 
-localStorage.removeItem("cart");
+// localStorage.removeItem("cart");

@@ -1,34 +1,36 @@
 
-.containerM{
-    margin-top: 1%;
-    margin-left: 5%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 300px;
-    justify-content: space-between;
-}
-
 .containerAll{
-    height: 550px;
-    max-height: 600px;
-    max-width:100%;
-    justify-content: space-between;
+    position: relative;
+    width: 99%;
+    margin-right: 0.16%;
 }
 
 .containerDishes{
-    width: 800px;
     position: relative;
+    width: 99%;
+    height: 100%;
+    border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
 }
 
 .contUserM{
-    width: 900px;
-    height: 400px;
+    position: relative;
+    width: 99%;
+     border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
 
 }
 .contImg{
 border-radius: 50%;
 max-width: 50px;
 max-height: 50px;
+background-color: var(--gray);
 }
 
 .contPag{
@@ -59,9 +61,17 @@ max-height: 50px;
     color: rgb(6, 6, 6);
 }
 .contMostSelled{
-    width: 200px;
-    height: 60px;
+    width: 40%;
+    height: 190px;
     position: relative;
     justify-self: right;
+    border-radius: 1vh;
+    border-top: 7px solid #FBC32C;
+    border-right: 1px solid var(--gray) ;
+}
+.contTitle{
+    background-color: #f6f5f4 ;
+    border-radius: 1vh;
+    border: 1px solid var(--gray);
 }
 

@@ -6,8 +6,8 @@ import {
   Routes,
   Route,
   useLocation,
-  useNavigate,
-  Navigate,
+  // useNavigate,
+  // Navigate,
 } from "react-router-dom";
 import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
@@ -23,25 +23,37 @@ import { DashboardView } from "./Views/Dashboard/DashboardView";
 import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
+
 import { useSelector } from "react-redux";
 import Booking from "./Views/Booking/Booking";
+
+// import { useSelector } from "react-redux";
+import { decodeToken } from "react-jwt";
+
 
 function App() {
   let location = useLocation();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const userGoogle = useSelector((state) => state.auth.user);
+  // const userGoogle = useSelector((state) => state.auth.user);
 
-  const userDB = useSelector((state) => state.users.users);
+  // const userDB = useSelector((state) => state.users.users);
 
-  console.log("userGOOGLE", userGoogle);
-  console.log("userdB", userDB);
+  // console.log("userGOOGLE", userGoogle);
+  // console.log("userdB", userDB);
 
   //const currentUser = userDB.find((user) => user.email === userGoogle.email);
   //console.log("curretUser",currentUser);
+  function getCustomTokenFromLocalStorage() {
+    return localStorage.getItem("customToken");
+  }
+  const customToken = getCustomTokenFromLocalStorage();
+  
+  const decodeCustomToken = customToken && decodeToken(customToken);
+
   const currentUser = {
-    role: "user",
+    role: decodeCustomToken? decodeCustomToken.role : "User",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -88,11 +100,10 @@ function App() {
                 <Routes>
                 <Route path="/booking" element={<Booking />} />
                   <Route path="/profile" element={<Profile />} />
-                  {currentUser.role === "user" ? (
+
+                  {currentUser.role !== "User" &&
                     <Route path="/dashboard" element={<DashboardView />} />
-                  ) : (
-                    <Route path="*" element={<Navigate to="/home" />} />
-                  )}
+                  }
                 </Routes>
               </PrivateRoute>
             }

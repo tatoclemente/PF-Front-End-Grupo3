@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
@@ -13,12 +13,12 @@ export const ModalCreateDish = () => {
   let initialState = {
     name: "",
     description: "",
-    type: "",
+    type: updateState,
     subtype: [],
     calories: "",
-    glutenfree: null,
-    vegetarian: null,
-    dailyspecial: null,
+    glutenfree: updateState,
+    vegetarian: updateState,
+    dailyspecial: updateState,
     price: "",
   };
 
@@ -27,6 +27,7 @@ export const ModalCreateDish = () => {
   const [filed, setFiled] = useState(null);
 
   const [error, setError] = useState({});
+  const fileInputRef = useRef(null);
 
   const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
 
@@ -65,6 +66,7 @@ export const ModalCreateDish = () => {
         setInputCreateDish(initialState);
         setUpdateState("DEFAULT");
         setFiled(null);
+        fileInputRef.current.value = null;
         setError({});
       }
     } catch (error) {
@@ -182,17 +184,16 @@ export const ModalCreateDish = () => {
                   type="file"
                   className="form-control"
                   onChange={handleOnChangeImage}
+                  ref={fileInputRef}
                 />
                 <div className="dropdown">
                   <select
-                    value={updateState}
+                    value={inputCreateDish.type}
                     className="mt-4"
                     name="type"
                     onChange={onInputChange}
                   >
-                    <option value="DEFAULT" disabled>
-                      Tipos de plato
-                    </option>
+                    <option value="DEFAULT">Tipos de plato</option>
 
                     <option value="plato principal">Plato principal</option>
                     <option value="entrada">Entrada</option>
@@ -201,14 +202,12 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown px-2">
                   <select
-                    value={updateState}
+                    value={inputCreateDish.subtype}
                     className="form-group mt-4"
                     name="subtype"
                     onChange={onInputChange}
                   >
-                    <option value="DEFAULT" disabled className="">
-                      Subtipos
-                    </option>
+                    <option value="DEFAULT">Subtipos</option>
                     {subtiposDish?.map((subtipo, key) => {
                       return (
                         <option key={key} value={subtipo}>
@@ -221,14 +220,12 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown">
                   <select
-                    value={updateState}
+                    value={inputCreateDish.glutenfree}
                     className="form-group mt-4"
                     name="glutenfree"
                     onChange={onInputChange}
                   >
-                    <option value="DEFAULT" disabled className="">
-                      Glutenfree
-                    </option>
+                    <option value="DEFAULT">Glutenfree</option>
                     <option value={true}>Si</option>
                     <option value={false}>no</option>
                   </select>
@@ -236,14 +233,12 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown pe-2">
                   <select
-                    value={updateState}
+                    value={inputCreateDish.vegetarian}
                     className="form-group mt-4"
                     name="vegetarian"
                     onChange={onInputChange}
                   >
-                    <option value="DEFAULT" disabled className="">
-                      Vegetariano
-                    </option>
+                    <option value="DEFAULT">Vegetariano</option>
 
                     <option value={true}>Si</option>
                     <option value={false}>no</option>
@@ -252,14 +247,12 @@ export const ModalCreateDish = () => {
 
                 <div className="dropdown">
                   <select
-                    value={updateState}
+                    value={inputCreateDish.dailyspecial}
                     className=" my-4"
                     name="dailyspecial"
                     onChange={onInputChange}
                   >
-                    <option value="DEFAULT" disabled className="">
-                      Especial del dia
-                    </option>
+                    <option value="DEFAULT">Especial del dia</option>
                     <option value={true} className="">
                       Si
                     </option>

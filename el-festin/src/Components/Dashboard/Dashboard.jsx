@@ -1,32 +1,35 @@
 import { Navbar } from "../NavBar/NavBar.jsx";
-import Styles from "./Dashboard.module.css";
 import "./dashboard.css";
-
 import { Sidebar } from "./Sidebar";
-
+import { UsersData } from "./Metrics/Users/Users.jsx";
 import { Dates } from "./Metrics/metrics";
-
+import { Deleted } from "./Delete/Deleted";
 import { useState } from "react";
 import { Banner } from "./Landing/Banners/Banners";
 import { Local } from "./Landing/LocalImages/Local";
 import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
+import { Reservation } from "./Reservations/Reservation.jsx";
 
 export const Dashboard = () => {
-  const [showMarketingInfo, setShowMarketingInfo] = useState(false);
+  const [things, setThings] = useState(" ");
+  // console.log(things)
 
-  const handleMarketingButtonClick = () => {
-    setShowMarketingInfo(!showMarketingInfo);
-  };
-
-  const [things, setThings] = useState(false);
-  console.log(things);
-
-  const handleRender = () => {
-    if (things === false) {
-      setThings(true);
+  const handleRender = (e) => {
+    const val = e.target.getAttribute("data-value");
+    if (val === "Market") {
+      setThings("Market");
     }
-    if (things === true) {
-      setThings(false);
+    if (val === "Reser") {
+      setThings("Reser");
+    }
+    if (val === "Metrics") {
+      setThings("Metrics");
+    }
+    if (val === "Users") {
+      setThings("Users");
+    }
+    if (val === "Products") {
+      setThings("Products");
     }
   };
 
@@ -35,40 +38,36 @@ export const Dashboard = () => {
       <div>
         <Navbar isDashboard={true} />
       </div>
+      <div>
+        <div className="containerALL">
+          <Sidebar handleRender={handleRender} setThings={setThings} />
 
-      <Sidebar />
+          {things === "Market" ? (
+            <div className="marketingContent">
+              <Banner />
+              <Local />
+              <DailySpecials />
+            </div>
+          ) : null}
 
-      <div className={Styles.dashboardContainer}>
-        <li>
-          <div className="container-fluid text-dark">
-            <button
-              type="button"
-              className={`btn btn-primary ${Styles.buttonDelete}`}
-              onClick={handleMarketingButtonClick}>
-              Marketing
-            </button>
-          </div>
-        </li>
+          {things === "Metrics" ? (
+            <div className="metricContent">
+              <Dates />
+            </div>
+          ) : null}
 
-        {showMarketingInfo && (
-          <div className={Styles.marketingContent}>
-            <Banner />
-            <Local />
-            <DailySpecials />
-          </div>
-        )}
-      </div>
-      {/* <h6>Dashboard</h6> */}
-
-      <li>
-        <button onClick={handleRender}>Datos</button>
-      </li>
-
-      {things === true ? (
-        <div className={Styles.containerMetrics}>
-          <Dates />
+          {things === "Users" ? (
+            <div className="metricContent">
+              <UsersData />
+            </div>
+          ) : null}
+          {things === "Reser" ? (
+            <div className="reserContent">
+              <Reservation />
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      </div>
     </>
   );
 };

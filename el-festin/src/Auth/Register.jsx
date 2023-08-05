@@ -74,16 +74,12 @@ function Register() {
         } else {
           signUp(register.email, register.password);
           dispatch(postUsers(register));
-          Swal.fire({
-            icon: "success",
-            title: "¡Ha sido registrado exitosamente!",
-            confirmButtonText: "OK",
-          });
           navigate("/home");
           Swal.fire({
             icon: "success",
             title: "¡Bienvenido al Festin!",
-            confirmButtonText: "OK",
+            showConfirmButton: false,
+            timer: 1500,
           });
 
           setRegister({

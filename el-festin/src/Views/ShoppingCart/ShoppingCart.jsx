@@ -7,6 +7,7 @@ import {
   updateCartItemQuantity,
   removeFromCart,
   clearCart,
+  deleteCartDataBase,
 } from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
 import { server } from "../../Helpers/EndPoint";
@@ -57,6 +58,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
 
   const clearAllCart = () => {
     dispatch(clearCart());
+    dispatch(deleteCartDataBase())
   };
 
   //? --> Con esta funcion formateo lo que voy a mandar en el POST a order
@@ -106,6 +108,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
       console.log("DATA POST_________", data.data);
+      const idPedido = data.data
       if (Object.keys(data).length > 0) {
         Swal.fire({
           // position: 'top-end',
@@ -120,7 +123,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           `${server}/mercadopago`,
           {
             // id: pedido.userId,
-            title: "Compra en El Festín online",
+            title: `Compra en El Festín online -${idPedido}`,
             unit_price: totalPrice,
             quantity: 1,
           }
@@ -128,7 +131,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         const response = mercadopagoData.response;
 
         window.location.href = response.body?.init_point;
-        clearAllCart();
+        // clearAllCart();
         onCloseCart();
       } else {
         Swal.fire({

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { validacionGuar } from "../Validaciones/validacionGuar";
 import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
@@ -19,6 +19,7 @@ export const ModalCreateSide = () => {
   const [filed, setFiled] = useState(null);
 
   const [error, setError] = useState({});
+  const fileInputRef = useRef(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateSide({
@@ -58,6 +59,7 @@ export const ModalCreateSide = () => {
         setInputCreateSide(initialState);
         setUpdateState("DEFAULT");
         setFiled(null);
+        fileInputRef.current.value = null;
         setError({});
       }
     } catch (error) {
@@ -135,6 +137,7 @@ export const ModalCreateSide = () => {
                   type="file"
                   className="form-control"
                   onChange={handleOnChangeImage}
+                  ref={fileInputRef}
                 />
                 <div className="dropdown pe-2">
                   <label htmlFor="" className="form-label">

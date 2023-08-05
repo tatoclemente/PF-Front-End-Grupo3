@@ -27,7 +27,7 @@ export const Profile = () => {
       setUserId(emailId[0].id);
     }
   }, [user, users]);
-
+ 
   const emailExists = users.filter((us) => us.email === user.email);
 
   const dataUser = emailExists.map((u) => ({
@@ -92,6 +92,7 @@ export const Profile = () => {
       }
     }
   };
+ 
 
   // Vista previa de la imagen seleccionada
   const imagePreview = profile.image
@@ -110,6 +111,7 @@ export const Profile = () => {
       return false;
     }
   }
+
 
   if (loading) return <h1>loading...</h1>;
 
