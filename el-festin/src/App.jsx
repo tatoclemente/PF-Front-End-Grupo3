@@ -88,7 +88,7 @@ function App() {
                 <Routes>
                 <Route path="/booking" element={<Booking />} />
                   <Route path="/profile" element={<Profile />} />
-                  {currentUser.role !== "user" ? (
+                  {currentUser.role === "user" ? (
                     <Route path="/dashboard" element={<DashboardView />} />
                   ) : (
                     <Route path="*" element={<Navigate to="/home" />} />

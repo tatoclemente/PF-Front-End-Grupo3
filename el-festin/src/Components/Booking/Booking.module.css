@@ -1,0 +1,184 @@
+.titleBooking {
+  font-size: 1.3rem;
+  margin-top: 2%;
+  margin-bottom: 1%;
+  color: var(--main-color);
+  font-weight: bold;
+}
+
+.labelBooking {
+    display: block;
+  font-size: 1rem;
+  margin: 3%;
+  color: var(--background-darkblue);
+}
+
+.inputBooking {
+  width: 80%;
+  background-color: white;
+  color: #666666;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 16px;
+  outline: none;
+  margin: 1%;
+}
+
+/* Estilo adicional para cuando el input está enfocado */
+.inputBooking:focus {
+  box-shadow: 0 0 3px rgba(102, 102, 102, 0.8);
+}
+
+.selectBooking {
+  width: 80%;
+  background-color: white;
+  color: #666666;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 16px;
+  outline: none;
+  margin: 1%;
+}
+
+.selectBooking:focus {
+  box-shadow: 0 0 3px rgba(102, 102, 102, 0.8);
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftSide {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.centerSide {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.rightSide {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.numPersonsContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.numPersonsWrapper {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(
+    --background-darkblue
+  ); /* Azul oscuro (#1a237e es un ejemplo, puedes cambiarlo) */
+  padding: 10px;
+  margin: 1%;
+  border-radius: 10px;
+}
+
+.numPersonsButton {
+  background-color: #b1b1b1 !important; /* Azul un poco más claro para los botones (#1e88e5 es un ejemplo) */
+  color: white; /* Letras blancas */
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.numPersonsButton:hover {
+  background-color: var(
+    --main-color
+  ) !important; /* Cambiar el color de fondo en el hover */
+}
+
+.numPersonsValue {
+  color: white; /* Letras blancas */
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 15px;
+}
+
+.reservationForm {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.datePicker,
+.timeSelect {
+  padding: 10px;
+  border: 1px solid#cccccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.timeSelect {
+  width: 100%;
+}
+
+.submitButtonBooking {
+  padding: 10px 20px;
+  background-color: #313045 !important;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 2%;
+}
+
+.submitButtonBooking:hover {
+  background-color: var(
+    --main-color
+  ) !important;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.timeCheckboxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+.timeCheckboxes label {
+  position: relative;
+  padding: 7px 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.timeCheckboxes label:hover {
+  background-color: #ddd;
+}
+
+
+.timeCheckboxes input:checked + label span {
+  color: #fff;
+}

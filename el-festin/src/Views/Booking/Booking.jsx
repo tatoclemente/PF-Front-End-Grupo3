@@ -1,6 +1,7 @@
+import BookingComponent from "../../Components/Booking/Booking"
 
 export default function Booking(){
     return(
-        <div>HOLA</div>
+        <div><BookingComponent/></div>
     )
 }
