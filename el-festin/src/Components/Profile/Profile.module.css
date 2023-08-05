@@ -114,13 +114,17 @@
 
 .activeTab {
   border: 2px solid var(--main-color);
+  color: var(--main-color);
   border-radius: 10px 10px 0 0;
   border-bottom: transparent;
+  background-color: transparent;
   padding: 0 .5rem;
 }
 
 .tab {
   color: var(--shadow);
+  background-color: transparent;
+  border: none;
 }
 .orderContainer {
   width: 90%;
@@ -136,6 +140,12 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.dataOrder {
+  font-size: .9rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .dataOrderRigth {
@@ -154,6 +164,11 @@
   align-items: center;
   gap: .5rem;
   font-size: .9rem;
+}
+
+.statusTitle {
+  margin: 0;
+  padding: 0;
 }
 
 .checkAproved {
@@ -206,6 +221,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  background-color: var(--primary-light);
   border-radius: 5px;
   border: 1.5px solid var(--main-color);
   height: 97%;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { server } from "../../Helpers/EndPoint";
@@ -46,6 +46,40 @@ export const Profile = () => {
       setUserId(emailId[0].id);
     }
   }, [user, users]);
+
+  //-----------------------------------------------------------------------------
+  // Traemos todos los tickets de ese usuario cada vez que se monta el componente
+
+  useEffect(() => {
+    if (userId) {
+      const orders = async () => {
+        try {
+          const { data } = await axios.get(`${server}/ticket/user/${userId}`);
+          console.log("DATA_________", data);
+
+          // Verificar si el usuario no tiene pedidos aprobados
+          if (data === 'No hay tickets asociados a este usuario') {
+            setMyOrders([]); // Establecer myOrders como una matriz vacía
+            setLoadingDetails(false); // Actualizar loadingDetails a false
+          } else {
+            const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
+            console.log("APROVED", aproved);
+            setMyOrders(aproved);
+            setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
+          }
+        } catch (error) {
+          console.log("ERROR: ", error.message);
+        }
+      };
+      orders();
+    }
+  }, [userId]);
+
+
+  console.log("MY ORDERS", myOrders);
+
+
+  //----------------------------------------------------------------------------
 
   const emailExists = users.filter((us) => us.email === user.email);
 
@@ -131,7 +165,6 @@ export const Profile = () => {
       return false;
     }
   }
-
 
   const handleReview = (id) => {
     console.log("Ticket N°: ", id);
@@ -244,15 +277,15 @@ export const Profile = () => {
           <div key={index} className={styles.orderContainer}>
             <div className={styles.orderHeader}>
               <div className={styles.dataOrder}>
-                <h3>Pedido: {order.idPedido}</h3>
-                <p>Hora: {order.createdAt}</p>
+                <span>Pedido: <b>{order.idPedido}</b></span>
+                <span>Hora: <b>{order.createdAt}</b></span>
               </div>
               <div className={styles.dataOrderRigth}>
                 <div className={styles.status}>
-                  <p><b>ESTADO: </b> {order.status}</p>
+                  <p className={styles.statusTitle}>ESTADO: <b>{order.status}</b></p>
                   {order.status === "Aprobado" ? <AiFillCheckCircle className={styles.checkAproved} /> : order.status === "En proceso" ? <PiCookingPotFill className={styles.cookingIcon} /> : <AiFillCheckCircle className={styles.checkComplete} />}
                 </div>
-                <span className={styles.totalPrice}>Pagaste: ${order.totalPrice || 3000}</span>
+                <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
               </div>
 
 
