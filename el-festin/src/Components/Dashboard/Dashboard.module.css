@@ -7,15 +7,16 @@
 
 .sidebar {
   left: 0;
-  height: 100%;
+  height: 113vh;
   width: 25%;
   background-color: #313045;
   color: #fff;
-  padding-top: 30px;
+  padding-top: 10px;
   position: absolute;
 }
 .sidebar.hidden {
   display: none;
+  
 }
 
 
@@ -34,8 +35,12 @@
   list-style: none;
   padding: 0;
 }
+ul.options hr {
+  margin: 1px 0;
+  border-bottom: 1px solid #fff;
+}
 .options li {
-  padding: 0.4rem;
+  padding: 0.3rem;
   cursor: pointer;
 }
 
@@ -47,4 +52,7 @@
   height: 2.0rem;
   font-size: 0.9rem;
   text-transform: uppercase;
+}
+.p {
+  font-size: 13px;
 }

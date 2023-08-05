@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getReservation } from "../../Redux/actions/actionReservation/getAllReservations";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import styles from "./Booking.module.css";
 import Calendar from "react-calendar";
 import Validate from "./ValidationBooking";
+import { server } from "../../Helpers/EndPoint";
+import Swal from "sweetalert2";
+import axios from "axios";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import "./custom-calendar.css";
-
 
 export default function BookingComponent() {
   const [selectedDateTime, setSelectedDateTime] = useState(null);
@@ -15,17 +18,34 @@ export default function BookingComponent() {
   const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] =
     useState(null);
   const [numPersons, setNumPersons] = useState(2);
+  const allReservations = useSelector(
+    (state) => state.reservation.reservations
+  );
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const [error, setError] = useState({});
+  const [userId, setUserId] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsers());
+    dispatch(getReservation());
   }, [dispatch]);
 
   console.log(selectedDateTime);
+
+  useEffect(() => {
+    // Cuando el usuario cambia, busca su ID en la base de datos local
+    const emailId = users.filter((us) => us.email === user.email);
+    if (emailId.length > 0) {
+      setUserId(emailId[0].id);
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        id: emailId[0].id,
+      }));
+    }
+  }, [user, users]);
 
   const emailExists = users.filter((us) => us.email === user.email);
 
@@ -47,7 +67,7 @@ export default function BookingComponent() {
       : dataUser.length > 0
       ? `${dataUser[0].name} ${dataUser[0].lastName}`
       : "",
-    quantity: 0,
+    quantity: numPersons,
     phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
     eventDate: null,
     zone: "",
@@ -92,20 +112,18 @@ export default function BookingComponent() {
   const handleTimeChange = (time) => {
     setSelectedTime(time);
 
-  const [hours, minutes] = time.split(":");
-  
-  // Creamos una nueva fecha que combine la fecha seleccionada y la hora seleccionada
-  const selectedDateTimeWithTime = new Date(selectedDateTime);
-  selectedDateTimeWithTime.setHours(Number(hours), Number(minutes), 0, 0);
+    const [hours, minutes] = time.split(":");
 
-  // Convertimos la fecha con la hora seleccionada a formato ISO 8601
-  const isoDateTime = selectedDateTimeWithTime.toISOString();
-  
-  setSelectedDateTimeWithTime(selectedDateTimeWithTime);
+    // Creamos una nueva fecha que combine la fecha seleccionada y la hora seleccionada
+    const selectedDateTimeWithTime = new Date(selectedDateTime);
+    selectedDateTimeWithTime.setHours(Number(hours), Number(minutes), 0, 0);
 
+    // Convertimos la fecha con la hora seleccionada a formato ISO 8601
+    const isoDateTime = selectedDateTimeWithTime.toISOString();
 
-  
-    console.log("ISOOOOOOOOOOOO" +isoDateTime)
+    setSelectedDateTimeWithTime(selectedDateTimeWithTime);
+
+    console.log("ISOOOOOOOOOOOO" + isoDateTime);
 
     setInputValues({
       ...inputValues,
@@ -115,19 +133,83 @@ export default function BookingComponent() {
 
   const handleMinusClick = () => {
     setNumPersons((prevNum) => Math.max(prevNum - 1, 1));
+    setInputValues({
+      ...inputValues,
+      quantity: Math.max(numPersons - 1, 1),
+    });
   };
 
   const handlePlusClick = () => {
     setNumPersons((prevNum) => Math.min(prevNum + 1, 20));
+    setInputValues({
+      ...inputValues,
+      quantity: Math.min(numPersons + 1, 20),
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (selectedDateTime && selectedTime.length > 0) { // Update this line
-      alert("Reserva realizada con éxito");
-      // Envía los datos de reserva, incluyendo selectedDateTime y selectedTime, a la API o donde sea necesario.
+    if (!inputValues.phoneNumber ||
+      !inputValues.eventDate ||
+      !inputValues.zone ||
+      !inputValues.decor ||
+      !inputValues.honoree
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Por favor, completa todos los campos antes de reservar.",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    const eventExists = allReservations.find(
+      (res) => res.eventDate === inputValues.eventDate
+    );
+
+    if (eventExists) {
+      Swal.fire({
+        icon: "error",
+        title: "Ya existe una reserva con esa fecha",
+        confirmButtonText: "OK",
+      });
     } else {
-      alert("Por favor, selecciona una fecha y al menos una hora.");
+      try {
+        const reservationData = new FormData();
+        reservationData.append("id", inputValues.id);
+        reservationData.append("name", inputValues.name);
+        reservationData.append("quantity", inputValues.quantity);
+        reservationData.append("phoneNumber", inputValues.phoneNumber);
+        reservationData.append("eventDate", inputValues.eventDate);
+        reservationData.append("zone", inputValues.zone);
+        reservationData.append("decor", inputValues.decor);
+        reservationData.append("honoree", inputValues.honoree);
+
+        const response = await axios.post(`${server}/reser`, reservationData);
+        console.log("reservation create successfully:", response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Reserva Exitosa",
+          text: "El restaurante se estara comunicando con usted para confirmar su reserva",
+          confirmButtonText: "OK",
+        });
+        setInputValues({
+          id: dataUser.id,
+          name: user.displayName
+            ? user.displayName
+            : dataUser.length > 0
+            ? `${dataUser[0].name} ${dataUser[0].lastName}`
+            : "",
+          quantity: numPersons,
+          phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
+          eventDate: null,
+          zone: "",
+          decor: "",
+          honoree: "",
+        });;
+      } catch (error) {
+        console.error("Error create reservation:", error);
+      }
     }
   };
 
@@ -286,7 +368,6 @@ export default function BookingComponent() {
             ¿En qué zona deseas realizar tu celebración?
           </label>
           <select
-       
             name="zone"
             value={inputValues.zone}
             className={styles.selectBooking}
@@ -304,7 +385,6 @@ export default function BookingComponent() {
             ¿Deseas algún tipo de decoración?
           </label>
           <select
-   
             name="decor"
             value={inputValues.decor}
             className={styles.selectBooking}
@@ -327,9 +407,7 @@ export default function BookingComponent() {
             className={styles.inputBooking}
             onChange={handleInputChange}
           ></input>
-          {error.honoree && (
-            <p style={{ fontSize: "12px" }}>{error.honoree}</p>
-          )}
+          {error.honoree && <p style={{ fontSize: "12px" }}>{error.honoree}</p>}
         </div>
       </div>
       <div className={styles.containerButtonBooking}>

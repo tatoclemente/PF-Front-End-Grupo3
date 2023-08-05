@@ -130,7 +130,7 @@ export const UpdateDish = ({ allDates }) => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop9"
       >
-        Modificar plato
+        Plato
       </button>
 
       <div

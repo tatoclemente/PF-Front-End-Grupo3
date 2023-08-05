@@ -125,7 +125,7 @@
   background-color: #ffffff;
   max-height: 90vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
-  border: 1px solid #ccc; /* Solo para visualización, puedes eliminarlo */
+
 }
 
 .metricContent {
@@ -149,5 +149,5 @@
   width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 90vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
-  border: 1px solid #ccc;
+
 }

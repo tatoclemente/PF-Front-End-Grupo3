@@ -82,7 +82,7 @@ export const ModalCreateDrink = () => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop1"
       >
-        Crear Bebida
+       Bebida
       </button>
 
       <div

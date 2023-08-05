@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReservation } from "../../../Redux/actions/actionReservation/getAllReservations";
 import { getUsers } from "../../../Redux/actions/actionsUsers/getAllUsers";
-import { server } from "../../../../Helpers/EndPoint";
+import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
-import style from "./Banners.module.css";
+import style from "./Reservation.module.css"
+
 import Swal from "sweetalert2";
 
 export const Reservation = () => {
@@ -14,12 +15,12 @@ export const Reservation = () => {
   const allUsers = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const [reservation, setReservation] = useState({
-    id: "",
     name: "",
+    lastname: "",
     phoneNumber: "",
     eventDate: "",
     confirmation: "",
-    quanty: "",
+    quantity: "",
     zone: "",
     decor: "",
     honoree: "",
@@ -41,7 +42,7 @@ export const Reservation = () => {
 
     if (reservationToUpdate) {
       const updatedReservation = {
-        ...bannerToUpdate,
+        ...reservationToUpdate,
         confirmation: !reservationToUpdate.confirmation,
       };
       console.log("updatedReservation " + JSON.stringify(updatedReservation));
@@ -81,56 +82,59 @@ export const Reservation = () => {
   return (
     <div>
       <div>
-        <h2 className={style.title}>ESTADO DE MIS RESERVACIONES</h2>
+        <h2 className={style.titleReser} >ESTADO DE MIS RESERVACIONES</h2>
       </div>
       <div>
-        <h3 className={style.recommendation}>
+        <h3 className={style.aviso} >
           Aviso: Llamar al cliente para realizar confirmacion de su reserva.
         </h3>
       </div>
-      <div>
-        {allReservations?.map((res, index) => {
-          return (
-            <div key={index}>
-              <ul>
-                <li>
-                  <p></p>
-                </li>
-                <li>
-                  <p></p>
-                </li>
-                <li>
-                  <p></p>
-                </li>
-                <li>
-                  <p>{res.eventDate}</p>
-                </li>
-                <li>
-                  <p>{res.quanty}</p>
-                </li>
-                <li>
-                  <p>{res.zone}</p>
-                </li>
-                <li>
-                  <p>{res.decor}</p>
-                </li>
-                <li>
-                  <p>{res.honoree}</p>
-                </li>
-              </ul>
-
-              <div>
-                <button onClick={() => handleUpdateReservation(res.id)}>
-                  Confirmar
-                </button>
-                <button onClick={() => handleDeleteReservation(res.id)}>
-                  Rechazar
-                </button>
-              </div>
+      <div className={style.div}>
+      {allReservations?.map((res, index) => {
+        return (
+          <div key={index} className={style.reservationCard}>
+            <div className={style.reservationDetails}>
+              <p>
+                <span>Nombre: </span>
+                {res.name}
+              </p>
+              <p>
+                <span>Apellido: </span>
+                {res.lastName}
+              </p>
+              <p>
+                <span>Teléfono: </span>
+                {res.phoneNumber}
+              </p>
+              <p>
+                <span>Fecha del evento: </span>
+                {res.eventDate}
+              </p>
+              <p>
+                <span>Cantidad: </span>
+                {res.quantity}
+              </p>
+              <p>
+                <span>Zona: </span>
+                {res.zone}
+              </p>
+              <p>
+                <span>Decoración: </span>
+                {res.decor}
+              </p>
+              <p>
+                <span>Homenajeado/a: </span>
+                {res.honoree}
+              </p>
             </div>
-          );
-        })}
-      </div>
+            <div className={style.reservationActions} >
+              <button onClick={() => handleUpdateReservation(res.id)} className={style.buttonRes}>Confirmar</button>
+              <button onClick={() => handleDeleteReservation(res.id)} className={style.buttonRes}>Rechazar</button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
     </div>
   );
 };

@@ -98,7 +98,7 @@ export const ModalCreateDish = () => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
-        Crear Plato
+        Plato
       </button>
 
       <div

@@ -75,7 +75,7 @@ export const ModalCreateSide = () => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop3"
       >
-        Crear Guarnicion
+      Guarnicion
       </button>
 
       <div

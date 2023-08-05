@@ -122,7 +122,7 @@ export const UpdateDrink = ({ allDates }) => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop11"
       >
-        Modificar Bebida
+        Bebida
       </button>
 
       <div

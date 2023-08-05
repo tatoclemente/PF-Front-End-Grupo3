@@ -18,7 +18,6 @@ import { UpdateSide } from "./Update/UpdateSide";
 import { UpdateDrink } from "./Update/UpdateDrink";
 import { UpdateDesert } from "./Update/UpdateDesert";
 
-
 export const DashboardModifiers = ({ comeBack }) => {
   const allDishes = useSelector((state) => state.dishes.dishes);
   const allDrinks = useSelector((state) => state.drinks.drinks);
@@ -28,8 +27,9 @@ export const DashboardModifiers = ({ comeBack }) => {
     <>
       <div className={Styles.sidebar}>
         <button
-          className="btn btn-outline-danger text-white d-flex justify-content-start ms-3 mb-2"
-          onClick={() => comeBack(false)}>
+          className="btn btn-outline-danger text-white d-flex justify-content-start ms-2 mb-0 "
+          onClick={() => comeBack(false)}
+        >
           <FiArrowLeft
             style={{
               fontSize: "20px",
@@ -39,6 +39,7 @@ export const DashboardModifiers = ({ comeBack }) => {
           Regresar
         </button>
         <ul className={Styles.options}>
+          <p className={Styles.p}>CREAR</p>
           <li>
             <ModalCreateDish />
           </li>
@@ -54,6 +55,23 @@ export const DashboardModifiers = ({ comeBack }) => {
         </ul>
         <hr />
         <ul className={Styles.options}>
+          <p className={Styles.p}>ACTUALIZAR</p>
+          <li>
+            <UpdateDish allDates={allDishes} />
+          </li>
+          <li>
+            <UpdateSide allDates={allSides} />
+          </li>
+          <li>
+            <UpdateDrink allDates={allDrinks} />
+          </li>
+          <li>
+            <UpdateDesert allDates={allDeserts} />
+          </li>
+        </ul>
+        <hr />
+        <ul className={Styles.options}>
+          <p className={Styles.p}>BORRAR</p>
           <li>
             <Deleted
               allDates={allDishes}
@@ -91,21 +109,6 @@ export const DashboardModifiers = ({ comeBack }) => {
               idModal={"staticBackdrop8"}
             />
           </li>
-          <hr />
-          <ul className={Styles.options}>
-            <li>
-              <UpdateDish allDates={allDishes} />
-            </li>
-            <li>
-              <UpdateSide allDates={allSides} />
-            </li>
-            <li>
-              <UpdateDrink allDates={allDrinks} />
-            </li>
-            <li>
-              <UpdateDesert allDates={allDeserts} />
-            </li>
-          </ul>
         </ul>
       </div>
     </>

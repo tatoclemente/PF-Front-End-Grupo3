@@ -126,7 +126,7 @@ export const UpdateDesert = ({ allDates }) => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop12"
       >
-        Modificar el postre
+        Postre
       </button>
 
       <div
