@@ -1,6 +1,5 @@
 
 .containerAll{
-    
     position: relative;
     width: 99%;
     margin-right: 0.16%;
@@ -9,13 +8,22 @@
 .containerDishes{
     position: relative;
     width: 99%;
-
+    height: 100%;
+    border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
 }
 
 .contUserM{
+    position: relative;
     width: 99%;
-    height: 100%;
-    margin-left: 0.45%;
+     border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
 
 }
 .contImg{
@@ -54,8 +62,16 @@ background-color: var(--gray);
 }
 .contMostSelled{
     width: 40%;
-    height: 60px;
+    height: 190px;
     position: relative;
     justify-self: right;
+    border-radius: 1vh;
+    border-top: 7px solid #FBC32C;
+    border-right: 1px solid var(--gray) ;
+}
+.contTitle{
+    background-color: #f6f5f4 ;
+    border-radius: 1vh;
+    border: 1px solid var(--gray);
 }
 

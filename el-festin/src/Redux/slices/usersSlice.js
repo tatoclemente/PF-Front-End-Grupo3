@@ -4,7 +4,6 @@ export const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
-    userOrders: []
   },
   reducers: {
     getAllUsers: (state, action) => {
@@ -21,9 +20,6 @@ export const userSlice = createSlice({
     localStorage.setItem('customToken', customToken); 
       
       state.users.push(action.payload.newUser);
-    },
-    setUserOrders: (state, action) =>{
-      state.userOrders = action.payload;
     }
   },
 });

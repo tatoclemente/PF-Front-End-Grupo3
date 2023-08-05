@@ -81,7 +81,7 @@ const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
     return(
         <div className={style.containerDishes}>
   <Grid numItems={1} numItemsSm={2} className="gap-3">
-    <Col numColSpan={1} numColSpanLg={2} >
+    <Col  numColSpanLg={2} >
         <div>
     <Card decoration="top" className="mt-2">
     <Title>Platos mas Vendidos</Title>
@@ -95,7 +95,7 @@ const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
       index="name"
       categories={['CantidadVendida']}
       colors={["orange"]}
-      yAxisWidth={50}
+      xAxisWidth={50}
     />
                   <div className={style.contPag} >
                   <button className={style.page}  onClick={handlePrev}> Ant </button>
@@ -110,7 +110,7 @@ const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
   </Card>
   </div>
   <div className={style.contMostSelled}>
-      <Card decoration="top">
+      <Card>
         <Text>El plato mas vendido es:</Text>
         <Title>{platoMasVendido?.name || 'No hay plato mas vendido'}</Title>
         <Text>con {platoMasVendido?.CantidadVendida || 'Ninguno'} vendidos</Text>

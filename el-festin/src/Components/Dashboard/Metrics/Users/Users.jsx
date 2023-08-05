@@ -6,14 +6,18 @@ import { Tab ,TabList, TabGroup, Flex, } from '@tremor/react'
 export const UsersData = () =>{
    
     return(
-        <div className={style.contUserM}>
-            <TabGroup className="mt-9" >
+        <div className={style.containerAll}>
+            <TabGroup className="mt-9 ml-1">
                 <TabList>
-                    <Tab>Usuarios Registrados</Tab>
+                    <div>
+                    <Tab className={style.contTitle}>
+                    <span> Usuarios Registrados </span>
+                    </Tab>
+                    </div>
                 </TabList>
-                <div>
-                    <UsersMetrics/>
-                </div>
+             <div>
+          <UsersMetrics/>
+          </div>
             </TabGroup>
         </div>
     )
