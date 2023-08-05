@@ -59,7 +59,7 @@ function Register() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const emailExists = users.some(
+      const emailExists = Array.isArray(users) && users.some(
         (user) => user.email.toLowerCase() === register.email.toLowerCase()
       );
       const errorsValue = Object.values(errors);
