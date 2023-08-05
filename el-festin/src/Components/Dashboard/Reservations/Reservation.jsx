@@ -6,13 +6,11 @@ import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
 import style from "./Reservation.module.css"
 
-import Swal from "sweetalert2";
 
 export const Reservation = () => {
   const allReservations = useSelector(
     (state) => state.reservation.reservations
   );
-  const allUsers = useSelector((state) => state.users.user);
   const dispatch = useDispatch();
   const [reservation, setReservation] = useState({
     name: "",

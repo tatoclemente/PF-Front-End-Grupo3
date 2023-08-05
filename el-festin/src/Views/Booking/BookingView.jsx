@@ -1,6 +1,6 @@
 import BookingComponent from "../../Components/Booking/Booking"
 
-export default function Booking(){
+export function BookingView(){
     return(
         <div><BookingComponent/></div>
     )
