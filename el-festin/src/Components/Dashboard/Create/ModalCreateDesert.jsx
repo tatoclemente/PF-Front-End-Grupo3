@@ -70,7 +70,7 @@ export const ModalCreateDesert = () => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop2"
       >
-        Crear Postre
+        Postre
       </button>
 
       <div

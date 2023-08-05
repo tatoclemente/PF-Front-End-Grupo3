@@ -73,7 +73,7 @@ export const Sidebar = (props) => {
                 className={`btn btn-primary ${Styles.buttonDelete}`}
                 onClick={props.handleRender}
               >
-                Marketing
+                Reservas
               </button>
             </li>
           </ul>

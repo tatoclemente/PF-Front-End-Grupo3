@@ -28,7 +28,9 @@ const reducer = combineReducers({
 });
 
 const customizedMiddleware = (getDefaultMiddleware) =>
-  getDefaultMiddleware().concat(cartMiddleware);
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }).concat(cartMiddleware);
 
 const store = configureStore({
   reducer: reducer,
