@@ -69,7 +69,7 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
           data-bs-toggle="modal"
           data-bs-target={`#${idModal}`}
         >
-          {`Borrar ${name}`}
+          {name}
         </button>
         <div
           className="modal fade"

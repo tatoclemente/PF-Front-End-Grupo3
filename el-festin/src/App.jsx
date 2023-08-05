@@ -23,8 +23,13 @@ import { DashboardView } from "./Views/Dashboard/DashboardView";
 import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
+
+import { useSelector } from "react-redux";
+import {BookingView} from "./Views/Booking/BookingView"
+
 // import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
+
 
 function App() {
   let location = useLocation();
@@ -93,7 +98,9 @@ function App() {
             element={
               <PrivateRoute>
                 <Routes>
+                <Route path="/booking" element={<BookingView />} />
                   <Route path="/profile" element={<Profile />} />
+
                   {currentUser.role !== "User" &&
                     <Route path="/dashboard" element={<DashboardView />} />
                   }

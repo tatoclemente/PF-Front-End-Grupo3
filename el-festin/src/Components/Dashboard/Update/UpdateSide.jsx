@@ -126,7 +126,7 @@ export const UpdateSide = ({ allDates }) => {
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop10"
       >
-        Modificar guarnicion
+       Guarnicion
       </button>
 
       <div

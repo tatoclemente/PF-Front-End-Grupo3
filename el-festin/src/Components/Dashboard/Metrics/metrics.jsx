@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import style from './metrics.module.css'
+import '../../../tailwind.css'
 import {OrderMetrics} from './CardsMetrics/ordersMetrics'
 import { Tab ,TabList, TabGroup, Flex, } from '@tremor/react'
 
@@ -26,7 +27,7 @@ export const Dates = () => {
       <TabGroup className="mt-9 ml-1" >
         <TabList>
           <div data-value='Gains' >
-          <Tab>
+          <Tab className={style.contTitle}>
           <span data-value='Gains'>Platos Mas Populares</span>
           </Tab>
           </div>

@@ -57,7 +57,7 @@ export const UsersMetrics = () => {
   };
 
     return(
-        <div >
+        <div className={style.contUserM}>
              <Grid numItems={1}  className="gap-2">
     <Col numColSpan={1}>
   <Card decoration="top" className="mt-2" >
