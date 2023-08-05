@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { formattedDescription } from "../../functions/formattedDescription";
 import { formattedCart } from "../../functions/formattedCart";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
+import getCustomTokenFromLocalStorage from "../../functions/getCustomToken";
 // import { logo } from "../../Helpers/ImageUrl";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
@@ -71,9 +72,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedOrder,
   };
 
-  function getCustomTokenFromLocalStorage() {
-    return localStorage.getItem("customToken");
-  }
+
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
