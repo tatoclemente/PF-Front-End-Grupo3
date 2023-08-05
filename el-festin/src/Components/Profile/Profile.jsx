@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
 import styles from "./Profile.module.css";
+
+import { AiFillCheckCircle, AiOutlineStar } from 'react-icons/ai'
+import { PiCookingPotFill } from 'react-icons/pi'
+
 
 export const Profile = () => {
   const users = useSelector((state) => state.users.users);
@@ -15,6 +19,21 @@ export const Profile = () => {
     image: null,
   });
   const [userId, setUserId] = useState(null);
+  const [myOrders, setMyOrders] = useState([])
+
+  const [activeTab, setActiveTab] = useState("orders");
+
+  const handleShowOrders = () => {
+    setActiveTab("orders");
+  };
+
+  const handleShowReservations = () => {
+    setActiveTab("reservations");
+  };
+
+  // Variable de estado para controlar si los detalles de los tickets están cargando
+  const [loadingDetails, setLoadingDetails] = useState(true);
+
 
   useEffect(() => {
     dispatch(getUsers());
@@ -27,7 +46,41 @@ export const Profile = () => {
       setUserId(emailId[0].id);
     }
   }, [user, users]);
- 
+
+  //-----------------------------------------------------------------------------
+  // Traemos todos los tickets de ese usuario cada vez que se monta el componente
+
+  useEffect(() => {
+    if (userId) {
+      const orders = async () => {
+        try {
+          const { data } = await axios.get(`${server}/ticket/user/${userId}`);
+          console.log("DATA_________", data);
+
+          // Verificar si el usuario no tiene pedidos aprobados
+          if (data === 'No hay tickets asociados a este usuario') {
+            setMyOrders([]); // Establecer myOrders como una matriz vacía
+            setLoadingDetails(false); // Actualizar loadingDetails a false
+          } else {
+            const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
+            console.log("APROVED", aproved);
+            setMyOrders(aproved);
+            setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
+          }
+        } catch (error) {
+          console.log("ERROR: ", error.message);
+        }
+      };
+      orders();
+    }
+  }, [userId]);
+
+
+  console.log("MY ORDERS", myOrders);
+
+
+  //----------------------------------------------------------------------------
+
   const emailExists = users.filter((us) => us.email === user.email);
 
   const dataUser = emailExists.map((u) => ({
@@ -42,8 +95,8 @@ export const Profile = () => {
     name: user.displayName
       ? user.displayName
       : dataUser.length > 0
-      ? `${dataUser[0].name} ${dataUser[0].lastName}`
-      : "",
+        ? `${dataUser[0].name} ${dataUser[0].lastName}`
+        : "",
     email: user.email ? user.email : dataUser.length > 0 ? dataUser.email : "",
     phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
   });
@@ -92,16 +145,17 @@ export const Profile = () => {
       }
     }
   };
- 
+
+  console.log("LOADING", loadingDetails);
 
   // Vista previa de la imagen seleccionada
   const imagePreview = profile.image
     ? URL.createObjectURL(profile.image)
     : dataUser.length > 0
-    ? dataUser[0].image
-    : isValidURL(user.photoURL)
-    ? user.photoURL
-    : null;
+      ? dataUser[0].image
+      : isValidURL(user.photoURL)
+        ? user.photoURL
+        : null;
 
   function isValidURL(url) {
     try {
@@ -112,6 +166,18 @@ export const Profile = () => {
     }
   }
 
+  const handleReview = (id) => {
+    console.log("Ticket N°: ", id);
+  }
+
+
+  const handleGetDetail = (id) => {
+    console.log("Ticket N°: ", id);
+  }
+
+  const handleReSale = (id) => {
+    console.log("Ticket N°: ", id);
+  }
 
   if (loading) return <h1>loading...</h1>;
 
@@ -185,9 +251,86 @@ export const Profile = () => {
       </div>
 
       <div className={styles.rightSide}>
-        <h1 className={styles.title}>Mis pedidos</h1>
-        <h2 className={styles.subTitle}>Aún no tienes pedidos</h2>
+        <div className={styles.tabsContainer}>
+          <button
+            className={activeTab === "orders" ? styles.activeTab : styles.tab}
+            onClick={handleShowOrders}
+          >
+            Mis pedidos
+          </button>
+          <button
+            className={activeTab === "reservations" ? styles.activeTab : styles.tab}
+            onClick={handleShowReservations}
+          >
+            Mis reservaciones
+          </button>
+        </div>
+        {/* <h1 className={styles.title}>Mis pedidos</h1> */}
+
+        {loadingDetails ? (
+          <p>Estamos cargando sus órdenes. Por favor espere...</p>
+        ) : myOrders.length === 0 ? (
+          <div>
+            <h2 className={styles.subTitle}>Aún no tienes pedidos</h2>
+          </div>
+        ) : myOrders.map((order, index) => (
+          <div key={index} className={styles.orderContainer}>
+            <div className={styles.orderHeader}>
+              <div className={styles.dataOrder}>
+                <span>Pedido: <b>{order.idPedido}</b></span>
+                <span>Hora: <b>{order.createdAt}</b></span>
+              </div>
+              <div className={styles.dataOrderRigth}>
+                <div className={styles.status}>
+                  <p className={styles.statusTitle}>ESTADO: <b>{order.status}</b></p>
+                  {order.status === "Aprobado" ? <AiFillCheckCircle className={styles.checkAproved} /> : order.status === "En proceso" ? <PiCookingPotFill className={styles.cookingIcon} /> : <AiFillCheckCircle className={styles.checkComplete} />}
+                </div>
+                <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
+              </div>
+
+
+            </div>
+
+
+            <div className={styles.buttonsActionsContainer}>
+              <button className={styles.buttonReview} onClick={() => handleReview(order.idPedido)}>Opinar <AiOutlineStar className={styles.starIcon} /></button>
+              <button className={styles.buttonsActions} onClick={() => handleReSale(order.idPedido)}>Repetir orden</button>
+              <button className={styles.buttonsActions} onClick={() => handleGetDetail(order.idPedido)}>Ver detalle</button>
+            </div>
+
+            {/* Detalles del ticket */}
+          </div>
+        ))
+        }
+
+
       </div>
     </div>
   );
 };
+
+
+// <div>
+// <h4>Detalles del ticket:</h4>
+// {order.detail && order.detail.map((detail, index) => (
+//   <ul key={index}>
+//   {/* Platos */}
+//   {/* <li>
+//     Plato: {detail.dish} {detail?.garnish && `con ${detail.garnish}`}, Cantidad: {detail.quantity}, Precio Total: {detail.totalPrice}
+//   </li> */}
+
+//   {/* Bebidas */}
+//   {/* {detail.drinks && detail.drinks.map((drink, index) => (
+//     <li key={index}>
+//       Bebida: {drink.name}, Cantidad: {drink.quantity}, Precio: {drink.price}
+//     </li>
+//   ))} */}
+//   {/* Postres */}
+//   {/* {detail.desserts && detail.desserts.map((dessert, index) => (
+//     <li key={index}>
+//       Postre: {dessert.name}, Cantidad: {dessert.quantity}, Precio: {dessert.price}
+//     </li>
+//   ))} */}
+// </ul>
+// ))}
+// </div>
