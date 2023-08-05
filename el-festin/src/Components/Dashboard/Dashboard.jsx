@@ -8,63 +8,66 @@ import { useState } from "react";
 import { Banner } from "./Landing/Banners/Banners";
 import { Local } from "./Landing/LocalImages/Local";
 import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
+import { Reservation } from "./Reservations/Reservation.jsx";
 
 export const Dashboard = () => {
+  const [things, setThings] = useState(" ");
+  // console.log(things)
 
+  const handleRender = (e) => {
+    const val = e.target.getAttribute("data-value");
+    if (val === "Market") {
+      setThings("Market");
+    }
+    if (val === "Reser") {
+      setThings("Reser");
+    }
+    if (val === "Metrics") {
+      setThings("Metrics");
+    }
+    if (val === "Users") {
+      setThings("Users");
+    }
+    if (val === "Products") {
+      setThings("Products");
+    }
+  };
 
-
-
-const [things, setThings] = useState(' ')
-// console.log(things)
-
-const handleRender = (e) =>{
-  const val = e.target.getAttribute('data-value')
-  if(val === 'Market'){
-    setThings('Market')
-  }
-  if(val === 'Metrics'){
-    setThings('Metrics')
-  }
-  if(val === 'Users'){
-    setThings('Users')
-  }if(val === 'Products'){
-    setThings('Products')
-  }
-}
-
-
-
-  return ( 
+  return (
     <>
       <div>
         <Navbar isDashboard={true} />
       </div>
-      <div >
-      <div className="containerALL" >
-      <Sidebar handleRender={handleRender} setThings={setThings} />
+      <div>
+        <div className="containerALL">
+          <Sidebar handleRender={handleRender} setThings={setThings} />
 
-      
-          
-          
-          { things === 'Market' ?
-          <div className='marketingContent' >
-            <Banner />
-            <Local />
-            <DailySpecials />
-          </div>
-        : null}
+          {things === "Market" ? (
+            <div className="marketingContent">
+              <Banner />
+              <Local />
+              <DailySpecials />
+            </div>
+          ) : null}
 
-  {things === 'Metrics' ? <div className="metricContent">
-      <Dates/>
-      </div>: null}
+          {things === "Metrics" ? (
+            <div className="metricContent">
+              <Dates />
+            </div>
+          ) : null}
 
-      {things === 'Users' ? <div className="metricContent">
-   <UsersData/>
-      </div>: null}
-
-    </div>
-    </div>
-
+          {things === "Users" ? (
+            <div className="metricContent">
+              <UsersData />
+            </div>
+          ) : null}
+          {things === "Reser" ? (
+            <div className="reserContent">
+              <Reservation />
+            </div>
+          ) : null}
+        </div>
+      </div>
     </>
   );
 };
