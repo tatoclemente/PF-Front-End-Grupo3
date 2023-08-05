@@ -5,10 +5,8 @@ import Styles from "./Dashboard.module.css";
 export const Sidebar = (props) => {
   const [productos, setProductos] = useState(true);
   const onProductChange = () => {
-    
-    props.setThings('Products')
+    props.setThings("Products");
     setProductos(!productos);
-    
   };
 
   if (productos) {
@@ -23,47 +21,58 @@ export const Sidebar = (props) => {
             <li className="pt-4">
               <button
                 type="button"
-                className={`btn btn-primary ${Styles.buttonDelete}`}>
+                className={`btn btn-primary ${Styles.buttonDelete}`}
+              >
                 Pedidos
               </button>
             </li>
             <li className="pt-4">
               <button
                 type="button"
-                value='Products'
+                value="Products"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
-                onClick={onProductChange}>
+                onClick={onProductChange}
+              >
                 Productos
               </button>
             </li>
             <li className="pt-4">
               <button
                 type="button"
-                data-value='Users'
+                data-value="Users"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
                 onClick={props.handleRender}
-                >
+              >
                 Usuarios
               </button>
             </li>
             <li className="pt-4">
               <button
                 type="button"
-                data-value='Metrics'
+                data-value="Metrics"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
                 onClick={props.handleRender}
-                >
-              
+              >
                 Metricas
               </button>
             </li>
             <li className="pt-4">
               <button
                 type="button"
-                data-value='Market'
+                data-value="Market"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
                 onClick={props.handleRender}
-                >
+              >
+                Marketing
+              </button>
+            </li>
+            <li className="pt-4">
+              <button
+                type="button"
+                data-value="Reser"
+                className={`btn btn-primary ${Styles.buttonDelete}`}
+                onClick={props.handleRender}
+              >
                 Marketing
               </button>
             </li>

@@ -1,7 +1,6 @@
 .dropdown {
   position: relative;
   display: inline-block;
- 
 }
 
 .dropdown select {
@@ -85,7 +84,7 @@
 .mi-input {
   border: none;
   outline: none;
-  
+
   font-size: 16px;
   width: 300px; /* Puedes ajustar el ancho según tus necesidades */
   transition: border-width 0.3s ease;
@@ -102,14 +101,14 @@
   gap: 10px; /* Establece la distancia entre los botones (puedes ajustar este valor) */
 }
 
-.botones .tamañoBoton{
+.botones .tamañoBoton {
   flex: 1;
 }
 
-.buttonWidth{
+.buttonWidth {
   width: 100px;
 }
-.containerALL{
+.containerALL {
   display: flex;
   justify-content: space-between;
   overflow-y: hidden;
@@ -129,7 +128,7 @@
   border: 1px solid #ccc; /* Solo para visualización, puedes eliminarlo */
 }
 
-.metricContent{
+.metricContent {
   position: relative;
   right: 0;
   top: 0;
@@ -137,7 +136,18 @@
   height: 100%;
   width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 90vh; /* Establece aquí la altura máxima que desees */
-   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
-   border: 1px solid #ccc
+  overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
+  border: 1px solid #ccc;
 }
 
+.reserContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  left: 25%;
+  height: 100%;
+  width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
+  max-height: 90vh; /* Establece aquí la altura máxima que desees */
+  overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
+  border: 1px solid #ccc;
+}
