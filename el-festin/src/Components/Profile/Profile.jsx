@@ -97,9 +97,9 @@ export const Profile = () => {
 
   //----------------------------------------------------------------------------
 
-  const emailExists = users.filter((us) => us.email === user.email);
+  const emailExists = Array.isArray(users) && users.filter((us) => us.email === user.email);
 
-  const dataUser = emailExists.map((u) => ({
+  const dataUser = emailExists && emailExists.map((u) => ({
     name: u.name,
     lastName: u.lastName,
     phoneNumber: u.phoneNumber,
