@@ -107,10 +107,9 @@ function Register() {
   };
 
   return (
-    <div className="container d-flex justify-content-center pt-5">
-      <Link to="/auth/login">
-        <MdArrowBackIosNew
-          className="backButton text-white position-absolute mt-1 fs-3"
+    <div className="container d-flex justify-content-center main-container">
+      <Link to="/auth/login" className="back-button text-white position-absolute fs-3">
+        <MdArrowBackIosNew 
           style={{ left: "51%" }}
         />
       </Link>

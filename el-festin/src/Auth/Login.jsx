@@ -226,7 +226,7 @@ export const Login = () => {
     <ul className="">
       <Link to="/">
         <MdArrowBackIosNew
-          className="backButton text-white position-absolute mt-4 fs-3"
+          className="backButton text-white position-absolute fs-3"
           style={{ left: "51%" }}
         />
       </Link>
