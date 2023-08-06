@@ -296,16 +296,20 @@ const Detail = ({ dishDetail, toggleCart }) => {
     }));
   };
 
-  const pastaGarnish = sides.filter((side) => side.type === "salsa");
+  const pastaGarnish = Array.isArray(sides) && sides.filter((side) => side.type === "salsa");
 
-  const resGarnish = sides.filter((side) => side.type === "acompañamiento");
+  const resGarnish = Array.isArray(sides) && sides.filter((side) => side.type === "acompañamiento");
 
-  const papas = {
-    ...sides.find((side) => side.name.toLowerCase() === "papa fritas"),
-  };
-  const batatas = {
-    ...sides.find((side) => side.name.toLowerCase() === "batatas fritas"),
-  };
+  let papas = []
+  let batatas = []
+  if (pastaGarnish || resGarnish) {
+    papas = {
+      ...sides.find((side) => side.name.toLowerCase() === "papa fritas"),
+    };
+    batatas = {
+      ...sides.find((side) => side.name.toLowerCase() === "batatas fritas"),
+    };
+  }
 
   const sandwichGarnish = [papas, batatas].filter((side) => side !== null);
 
@@ -612,7 +616,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
         <h3 className={styles.subTitles}>Bebidas</h3>
         <div className={styles.containerInfo}>
           <Slider {...settingsDrinks} className={styles.slideContainer}>
-            {allDrinks?.map((drink, index) => {
+            {Array.isArray(allDrinks) && allDrinks?.map((drink, index) => {
               const capitalizedString = capitalizeFirstLetter(drink.name);
 
               return (
@@ -638,7 +642,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
         <h3 className={styles.subTitles}>Postres</h3>
         <div className={styles.containerInfo}>
           <Slider {...settings} className={styles.slideContainer}>
-            {desserts.map((dessert, index) => {
+            {Array.isArray(desserts) &&desserts.map((dessert, index) => {
               const capitalizedString = capitalizeFirstLetter(dessert.name);
               return (
                 <div
