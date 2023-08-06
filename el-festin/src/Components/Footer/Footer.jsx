@@ -6,11 +6,11 @@ import { ImLocation2 } from "react-icons/im";
 import { GrInstagram } from "react-icons/gr";
 import { BsArrowUpCircleFill } from "react-icons/bs";
 import { FaFacebookSquare } from "react-icons/fa";
+import logo from '../../Assets/logo-el-festin-nav.png';
 import Styles from "./Footer.module.css";
 
 function Footer() {
-  const logo =
-    "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
+  
   const onClickUp = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

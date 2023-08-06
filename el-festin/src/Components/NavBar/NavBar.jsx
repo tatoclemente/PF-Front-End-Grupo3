@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import calculateTotalItems from "../../functions/calculateTotalItems";
-import profileImg from "./images/profile.png";
+import profileImg from "../../Assets/profile.png";
+import logo from "../../Assets/logo-el-festin-nav.png";
+import cart from "../../Assets/bolsa-pedido.png";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { logout } from "../../Hook/FunctionsAuth";
 import { useEffect, useState } from "react";
