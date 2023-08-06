@@ -38,13 +38,14 @@ export const Carousel = () => {
 
   const showImage = (index) => {
     const images = document.getElementsByClassName(styles.image);
-    if (images.length > 0) {
+    if (images.length > 0 && index >= 0 && index < images.length) {
       for (let i = 0; i < images.length; i++) {
         if (images[i].className.includes(styles.current)) {
           images[i].className = images[i].className.replace(styles.current, '');
           break;
         }
       }
+  
       setCurrentImageIndex(index);
       images[index].className += ` ${styles.current}`;
       updateActiveDot(index);
