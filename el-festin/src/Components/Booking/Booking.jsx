@@ -179,17 +179,17 @@ export default function BookingComponent() {
       return;
     }
 
-    const eventExists = allReservations.find(
-      (res) => res.eventDate === inputValues.eventDate
-    );
+    // const eventExists = allReservations.find(
+    //   (res) => res.date === inputValues.date
+    // );
 
-    if (eventExists) {
-      Swal.fire({
-        icon: "error",
-        title: "Ya existe una reserva con esa fecha",
-        confirmButtonText: "OK",
-      });
-    } else {
+    // if (eventExists) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Ya existe una reserva con esa fecha",
+    //     confirmButtonText: "OK",
+    //   });
+    // } else {
       try {
         const reservationData = new FormData();
         reservationData.append("id", inputValues.id);
@@ -228,7 +228,7 @@ export default function BookingComponent() {
       } catch (error) {
         console.error("Error create reservation:", error);
       }
-    }
+    
   };
 
   // console.log("aaaaaaaaaaaaaaaa" + selectedDateTimeWithTime);
