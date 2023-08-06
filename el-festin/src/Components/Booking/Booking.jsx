@@ -160,6 +160,8 @@ export default function BookingComponent() {
     });
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputValues.phoneNumber ||
