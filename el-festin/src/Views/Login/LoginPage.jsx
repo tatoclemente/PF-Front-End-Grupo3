@@ -13,12 +13,12 @@ export const LoginPage = () => {
             alt="imagenlogin"
             className="img-fluid img-cover vh-100 w-100"
           />
-          <p className="position-absolute top-0 start-50 translate-middle-x pt-5 mt-5 text-white fs-3">
+          <p className="position-absolute mt-5 text-white fs-4 message">
             "Si te estás preguntando cuál es el amor más sincero… <br /> Entra y
             encontrarás la respuesta"
           </p>
         </div>
-        <div className="col-6 bg-color-blue d-flex align-items-center">
+        <div className="col-6 bg-color-blue d-flex align-items-center justify-content-center">
           <Login />
         </div>
       </div>

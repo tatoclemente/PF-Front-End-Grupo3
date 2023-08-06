@@ -1,3 +1,8 @@
+.main-container {
+  padding-top: 1rem !important;
+}
+
+
 .bg-color-blue {
     background-color: var(--background-darkblue);
     margin-left: -12px;
@@ -17,7 +22,7 @@
   }
   
   .btn-register{
-    width: 180px;
+    width: 350px;
     height: 32px;
     border-radius: 30px;
     padding: 10px;
@@ -43,4 +48,9 @@
   
   .buttonDistance{
     margin-top: 30px;
+  }
+
+  .back-button{
+    top: 2.5rem;
+    left: 51%;
   }

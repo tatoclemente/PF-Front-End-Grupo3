@@ -5,12 +5,14 @@ import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
 import styles from "./Profile.module.css";
+import styleReservation from './Reservation.module.css';
 
 import { AiFillCheckCircle, AiOutlineStar } from 'react-icons/ai'
 import { PiCookingPotFill } from 'react-icons/pi'
 import ROUTES from "../../Routes/routes";
 import defaultImage from './images/profile.png'
 import { useNavigate } from "react-router-dom";
+import RightSide from "./RightSide";
 
 
 export const Profile = () => {
@@ -26,15 +28,7 @@ export const Profile = () => {
   const [myReservations, setMyReservations] = useState([]);
 
 
-  const [activeTab, setActiveTab] = useState("orders");
 
-  const handleShowOrders = () => {
-    setActiveTab("orders");
-  };
-
-  const handleShowReservations = () => {
-    setActiveTab("reservations");
-  };
 
   // Variable de estado para controlar si los detalles de los tickets están cargando
   const [loadingDetails, setLoadingDetails] = useState(true);
@@ -73,7 +67,7 @@ export const Profile = () => {
             setLoadingDetails(false); // Actualizar loadingDetails a false
           } else {
             const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
-    
+
             // Ordenar las órdenes por hora (createdAt) en orden descendente
             aproved.sort((a, b) => {
               const timeA = new Date(`2000-01-01T${a.createdAt}:00`).getTime();
@@ -96,6 +90,49 @@ export const Profile = () => {
 
 
   //----------------------------------------------------------------------------
+  // Traemos todas las reservaciones de ese usuario cada vez que se monta el componente
+  const prevMyReservationsRef = useRef([]);
+  useEffect(() => {
+    prevMyReservationsRef.current = myReservations;
+  }, [myReservations]);
+
+  useEffect(() => {
+    if (userId) {
+      const reservations = async () => {
+        try {
+          const { data: reservations } = await axios.get(`${server}/reser/user/${userId}`);
+          console.log("DATA_________", reservations);
+
+          // Verificar si el usuario no tiene pedidos aprobados
+          if (reservations === 'No hay tickets asociados a este usuario') {
+            setMyOrders([]); // Establecer myOrders como una matriz vacía
+            setLoadingDetails(false); // Actualizar loadingDetails a false
+          } else {
+            const validReservations = reservations.filter((reserv) => reserv.status !== "Rechazado");
+
+            // Ordenar las reservaciones por fecha y hora en orden descendente
+            validReservations.sort((a, b) => {
+              const dateA = new Date(`${a.date} ${a.time}`);
+              const dateB = new Date(`${b.date} ${b.time}`);
+              return dateB - dateA;
+            });
+
+            setMyReservations(validReservations);
+            setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
+          }
+        } catch (error) {
+          console.log("ERROR: ", error.message);
+        }
+      };
+      reservations();
+    }
+  }, [userId]);
+
+  console.log("MY RESERVATIONS", myReservations);
+
+
+  //----------------------------------------------------------------------------
+
 
   const emailExists = Array.isArray(users) && users.filter((us) => us.email === user.email);
 
@@ -184,18 +221,7 @@ export const Profile = () => {
     }
   }
 
-  const handleReview = (id) => {
-    console.log("Ticket N°: ", id);
-  }
 
-
-  const handleGetDetail = (id) => {
-    console.log("Ticket N°: ", id);
-  }
-
-  const handleReSale = (id) => {
-    console.log("Ticket N°: ", id);
-  }
 
   const navigate = useNavigate();
 
@@ -216,8 +242,8 @@ export const Profile = () => {
         ) : (
           <>
             <div className={styles.imgContainer}>
-            <img className={styles.image} src={defaultImage} alt="Profile" />
-          </div>
+              <img className={styles.image} src={defaultImage} alt="Profile" />
+            </div>
             <label htmlFor="fileInput" className={styles.upButton}>
               Subir imagen
             </label>
@@ -277,101 +303,11 @@ export const Profile = () => {
       </div>
 
       <div className={styles.rightSide}>
-        <div className={styles.tabsContainer}>
-          <button
-            className={activeTab === "orders" ? styles.activeTab : styles.tab}
-            onClick={handleShowOrders}
-          >
-            Mis pedidos
-          </button>
-          <button
-            className={activeTab === "reservations" ? styles.activeTab : styles.tab}
-            onClick={handleShowReservations}
-          >
-            Mis reservaciones
-          </button>
-        </div>
-        {/* <h1 className={styles.title}>Mis pedidos</h1> */}
-           {/* Renderizar el contenido según la pestaña activa */}
-      {activeTab === "orders" ? (
-        loadingDetails ? (
-          <p>Estamos cargando sus órdenes. Por favor espere...</p>
-        ) : myOrders.length === 0 ? (
-          <div>
-            <h2 className={styles.notOrder}>Aún no tienes pedidos</h2>
-          </div>
-        ) : myOrders.map((order, index) => (
-          <div key={index} className={styles.orderContainer}>
-            <div className={styles.orderHeader}>
-              <div className={styles.dataOrder}>
-                <span>Pedido: <b>{order.idPedido}</b></span>
-                <span>Hora: <b>{order.createdAt}</b></span>
-              </div>
-              <div className={styles.dataOrderRigth}>
-                <div className={styles.status}>
-                  <p className={styles.statusTitle}>ESTADO: <b>{order.status}</b></p>
-                  {order.status === "Aprobado" ? <AiFillCheckCircle className={styles.checkAproved} /> : order.status === "En proceso" ? <PiCookingPotFill className={styles.cookingIcon} /> : <AiFillCheckCircle className={styles.checkComplete} />}
-                </div>
-                <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
-              </div>
-
-
-            </div>
-
-
-            <div className={styles.buttonsActionsContainer}>
-              <button className={styles.buttonReview} onClick={() => handleReview(order.idPedido)}>Opinar <AiOutlineStar className={styles.starIcon} /></button>
-              <button className={styles.buttonsActions} onClick={() => handleReSale(order.idPedido)}>Repetir orden</button>
-              <button className={styles.buttonsActions} onClick={() => handleGetDetail(order.idPedido)}>Ver detalle</button>
-            </div>
-
-            {/* Detalles del ticket */}
-          </div>
-        ))
-      ) : (
-        //aca debo crear un nuevo estado cuando tenga el get a /resevar
-        loadingDetails ? (
-          <p>Estamos cargando sus reservaciones. Por favor espere...</p>
-        ) : myReservations.length === 0 ? (
-          <div>
-            <h2 className={styles.notOrder}>Aún no tienes reservaciones</h2>
-          </div>
-        ) : (
-          myReservations.map((reservation, index) => (
-            <div key={index} className={styles.reservationContainer}>
-              {/* Resto del contenido de la reservación */}
-            </div>
-          ))
-        )
-      )}
-
+        <RightSide 
+        myOrders={myOrders} 
+        myReservations={myReservations} 
+        loadingDetails={loadingDetails} />
       </div>
     </div>
   );
 };
-
-
-// <div>
-// <h4>Detalles del ticket:</h4>
-// {order.detail && order.detail.map((detail, index) => (
-//   <ul key={index}>
-//   {/* Platos */}
-//   {/* <li>
-//     Plato: {detail.dish} {detail?.garnish && `con ${detail.garnish}`}, Cantidad: {detail.quantity}, Precio Total: {detail.totalPrice}
-//   </li> */}
-
-//   {/* Bebidas */}
-//   {/* {detail.drinks && detail.drinks.map((drink, index) => (
-//     <li key={index}>
-//       Bebida: {drink.name}, Cantidad: {drink.quantity}, Precio: {drink.price}
-//     </li>
-//   ))} */}
-//   {/* Postres */}
-//   {/* {detail.desserts && detail.desserts.map((dessert, index) => (
-//     <li key={index}>
-//       Postre: {dessert.name}, Cantidad: {dessert.quantity}, Precio: {dessert.price}
-//     </li>
-//   ))} */}
-// </ul>
-// ))}
-// </div>

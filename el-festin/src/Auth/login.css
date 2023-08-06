@@ -7,8 +7,10 @@
   color: var(--main-color);
 }
 
+
 .backButton{
   cursor: pointer;
+  top: 3.2rem;
 }
 
 .backButton:hover{
