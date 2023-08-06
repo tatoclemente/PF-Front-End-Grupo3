@@ -72,7 +72,7 @@ export const Local = () => {
       return;
     }
 
-    const nameExists = allLocal.find(
+    const nameExists = Array.isArray(allLocal) && allLocal.find(
       (loc) => loc.name.toLowerCase() === local.name.toLowerCase()
     );
 
@@ -103,13 +103,13 @@ export const Local = () => {
         });
         setShowModal(false);
       } catch (error) {
-        console.error("Error create banner:", error);
+        console.error("Error create local:", error);
       }
     }
   };
 
   const handleUpdateImage = async (localId) => {
-    const imageToUpdate = allLocal.find((loc) => loc.id === localId);
+    const imageToUpdate = Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
     console.log("image local to update:", JSON.stringify(imageToUpdate));
 
     if (imageToUpdate) {
@@ -134,7 +134,7 @@ export const Local = () => {
   };
 
   const handleDeleteImage = async (localId) => {
-    const imageToDelete = allLocal.find((loc) => loc.id === localId);
+    const imageToDelete = Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
     console.log("Image local to delete:", JSON.stringify(imageToDelete));
 
     if (imageToDelete) {
@@ -158,11 +158,12 @@ export const Local = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
   const allLocalCopy = [...allLocal];
 
   const sortedLocal = allLocalCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  );
+  )
 
   // const [selectedLocalId, setSelectedLocalId] = useState(null);
 
@@ -182,11 +183,13 @@ export const Local = () => {
   //   setSelectedLocalId(null);
   // };
 
+  const numImagesToShow = sortedLocal.length > 2 ? 3 : sortedLocal.length;
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: numImagesToShow,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -297,7 +300,7 @@ export const Local = () => {
       </div>
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
-          {sortedLocal?.map((loc, index) => {
+          {Array.isArray(sortedLocal) && sortedLocal?.map((loc, index) => {
             return (
               <div
                 key={index}
