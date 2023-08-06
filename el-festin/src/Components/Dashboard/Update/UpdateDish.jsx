@@ -166,7 +166,7 @@ export const UpdateDish = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {allDates && allDates.map((item) => {
+                  {Array.isArray(allDates) && allDates.map((item) => {
                     return (
                       <option key={item.id} value={item.name}>
                         {item.name}

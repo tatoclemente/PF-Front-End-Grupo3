@@ -29,7 +29,7 @@ export const ModalCreateDish = () => {
   const [error, setError] = useState({});
   const fileInputRef = useRef(null);
 
-  const subtiposDish = ["pastas", "ensaladas", "carnes", "pescados y mariscos", "sopas", "minutas", "arroz", "sandwich"]
+  const subtiposDish = ["pastas", "ensaladas", "carnes", "pescados y mariscos", "sopas", "minutas", "arroz", "sandwich"];
 
   const dispatch = useDispatch();
 
@@ -262,13 +262,13 @@ export const ModalCreateDish = () => {
                 <br />
 
                 <div className="modal-footer">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
                     Cerrar
-                  </button>
+                  </button> */}
                   <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>

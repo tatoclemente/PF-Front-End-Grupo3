@@ -16,10 +16,8 @@ export const UpdateDesert = ({ allDates }) => {
     stock: false,
     price: false,
   });
-  
 
-  const selectedItem = Array.isArray(allDates) &&
-    allDates.length > 0 && allDates.find((item) => item.name === updateState);
+  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
 
   const [inputUpdate, setInputUpdate] = useState({
