@@ -8,6 +8,9 @@ import styles from "./Profile.module.css";
 
 import { AiFillCheckCircle, AiOutlineStar } from 'react-icons/ai'
 import { PiCookingPotFill } from 'react-icons/pi'
+import ROUTES from "../../Routes/routes";
+import defaultImage from './images/profile.png'
+import { useNavigate } from "react-router-dom";
 
 
 export const Profile = () => {
@@ -20,6 +23,8 @@ export const Profile = () => {
   });
   const [userId, setUserId] = useState(null);
   const [myOrders, setMyOrders] = useState([])
+  const [myReservations, setMyReservations] = useState([]);
+
 
   const [activeTab, setActiveTab] = useState("orders");
 
@@ -50,6 +55,11 @@ export const Profile = () => {
   //-----------------------------------------------------------------------------
   // Traemos todos los tickets de ese usuario cada vez que se monta el componente
 
+  const prevMyOrdersRef = useRef([]);
+  useEffect(() => {
+    prevMyOrdersRef.current = myOrders;
+  }, [myOrders]);
+
   useEffect(() => {
     if (userId) {
       const orders = async () => {
@@ -63,7 +73,14 @@ export const Profile = () => {
             setLoadingDetails(false); // Actualizar loadingDetails a false
           } else {
             const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
-            console.log("APROVED", aproved);
+    
+            // Ordenar las órdenes por hora (createdAt) en orden descendente
+            aproved.sort((a, b) => {
+              const timeA = new Date(`2000-01-01T${a.createdAt}:00`).getTime();
+              const timeB = new Date(`2000-01-01T${b.createdAt}:00`).getTime();
+              return timeB - timeA;
+            });
+
             setMyOrders(aproved);
             setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
           }
@@ -74,7 +91,6 @@ export const Profile = () => {
       orders();
     }
   }, [userId]);
-
 
   console.log("MY ORDERS", myOrders);
 
@@ -155,7 +171,9 @@ export const Profile = () => {
       ? dataUser[0].image
       : isValidURL(user.photoURL)
         ? user.photoURL
-        : null;
+        : undefined;
+
+
 
   function isValidURL(url) {
     try {
@@ -179,10 +197,15 @@ export const Profile = () => {
     console.log("Ticket N°: ", id);
   }
 
+  const navigate = useNavigate();
+
   if (loading) return <h1>loading...</h1>;
 
   return (
     <div className={styles.containerProfile}>
+      <button className={styles.backButton} onClick={() => navigate(-1)}>
+        VOLVER ATRÁS
+      </button>
       <div className={styles.leftSide}>
         <h1 className={styles.title}>Mi perfil</h1>
 
@@ -192,6 +215,9 @@ export const Profile = () => {
           </div>
         ) : (
           <>
+            <div className={styles.imgContainer}>
+            <img className={styles.image} src={defaultImage} alt="Profile" />
+          </div>
             <label htmlFor="fileInput" className={styles.upButton}>
               Subir imagen
             </label>
@@ -266,12 +292,13 @@ export const Profile = () => {
           </button>
         </div>
         {/* <h1 className={styles.title}>Mis pedidos</h1> */}
-
-        {loadingDetails ? (
+           {/* Renderizar el contenido según la pestaña activa */}
+      {activeTab === "orders" ? (
+        loadingDetails ? (
           <p>Estamos cargando sus órdenes. Por favor espere...</p>
         ) : myOrders.length === 0 ? (
           <div>
-            <h2 className={styles.subTitle}>Aún no tienes pedidos</h2>
+            <h2 className={styles.notOrder}>Aún no tienes pedidos</h2>
           </div>
         ) : myOrders.map((order, index) => (
           <div key={index} className={styles.orderContainer}>
@@ -301,8 +328,22 @@ export const Profile = () => {
             {/* Detalles del ticket */}
           </div>
         ))
-        }
-
+      ) : (
+        //aca debo crear un nuevo estado cuando tenga el get a /resevar
+        loadingDetails ? (
+          <p>Estamos cargando sus reservaciones. Por favor espere...</p>
+        ) : myReservations.length === 0 ? (
+          <div>
+            <h2 className={styles.notOrder}>Aún no tienes reservaciones</h2>
+          </div>
+        ) : (
+          myReservations.map((reservation, index) => (
+            <div key={index} className={styles.reservationContainer}>
+              {/* Resto del contenido de la reservación */}
+            </div>
+          ))
+        )
+      )}
 
       </div>
     </div>

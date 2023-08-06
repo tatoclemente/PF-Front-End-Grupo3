@@ -1,0 +1,27 @@
+.thankYouContainer {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 100px;
+}
+
+.link {
+    text-decoration: none;
+    margin: 0 auto;
+}
+
+.buttonProfile {
+    width: 10rem;
+    height: 2rem;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--background-darkblue);
+    color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

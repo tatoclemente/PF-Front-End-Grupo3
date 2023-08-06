@@ -60,9 +60,9 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
       )}
       <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
         {isDashboard ? (
-          <div className="d-none d-lg-block pe-3">
-            <Link to="/" className="text-decoration-none text-white fs-3">
-              Salir
+          <div className="d-none d-lg-block pe-3 button-admin">
+            <Link to="/" className="text-decoration-none text-white fs-4">
+              Vista Cliente
             </Link>
           </div>
         ) : user ? (

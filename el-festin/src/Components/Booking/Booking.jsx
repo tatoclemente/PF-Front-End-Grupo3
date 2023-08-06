@@ -15,8 +15,7 @@ import "./custom-calendar.css";
 export default function BookingComponent() {
   const [selectedDateTime, setSelectedDateTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
-  const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] =
-    useState(null);
+  // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
   const [numPersons, setNumPersons] = useState(2);
   const allReservations = useSelector(
     (state) => state.reservation.reservations
@@ -69,7 +68,8 @@ export default function BookingComponent() {
       : "",
     quantity: numPersons,
     phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
-    eventDate: null,
+    date: "",
+    time: "",
     zone: "",
     decor: "",
     honoree: "",
@@ -106,28 +106,41 @@ export default function BookingComponent() {
   }
 
   const handleDateChange = (date) => {
-    setSelectedDateTime(date);
+    const fechaObj = new Date(date);
+
+    // Obtener los componentes de la fecha
+    const dia = fechaObj.getUTCDate().toString().padStart(2, "0");
+    const mes = (fechaObj.getUTCMonth() + 1).toString().padStart(2, "0"); // +1 porque los meses en JavaScript van de 0 a 11
+    const anio = fechaObj.getUTCFullYear();
+
+    // Formatear la fecha en el formato deseado "05-08-2023"
+    const fechaFormateada = `${dia}-${mes}-${anio}`;
+    console.log(fechaFormateada);
+
+    setInputValues({
+      ...inputValues, date: fechaFormateada
+    })
   };
 
   const handleTimeChange = (time) => {
     setSelectedTime(time);
 
-    const [hours, minutes] = time.split(":");
+    // const [hours, minutes] = time.split(":");
 
-    // Creamos una nueva fecha que combine la fecha seleccionada y la hora seleccionada
-    const selectedDateTimeWithTime = new Date(selectedDateTime);
-    selectedDateTimeWithTime.setHours(Number(hours), Number(minutes), 0, 0);
+    // // Creamos una nueva fecha que combine la fecha seleccionada y la hora seleccionada
+    // const selectedDateTimeWithTime = new Date(selectedDateTime);
+    // selectedDateTimeWithTime.setHours(Number(hours), Number(minutes), 0, 0);
 
-    // Convertimos la fecha con la hora seleccionada a formato ISO 8601
-    const isoDateTime = selectedDateTimeWithTime.toISOString();
+    // // Convertimos la fecha con la hora seleccionada a formato ISO 8601
+    // const isoDateTime = selectedDateTimeWithTime.toISOString();
 
-    setSelectedDateTimeWithTime(selectedDateTimeWithTime);
+    // setSelectedDateTimeWithTime(selectedDateTimeWithTime);
 
-    console.log("ISOOOOOOOOOOOO" + isoDateTime);
+    // console.log("ISOOOOOOOOOOOO" + isoDateTime);
 
     setInputValues({
       ...inputValues,
-      eventDate: isoDateTime,
+      time: time,
     });
   };
 
@@ -180,7 +193,8 @@ export default function BookingComponent() {
         reservationData.append("name", inputValues.name);
         reservationData.append("quantity", inputValues.quantity);
         reservationData.append("phoneNumber", inputValues.phoneNumber);
-        reservationData.append("eventDate", inputValues.eventDate);
+        reservationData.append("date", inputValues.date);
+        reservationData.append("time", inputValues.time);
         reservationData.append("zone", inputValues.zone);
         reservationData.append("decor", inputValues.decor);
         reservationData.append("honoree", inputValues.honoree);
@@ -202,7 +216,8 @@ export default function BookingComponent() {
             : "",
           quantity: numPersons,
           phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
-          eventDate: null,
+          date: "",
+          time: "",
           zone: "",
           decor: "",
           honoree: "",
@@ -213,7 +228,7 @@ export default function BookingComponent() {
     }
   };
 
-  console.log("aaaaaaaaaaaaaaaa" + selectedDateTimeWithTime);
+  // console.log("aaaaaaaaaaaaaaaa" + selectedDateTimeWithTime);
 
   // Agregamos un efecto para seleccionar la fecha actual cuando se monta el componente.
   useEffect(() => {
