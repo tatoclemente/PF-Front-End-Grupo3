@@ -314,7 +314,7 @@ export const Local = () => {
                   } custom-class`}
                 />
 
-                <div className={style.dropdown}>
+                <div className={style.dropdownLocal}>
                   <button
                     onClick={() => handleUpdateImage(loc.id)}
                     className={style.buttonChangeLocal}
