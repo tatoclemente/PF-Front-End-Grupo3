@@ -18,7 +18,7 @@ export const UpdateDrink = ({ allDates }) => {
     price: false,
   });
 
-  const selectedItem = allDates.find((item) => item.name === updateState);
+  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
   const [filed, setFiled] = useState(null);
 
@@ -158,7 +158,7 @@ export const UpdateDrink = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {allDates.map((item) => {
+                  {Array.isArray(allDates) && allDates.map((item) => {
                     return (
                       <option key={item.id} value={item.name}>
                         {item.name}

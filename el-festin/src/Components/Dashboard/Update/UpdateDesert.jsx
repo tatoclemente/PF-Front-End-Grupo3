@@ -16,8 +16,9 @@ export const UpdateDesert = ({ allDates }) => {
     stock: false,
     price: false,
   });
+  
 
-  const selectedItem =
+  const selectedItem = Array.isArray(allDates) &&
     allDates.length > 0 && allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
 
@@ -162,7 +163,7 @@ export const UpdateDesert = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {allDates.map((item) => {
+                  {Array.isArray(allDates) && allDates.map((item) => {
                     return (
                       <option key={item.id} value={item.name}>
                         {item.name}

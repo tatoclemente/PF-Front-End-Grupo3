@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import logo1 from "../Assets/logo1.png";
+import logo1 from "../Assets/google.png";
 import { server } from "../Helpers/EndPoint";
 import { logo } from "../Helpers/ImageUrl";
 import { Link } from "react-router-dom";

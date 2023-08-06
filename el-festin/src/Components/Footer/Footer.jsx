@@ -6,7 +6,7 @@ import { ImLocation2 } from "react-icons/im";
 import { GrInstagram } from "react-icons/gr";
 import { BsArrowUpCircleFill } from "react-icons/bs";
 import { FaFacebookSquare } from "react-icons/fa";
-import Styles from "../Footer/Footer.module.css";
+import Styles from "./Footer.module.css";
 
 function Footer() {
   const logo =

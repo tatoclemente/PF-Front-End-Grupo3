@@ -29,6 +29,9 @@ import {BookingView} from "./Views/Booking/BookingView"
 
 // import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
+import ROUTES from "./Routes/routes";
+import PaymentSuccess from "./Views/PymentSuccess/PaymentSuccess";
+import PaymentFailed from "./Views/PaymentError/PaymentFailed";
 
 
 function App() {
@@ -79,17 +82,19 @@ function App() {
         <ShoppingCart isOpen={isCartOpen} onCloseCart={toggleCart} />
         {/* rutas publicas (libre acceso navegando por la pagina) */}
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/auth/register" element={<RegisterPage />} />
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home toggleCart={toggleCart} />} />
-          <Route path="/about" element={<About />} />
+          <Route path={ROUTES.LANDING} element={<Landing />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.HOME} element={<Home toggleCart={toggleCart} />} />
+          <Route path={ROUTES.ABOUT} element={<About />} />
+          <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
+          <Route path={ROUTES.PAYMENT_FAILED} element={<PaymentFailed />} />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
           {/*<Route path="/*" element={<Landing />} />*/}
 
           <Route
-            path="/detail/:id"
+            path={`${ROUTES.DETAIL}/:id`}
             element={<Detail toggleCart={toggleCart} />}
           />
           {/* rutas privada (para degenegar acceso segun ciertos criterios) */}
@@ -98,11 +103,11 @@ function App() {
             element={
               <PrivateRoute>
                 <Routes>
-                <Route path="/booking" element={<BookingView />} />
-                  <Route path="/profile" element={<Profile />} />
+                <Route path={ROUTES.BOOKING} element={<BookingView />} />
+                  <Route path={ROUTES.PROFILE} element={<Profile />} />
 
                   {currentUser.role !== "User" &&
-                    <Route path="/dashboard" element={<DashboardView />} />
+                    <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />
                   }
                 </Routes>
               </PrivateRoute>
@@ -110,11 +115,10 @@ function App() {
           />
         </Routes>
 
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" &&
-        location.pathname !== "/shopping-cart" &&
-        location.pathname !== "/detail/:id" ? (
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
+        location.pathname !== ROUTES.PAYMENT_SUCCESS ? (
           <Footer />
         ) : undefined}
       </AuthProvider>

@@ -29,7 +29,7 @@ export const ModalCreateDish = () => {
   const [error, setError] = useState({});
   const fileInputRef = useRef(null);
 
-  const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
+  const subtiposDish = ["pastas", "ensaladas", "carnes", "pescados y mariscos", "sopas", "minutas", "arroz", "sandwich"]
 
   const dispatch = useDispatch();
 
