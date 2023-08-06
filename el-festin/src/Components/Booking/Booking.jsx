@@ -160,10 +160,13 @@ export default function BookingComponent() {
     });
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputValues.phoneNumber ||
-      !inputValues.eventDate ||
+      !inputValues.date ||
+      !inputTime.date ||
       !inputValues.zone ||
       !inputValues.decor ||
       !inputValues.honoree
