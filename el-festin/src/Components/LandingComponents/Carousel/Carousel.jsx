@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { getBanners } from '../../../Redux/actions/actionBanners/getAllBanners'; 
 import styles from './Carousel.module.css';
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
 export const Carousel = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -75,12 +76,12 @@ export const Carousel = () => {
       ))}
 
       {/* Navigation buttons */}
-      <a href="#" className={styles.previous} onClick={prevImage}>
-        &#10094;
-      </a>
-      <a href="#" className={styles.next} onClick={nextImage}>
-        &#10095;
-      </a>
+      <span className={styles.previous} onClick={prevImage}>
+        <IoIosArrowDropleftCircle />
+      </span>
+      <span className={styles.next} onClick={nextImage}>
+        <IoIosArrowDroprightCircle />
+      </span>
 
       {/* Image dots for navigation */}
       <div className={styles.dots}>
