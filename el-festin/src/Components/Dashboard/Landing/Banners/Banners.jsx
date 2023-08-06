@@ -325,7 +325,7 @@ export const Banner = () => {
                   } custom-class`}
                 />
 
-                <div className={style.dropdown}>
+                <div className={style.dropdownBanner}>
                   <button
                     onClick={() => handleUpdateBanners(ban.id)}
                     className={style.buttonChangeBanner}

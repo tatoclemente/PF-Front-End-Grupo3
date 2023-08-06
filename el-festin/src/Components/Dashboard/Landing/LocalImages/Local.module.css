@@ -20,7 +20,7 @@
     display: block;
   }
   
-  .dropdown {
+  .dropdownLocal {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30,7 +30,7 @@
   }
   
   /* Estilo para los botones del desplegable */
-  .dropdown button {
+  .dropdownLocal button {
     cursor: pointer;
     margin-right: 15px;
   }

@@ -19,10 +19,7 @@ export const Sidebar = (props) => {
 
           <ul className={Styles.options}>
             <li className="pt-4">
-              <button
-                type="button"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
-              >
+              <button type="button" className={Styles.buttonDelete}>
                 Pedidos
               </button>
             </li>
@@ -30,7 +27,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 value="Products"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={onProductChange}
               >
                 Productos
@@ -40,7 +37,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Users"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Usuarios
@@ -50,7 +47,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Metrics"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Metricas
@@ -60,7 +57,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Market"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Marketing
@@ -70,7 +67,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Reser"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Reservas
