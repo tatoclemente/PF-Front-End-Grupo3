@@ -46,12 +46,20 @@ ul.options hr {
 
 .buttonDelete {
   font-size: 0.67rem;
-  width: 13vw;
-  border-color: #a57e10;
-  background-color: #FBC32C ;
+  color: #fff;
+  width: 20vw;
+  border: 1px solid #FBC32C; /* Ajusta el valor para obtener el grosor deseado */
+  border-radius: 8px;
+  background-color: transparent;
   height: 2.0rem;
   font-size: 0.9rem;
   text-transform: uppercase;
+}
+
+.buttonDelete:hover,
+.buttonDelete:focus {
+  background-color: #fbc32c;
+  outline: none; /* Para quitar el contorno predeterminado cuando el botón está enfocado */
 }
 .p {
   font-size: 13px;

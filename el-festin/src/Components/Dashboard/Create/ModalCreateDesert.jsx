@@ -66,7 +66,7 @@ export const ModalCreateDesert = () => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`}
+        className={style.buttonDelete}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop2"
       >

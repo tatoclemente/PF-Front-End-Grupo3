@@ -4,25 +4,33 @@ import { getReservation } from "../../../Redux/actions/actionReservation/getAllR
 import { getUsers } from "../../../Redux/actions/actionsUsers/getAllUsers";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
-import style from "./Reservation.module.css"
-
+import { FiCheck } from "react-icons/fi";
+import style from "./Reservation.module.css";
 
 export const Reservation = () => {
   const allReservations = useSelector(
     (state) => state.reservation.reservations
   );
   const dispatch = useDispatch();
-  const [reservation, setReservation] = useState({
-    name: "",
-    lastname: "",
-    phoneNumber: "",
-    eventDate: "",
-    confirmation: "",
-    quantity: "",
-    zone: "",
-    decor: "",
-    honoree: "",
-  });
+
+  console.log("reseeeeeeedr" + allReservations);
+  const filterRequest =
+    allReservations.length > 0 &&
+    allReservations.filter((res) => res.confirmation === false);
+
+  const filterConfirmation =
+    allReservations.length > 0 &&
+    allReservations.filter((res) => res.confirmation === true);
+
+  const [activeButton, setActiveButton] = useState("requests");
+
+  const handleShowRequests = () => {
+    setActiveButton("requests");
+  };
+
+  const handleShowReservations = () => {
+    setActiveButton("confirmed");
+  };
 
   useEffect(() => {
     dispatch(getReservation());
@@ -80,59 +88,158 @@ export const Reservation = () => {
   return (
     <div>
       <div>
-        <h2 className={style.titleReser} >ESTADO DE MIS RESERVACIONES</h2>
+        <h2 className={style.titleReser}>ESTADO DE MIS RESERVACIONES</h2>
       </div>
       <div>
-        <h3 className={style.aviso} >
+        <h3 className={style.aviso}>
           Aviso: Llamar al cliente para realizar confirmacion de su reserva.
         </h3>
+        <div className={style.buttonsContainer}>
+          <button
+            className={
+              activeButton === "requests"
+                ? style.activeButtons
+                : style.buttonReservations
+            }
+            onClick={handleShowRequests}
+          >
+            SOLICITUDES
+          </button>
+          <button
+            className={
+              activeButton === "confirmed"
+                ? style.activeButtons
+                : style.buttonReservations
+            }
+            onClick={handleShowReservations}
+          >
+            CONFIRMADAS
+          </button>
+        </div>
       </div>
       <div className={style.div}>
-      {allReservations?.map((res, index) => {
-        return (
-          <div key={index} className={style.reservationCard}>
-            <div className={style.reservationDetails}>
-              <p>
-                <span>Nombre: </span>
-                {res.name}
-              </p>
-              <p>
-                <span>Apellido: </span>
-                {res.lastName}
-              </p>
-              <p>
-                <span>Teléfono: </span>
-                {res.phoneNumber}
-              </p>
-              <p>
-                <span>Fecha del evento: </span>
-                {res.eventDate}
-              </p>
-              <p>
-                <span>Cantidad: </span>
-                {res.quantity}
-              </p>
-              <p>
-                <span>Zona: </span>
-                {res.zone}
-              </p>
-              <p>
-                <span>Decoración: </span>
-                {res.decor}
-              </p>
-              <p>
-                <span>Homenajeado/a: </span>
-                {res.honoree}
-              </p>
-            </div>
-            <div className={style.reservationActions} >
-              <button onClick={() => handleUpdateReservation(res.id)} className={style.buttonRes}>Confirmar</button>
-              <button onClick={() => handleDeleteReservation(res.id)} className={style.buttonRes}>Rechazar</button>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+        {activeButton === "requests" &&
+          Array.isArray(filterRequest) &&
+          filterRequest?.map((res, index) => {
+            return (
+              <div className={style.containerReservation} key={index}>
+                <div key={index} className={style.reservationCard}>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Nombre: </span>
+                      {`${res.name}  ${res.lastName}`}
+                    </p>
+                    <p>
+                      <span>Teléfono: </span>
+                      {res.phoneNumber}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Fecha: </span>
+                      {res.date}
+                    </p>
+                    <p>
+                      <span>Hora: </span>
+                      {res.time}
+                    </p>
+                  </div>{" "}
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Asistentes: </span>
+                      {res.quantity}
+                    </p>
+                    <p>
+                      <span>Zona: </span>
+                      {res.zone}
+                    </p>
+                  </div>{" "}
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Decoración: </span>
+                      {res.decor}
+                    </p>
+                    <p>
+                      <span>Homenajeado: </span>
+                      {res.honoree}
+                    </p>
+                  </div>
+                </div>
+
+                <div className={style.reservationActions}>
+                  <button
+                    onClick={() => handleUpdateReservation(res.id)}
+                    className={style.buttonRes}
+                  >
+                    Confirmar
+                  </button>
+                  <button
+                    onClick={() => handleDeleteReservation(res.id)}
+                    className={style.buttonRes}
+                  >
+                    Rechazar
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+      <div className={style.div}>
+        {activeButton === "confirmed" &&
+          filterConfirmation?.map((res, index) => {
+            return (
+              <div className={style.containerReservation}>
+                <div key={index} className={style.reservationCard}>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Nombre: </span>
+                      {`${res.name} ${res.lastName}`}
+                    </p>
+                    <p>
+                      <span>Teléfono: </span>
+                      {res.phoneNumber}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Fecha: </span>
+                      {res.date}
+                    </p>
+                    <p>
+                      <span>Hora: </span>
+                      {res.time}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Asistentes: </span>
+                      {res.quantity}
+                    </p>
+                    <p>
+                      <span>Zona: </span>
+                      {res.zone}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Decoración: </span>
+                      {res.decor}
+                    </p>
+                    <p>
+                      <span>Homenajeado: </span>
+                      {res.honoree}
+                    </p>
+                  </div>
+                </div>
+                <div className={style.reservationConfirmed}>
+                  <p className={style.pButton}>
+                    <FiCheck /> Reserva Confirmada
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
