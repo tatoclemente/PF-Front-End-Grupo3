@@ -376,7 +376,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       </button>
       {order.length !== 0 && (
         <button className={style.clearButton} onClick={clearAllCart}>
-          YA NO QUIERO ESTA LA ORDEN
+          YA NO QUIERO ESTA ORDEN
         </button>
       )}
     </div>
