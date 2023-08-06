@@ -168,11 +168,11 @@ export const Login = () => {
   };
 
   const handleGooglePost = async (customToken) => {
-    const emailExist = usersDB.map((us) => us.email);
+    const emailExist = Array.isArray(usersDB) && usersDB.map((us) => us.email);
 
     const decodeCustomToken = decodeToken(customToken);
 
-    if (emailExist.includes(user.email) && decodeCustomToken) {
+    if (emailExist && emailExist.includes(user.email) && decodeCustomToken) {
       const { role } = decodeCustomToken;
       role !== 'User'
         ? navigate("/dashboard")
@@ -185,7 +185,7 @@ export const Login = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-    } else if (!emailExist.includes(user.email)) {
+    } else if (emailExist && !emailExist.includes(user.email)) {
 
       const userData = {
         name: user.displayName,

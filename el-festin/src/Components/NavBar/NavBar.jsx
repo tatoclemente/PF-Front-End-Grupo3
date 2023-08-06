@@ -41,7 +41,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
     dispatch(getUsers());
   }, []);
   useEffect(() => {
-    if (user) {
+    if (user && users.email) {
       const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
       setUserEmail(emailUser);
     }

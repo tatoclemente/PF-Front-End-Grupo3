@@ -46,7 +46,7 @@ export const Profile = () => {
 
   useEffect(() => {
     // Cuando el usuario cambia, busca su ID en la base de datos local
-    const emailId = users.filter((us) => us.email === user.email);
+    const emailId = Array.isArray(users) && users.filter((us) => us.email === user.email);
     if (emailId.length > 0) {
       setUserId(emailId[0].id);
     }
