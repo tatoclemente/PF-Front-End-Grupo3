@@ -72,14 +72,14 @@ export const DailySpecials = () => {
 
   useEffect(() => {
     setFilterDishes(
-      allDishes.filter((dish) =>
+      Array.isArray(allDishes) && allDishes.filter((dish) =>
         dish.name?.toLowerCase().includes(input.toLowerCase())
       )
     );
   }, [allDishes, input]);
   const handleUpdateSpecial = async (dishId) => {
     // Find the dish by its ID
-    const dishToUpdate = allDishes.find((dish) => dish.id === dishId);
+    const dishToUpdate = Array.isArray(allDishes) && allDishes.find((dish) => dish.id === dishId);
     console.log("Dish to update:", JSON.stringify(dishToUpdate));
 
     // Check if the dish is found and toggle the dailyspecial property
@@ -107,6 +107,7 @@ export const DailySpecials = () => {
       }
     }
   };
+
 
   const allDishesCopy = [...allDishes];
 
@@ -153,7 +154,7 @@ export const DailySpecials = () => {
               : style.hidden
           }
         >
-          {filterDishes.slice(0, 3).map((d, i) => {
+          { Array.isArray(filterDishes) && filterDishes.slice(0, 3).map((d, i) => {
             return (
               <div key={i}>
                 <p value={d.name} onClick={onHandleChange} className="results">
@@ -167,7 +168,7 @@ export const DailySpecials = () => {
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
           {input.length === 0
-            ? sortedDishes.map((dish, index) => {
+            ? Array.isArray(sortedDishes) && sortedDishes.map((dish, index) => {
                 return (
                   <div key={index} className={style.imageContainer}>
                     {/* <h3>{dish.name}</h3> */}
@@ -188,7 +189,7 @@ export const DailySpecials = () => {
                   </div>
                 );
               })
-            : filterDishes.map((dish, index) => {
+            : Array.isArray(filterDishes) && filterDishes.map((dish, index) => {
                 return (
                   <div key={index} className={style.imageContainer}>
                     {/* <h3>{dish.name}</h3> */}
