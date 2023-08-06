@@ -166,7 +166,7 @@ export default function BookingComponent() {
     e.preventDefault();
     if (!inputValues.phoneNumber ||
       !inputValues.date ||
-      !inputTime.date ||
+      !inputValues.time ||
       !inputValues.zone ||
       !inputValues.decor ||
       !inputValues.honoree
