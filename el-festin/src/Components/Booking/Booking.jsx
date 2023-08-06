@@ -79,11 +79,11 @@ export default function BookingComponent() {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputValues({ ...inputValues, [name]: value });
-    if (name === "eventDate") {
+    if (name === "date") {
       setSelectedDateTime(new Date(value));
       setInputValues({
         ...inputValues,
-        eventDate: new Date(value),
+        date: new Date(value),
       });
     }
     setError(
@@ -302,10 +302,11 @@ export default function BookingComponent() {
                 <Calendar
                   id="calendar"
                   value={selectedDateTime}
+             
                   onChange={handleDateChange}
-                  className={styles.customCalendar}
                   minDate={new Date()}
                   maxDate={moment().add(1, "year").toDate()}
+                  
                 />
               </div>
             </div>
