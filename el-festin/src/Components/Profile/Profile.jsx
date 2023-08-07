@@ -222,8 +222,9 @@ export const Profile = ({toggleCart}) => {
   const navigate = useNavigate();
 
   if(loading) 
-  return ( <div style={{width: '100%', zIndex:'50', top: '0', left: '0', position: 'absolute', height: '100vh',backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-    <p><Loader /></p>
+  return ( 
+    <div style={{width: '100%', zIndex:'50', top: '0', left: '0', position: 'absolute', height: '100vh',backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <p><Loader /></p>
     </div>)
 
   return (
@@ -306,7 +307,8 @@ export const Profile = ({toggleCart}) => {
         myOrders={myOrders} 
         myReservations={myReservations} 
         loadingDetails={loadingDetails}
-        toggleCart={toggleCart} />
+        toggleCart={toggleCart}
+        userId={userId} />
       </div>
     </div>
   );
