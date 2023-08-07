@@ -291,7 +291,26 @@
     cursor: not-allowed; /* Cambiar el cursor a "no permitido" */
     /* Puedes agregar otros estilos como opacidad u otros efectos visuales para hacerlo más claro */
   }
+
+  .disabledPay {
+    background-color: #18b02f; /* Fondo gris claro */
+    color: #dedede; /* Texto gris claro */
+    cursor: not-allowed;
+  }
   
+  .payButtonTrue {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .payButtonFalse {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
 
   .clearButton {
     width: 50%;
@@ -313,6 +332,22 @@
     background-color: var(--negative);
   }
 
+  .disabledClear {
+    cursor: not-allowed;
+    width: 50%;
+    border: none;
+    background-color: var(--gray);
+    color: var(--primary-light);
+    font-weight: 500;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: .9rem;
+    margin-bottom: 2rem;
+    transition: .5s ease-in-out;
+  }
 
   /* Estilo para la barra de desplazamiento */
 ::-webkit-scrollbar {

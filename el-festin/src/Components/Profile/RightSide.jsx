@@ -11,6 +11,7 @@ import { server } from '../../Helpers/EndPoint';
 import Modal from './Modal';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/actions/actionOrders/actionOrders';
+import Spinner from '../Spinner/Spinner';
 
 function RightSide({
   loadingDetails,
@@ -130,7 +131,7 @@ function RightSide({
       {/* Renderizar el contenido según la pestaña activa */}
       {activeTab === "orders" ? (
         loadingDetails ? (
-          <p>Estamos cargando sus órdenes. Por favor espere...</p>
+          <p className={styles.loading}><Spinner /> <span className={styles.loadingText}>Estamos cargando sus órdenes. Por favor espere...</span></p>
         ) : myOrders.length === 0 ? (
           <div>
             <h2 className={styles.notOrder}>Aún no tienes pedidos</h2>
