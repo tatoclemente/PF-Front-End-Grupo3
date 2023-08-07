@@ -17,6 +17,7 @@ export default function BookingComponent() {
   const [selectedTime, setSelectedTime] = useState("");
   // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
   const [numPersons, setNumPersons] = useState(2);
+  const [reservedTimes, setReservedTimes] = useState([]);
   const allReservations = useSelector(
     (state) => state.reservation.reservations
   );
@@ -74,7 +75,6 @@ export default function BookingComponent() {
     decor: "",
     honoree: "",
   });
-
   console.log(inputValues);
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -118,8 +118,16 @@ export default function BookingComponent() {
     console.log(fechaFormateada);
 
     setInputValues({
-      ...inputValues, date: fechaFormateada
-    })
+      ...inputValues,
+      date: fechaFormateada,
+    });
+    // Obtén las horas reservadas para la fecha seleccionada
+    const reservedHours = allReservations
+      .filter((res) => res.date === moment(date).format("DD-MM-YYYY"))
+      .map((res) => res.time);
+
+    setReservedTimes(reservedHours);
+    setSelectedTime("");
   };
 
   const handleTimeChange = (time) => {
@@ -142,6 +150,16 @@ export default function BookingComponent() {
       ...inputValues,
       time: time,
     });
+    const isReserved = reservedTimes.includes(time);
+
+    if (isReserved) {
+      // Mostrar SweetAlert si la hora está reservada
+      Swal.fire({
+        icon: "error",
+        title: "Hora reservada",
+        text: "La hora seleccionada ya está reservada. Por favor, elige otra hora.",
+      });
+    }
   };
 
   const handleMinusClick = () => {
@@ -160,11 +178,10 @@ export default function BookingComponent() {
     });
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!inputValues.phoneNumber ||
+    if (
+      !inputValues.phoneNumber ||
       !inputValues.date ||
       !inputValues.time ||
       !inputValues.zone ||
@@ -178,18 +195,21 @@ export default function BookingComponent() {
       });
       return;
     }
+    const reservationExists =
+      Array.isArray(allReservations) &&
+      allReservations.find(
+        (res) => res.date === inputValues.date && res.time === inputValues.time
+      );
 
-    // const eventExists = allReservations.find(
-    //   (res) => res.date === inputValues.date
-    // );
-
-    // if (eventExists) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Ya existe una reserva con esa fecha",
-    //     confirmButtonText: "OK",
-    //   });
-    // } else {
+    if (reservationExists) {
+      Swal.fire({
+        icon: "error",
+        title: "La fecha y hora seleccionadas ya están reservadas.",
+        text: "Por favor, elige otra fecha u hora.",
+        confirmButtonText: "OK",
+      });
+      return;
+    } else {
       try {
         const reservationData = new FormData();
         reservationData.append("id", inputValues.id);
@@ -206,7 +226,7 @@ export default function BookingComponent() {
         console.log("reservation create successfully:", response.data);
         Swal.fire({
           icon: "success",
-          title: "Reserva Exitosa",
+          title: `${inputValues.name} su reserva ha sido enviada`,
           text: "El restaurante se estara comunicando con usted para confirmar su reserva",
           confirmButtonText: "OK",
         });
@@ -224,11 +244,11 @@ export default function BookingComponent() {
           zone: "",
           decor: "",
           honoree: "",
-        });;
+        });
       } catch (error) {
         console.error("Error create reservation:", error);
       }
-    
+    }
   };
 
   // console.log("aaaaaaaaaaaaaaaa" + selectedDateTimeWithTime);
@@ -298,88 +318,81 @@ export default function BookingComponent() {
               <label className={styles.labelBooking}>
                 ¿En qué fecha y hora deseas realizar tu reservación?
               </label>
+              {inputValues.date ? (
+                <div style={{ color: "#313045", marginBottom: "10px" }}>
+                  Fecha seleccionada:{" "}
+                  <span style={{ fontWeight: "bold", color: "#313045" }}>
+                    {inputValues.date}
+                  </span>
+                </div>
+              ) : (
+                <p style={{ color: "#313045", marginBottom: "10px" }}>Seleccione una fecha</p>
+              )}
               <div>
                 <Calendar
                   id="calendar"
                   value={selectedDateTime}
-             
                   onChange={handleDateChange}
                   minDate={new Date()}
                   maxDate={moment().add(1, "year").toDate()}
-                  
                 />
               </div>
             </div>
-            {selectedDateTime && (
-              <div className={styles.formGroup}>
-                <label className={styles.labelBooking}>
-                  Horas disponibles:
-                </label>
-                <div className={styles.timeCheckboxes}>
-                  <label
-                    style={
-                      selectedTime === "18:00"
-                        ? { backgroundColor: "#313045", color: "#fff" }
-                        : {}
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      value="18:00"
-                      checked={selectedTime === "18:00"}
-                      onChange={(e) => handleTimeChange(e.target.value)}
-                    />
-                    06:00 PM
-                  </label>
-                  <label
-                    style={
-                      selectedTime === "19:00"
-                        ? { backgroundColor: "#313045", color: "#fff" }
-                        : {}
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      value="19:00"
-                      checked={selectedTime === "19:00"}
-                      onChange={(e) => handleTimeChange(e.target.value)}
-                    />
-                    07:00 PM
-                  </label>
-                  <label
-                    style={
-                      selectedTime === "20:00"
-                        ? { backgroundColor: "#313045", color: "#fff" }
-                        : {}
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      value="20:00"
-                      checked={selectedTime === "20:00"}
-                      onChange={(e) => handleTimeChange(e.target.value)}
-                    />
-                    08:00 PM
-                  </label>
-                  <label
-                    style={
-                      selectedTime === "21:00"
-                        ? { backgroundColor: "#313045", color: "#fff" }
-                        : {}
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      value="21:00"
-                      checked={selectedTime === "21:00"}
-                      onChange={(e) => handleTimeChange(e.target.value)}
-                    />
-                    09:00 PM
-                  </label>
-                  {/* Agrega más opciones de hora según las horas disponibles en tu restaurante */}
+            <div className={styles.formGroup}>
+              <div className={styles.selectTime}>
+                <div>
+                  {selectedTime ? (
+                    <div style={{ color: "#313045", marginBottom: "10px" }}>
+                      Hora seleccionada:{" "}
+                      <span style={{ fontWeight: "bold"}}>
+                        {selectedTime}
+                      </span>{" "}
+                      {reservedTimes.includes(selectedTime) &&
+                        <span style={{ fontWeight: "bold"}}>(No disponible)</span>}
+                    </div>
+                  ) : (
+                    <div>
+                      <p>Seleccione una hora</p>
+                    </div>
+                  )}
                 </div>
+                <select
+                  className={styles.selectBooking}
+                  value={selectedTime}
+                  onChange={(e) => handleTimeChange(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Selecciona una hora
+                  </option>
+                  {[
+                    "12:00",
+                    "13:00",
+                    "14:00",
+                    "20:00",
+                    "21:00",
+                    "22:00",
+                    "23:00",
+                  ].map((time) => {
+                    const isReserved = reservedTimes.includes(time);
+                    return (
+                      <option
+                        key={time}
+                        value={time}
+                        style={
+                          isReserved
+                            ? { backgroundColor: "gray", color: "#fff" }
+                            : selectedTime === time
+                            ? { backgroundColor: "#313045", color: "#fff" }
+                            : {}
+                        }
+                      >
+                        {isReserved ? `${time} (No disponible)` : time}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
-            )}
+            </div>
           </div>
         </div>
         <div className={styles.rightSide}>

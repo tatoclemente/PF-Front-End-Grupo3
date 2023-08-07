@@ -31,13 +31,16 @@
   /* Estilo para los botones del desplegable */
   .dropdownBanner button {
     cursor: pointer;
-    margin-right: 15px;
+    margin: 0px 15px;
   }
   
   /* Estilo para el contenedor de la imagen y desplegable */
   .imageContainer {
     position: relative;
-    display: inline-block;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .imageDisabled {
     filter: grayscale(100%);
@@ -88,6 +91,7 @@
 
   .images{
     width: 90%;
+    max-width: 20rem;
     height: 110px;
     border-radius: 10px;
   }

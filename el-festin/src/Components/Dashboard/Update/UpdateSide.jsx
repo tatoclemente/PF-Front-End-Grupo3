@@ -194,7 +194,7 @@ export const UpdateSide = ({ allDates }) => {
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-                        className="mt-2"
+              
                         name="type"
                         onChange={onInputChange}
                       >
