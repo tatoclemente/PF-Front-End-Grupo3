@@ -42,13 +42,16 @@ margin: 0 1%;
   }
 
   .categoryContainer{
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     padding: 10px;
     margin: 0 10px;
   }
 
   .categoryContainer p {
-    text-align: center !important;
+    text-align: center;
     font-size: 1.3rem;
     text-transform: uppercase;
     color: #313045;
@@ -56,11 +59,10 @@ margin: 0 1%;
 
   .imgCategory{
     width: 100%;
-    max-width: 400px; /* Establece un ancho máximo para las imágenes */
+    max-width: 600px; /* Establece un ancho máximo para las imágenes */
     height: 300px; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
     object-fit: cover; /* Ajusta el modo de ajuste de la imagen */
     border-radius: 10px;
     margin-right: 2%; /* Ajusta el margen derecho utilizando porcentajes */
-    max-width: 100%;
     max-height: 100%;
   }
