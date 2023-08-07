@@ -162,13 +162,14 @@
 
 .button-admin {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   font-size: .5rem !important;
   border-bottom: 2px solid transparent;
   padding: .1rem .7rem;
   border-radius: 20px;
   transition: .5s ease-in-out;
+  transform: translateX(100%);
 }
 
 .button-admin:hover {

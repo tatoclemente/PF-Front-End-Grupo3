@@ -1,9 +1,8 @@
 import React from "react";
 import Styles from "./About.module.css";
+import logo from '../../Assets/logo-el-festin-nav.png';
 
 export default function About() {
-  const logo =
-    "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
   return (
     <div className={Styles.container}>
       <img
