@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import styles from './Profile.module.css';
 import styleReservation from './Reservation.module.css';
-import styleModal from './Modal.module.css';
 
 import { AiFillCheckCircle, AiOutlineStar } from 'react-icons/ai'
 import { PiCookingPotFill } from 'react-icons/pi'
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { server } from '../../Helpers/EndPoint';
-import Modal from './Modal';
+import Modal from './Modales/Modal';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/actions/actionOrders/actionOrders';
+import MiniSpinner from '../Spinner/MiniSpinner';
 import Spinner from '../Spinner/Spinner';
 
 function RightSide({
@@ -26,6 +26,10 @@ function RightSide({
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  const [loadingResale, setLoadingResale] = useState(false);
+
+  const [loadingButtons, setLoadingButtons] = useState({});
 
 
   const getDetailTicket = async (id) => {
@@ -47,48 +51,85 @@ function RightSide({
     setShowModal(true); // Abrir el modal
   }
 
-
   const handleGetDetail = async (id) => {
-    const ticketDetail = await getDetailTicket(id);
-    console.log("TICKET DETAIL: ", ticketDetail);
-    setSelectedItem(ticketDetail); // Actualizar selectedItem con el detalle del item seleccionado
-    setShowModal(true); // Abrir el modal
-  }
+    try {
+      setLoadingButtons((prevLoadingButtons) => ({
+        ...prevLoadingButtons,
+        [id]: true, // Establecer el estado de carga del botón correspondiente a 'true'
+      }));
+  
+      const ticketDetail = await getDetailTicket(id);
+      console.log("TICKET DETAIL: ", ticketDetail);
+      setSelectedItem(ticketDetail);
+      setShowModal(true);
+  
+      setLoadingButtons((prevLoadingButtons) => ({
+        ...prevLoadingButtons,
+        [id]: false, // Establecer el estado de carga del botón correspondiente a 'false'
+      }));
+    } catch (error) {
+      console.error("Error al obtener el detalle:", error);
+      setLoadingButtons((prevLoadingButtons) => ({
+        ...prevLoadingButtons,
+        [id]: false, // Establecer el estado de carga del botón correspondiente a 'false' en caso de error
+      }));
+    }
+  };
+  
+
+
+  // const handleGetDetail = async (id) => {
+  //   const ticketDetail = await getDetailTicket(id);
+  //   console.log("TICKET DETAIL: ", ticketDetail);
+  //   setSelectedItem(ticketDetail); // Actualizar selectedItem con el detalle del item seleccionado
+  //   setShowModal(true); // Abrir el modal
+  // }
 
   const handleReSale = async (id) => {
     try {
+      setLoadingResale((prevLoadingButtons) => ({
+        ...prevLoadingButtons,
+        [id]: true, // Establecer el estado de carga del botón correspondiente a 'true'
+      }));
+  
       const stateCart = await getDetailTicket(id);
       if (!stateCart || stateCart.length === 0) {
         console.log("El carrito está vacío o no existe.");
         return;
       }
-
+  
       const orderItems = stateCart.slice(1); // Detalles de los items de la orden
-
+  
       const transformedOrderItems = orderItems.map((item) => {
-        const transformedDrinks = item.drinks?.map((drink) => drink.drink); // Extraer solo los valores de drinks
-        const transformedDesserts = item.desserts?.map((dessert) => dessert.dessert); // Extraer solo los valores de desserts
-
+        const transformedDrinks = item.drinks?.map((drink) => drink.drink);
+        const transformedDesserts = item.desserts?.map((dessert) => dessert.dessert);
+  
         return {
           ...item,
           drinks: transformedDrinks,
           desserts: transformedDesserts,
         };
       });
-
-      // Obtenemos todos los elementos excepto el último del array 'cart'
+  
       const cartWithoutTotalPrice = transformedOrderItems.slice(0, transformedOrderItems.length - 1);
-
-      // Despachar un dispatch por cada item del array
-      cartWithoutTotalPrice.forEach((item) => {
-        dispatch(addToCart(item));
+  
+      cartWithoutTotalPrice.forEach(async (item) => {
+        await dispatch(addToCart(item)); // Esperar a que el dispatch se complete
+        setLoadingResale((prevLoadingButtons) => ({
+          ...prevLoadingButtons,
+          [id]: false, // Establecer el estado de carga del botón correspondiente a 'false'
+        }));
       });
-      toggleCart()
+      toggleCart();
     } catch (error) {
       console.error("Error al obtener el carrito:", error);
+      setLoadingResale((prevLoadingButtons) => ({
+        ...prevLoadingButtons,
+        [id]: false, // Establecer el estado de carga del botón correspondiente a 'false' en caso de error
+      }));
     }
   };
-
+  
 
 
   const handleCancelReservation = () => {
@@ -168,12 +209,13 @@ function RightSide({
               <button
                 className={styles.buttonsActions}
                 onClick={() => handleReSale(order.idPedido)}>
-                Repetir orden
+                {loadingResale[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Repetir orden</p>}
+
               </button>
               <button
                 className={styles.buttonsActions}
                 onClick={() => handleGetDetail(order.idPedido)}>
-                Ver detalle
+                {loadingButtons[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Ver detalle</p>}
               </button>
             </div>
 

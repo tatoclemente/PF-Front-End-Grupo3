@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { getBanners } from '../../../Redux/actions/actionBanners/getAllBanners'; 
+import { useSelector } from "react-redux";
 import styles from './Carousel.module.css';
 import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
 export const Carousel = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const allBanners = useSelector((state) => state.banner.banners);
-  const dispatch = useDispatch();
   const imageList = allBanners.length > 0 && allBanners.filter((b) => b.disabled === false);
   const totalImages = imageList.length;
   const intervalRef = useRef(null);
-
-  useEffect(() => {
-    dispatch(getBanners());
-  }, [dispatch]);
 
   useEffect(() => {
     const velocity = 4000;
