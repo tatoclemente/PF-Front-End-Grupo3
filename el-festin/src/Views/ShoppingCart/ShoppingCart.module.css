@@ -65,6 +65,9 @@
 .subTitle {
     font-weight: bold;
     margin-top: .5rem;
+    text-align: left;
+    margin-left: 1rem;
+    transform: translateY(.6rem);
 }
 .productImage {
     width: 80px;
@@ -81,7 +84,7 @@
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    position: relative;
   }
 
 .dishDetailsHeader {
@@ -137,9 +140,39 @@
     right: 1rem;
     bottom: 2.3rem;
 }
+.quantityButtonCombo {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100px;
+    height: 65px;
+    margin: 0;
+    padding: 0;
+    right: 1rem;
+    top: -2rem;
+}
+
 
 .buttonDelete {
     width: 75%;
+    height: 1.5rem;
+    font-weight: 400;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 1px 4px 4px var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s ease-in-out;
+    background-color: var(--negative);
+    color: var(--primary-light);
+    transform: translateY(.3rem);
+}
+
+.buttonDeleteCombo {
+    width: 150px;
     height: 1.5rem;
     font-weight: 400;
     border-radius: 5px;
@@ -258,7 +291,26 @@
     cursor: not-allowed; /* Cambiar el cursor a "no permitido" */
     /* Puedes agregar otros estilos como opacidad u otros efectos visuales para hacerlo más claro */
   }
+
+  .disabledPay {
+    background-color: #18b02f; /* Fondo gris claro */
+    color: #dedede; /* Texto gris claro */
+    cursor: not-allowed;
+  }
   
+  .payButtonTrue {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .payButtonFalse {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
 
   .clearButton {
     width: 50%;
@@ -280,6 +332,22 @@
     background-color: var(--negative);
   }
 
+  .disabledClear {
+    cursor: not-allowed;
+    width: 50%;
+    border: none;
+    background-color: var(--gray);
+    color: var(--primary-light);
+    font-weight: 500;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: .9rem;
+    margin-bottom: 2rem;
+    transition: .5s ease-in-out;
+  }
 
   /* Estilo para la barra de desplazamiento */
 ::-webkit-scrollbar {

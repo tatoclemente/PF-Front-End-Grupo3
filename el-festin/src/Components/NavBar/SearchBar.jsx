@@ -37,7 +37,7 @@ export const SearchBar = (props) => {
       dish.name?.toLowerCase().includes(input.toLowerCase()))
 
  
-  if (props.path !== "/") {
+  if (props.path === "/home") {
     return (
       <form onSubmit={onSubmitSearch} className="search-input-container">
         <input

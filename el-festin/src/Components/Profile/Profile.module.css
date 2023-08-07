@@ -27,7 +27,7 @@
   transition: background-color 0.5s ease;
   color: var(--background-darkblue);
   font-weight: 700;
-  z-index: 50;
+  z-index: 20;
   box-shadow: 1px 1px 5px var(--shadow);
   padding-left: 1rem;
 }
@@ -293,3 +293,14 @@
   box-shadow: 0 1px 3px var(--shadow);
 }
 
+
+.loading {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.loadingText {
+  margin-left: .5rem;
+}

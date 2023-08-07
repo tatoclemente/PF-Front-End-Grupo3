@@ -17,7 +17,7 @@ export const Carousel = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const velocity = 3000;
+    const velocity = 4000;
     intervalRef.current = setInterval(nextImage, velocity);
 
     return () => {

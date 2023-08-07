@@ -104,7 +104,7 @@ function App() {
               <PrivateRoute>
                 <Routes>
                 <Route path={ROUTES.BOOKING} element={<BookingView />} />
-                  <Route path={ROUTES.PROFILE} element={<Profile />} />
+                  <Route path={ROUTES.PROFILE} element={<Profile toggleCart={toggleCart} />} />
 
                   {currentUser.role !== "User" &&
                     <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />

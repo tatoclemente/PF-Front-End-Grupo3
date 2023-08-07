@@ -69,7 +69,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
           </div>
         }
 
-        <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
+        <div className="dropdown-container d-none d-lg-flex align-items-center">
           {isDashboard ? (
             <div className="d-none d-lg-block button-admin">
               <Link to="/" className="text-decoration-none text-white fs-4">
