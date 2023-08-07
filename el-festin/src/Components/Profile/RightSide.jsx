@@ -12,12 +12,15 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/actions/actionOrders/actionOrders';
 import MiniSpinner from '../Spinner/MiniSpinner';
 import Spinner from '../Spinner/Spinner';
+import ModalReviews from './Modales/ModalReviews';
+import { scrollToTop } from '../../Helpers/functions';
 
 function RightSide({
   loadingDetails,
   myOrders,
   myReservations,
-  toggleCart
+  toggleCart,
+  userId
 }) {
 
   const dispatch = useDispatch()
@@ -27,9 +30,14 @@ function RightSide({
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const [showReviewModal, setShowReviewModal] = useState(false);
+
+
   const [loadingResale, setLoadingResale] = useState(false);
 
   const [loadingButtons, setLoadingButtons] = useState({});
+
+  const [loadingReviews, setLoadingReviews] = useState(false)
 
 
   const getDetailTicket = async (id) => {
@@ -45,10 +53,28 @@ function RightSide({
     setActiveTab("reservations");
   };
 
-  const handleReview = (id) => {
-    const reviewDetail = getDetailTicket(id);
-    setSelectedItem(reviewDetail); // Actualizar selectedItem con el detalle del item seleccionado
-    setShowModal(true); // Abrir el modal
+  const handleReview = async (id) => {
+    try {
+      setLoadingReviews((prevLoadingReviews) => ({
+        ...prevLoadingReviews,
+        [id]: true,
+      }))
+      const reviewDetail = await getDetailTicket(id);
+      scrollToTop()
+      setSelectedItem(reviewDetail); // Actualizar selectedItem con el detalle del item seleccionado
+      setShowReviewModal(true); // Abrir el modal
+      setLoadingReviews((prevLoadingReviews) => ({
+        ...prevLoadingReviews,
+        [id]: false,
+      }))
+    } catch (error) {
+      console.error("Error al obtener el detalle:", error);
+      setLoadingReviews((prevLoadingReviews) => ({
+        ...prevLoadingReviews,
+        [id]: false,
+      }))
+    }
+   
   }
 
   const handleGetDetail = async (id) => {
@@ -59,6 +85,7 @@ function RightSide({
       }));
   
       const ticketDetail = await getDetailTicket(id);
+      scrollToTop()
       console.log("TICKET DETAIL: ", ticketDetail);
       setSelectedItem(ticketDetail);
       setShowModal(true);
@@ -75,15 +102,6 @@ function RightSide({
       }));
     }
   };
-  
-
-
-  // const handleGetDetail = async (id) => {
-  //   const ticketDetail = await getDetailTicket(id);
-  //   console.log("TICKET DETAIL: ", ticketDetail);
-  //   setSelectedItem(ticketDetail); // Actualizar selectedItem con el detalle del item seleccionado
-  //   setShowModal(true); // Abrir el modal
-  // }
 
   const handleReSale = async (id) => {
     try {
@@ -93,6 +111,7 @@ function RightSide({
       }));
   
       const stateCart = await getDetailTicket(id);
+      scrollToTop()
       if (!stateCart || stateCart.length === 0) {
         console.log("El carrito está vacío o no existe.");
         return;
@@ -167,6 +186,13 @@ function RightSide({
           setShowModal={setShowModal}
           selectedItem={selectedItem} />
       )}
+      {showReviewModal && selectedItem && (
+        <ModalReviews
+          setShowReviewModal={setShowReviewModal}
+          selectedItem={selectedItem}
+          userId={userId}
+        />
+      )}        
 
       {/* <h1 className={styles.title}>Mis pedidos</h1> */}
       {/* Renderizar el contenido según la pestaña activa */}
@@ -182,6 +208,7 @@ function RightSide({
             <div className={styles.orderHeader}>
               <div className={styles.dataOrder}>
                 <span>Pedido: <b>{order.idPedido}</b></span>
+                <span>Fecha: <b>{order.date}</b></span>
                 <span>Hora: <b>{order.createdAt}</b></span>
               </div>
               <div className={styles.dataOrderRigth}>
@@ -204,7 +231,7 @@ function RightSide({
               <button
                 className={styles.buttonReview}
                 onClick={() => handleReview(order.idPedido)}>
-                Opinar <AiOutlineStar className={styles.starIcon} />
+                {loadingReviews[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Opinar <AiOutlineStar className={styles.starIcon} /></p>}
               </button>
               <button
                 className={styles.buttonsActions}
