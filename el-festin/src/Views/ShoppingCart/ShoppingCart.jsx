@@ -75,6 +75,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
   };
 
 
+  
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
@@ -121,7 +122,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           timer: 2000,
         });
         const description = formattedDescription(order);
-
+        onCloseCart();
         const { data: mercadopagoData } = await axios.post(
           `${server}/mercadopago`,
           {

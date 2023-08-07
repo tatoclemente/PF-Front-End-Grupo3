@@ -9,7 +9,7 @@ import {
   // useNavigate,
   // Navigate,
 } from "react-router-dom";
-import Home from "./Views/Home/Home";
+import Home from "./Views/Detail/Home/Home";
 import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
@@ -87,7 +87,7 @@ function App() {
           <Route path={ROUTES.HOME} element={<Home toggleCart={toggleCart} />} />
           <Route path={ROUTES.ABOUT} element={<About />} />
           <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
-          <Route path={ROUTES.PAYMENT_FAILED} element={<PaymentFailed />} />
+          <Route path={ROUTES.PAYMENT_FAILED} element={<PaymentFailed toggleCart={toggleCart} />} />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
           {/*<Route path="/*" element={<Landing />} />*/}
@@ -117,7 +117,8 @@ function App() {
         {location.pathname !== ROUTES.LOGIN &&
         location.pathname !== ROUTES.DASHBOARD &&
         location.pathname !== ROUTES.REGISTER &&
-        location.pathname !== ROUTES.PAYMENT_SUCCESS ? (
+        location.pathname !== ROUTES.PAYMENT_SUCCESS &&
+        location.pathname !== ROUTES.PAYMENT_FAILED ? (
           <Footer />
         ) : undefined}
       </AuthProvider>

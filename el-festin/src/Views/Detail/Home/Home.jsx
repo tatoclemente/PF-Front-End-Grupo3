@@ -1,11 +1,11 @@
 import { useState } from "react";
-import HomeComponents from "../../Components/HomeComponents"
+import HomeComponents from "../../../Components/HomeComponents"
 import { useEffect } from "react";
-import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
-import { getDishes } from "../../Redux/actions/getAllDishes";
-import { getTypes } from "../../Redux/actions/getDishesTypes";
- import {getDesserts} from '../../Redux/actions/actionsDesserts/getAllDesserts'
-import { sortDishesByType } from "../../Redux/slices/platosSlice";
+import { getDrinks } from "../../../Redux/actions/actionsDrinks/getAllDrinks";
+import { getDishes } from "../../../Redux/actions/getAllDishes";
+import { getTypes } from "../../../Redux/actions/getDishesTypes";
+ import {getDesserts} from '../../../Redux/actions/actionsDesserts/getAllDesserts'
+import { sortDishesByType } from "../../../Redux/slices/platosSlice";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./Home.module.css"
 
