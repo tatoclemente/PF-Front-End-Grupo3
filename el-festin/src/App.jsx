@@ -24,7 +24,6 @@ import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
 
-import { useSelector } from "react-redux";
 import {BookingView} from "./Views/Booking/BookingView"
 
 // import { useSelector } from "react-redux";

@@ -42,13 +42,13 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     if (user && users.email) {
       const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
       setUserEmail(emailUser);
     }
-  }, [user]);
+  }, [user, users]);
 
   const userImage = userEmail ? userEmail.image : null;
   return (
@@ -84,6 +84,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                     src={user.photoURL}
                     width="50"
                     height="50"
+                    alt="profile"
                     style={{
                       borderRadius: "30px",
                       border: "2px solid white",
@@ -94,6 +95,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                     src={userImage ? userImage : profileImg}
                     width="50"
                     height="50"
+                    alt="profile"
                   ></img>
                 )}
               </button>

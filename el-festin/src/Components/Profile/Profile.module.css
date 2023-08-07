@@ -253,9 +253,6 @@
   border: none;
   color: var(--primary-light);
   border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition: .5s ease-in-out;
 }
 
@@ -303,4 +300,16 @@
 
 .loadingText {
   margin-left: .5rem;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

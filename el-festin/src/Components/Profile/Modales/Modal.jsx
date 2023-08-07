@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styleModal from './Modal.module.css'
 import { AiFillCloseCircle } from 'react-icons/ai'
-import capitalizeFirstLetter from '../../functions/capitalizeFirstLetter'
+import capitalizeFirstLetter from '../../../functions/capitalizeFirstLetter'
 
 function Modal({ setShowModal, selectedItem }) {
   
