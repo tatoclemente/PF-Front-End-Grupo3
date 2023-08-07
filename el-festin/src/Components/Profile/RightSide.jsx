@@ -14,6 +14,7 @@ import MiniSpinner from '../Spinner/MiniSpinner';
 import Spinner from '../Spinner/Spinner';
 import ModalReviews from './Modales/ModalReviews';
 import { scrollToTop } from '../../Helpers/functions';
+import Pagination from '../Pagination/Pagination';
 
 function RightSide({
   loadingDetails,
@@ -38,6 +39,48 @@ function RightSide({
   const [loadingButtons, setLoadingButtons] = useState({});
 
   const [loadingReviews, setLoadingReviews] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPageReser, setCurrentPageReser] = useState(0)
+
+  
+
+
+  // Constante de tickets por página
+  const perPage = 4;
+  const totalPages = Math.ceil(myOrders.length / perPage);
+  const totalPagesReser = Math.ceil(myReservations.length / perPage);
+
+  //? ME GUARDO LOS VALORES PARA USAR EN EL SLICE QUE RENDERIZA LAS RECETAS QUE MUETRO POR PAGINA
+  // El startIndex lo calculo con el valor alcual de la pagina mulriplicado por el maximo de recetas por página
+  const startIdx = currentPage * perPage;
+  // El end =Index lo calculo con el valor del Indice de inicio + el total de recetas por página
+  const endIdx = startIdx + perPage;
+
+  // SIEMPRE QUE EL NUMERO DE PAGINA ESTE ENTRE EL RAGO LIMITE
+  // DESPACHO EL CAMBIO DE PAGINA
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 0 && pageNumber < totalPages) {
+      setCurrentPage(pageNumber);
+      setTimeout(() => scrollToTop(), 100);
+    } // pasra esperar aue el estado se actualice correctamente
+  };
+
+  const startIdxReser = currentPageReser * perPage;
+  // El end =Index lo calculo con el valor del Indice de inicio + el total de recetas por página
+  const endIdxReser = startIdxReser + perPage;
+
+  const handlePageChangeReser = (pageNumber) => {
+    if (pageNumber >= 0 && pageNumber < totalPagesReser) {
+      setCurrentPageReser(pageNumber);
+      setTimeout(() => scrollToTop(), 100);
+    } // pasra esperar aue el estado se actualice correctamente
+  };
+
+
+  // Me guardo el total de las páginas a travez de la funcion getTotalPage(),
+  // que recibe toda la informacion necesaria para calcularlo
+
 
 
   const getDetailTicket = async (id) => {
@@ -166,7 +209,7 @@ function RightSide({
   console.log(selectedItem);
 
   return (
-    <>
+    <div className={styles.rigthContainer}>
       <div className={styles.tabsContainer}>
         <button
           className={activeTab === "orders" ? styles.activeTab : styles.tab}
@@ -203,52 +246,64 @@ function RightSide({
           <div>
             <h2 className={styles.notOrder}>Aún no tienes pedidos</h2>
           </div>
-        ) : myOrders.map((order, index) => (
-          <div key={index} className={styles.orderContainer}>
-            <div className={styles.orderHeader}>
-              <div className={styles.dataOrder}>
-                <span>Pedido: <b>{order.idPedido}</b></span>
-                <span>Fecha: <b>{order.date}</b></span>
-                <span>Hora: <b>{order.createdAt}</b></span>
-              </div>
-              <div className={styles.dataOrderRigth}>
-                <div className={styles.status}>
-                  <p className={styles.statusTitle}>ESTADO: <b>{order.status}</b></p>
-                  {order.status === "Aprobado"
-                    ? <AiFillCheckCircle className={styles.checkAproved} />
-                    : order.status === "En proceso"
-                      ? <PiCookingPotFill className={styles.cookingIcon} />
-                      : <AiFillCheckCircle className={styles.checkComplete} />}
+        ) : <div>
+          {
+            myOrders.slice(startIdx, endIdx).map((order, index) => (
+              <div key={index} className={styles.orderContainer}>
+                <div className={styles.orderHeader}>
+                  <div className={styles.dataOrder}>
+                    <span>Pedido: <b>{order.idPedido}</b></span>
+                    <span>Fecha: <b>{order.date}</b></span>
+                    <span>Hora: <b>{order.createdAt}</b></span>
+                  </div>
+                  <div className={styles.dataOrderRigth}>
+                    <div className={styles.status}>
+                      <p className={styles.statusTitle}>ESTADO: <b>{order.status}</b></p>
+                      {order.status === "Aprobado"
+                        ? <AiFillCheckCircle className={styles.checkAproved} />
+                        : order.status === "En proceso"
+                          ? <PiCookingPotFill className={styles.cookingIcon} />
+                          : <AiFillCheckCircle className={styles.checkComplete} />}
+                    </div>
+                    <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
+                  </div>
+    
+    
                 </div>
-                <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
+    
+    
+                <div className={styles.buttonsActionsContainer}>
+                  <button
+                    className={styles.buttonReview}
+                    onClick={() => handleReview(order.idPedido)}>
+                    {loadingReviews[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Opinar <AiOutlineStar className={styles.starIcon} /></p>}
+                  </button>
+                  <button
+                    className={styles.buttonsActions}
+                    onClick={() => handleReSale(order.idPedido)}>
+                    {loadingResale[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Repetir orden</p>}
+    
+                  </button>
+                  <button
+                    className={styles.buttonsActions}
+                    onClick={() => handleGetDetail(order.idPedido)}>
+                    {loadingButtons[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Ver detalle</p>}
+                  </button>
+                </div>
+    
+                {/* Detalles del ticket */}
               </div>
-
-
-            </div>
-
-
-            <div className={styles.buttonsActionsContainer}>
-              <button
-                className={styles.buttonReview}
-                onClick={() => handleReview(order.idPedido)}>
-                {loadingReviews[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Opinar <AiOutlineStar className={styles.starIcon} /></p>}
-              </button>
-              <button
-                className={styles.buttonsActions}
-                onClick={() => handleReSale(order.idPedido)}>
-                {loadingResale[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Repetir orden</p>}
-
-              </button>
-              <button
-                className={styles.buttonsActions}
-                onClick={() => handleGetDetail(order.idPedido)}>
-                {loadingButtons[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Ver detalle</p>}
-              </button>
-            </div>
-
-            {/* Detalles del ticket */}
+            ))
+          }
+           <div className={styles.paginationContainer}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+              reference='orders'
+            />
           </div>
-        ))
+        </div>
       ) : (
         //aca debo crear un nuevo estado cuando tenga el get a /resevar
         loadingDetails ? (
@@ -258,44 +313,56 @@ function RightSide({
             <h2 className={styles.notOrder}>Aún no tienes reservaciones</h2>
           </div>
         ) : (
-          myReservations.map((reservation, index) => (
-            <div key={index} className={styleReservation.reservationContainer}>
-              <div className={styleReservation.dataReservationHeader}>
-                <div className={styleReservation.dataReservationLeft}>
-                  <span>Fecha: <b>{reservation.date}</b></span>
-                  <span>Hora: <b>{reservation.time}</b></span>
-                  <span>Zona: <b>{reservation.zone}</b></span>
-                </div>
-                <div className={styleReservation.dataReservationCenter}>
-                  <span>A nombre de: <b>{reservation.lastName
-                    ? `${reservation.name} ${reservation.lastName}`
-                    : `${reservation.name}`}</b></span>
-                  <span>Homenaje a: <b>{reservation.honoree}</b></span>
-                </div>
-                <div className={styleReservation.dataReservationRight}>
-                  <div className={styleReservation.statusContainer}>
-                    <span>Estado: <b>{reservation.status}</b></span>
-                    <span
-                      style={reservation.status === "Pendiente"
-                        ? { backgroundColor: "var(--main-color)" }
-                        : reservation.status === "Confirmado"
-                          ? { backgroundColor: "var(--positive)" }
-                          : { backgroundColor: "var(--negative)" }}
-                      className={styleReservation.spanCircle}></span>
+          <div>
+            <div>
+              {
+                myReservations.slice(startIdxReser, endIdxReser).map((reservation, index) => (
+                  <div key={index} className={styleReservation.reservationContainer}>
+                    <div className={styleReservation.dataReservationHeader}>
+                      <div className={styleReservation.dataReservationLeft}>
+                        <span>Fecha: <b>{reservation.date}</b></span>
+                        <span>Hora: <b>{reservation.time}</b></span>
+                        <span>Zona: <b>{reservation.zone}</b></span>
+                      </div>
+                      <div className={styleReservation.dataReservationCenter}>
+                        <span>A nombre de: <b>{reservation.lastName
+                          ? `${reservation.name} ${reservation.lastName}`
+                          : `${reservation.name}`}</b></span>
+                        <span>Homenaje a: <b>{reservation.honoree}</b></span>
+                      </div>
+                      <div className={styleReservation.dataReservationRight}>
+                        <div className={styleReservation.statusContainer}>
+                          <span>Estado: <b>{reservation.status}</b></span>
+                          <span
+                            style={reservation.status === "Pendiente"
+                              ? { backgroundColor: "var(--main-color)" }
+                              : reservation.status === "Confirmado"
+                                ? { backgroundColor: "var(--positive)" }
+                                : { backgroundColor: "var(--negative)" }}
+                            className={styleReservation.spanCircle}></span>
+                        </div>
+                        <span>Catidad de personas: <b>{reservation.quantity}</b></span>
+                      </div>
+                    </div>
+                    <div className={styleReservation.dataReservationBottom}>
+                      <button className={styleReservation.buttonsActions} onClick={handleCancelReservation}>Cancelar Reserva</button>
+                    </div>
+      
                   </div>
-                  <span>Catidad de personas: <b>{reservation.quantity}</b></span>
-                </div>
-              </div>
-              <div className={styleReservation.dataReservationBottom}>
-                <button className={styleReservation.buttonsActions} onClick={handleCancelReservation}>Cancelar Reserva</button>
-              </div>
-
+                ))
+              }
+              <Pagination
+                currentPage={currentPageReser}
+                totalPages={totalPagesReser}
+                handlePageChange={handlePageChangeReser}
+                reference='orders'
+              />
             </div>
-          ))
+          </div>
+          
         )
       )}
-
-    </>
+    </div>
   )
 }
 
