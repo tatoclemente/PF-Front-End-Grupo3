@@ -1,0 +1,12 @@
+.message {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: rgba(0, 0, 0, .5) !important;
+    height: 150px;
+    width: 95%;
+    border-radius: 10px;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-51%);
+  }

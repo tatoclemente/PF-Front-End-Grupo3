@@ -218,20 +218,12 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         </div>
                       </div>
 
-                      <div className={style.quantityButtons}>
+                      <div className={style.quantityButtonCombo}>
                         <button
-                          className={style.buttonDelete}
+                          className={style.buttonDeleteCombo}
                           onClick={() => removeItem(item.dish.id)}>
-                          Eliminar
+                          Eliminar combo
                         </button>
-                        {/* <div className={style.quantityContainer}>
-                      <button className={style.buttonQuantity} onClick={() => decreaseQuantity(item.dish.id, item.dish.quantity)}>
-                        -
-                      </button>
-                      <button className={style.buttonQuantity} onClick={() => increaseQuantity(item.dish.id, item.dish.quantity)}>
-                        +
-                      </button>
-                    </div> */}
                       </div>
                       <div className={style.dishDetailsFooter}>
                         <p className={style.totalPrice}>

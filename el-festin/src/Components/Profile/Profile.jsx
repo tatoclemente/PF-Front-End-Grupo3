@@ -5,17 +5,13 @@ import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
 import styles from "./Profile.module.css";
-import styleReservation from './Reservation.module.css';
 
-import { AiFillCheckCircle, AiOutlineStar } from 'react-icons/ai'
-import { PiCookingPotFill } from 'react-icons/pi'
-import ROUTES from "../../Routes/routes";
 import defaultImage from './images/profile.png'
 import { useNavigate } from "react-router-dom";
 import RightSide from "./RightSide";
 
 
-export const Profile = () => {
+export const Profile = ({toggleCart}) => {
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const loading = useSelector((state) => state.auth.isLoading);
@@ -306,7 +302,8 @@ export const Profile = () => {
         <RightSide 
         myOrders={myOrders} 
         myReservations={myReservations} 
-        loadingDetails={loadingDetails} />
+        loadingDetails={loadingDetails}
+        toggleCart={toggleCart} />
       </div>
     </div>
   );
