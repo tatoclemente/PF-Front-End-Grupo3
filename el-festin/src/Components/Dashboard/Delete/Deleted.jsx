@@ -146,9 +146,9 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
                 {selectedItem ? (
                   <div className="pb-2">
                     {isOn ? (
-                      <h4 className="text-danger">{`${name} deshabilitado`}</h4>
+                      <h4 className="text-danger">{`${name.charAt(0).toUpperCase() + name.slice(1)} Deshabilitado`}</h4>
                     ) : (
-                      <h4 className="text-success">{`${name} Habilitado`}</h4>
+                      <h4 className="text-success">{`${name.charAt(0).toUpperCase() + name.slice(1)} Habilitado`}</h4>
                     )}
                   </div>
                 ) : undefined}

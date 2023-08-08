@@ -1,9 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReservation } from "../../../Redux/actions/actionReservation/getAllReservations";
 import { getUsers } from "../../../Redux/actions/actionsUsers/getAllUsers";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { FiCheck } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import style from "./Reservation.module.css";
@@ -68,6 +69,12 @@ export const Reservation = () => {
         console.log("Reservation updated successfully:", response.data);
 
         dispatch(getReservation());
+        Swal.fire({
+          icon: "success",
+          title: `Se confirmo la reserva de ${reservationToUpdate.name}`,
+          text: `Fecha: ${reservationToUpdate.date} Hora: ${reservationToUpdate.time}`,
+          confirmButtonText: "OK",
+        });
       } catch (error) {
         console.error("Error updating Reservation:", error);
       }
@@ -98,6 +105,11 @@ export const Reservation = () => {
         console.log("Reservation updated successfully:", response.data);
 
         dispatch(getReservation());
+        Swal.fire({
+          icon: "success",
+          title: "La reserva ha sido cancelada",
+          confirmButtonText: "OK",
+        });
       } catch (error) {
         console.error("Error updating Reservation:", error);
       }
@@ -116,6 +128,11 @@ export const Reservation = () => {
         console.log("reservation deleted successfully:", response.data);
 
         dispatch(getReservation());
+        Swal.fire({
+          icon: "success",
+          title: "La reserva ha sido eliminada",
+          confirmButtonText: "OK",
+        });
       } catch (error) {
         console.error("Error deleting Reservation:", error);
       }
@@ -282,6 +299,7 @@ export const Reservation = () => {
                   <p className={style.pButton}>
                     <FiCheck size={"18"} /> Reserva Confirmada
                   </p>
+                
                 </div>
               </div>
             );

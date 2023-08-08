@@ -59,7 +59,7 @@ margin: 0 1%;
 
   .imgCategory{
     width: 100%;
-    max-width: 600px; /* Establece un ancho máximo para las imágenes */
+    max-width: 500px; /* Establece un ancho máximo para las imágenes */
     height: 300px; /* Permite que la altura se ajuste automáticamente para mantener la proporción */
     object-fit: cover; /* Ajusta el modo de ajuste de la imagen */
     border-radius: 10px;

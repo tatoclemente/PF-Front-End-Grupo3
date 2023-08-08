@@ -214,7 +214,7 @@ export const UpdateDish = ({ allDates }) => {
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-                        className="mt-2"
+               
                         name="type"
                         onChange={onInputChange}
                       >
@@ -229,7 +229,7 @@ export const UpdateDish = ({ allDates }) => {
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
+                        className="form-group"
                         name="subtype"
                         onChange={onInputChange}
                       >
@@ -248,7 +248,7 @@ export const UpdateDish = ({ allDates }) => {
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
+                        className="form-group"
                         name="glutenfree"
                         onChange={onInputChange}
                       >
@@ -263,7 +263,7 @@ export const UpdateDish = ({ allDates }) => {
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-                        className="form-group mt-2"
+                        className="form-group"
                         name="vegetarian"
                         onChange={onInputChange}
                       >

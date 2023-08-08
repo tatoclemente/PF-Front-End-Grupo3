@@ -46,7 +46,7 @@ export const Banner = () => {
   const [banner, setBanner] = useState({
     name: "",
     image: filed,
-    disabled: "",
+    disabled: false,
   });
 
   useEffect(() => {
@@ -220,7 +220,7 @@ export const Banner = () => {
       </div>
       <div className={style.crearButtonContainer}>
         <button onClick={openModal} className={style.crearButton}>
-          CREAR BANNER
+          CARGAR BANNER
         </button>
       </div>
       <div>

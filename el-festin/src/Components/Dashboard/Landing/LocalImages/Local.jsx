@@ -46,7 +46,7 @@ export const Local = () => {
   const [local, setLocal] = useState({
     name: "",
     image: filed,
-    disabled: "",
+    disabled: false,
   });
 
   useEffect(() => {
@@ -208,7 +208,7 @@ export const Local = () => {
       </div>
       <div className={style.crearButtonContainer}>
         <button onClick={openModal} className={style.crearButton}>
-          CREAR IMAGEN
+          CARGAR IMAGEN
         </button>
       </div>
       <div>
