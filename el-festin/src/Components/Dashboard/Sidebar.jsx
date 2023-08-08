@@ -21,7 +21,9 @@ export const Sidebar = (props) => {
             <li className="pt-4">
               <button
                 type="button"
+                data-value="Requests"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
+                onClick={props.handleRender}
               >
                 Pedidos
               </button>

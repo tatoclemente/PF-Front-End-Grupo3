@@ -118,12 +118,12 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 25%;
+  left: 20%;
   height: 100%;
-  width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
+  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
   padding: 20px;
   background-color: #ffffff;
-  max-height: 90vh; /* Establece aquí la altura máxima que desees */
+  max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
   border: 1px solid #ccc; /* Solo para visualización, puedes eliminarlo */
 }
@@ -132,10 +132,10 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 25%;
+  left: 20%;
   height: 100%;
-  width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
-  max-height: 90vh; /* Establece aquí la altura máxima que desees */
+  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
+  max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
   border: 1px solid #ccc;
 }
@@ -144,10 +144,22 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 25%;
+  left: 20%;
   height: 100%;
-  width: 75%; /* El ancho debe ser el complemento del ancho del sidebar */
-  max-height: 90vh; /* Establece aquí la altura máxima que desees */
+  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
+  max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
   border: 1px solid #ccc;
+}
+
+.requestsContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  left: 20%;
+  height: 100%;
+  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
+  max-height: 100vh;
+  border: 1px solid #ccc; /* Establece aquí la altura máxima que desees */ /* El scrollbar vertical solo aparecerá cuando sea necesario */
+ 
 }

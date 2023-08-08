@@ -6,7 +6,7 @@ const validacionDesert = ( input ) =>{
         errors.name = "El nombre no puede tener mas de 24 caracteres"
     } else if(parseInt(input.name.length) < 3){
         errors.name = "El nombre no puede tener menos de 3 caracteres"
-    } else if(!/[A-Z]+$/i.test(input.name)){
+    } else if(!/^[A-Za-záéíóúÁÉÍÓÚ\s]+$/.test(input.name)){
         errors.name = "El nobre debe tener solo letras"
     }
 

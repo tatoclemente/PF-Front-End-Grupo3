@@ -2,9 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getReservation } from "../../../Redux/actions/actionReservation/getAllReservations";
 import { getUsers } from "../../../Redux/actions/actionsUsers/getAllUsers";
-import { server } from "../../../../Helpers/EndPoint";
+import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
-import style from "./Banners.module.css";
+import style from "./Reservation.module.css";
 import Swal from "sweetalert2";
 
 export const Reservation = () => {
@@ -38,6 +38,8 @@ export const Reservation = () => {
       "reservationToUpdate to update:",
       JSON.stringify(reservationToUpdate)
     );
+
+    let bannerToUpdate = 'xd'
 
     if (reservationToUpdate) {
       const updatedReservation = {

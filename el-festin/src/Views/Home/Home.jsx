@@ -36,6 +36,7 @@ const Home = ({ toggleCart }) => {
       dispatch(getDrinks());
       dispatch(getDesserts())
     dispatch(getTypes());
+  
   }, []);
 
   const handleToShow = (e) => {

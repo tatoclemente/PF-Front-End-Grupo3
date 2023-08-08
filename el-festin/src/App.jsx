@@ -53,7 +53,7 @@ function App() {
   const decodeCustomToken = customToken && decodeToken(customToken);
 
   const currentUser = {
-    role: decodeCustomToken? decodeCustomToken.role : "User",
+    role: decodeCustomToken? decodeCustomToken.role : "admin",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
