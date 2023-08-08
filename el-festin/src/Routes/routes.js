@@ -8,8 +8,6 @@ const ROUTES = {
     REGISTER: '/auth/register',
     BOOKING: '/booking',
     DETAIL: '/detail',
-    ERROR: '/404',
-    NOT_FOUND: '/404',
     PAYMENT_SUCCESS: '/payment-success',
     PAYMENT_FAILED: '/payment-failed',
 }
