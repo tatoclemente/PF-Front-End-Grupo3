@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
 import ROUTES from "../../Routes/routes";
 import { GiCook } from "react-icons/gi";
+import { decodeToken } from "react-jwt";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -51,6 +52,13 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   }, [user, users]);
 
   const userImage = userEmail ? userEmail.image : null;
+
+  const customToken = localStorage.getItem('customToken');
+  const decodeCustomToken = customToken && decodeToken(customToken);
+
+  const { role } = decodeCustomToken !== null && decodeCustomToken;
+  console.log(role);
+
   return (
     <div className="d-flex justify-content-between navbarLanding">
       <Link className="navbar-brand d-none d-lg-block" to="/">
@@ -101,6 +109,9 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
               </button>
               {isOpen && (
                 <div className="dropdown-menu">
+                  {role !== null && role !== 'User' ? (
+                    <Link to="/dashboard">Administrador</Link> 
+                  ) : null}
                   <Link to="/profile">Mi cuenta</Link>
                   <Link onClick={handleLogout}>Cerrar sesión</Link>
                 </div>
