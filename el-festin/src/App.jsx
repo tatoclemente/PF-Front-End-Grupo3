@@ -16,7 +16,6 @@ import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
 import ShoppingCart from "./Views/ShoppingCart/ShoppingCart";
 import AuthProvider from "./Hook/AuthProvider";
-import { PrivateRoute } from "./Routes/PrivateRoute";
 
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
@@ -24,14 +23,13 @@ import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
 
-import {BookingView} from "./Views/Booking/BookingView"
+import { BookingView } from "./Views/Booking/BookingView";
 
 // import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
 import ROUTES from "./Routes/routes";
 import PaymentSuccess from "./Views/PymentSuccess/PaymentSuccess";
 import PaymentFailed from "./Views/PaymentError/PaymentFailed";
-
 
 function App() {
   let location = useLocation();
@@ -51,12 +49,12 @@ function App() {
     return localStorage.getItem("customToken");
   }
   const customToken = getCustomTokenFromLocalStorage();
-  
-  const decodeCustomToken = customToken && decodeToken(customToken);
 
+  const decodeCustomToken = customToken && decodeToken(customToken);
+  console.log(decodeCustomToken);
   const currentUser = {
-    role:"Admin"
-    //role: decodeCustomToken? decodeCustomToken.role : "User",
+    role: decodeCustomToken ? decodeCustomToken.role : false,
+    //role: "User",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -64,7 +62,7 @@ function App() {
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
-
+  console.log(currentUser);
   return (
     <div className={style.appContainer}>
       <AuthProvider>
@@ -85,34 +83,41 @@ function App() {
           <Route path={ROUTES.LANDING} element={<Landing />} />
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-          <Route path={ROUTES.HOME} element={<Home toggleCart={toggleCart} />} />
+          <Route
+            path={ROUTES.HOME}
+            element={<Home toggleCart={toggleCart} />}
+          />
           <Route path={ROUTES.ABOUT} element={<About />} />
           <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
-          <Route path={ROUTES.PAYMENT_FAILED} element={<PaymentFailed toggleCart={toggleCart} />} />
+          <Route
+            path={ROUTES.PAYMENT_FAILED}
+            element={<PaymentFailed toggleCart={toggleCart} />}
+          />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
-          {/*<Route path="/*" element={<Landing />} />*/}
+          <Route path="/*" element={<LoginPage />} />
 
           <Route
             path={`${ROUTES.DETAIL}/:id`}
             element={<Detail toggleCart={toggleCart} />}
           />
           {/* rutas privada (para degenegar acceso segun ciertos criterios) */}
-          <Route
-            path="/*"
-            element={
-              <PrivateRoute>
-                <Routes>
-                <Route path={ROUTES.BOOKING} element={<BookingView />} />
-                  <Route path={ROUTES.PROFILE} element={<Profile toggleCart={toggleCart} />} />
 
-                  {currentUser.role !== "User" &&
-                    <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />
-                  }
-                </Routes>
-              </PrivateRoute>
-            }
-          />
+          {currentUser.role && (
+            <>
+              <Route path={ROUTES.BOOKING} element={<BookingView />} />
+              <Route
+                path={ROUTES.PROFILE}
+                element={<Profile toggleCart={toggleCart} />}
+              />
+
+              {currentUser.role !== "User"?(
+                <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />
+              ): (<Route
+                path={ROUTES.HOME}
+                element={<Home toggleCart={toggleCart} />}/>) }
+            </>
+          )}
         </Routes>
 
         {location.pathname !== ROUTES.LOGIN &&
