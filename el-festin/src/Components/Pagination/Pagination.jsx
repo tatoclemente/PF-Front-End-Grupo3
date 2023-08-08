@@ -8,7 +8,7 @@ function Pagination({ currentPage, totalPages, handlePageChange, reference }) {
   const isRightButtonDisabled = currentPage === totalPages - 1;
 
   return (
-    <div className={style.pageNavigation} style={reference === 'orders' ? {width: '300px', margin: '0 auto'} : null}>
+    <div className={style.pageNavigation} style={reference === 'orders' ? {width: '180px', margin: '0 auto'} : null}>
         <button
         className={`${style.navigationButton} ${isLeftButtonDisabled ? style.disabledButton : ''}`}
         disabled={isLeftButtonDisabled}

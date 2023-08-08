@@ -43,7 +43,7 @@ function RightSide({
   const [currentPage, setCurrentPage] = useState(0)
   const [currentPageReser, setCurrentPageReser] = useState(0)
 
-  
+
 
 
   // Constante de tickets por página
@@ -117,7 +117,7 @@ function RightSide({
         [id]: false,
       }))
     }
-   
+
   }
 
   const handleGetDetail = async (id) => {
@@ -126,13 +126,13 @@ function RightSide({
         ...prevLoadingButtons,
         [id]: true, // Establecer el estado de carga del botón correspondiente a 'true'
       }));
-  
+
       const ticketDetail = await getDetailTicket(id);
       scrollToTop()
       console.log("TICKET DETAIL: ", ticketDetail);
       setSelectedItem(ticketDetail);
       setShowModal(true);
-  
+
       setLoadingButtons((prevLoadingButtons) => ({
         ...prevLoadingButtons,
         [id]: false, // Establecer el estado de carga del botón correspondiente a 'false'
@@ -152,29 +152,29 @@ function RightSide({
         ...prevLoadingButtons,
         [id]: true, // Establecer el estado de carga del botón correspondiente a 'true'
       }));
-  
+
       const stateCart = await getDetailTicket(id);
       scrollToTop()
       if (!stateCart || stateCart.length === 0) {
         console.log("El carrito está vacío o no existe.");
         return;
       }
-  
+
       const orderItems = stateCart.slice(1); // Detalles de los items de la orden
-  
+
       const transformedOrderItems = orderItems.map((item) => {
         const transformedDrinks = item.drinks?.map((drink) => drink.drink);
         const transformedDesserts = item.desserts?.map((dessert) => dessert.dessert);
-  
+
         return {
           ...item,
           drinks: transformedDrinks,
           desserts: transformedDesserts,
         };
       });
-  
+
       const cartWithoutTotalPrice = transformedOrderItems.slice(0, transformedOrderItems.length - 1);
-  
+
       cartWithoutTotalPrice.forEach(async (item) => {
         await dispatch(addToCart(item)); // Esperar a que el dispatch se complete
         setLoadingResale((prevLoadingButtons) => ({
@@ -193,7 +193,7 @@ function RightSide({
   };
 
   const cancelReserv = async (id) => {
-    const { data } = await axios.put(`${server}/reser/${id}`, {status: 'Cancelado'});
+    const { data } = await axios.put(`${server}/reser/${id}`, { status: 'Cancelado' });
     if (data) {
       Swal.fire({
         icon: "success",
@@ -212,7 +212,7 @@ function RightSide({
       })
     }
   }
-  
+
 
 
   const handleCancelReservation = async (id) => {
@@ -227,7 +227,7 @@ function RightSide({
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         cancelReserv(id)
-      } 
+      }
     })
   }
 
@@ -260,7 +260,7 @@ function RightSide({
           selectedItem={selectedItem}
           userId={userId}
         />
-      )}        
+      )}
 
       {/* <h1 className={styles.title}>Mis pedidos</h1> */}
       {/* Renderizar el contenido según la pestaña activa */}
@@ -272,6 +272,14 @@ function RightSide({
             <h2 className={styles.notOrder}>Aún no tienes pedidos</h2>
           </div>
         ) : <div>
+          <div className={styles.paginationContainer}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+              reference='orders'
+            />
+          </div>
           {
             myOrders.slice(startIdx, endIdx).map((order, index) => (
               <div key={index} className={styles.orderContainer}>
@@ -292,11 +300,11 @@ function RightSide({
                     </div>
                     <span className={styles.totalPrice}>Pagaste: <b>${order.totalPrice || 3000}</b></span>
                   </div>
-    
-    
+
+
                 </div>
-    
-    
+
+
                 <div className={styles.buttonsActionsContainer}>
                   <button
                     className={styles.buttonReview}
@@ -307,7 +315,7 @@ function RightSide({
                     className={styles.buttonsActions}
                     onClick={() => handleReSale(order.idPedido)}>
                     {loadingResale[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Repetir orden</p>}
-    
+
                   </button>
                   <button
                     className={styles.buttonsActions}
@@ -315,19 +323,11 @@ function RightSide({
                     {loadingButtons[order.idPedido] ? <p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p> : <p className={styles.button}>Ver detalle</p>}
                   </button>
                 </div>
-    
+
                 {/* Detalles del ticket */}
               </div>
             ))
           }
-           <div className={styles.paginationContainer}>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageChange={handlePageChange}
-              reference='orders'
-            />
-          </div>
         </div>
       ) : (
         //aca debo crear un nuevo estado cuando tenga el get a /resevar
@@ -339,43 +339,7 @@ function RightSide({
           </div>
         ) : (
           <div>
-            <div>
-              {
-                myReservations.slice(startIdxReser, endIdxReser).map((reservation, index) => (
-                  <div key={index} className={styleReservation.reservationContainer}>
-                    <div className={styleReservation.dataReservationHeader}>
-                      <div className={styleReservation.dataReservationLeft}>
-                        <span>Fecha: <b>{reservation.date}</b></span>
-                        <span>Hora: <b>{reservation.time}</b></span>
-                        <span>Zona: <b>{reservation.zone}</b></span>
-                      </div>
-                      <div className={styleReservation.dataReservationCenter}>
-                        <span>A nombre de: <b>{reservation.lastName
-                          ? `${reservation.name} ${reservation.lastName}`
-                          : `${reservation.name}`}</b></span>
-                        <span>Homenaje a: <b>{reservation.honoree}</b></span>
-                      </div>
-                      <div className={styleReservation.dataReservationRight}>
-                        <div className={styleReservation.statusContainer}>
-                          <span>Estado: <b>{reservation.status}</b></span>
-                          <span
-                            style={reservation.status === "Pendiente"
-                              ? { backgroundColor: "var(--main-color)" }
-                              : reservation.status === "Confirmado"
-                                ? { backgroundColor: "var(--positive)" }
-                                : { backgroundColor: "var(--negative)" }}
-                            className={styleReservation.spanCircle}></span>
-                        </div>
-                        <span>Catidad de personas: <b>{reservation.quantity}</b></span>
-                      </div>
-                    </div>
-                    <div className={styleReservation.dataReservationBottom}>
-                      <button className={styleReservation.buttonsActions} onClick={()=>handleCancelReservation(reservation.id)}>Cancelar Reserva</button>
-                    </div>
-      
-                  </div>
-                ))
-              }
+            <div className={styles.paginationContainer}>
               <Pagination
                 currentPage={currentPageReser}
                 totalPages={totalPagesReser}
@@ -383,8 +347,43 @@ function RightSide({
                 reference='orders'
               />
             </div>
+            {
+              myReservations.slice(startIdxReser, endIdxReser).map((reservation, index) => (
+                <div key={index} className={styleReservation.reservationContainer}>
+                  <div className={styleReservation.dataReservationHeader}>
+                    <div className={styleReservation.dataReservationLeft}>
+                      <span>Fecha: <b>{reservation.date}</b></span>
+                      <span>Hora: <b>{reservation.time}</b></span>
+                      <span>Zona: <b>{reservation.zone}</b></span>
+                    </div>
+                    <div className={styleReservation.dataReservationCenter}>
+                      <span>A nombre de: <b>{reservation.lastName
+                        ? `${reservation.name} ${reservation.lastName}`
+                        : `${reservation.name}`}</b></span>
+                      <span>Homenaje a: <b>{reservation.honoree}</b></span>
+                    </div>
+                    <div className={styleReservation.dataReservationRight}>
+                      <div className={styleReservation.statusContainer}>
+                        <span>Estado: <b>{reservation.status}</b></span>
+                        <span
+                          style={reservation.status === "Pendiente"
+                            ? { backgroundColor: "var(--main-color)" }
+                            : reservation.status === "Confirmado"
+                              ? { backgroundColor: "var(--positive)" }
+                              : { backgroundColor: "var(--negative)" }}
+                          className={styleReservation.spanCircle}></span>
+                      </div>
+                      <span>Catidad de personas: <b>{reservation.quantity}</b></span>
+                    </div>
+                  </div>
+                  <div className={styleReservation.dataReservationBottom}>
+                    <button className={styleReservation.buttonsActions} onClick={() => handleCancelReservation(reservation.id)}>Cancelar Reserva</button>
+                  </div>
+
+                </div>
+              ))
+            }
           </div>
-          
         )
       )}
     </div>

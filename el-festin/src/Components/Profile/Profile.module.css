@@ -1,7 +1,7 @@
 .containerProfile {
   display: grid;
   grid-template-columns: 1fr 2fr; /* La parte izquierda ocupa 1 fracción y la derecha ocupa 2 fracciones */
-  gap: 20px;
+  gap: 50px;
   box-shadow: 1px 0 5px var(--shadow);
   border-radius: 10px;
   padding: 20px;
@@ -66,6 +66,7 @@
 .leftSide {
   text-align: center;
   border-right: 1px solid #ccc;
+  padding-right: 1rem;
 }
 
 .title {
@@ -148,6 +149,10 @@
 
 .rightSide {
   text-align: left;
+}
+
+.rigthContainer{
+  margin: 0 auto;
 }
 
 .tabsContainer {
@@ -309,4 +314,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.paginationContainer {
+  margin-top: 1rem;
+  margin-right: 2rem;
+  margin-bottom: -.3rem;
 }

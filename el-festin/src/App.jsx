@@ -30,6 +30,7 @@ import { decodeToken } from "react-jwt";
 import ROUTES from "./Routes/routes";
 import PaymentSuccess from "./Views/PymentSuccess/PaymentSuccess";
 import PaymentFailed from "./Views/PaymentError/PaymentFailed";
+import NotFound from "./Views/404NotFound/404NotFound";
 
 function App() {
   let location = useLocation();
@@ -66,14 +67,15 @@ function App() {
   return (
     <div className={style.appContainer}>
       <AuthProvider>
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" ? (
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
+        location.pathname !== ROUTES.NOT_FOUND ? (
           <Navbar toggleCart={toggleCart} />
         ) : undefined}
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" &&
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
         isCartOpen ? (
           <div className={style.overlay} onClick={toggleCart} />
         ) : undefined}
@@ -87,6 +89,7 @@ function App() {
             path={ROUTES.HOME}
             element={<Home toggleCart={toggleCart} />}
           />
+          
           <Route path={ROUTES.ABOUT} element={<About />} />
           <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
           <Route
@@ -95,7 +98,7 @@ function App() {
           />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
-          <Route path="/*" element={<LoginPage />} />
+          <Route path="/*" element={<NotFound />} />
 
           <Route
             path={`${ROUTES.DETAIL}/:id`}
@@ -124,7 +127,8 @@ function App() {
         location.pathname !== ROUTES.DASHBOARD &&
         location.pathname !== ROUTES.REGISTER &&
         location.pathname !== ROUTES.PAYMENT_SUCCESS &&
-        location.pathname !== ROUTES.PAYMENT_FAILED ? (
+        location.pathname !== ROUTES.PAYMENT_FAILED &&
+        location.pathname !== ROUTES.NOT_FOUND ? (
           <Footer />
         ) : undefined}
       </AuthProvider>

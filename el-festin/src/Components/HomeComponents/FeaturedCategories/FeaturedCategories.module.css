@@ -1,6 +1,6 @@
 .mainContainer {
     width: 82vw;
-    height: 10rem;
+    max-height: 10rem;
     padding: .7rem 1.7rem .5rem .5rem;
 } 
 
@@ -36,7 +36,8 @@
 }
 
 .imgCategory {
-    width: 60%;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     margin-bottom: .5rem;
     transition: .5s ease-in-out;
