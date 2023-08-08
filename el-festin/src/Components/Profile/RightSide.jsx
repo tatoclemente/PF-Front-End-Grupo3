@@ -191,10 +191,31 @@ function RightSide({
       }));
     }
   };
+
+  const cancelReserv = async (id) => {
+    const { data } = await axios.put(`${server}/reser/${id}`, {status: 'Cancelado'});
+    if (data) {
+      Swal.fire({
+        icon: "success",
+        title: "¡La reservación ha sido cancelada!",
+        text: "¡Muchas gracias por confiar en nosotros!",
+        showConfirmButton: false,
+        timer: 1500
+      })
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "¡Ocurrión un error!",
+        text: "¡Por favor intente nuevamente!",
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
+  }
   
 
 
-  const handleCancelReservation = () => {
+  const handleCancelReservation = async (id) => {
     Swal.fire({
       title: "¿Estás segura/o de querer cancelar la reservación?",
       text: "Se ruega canclear con 3 horas de anticipación. Una vez cancelado, no podrás revertir esta acción!",
@@ -202,8 +223,12 @@ function RightSide({
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "var(--negative)",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        cancelReserv(id)
+      } 
     })
-    console.log("Has Cancelado Tu Reserva");
   }
 
   console.log(selectedItem);
@@ -345,7 +370,7 @@ function RightSide({
                       </div>
                     </div>
                     <div className={styleReservation.dataReservationBottom}>
-                      <button className={styleReservation.buttonsActions} onClick={handleCancelReservation}>Cancelar Reserva</button>
+                      <button className={styleReservation.buttonsActions} onClick={()=>handleCancelReservation(reservation.id)}>Cancelar Reserva</button>
                     </div>
       
                   </div>

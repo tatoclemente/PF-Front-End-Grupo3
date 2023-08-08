@@ -9,7 +9,7 @@ import {
   // useNavigate,
   // Navigate,
 } from "react-router-dom";
-import Home from "./Views/Detail/Home/Home";
+import Home from "./Views/Home/Home";
 import About from "./Views/About/About";
 import { LoginPage } from "./Views/Login/LoginPage";
 import Landing from "./Views/Landing/Landing";
