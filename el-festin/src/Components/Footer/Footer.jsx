@@ -20,8 +20,7 @@ function Footer() {
         className={Styles.img}
         src={logo}
         alt="logo"
-        width="180"
-        height="100"
+     
       />
       <div className={Styles.divh5}>
         <Link to="/home" style={{ textDecoration: "none" }}>
@@ -55,7 +54,7 @@ function Footer() {
       </div>
 
       <div className={Styles.divSocial}>
-        <h5 className={Styles.titleSocial}>Siguenos</h5>
+        <h5 className={Styles.titleSocial}>Síguenos</h5>
         <a
           href="https://www.instagram.com/"
           className={Styles.icon}
@@ -76,10 +75,6 @@ function Footer() {
       <button className={Styles.buttonUp} onClick={() => onClickUp()}>
         <BsArrowUpCircleFill size={40} color="#fdc52d" />
       </button>
-      <select className={Styles.select}>
-        <option value="ES">ES</option>
-        <option value="EN">EN</option>
-      </select>
       <p className={Styles.pFestin}>EL FESTÍN ® 2023</p>
     </div>
   );
