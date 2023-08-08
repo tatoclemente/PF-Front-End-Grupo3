@@ -7,6 +7,8 @@ import { validacionDrink } from "../Validaciones/validacionDrink";
 import Swal from "sweetalert2";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { useDispatch } from "react-redux";
+import { getDrinks } from "../../../Redux/actions/actionsDrinks/getAllDrinks";
 
 export const ModalCreateDrink = () => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -18,6 +20,8 @@ export const ModalCreateDrink = () => {
     stock: 0,
     price: "",
   };
+
+  const dispatch = useDispatch()
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
 
@@ -57,6 +61,7 @@ export const ModalCreateDrink = () => {
       const { data } = await axios.post(`${server}/drink`, formData);
 
       if (data.name) {
+        dispatch(getDrinks())
         Swal.fire({
           icon: "success",
           title: "Bebida creada con exito",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { validacionDish } from "../Validaciones/validacionDish";
 import Swal from "sweetalert2";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { getDishes } from "../../../Redux/actions/getAllDishes";
 
 export const UpdateDish = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -16,16 +17,22 @@ export const UpdateDish = ({ allDates }) => {
     description: false,
     calories: false,
     price: false,
+    stock: false,
   });
   const subtiposDish = useSelector((state) => state.dishes.dishesTypes);
-  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
+  const selectedItem =
+    Array.isArray(allDates) &&
+    allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
+
+  const dispatch = useDispatch()
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
     description: "",
     type: "",
     subtype: [],
+    stock: null,
     calories: "",
     glutenfree: null,
     vegetarian: null,
@@ -74,6 +81,7 @@ export const UpdateDish = ({ allDates }) => {
   formData.append("calories", inputUpdate?.calories);
   formData.append("price", inputUpdate?.price);
   formData.append("subtype", inputUpdate?.subtype);
+  formData.append("stock", inputUpdate?.stock);
   formData.append("glutenfree", inputUpdate?.glutenfree);
   formData.append("vegetarian", inputUpdate?.vegetarian);
   formData.append("dailyspecial", inputUpdate?.dailyspecial);
@@ -98,6 +106,7 @@ export const UpdateDish = ({ allDates }) => {
         console.log("data", data);
 
         if (data.name) {
+          dispatch(getDishes())
           Swal.fire({
             icon: "success",
             title: "Se ha modificado el plato correctamente",
@@ -120,7 +129,11 @@ export const UpdateDish = ({ allDates }) => {
     inputView.name ||
     inputView.price ||
     inputView.calories ||
+    inputView.stock ||
     inputView.description;
+
+    
+    
 
   return (
     <div className="container-fluid text-dark">
@@ -128,8 +141,7 @@ export const UpdateDish = ({ allDates }) => {
         type="button"
         className={style.buttonDelete}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop9"
-      >
+        data-bs-target="#staticBackdrop9">
         Plato
       </button>
 
@@ -140,8 +152,7 @@ export const UpdateDish = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -153,8 +164,7 @@ export const UpdateDish = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}
-              ></button>
+                onClick={() => setUpdateState("DEFAULT")}></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -166,13 +176,14 @@ export const UpdateDish = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {Array.isArray(allDates) && allDates.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
+                  {Array.isArray(allDates) &&
+                    allDates.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div className="row d-flex align-items-center justify-content-center ps-5">
@@ -182,42 +193,41 @@ export const UpdateDish = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Nombre
                     </button>
 
                     <button
                       name="description"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Descripcion
                     </button>
 
                     <button
-                      name="calorias"
+                      name="calories"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Calorias
                     </button>
 
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Precio
                     </button>
-
+                    <button
+                      name="stock"
+                      onClick={handleInputView}
+                      className="btn buttonCrear">
+                      Stock
+                    </button>
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-               
                         name="type"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled>
                           Tipos de plato
                         </option>
@@ -231,8 +241,7 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group"
                         name="subtype"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled className="">
                           Subtipos
                         </option>
@@ -250,8 +259,7 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group"
                         name="glutenfree"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled className="">
                           Glutenfree
                         </option>
@@ -265,8 +273,7 @@ export const UpdateDish = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group"
                         name="vegetarian"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled>
                           Vegetariano
                         </option>
@@ -295,6 +302,7 @@ export const UpdateDish = ({ allDates }) => {
                       price={inputUpdate?.price}
                       rating={inputUpdate?.rating}
                       description={inputUpdate?.description}
+                      buttonOut={true}
                     />
                   )}
                 </div>
@@ -314,8 +322,7 @@ export const UpdateDish = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, name: false })}
-                    disabled={error.name}
-                  >
+                    disabled={error.name}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.name && (
@@ -340,8 +347,7 @@ export const UpdateDish = ({ allDates }) => {
                     onClick={() =>
                       setInputView({ ...inputView, description: false })
                     }
-                    disabled={error.description}
-                  >
+                    disabled={error.description}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.description && (
@@ -349,7 +355,7 @@ export const UpdateDish = ({ allDates }) => {
                   )}
                 </div>
               )}
-              {inputView.calorias && (
+              {inputView.calories && (
                 <div>
                   <label>Cambiar calorias</label>
                   <br />
@@ -366,12 +372,34 @@ export const UpdateDish = ({ allDates }) => {
                     onClick={() =>
                       setInputView({ ...inputView, calorias: false })
                     }
-                    disabled={error.calories}
-                  >
+                    disabled={error.calories}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.calories && (
                     <p style={{ fontSize: "12px" }}>{error.calories}</p>
+                  )}
+                </div>
+              )}
+              {inputView.stock && (
+                <div>
+                  <label>Cambiar stock</label>
+                  <br />
+                  <input
+                    className="mi-input"
+                    type="text"
+                    placeholder="Escribe aquí"
+                    name="stock"
+                    value={inputUpdate.stock}
+                    onChange={onInputChange}
+                  />
+                  <button
+                    className="btn border-2 btn-outline-success"
+                    onClick={() => setInputView({ ...inputView, stock: false })}
+                    disabled={error.stock}>
+                    <FiCheck style={{ fontSize: "24px" }} />
+                  </button>
+                  {error.stock && (
+                    <p style={{ fontSize: "12px" }}>{error.stock}</p>
                   )}
                 </div>
               )}
@@ -390,8 +418,7 @@ export const UpdateDish = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, price: false })}
-                    disabled={error.price}
-                  >
+                    disabled={error.price}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.price && (
@@ -401,18 +428,9 @@ export const UpdateDish = ({ allDates }) => {
               )}
               <div className="modal-footer">
                 <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}
-                >
-                  Cerrar
-                </button>
-                <button
                   type="submit"
                   className="btn buttonCrear"
-                  disabled={isInputViewEnabled}
-                >
+                  disabled={isInputViewEnabled}>
                   Modificar
                 </button>
               </div>

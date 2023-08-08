@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
@@ -8,21 +8,26 @@ import { FiCheck } from "react-icons/fi";
 import { validacionGuar } from "../Validaciones/validacionGuar";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { getSides } from "../../../Redux/actions/actiossSides/getAllSides";
 
 export const UpdateSide = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,
     type: false,
+    stock: false,
     price: false,
   });
 
-  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
+  const selectedItem =
+    Array.isArray(allDates) &&
+    allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
 
+  const dispatch = useDispatch()
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
-
+    stock: 0,
     type: "",
 
     price: "",
@@ -65,6 +70,7 @@ export const UpdateSide = ({ allDates }) => {
   formData.append("name", inputUpdate?.name);
 
   formData.append("type", inputUpdate?.type);
+  formData.append("stock", inputUpdate?.stock);
 
   formData.append("price", inputUpdate?.price);
 
@@ -98,6 +104,7 @@ export const UpdateSide = ({ allDates }) => {
         );
         console.log(data);
         if (data.name) {
+          dispatch(getSides())
           Swal.fire({
             icon: "success",
             title: "Se ha modificado la guarnicion correctamente",
@@ -117,16 +124,16 @@ export const UpdateSide = ({ allDates }) => {
     }
   };
 
-  const isInputViewEnabled = inputView.name || inputView.price;
+  const isInputViewEnabled =
+    inputView.name || inputView.price || inputView.stock;
   return (
     <div className="container-fluid text-dark">
       <button
         type="button"
         className={style.buttonDelete}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop10"
-      >
-       Guarnicion
+        data-bs-target="#staticBackdrop10">
+        Guarnicion
       </button>
 
       <div
@@ -136,8 +143,7 @@ export const UpdateSide = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -149,8 +155,7 @@ export const UpdateSide = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}
-              ></button>
+                onClick={() => setUpdateState("DEFAULT")}></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -162,13 +167,14 @@ export const UpdateSide = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {Array.isArray(allDates) && allDates.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
+                  {Array.isArray(allDates) &&
+                    allDates.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div className="row d-flex align-items-center justify-content-center ps-5">
@@ -178,26 +184,27 @@ export const UpdateSide = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Nombre
                     </button>
-
+                    <button
+                      name="stock"
+                      onClick={handleInputView}
+                      className="btn buttonCrear">
+                      Stock
+                    </button>
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Precio
                     </button>
 
                     <div className="dropdown">
                       <select
                         defaultValue={"DEFAULT"}
-              
                         name="type"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled>
                           Tipos de guarnicion
                         </option>
@@ -225,6 +232,7 @@ export const UpdateSide = ({ allDates }) => {
                       image={inputUpdate?.image}
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
+                      buttonOut={true}
                     />
                   )}
                 </div>
@@ -244,8 +252,7 @@ export const UpdateSide = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, name: false })}
-                    disabled={error.name}
-                  >
+                    disabled={error.name}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.name && (
@@ -253,7 +260,6 @@ export const UpdateSide = ({ allDates }) => {
                   )}
                 </div>
               )}
-
               {inputView.price && (
                 <div>
                   <label>Cambiar precio</label>
@@ -269,8 +275,7 @@ export const UpdateSide = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, price: false })}
-                    disabled={error.price}
-                  >
+                    disabled={error.price}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.price && (
@@ -278,20 +283,34 @@ export const UpdateSide = ({ allDates }) => {
                   )}
                 </div>
               )}
+              {inputView.stock && (
+                <div>
+                  <label>Cambiar stock</label>
+                  <br />
+                  <input
+                    className="mi-input"
+                    type="text"
+                    placeholder="Escribe aquí"
+                    name="stock"
+                    value={inputUpdate.stock}
+                    onChange={onInputChange}
+                  />
+                  <button
+                    className="btn border-2 btn-outline-success"
+                    onClick={() => setInputView({ ...inputView, stock: false })}
+                    disabled={error.stock}>
+                    <FiCheck style={{ fontSize: "24px" }} />
+                  </button>
+                  {error.stock && (
+                    <p style={{ fontSize: "12px" }}>{error.stock}</p>
+                  )}
+                </div>
+              )}
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}
-                >
-                  Cerrar
-                </button>
                 <button
                   type="submit"
                   className="btn buttonCrear"
-                  disabled={isInputViewEnabled}
-                >
+                  disabled={isInputViewEnabled}>
                   Modificar
                 </button>
               </div>
