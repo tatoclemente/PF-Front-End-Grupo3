@@ -20,7 +20,7 @@
     display: block;
   }
   
-  .dropdown {
+  .dropdownLocal {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30,15 +30,18 @@
   }
   
   /* Estilo para los botones del desplegable */
-  .dropdown button {
+  .dropdownLocal button {
     cursor: pointer;
-    margin-right: 15px;
+    margin: 0px 15px;
   }
   
   /* Estilo para el contenedor de la imagen y desplegable */
   .imageContainer {
     position: relative;
-    display: inline-block;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .imageDisabled {
     filter: grayscale(100%);
@@ -75,7 +78,7 @@
     color: white;
     border: none;
     padding: 7px 2px;
-    text-align: center;
+   text-align: center;
     text-decoration: none;
     font-size: 1rem;
     cursor: pointer;
@@ -89,6 +92,7 @@
 
   .images{
     width: 90%;
+    max-width: 20rem;
     height: 110px;
     border-radius: 10px;
   }
@@ -109,7 +113,7 @@
     font-size: 1rem;
     cursor: pointer;
     border-radius: 10px;
-    margin: 20px;
+    margin: 10px;
   }
 
   .buttonSubmitLocal:hover {

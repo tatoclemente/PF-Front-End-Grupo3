@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBanners } from "../../../../Redux/actions/actionBanners/getAllBanners";
 import { server } from "../../../../Helpers/EndPoint";
@@ -46,7 +46,7 @@ export const Banner = () => {
   const [banner, setBanner] = useState({
     name: "",
     image: filed,
-    disabled: "",
+    disabled: false,
   });
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export const Banner = () => {
       return;
     }
 
-    const nameExists = allBanners.find(
+    const nameExists = Array.isArray(allBanners) && allBanners.find(
       (ban) => ban.name.toLowerCase() === banner.name.toLowerCase()
     );
 
@@ -115,7 +115,7 @@ export const Banner = () => {
   };
 
   const handleUpdateBanners = async (bannerId) => {
-    const bannerToUpdate = allBanners.find((ban) => ban.id === bannerId);
+    const bannerToUpdate = Array.isArray(allBanners) && allBanners.find((ban) => ban.id === bannerId);
     console.log("Banner to update:", JSON.stringify(bannerToUpdate));
 
     if (bannerToUpdate) {
@@ -141,7 +141,7 @@ export const Banner = () => {
   };
 
   const handleDeleteBanners = async (bannerId) => {
-    const bannerToDelete = allBanners.find((ban) => ban.id === bannerId);
+    const bannerToDelete = Array.isArray(allBanners) && allBanners.find((ban) => ban.id === bannerId);
     console.log("Banner to delete:", JSON.stringify(bannerToDelete));
 
     if (bannerToDelete) {
@@ -165,11 +165,13 @@ export const Banner = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+  
+
   const allBannersCopy = [...allBanners];
 
   const sortedBanners = allBannersCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  );
+  )
 
   // // Agregamos un estado para almacenar el ID del banner que se está mostrando en el desplegable
   // const [selectedBannerId, setSelectedBannerId] = useState(null);
@@ -193,11 +195,13 @@ export const Banner = () => {
   //   setSelectedBannerId(null);
   // };
 
+  const numImagesToShow = sortedBanners.length > 2 ? 3 : sortedBanners.length;
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: numImagesToShow,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -216,7 +220,7 @@ export const Banner = () => {
       </div>
       <div className={style.crearButtonContainer}>
         <button onClick={openModal} className={style.crearButton}>
-          CREAR BANNER
+          CARGAR BANNER
         </button>
       </div>
       <div>
@@ -308,7 +312,7 @@ export const Banner = () => {
       </div>
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
-          {sortedBanners?.map((ban, index) => {
+          {Array.isArray(sortedBanners) && sortedBanners?.map((ban, index) => {
             return (
               <div
                 key={index}
@@ -325,7 +329,7 @@ export const Banner = () => {
                   } custom-class`}
                 />
 
-                <div className={style.dropdown}>
+                <div className={style.dropdownBanner}>
                   <button
                     onClick={() => handleUpdateBanners(ban.id)}
                     className={style.buttonChangeBanner}

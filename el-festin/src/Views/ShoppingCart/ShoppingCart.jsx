@@ -1,5 +1,5 @@
 // import { MercadoPago } from "../../Components/MercadoPago/MercadoPago";
-import React from "react";
+import React, { useState } from "react";
 import style from "./ShoppingCart.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,9 +18,12 @@ import { useNavigate } from "react-router-dom";
 import { formattedDescription } from "../../functions/formattedDescription";
 import { formattedCart } from "../../functions/formattedCart";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
+import getCustomTokenFromLocalStorage from "../../functions/getCustomToken";
+import Spinner from "../../Components/Spinner/Spinner";
 // import { logo } from "../../Helpers/ImageUrl";
 
 function ShoppingCart({ isOpen, onCloseCart }) {
+  const [loading, setLoading] = useState(false);
   const order = useSelector((state) => state.cart);
   // const user = useSelector((state) => state.auth.user);
   // console.log("USER_____", user);
@@ -71,12 +74,12 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedOrder,
   };
 
-  function getCustomTokenFromLocalStorage() {
-    return localStorage.getItem("customToken");
-  }
+
+  
   const handlePaySubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     const customToken = getCustomTokenFromLocalStorage();
 
     console.log("____CUSTOM TOKEN_____", customToken);
@@ -110,6 +113,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
       console.log("DATA POST_________", data.data);
       const idPedido = data.data
       if (Object.keys(data).length > 0) {
+        setLoading(false)
         Swal.fire({
           // position: 'top-end',
           icon: "success",
@@ -118,7 +122,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           timer: 2000,
         });
         const description = formattedDescription(order);
-
+        onCloseCart();
         const { data: mercadopagoData } = await axios.post(
           `${server}/mercadopago`,
           {
@@ -219,20 +223,12 @@ function ShoppingCart({ isOpen, onCloseCart }) {
                         </div>
                       </div>
 
-                      <div className={style.quantityButtons}>
+                      <div className={style.quantityButtonCombo}>
                         <button
-                          className={style.buttonDelete}
+                          className={style.buttonDeleteCombo}
                           onClick={() => removeItem(item.dish.id)}>
-                          Eliminar
+                          Eliminar combo
                         </button>
-                        {/* <div className={style.quantityContainer}>
-                      <button className={style.buttonQuantity} onClick={() => decreaseQuantity(item.dish.id, item.dish.quantity)}>
-                        -
-                      </button>
-                      <button className={style.buttonQuantity} onClick={() => increaseQuantity(item.dish.id, item.dish.quantity)}>
-                        +
-                      </button>
-                    </div> */}
                       </div>
                       <div className={style.dishDetailsFooter}>
                         <p className={style.totalPrice}>
@@ -365,19 +361,23 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         )}
       </div>
       {/* <MercadoPago /> */}
+      
       <button
         onClick={handlePaySubmit}
-        disabled={order === null || order.length === 0}
+        disabled={order === null || order.length === 0 || loading}
         className={
           order === null || order.length === 0
             ? `${style.payButton} ${style.disabledButton}`
-            : style.payButton
+            : loading ? `${style.payButton} ${style.disabledPay}` : style.payButton
         }>
-        PAGAR <span>{` Suma total $${totalPrice}`}</span>
+        {loading 
+        ? <div className={style.payButtonFalse}><Spinner /> Cargando...</div>
+      : <div className={style.payButtonTrue}>PAGAR <span>{` Suma total $${totalPrice}`}</span></div>}
+        
       </button>
       {order.length !== 0 && (
-        <button className={style.clearButton} onClick={clearAllCart}>
-          YA NO QUIERO ESTA LA ORDEN
+        <button disabled={loading} className={loading ? style.disabledClear : style.clearButton} onClick={clearAllCart}>
+          YA NO QUIERO ESTA ORDEN
         </button>
       )}
     </div>

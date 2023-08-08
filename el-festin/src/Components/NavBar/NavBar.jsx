@@ -1,14 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
-import { logo, cart } from "../../Helpers/ImageUrl";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import calculateTotalItems from "../../functions/calculateTotalItems";
-import profileImg from "./images/profile.png";
+import profileImg from "../../Assets/profile.png";
+import logo from "../../Assets/logo-el-festin-nav.png";
+import cart from "../../Assets/bolsa-pedido.png";
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import { logout } from "../../Hook/FunctionsAuth";
 import { useEffect, useState } from "react";
 import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
+import ROUTES from "../../Routes/routes";
+import { GiCook } from "react-icons/gi";
+import { decodeToken } from "react-jwt";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -39,15 +43,22 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
-    if (user) {
+    if (user && users.email) {
       const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
       setUserEmail(emailUser);
     }
-  }, [user]);
+  }, [user, users]);
 
   const userImage = userEmail ? userEmail.image : null;
+
+  const customToken = localStorage.getItem('customToken');
+  const decodeCustomToken = customToken && decodeToken(customToken);
+
+  const { role } = decodeCustomToken !== null && decodeCustomToken;
+  console.log(role);
+
   return (
     <div className="d-flex justify-content-between navbarLanding">
       <Link className="navbar-brand d-none d-lg-block" to="/">
@@ -58,62 +69,76 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
           <SearchBar path={landing} />
         </div>
       )}
-      <div className="dropdown-container d-none d-lg-flex align-items-center ps-5">
-        {isDashboard ? (
-          <div className="d-none d-lg-block pe-3">
-            <Link to="/" className="text-decoration-none text-white fs-3">
-              Salir
-            </Link>
+      <div className='right-container'>
+        {!isDashboard &&
+          <div style={location.pathname === ROUTES.HOME ? {borderBottom: '2px solid var(--main-color)', color: 'var(--main-color)'} : undefined} className='go-home'>
+            <GiCook style={{fontSize: '1.8rem'}} />
+            <Link to={ROUTES.HOME}>Home</Link>
           </div>
-        ) : user ? (
-          <div className="dropdown-container">
-            <button className="dropdown-button" onClick={handleOpen}>
-              {user.photoURL ? (
-                <img
-                  src={user.photoURL}
-                  width="50"
-                  height="50"
-                  style={{
-                    borderRadius: "30px",
-                    border: "2px solid white",
-                  }}
-                ></img>
-              ) : (
-                <img
-                  src={userImage ? userImage : profileImg}
-                  width="50"
-                  height="50"
-                ></img>
+        }
+
+        <div className="dropdown-container d-none d-lg-flex align-items-center">
+          {isDashboard ? (
+            <div className="d-none d-lg-block button-admin">
+              <Link to="/" className="text-decoration-none text-white fs-4">
+                Vista Cliente
+              </Link>
+            </div>
+          ) : user ? (
+            <div className="dropdown-container">
+              <button className="dropdown-button" onClick={handleOpen}>
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    width="50"
+                    height="50"
+                    alt="profile"
+                    style={{
+                      borderRadius: "30px",
+                      border: "2px solid white",
+                    }}
+                  ></img>
+                ) : (
+                  <img
+                    src={userImage ? userImage : profileImg}
+                    width="50"
+                    height="50"
+                    alt="profile"
+                  ></img>
+                )}
+              </button>
+              {isOpen && (
+                <div className="dropdown-menu">
+                  {role !== null && role !== 'User' ? (
+                    <Link to="/dashboard">Administrador</Link> 
+                  ) : null}
+                  <Link to="/profile">Mi cuenta</Link>
+                  <Link onClick={handleLogout}>Cerrar sesión</Link>
+                </div>
               )}
-            </button>
-            {isOpen && (
-              <div className="dropdown-menu">
-                <Link to="/profile">Mi cuenta</Link>
-                <Link onClick={handleLogout}>Cerrar sesión</Link>
-              </div>
-            )}
-          </div>
-        ) : (
-          <Link
-            to="/auth/login"
-            className="text-decoration-none text-white fs-4 me-2 sign-in"
-          >
-            {" "}
-            Ingresar{" "}
-          </Link>
-        )}
-        {isDashboard ? null : (
-          <div className="text-end cart" onClick={toggleCart}>
-            <img
-              src={cart}
-              alt="cart"
-              className="img-width-cart position-relative"
-            />
-            <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
-              {totalItems}
-            </span>
-          </div>
-        )}
+            </div>
+          ) : (
+            <Link
+              to="/auth/login"
+              className="text-decoration-none text-white me-2 sign-in"
+            >
+              {" "}
+              Ingresar{" "}
+            </Link>
+          )}
+          {isDashboard ? null : (
+            <div className="text-end cart" onClick={toggleCart}>
+              <img
+                src={cart}
+                alt="cart"
+                className="img-width-cart position-relative"
+              />
+              <span className="position-absolute top-50 translate-middle badge rounded-pill fs-6 bg-countCart mt-3">
+                {totalItems}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

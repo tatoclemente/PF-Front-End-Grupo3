@@ -40,8 +40,9 @@ export const SearchBar = (props) => {
       setSearchResults([]);
     }
   }, [input ]);
+ 
+  if (props.path === "/home") {
 
-  if (props.path !== "/") {
     return (
       <form onSubmit={onSubmitSearch} className="search-input-container">
         <input

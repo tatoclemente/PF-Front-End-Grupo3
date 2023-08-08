@@ -11,11 +11,12 @@
   width: 20%;
   background-color: #313045;
   color: #fff;
-  padding-top: 30px;
+  padding-top: 10px;
   position: absolute;
 }
 .sidebar.hidden {
   display: none;
+  
 }
 
 
@@ -34,17 +35,38 @@
   list-style: none;
   padding: 0;
 }
+ul.options hr {
+  margin: 1px 0;
+  border-bottom: 1px solid #fff;
+}
 .options li {
-  padding: 0.4rem;
+  padding: 0.3rem;
   cursor: pointer;
 }
 
 .buttonDelete {
   font-size: 0.67rem;
-  width: 13vw;
-  border-color: #a57e10;
-  background-color: #FBC32C ;
+  color: #fff;
+  width: 20vw;
+  border: 1px solid #FBC32C;
+  border-radius: 8px;
+  background-color: transparent;
   height: 2.0rem;
   font-size: 0.9rem;
   text-transform: uppercase;
+}
+
+.buttonDelete:hover,
+.buttonDelete:focus,
+.buttonDelete:active {
+  background-color: #fbc32c;
+  outline: none; /* Para quitar el contorno predeterminado cuando el botón está enfocado */
+  color: #313045;
+}
+.buttonSelected:active {
+  background-color: #fbc32c;
+  color: #313045;
+}
+.p {
+  font-size: 13px;
 }

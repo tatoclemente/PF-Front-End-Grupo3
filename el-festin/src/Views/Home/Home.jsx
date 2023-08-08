@@ -8,6 +8,7 @@ import { getTypes } from "../../Redux/actions/getDishesTypes";
 import { sortDishesByType } from "../../Redux/slices/platosSlice";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./Home.module.css"
+import Loader from "../../Components/Loader/Loader";
 
 const Home = ({ toggleCart }) => {
 
@@ -17,6 +18,8 @@ const Home = ({ toggleCart }) => {
   const [stateFood, setStateFood] = useState('all')
   const [stateSort, setStateSort] = useState(' ')
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch();
   
@@ -32,12 +35,17 @@ const Home = ({ toggleCart }) => {
 
 
   useEffect(() => {
-      dispatch(getDishes());
-      dispatch(getDrinks());
-      dispatch(getDesserts())
-    dispatch(getTypes());
-  
-  }, []);
+    const fetchData = async () => {
+      await dispatch(getDishes());
+      await dispatch(getDrinks());
+      await dispatch(getDesserts())
+      await dispatch(getTypes());
+    }
+    fetchData();
+    setLoading(false)
+      
+  }, [dispatch]);
+
 
   const handleToShow = (e) => {
     const val = e.target.getAttribute("data-value");
@@ -94,9 +102,13 @@ stateSort === 'asc'
     : allT.sort((a, b) => a.price - b.price);
 
 
-  
-  
-  return (
+console.log(loading);
+
+if (loading) return ( 
+    <div style={{width: '100%', zIndex:'50', top: '0', left: '0', position: 'absolute', height: '100vh',backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <p><Loader /></p>
+    </div>) 
+ else return (
     <div className={style.homeContainer}>
       <div className={style.mainContent}>
         <div

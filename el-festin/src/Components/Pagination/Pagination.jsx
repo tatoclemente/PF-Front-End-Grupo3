@@ -2,13 +2,13 @@ import React from 'react'
 import style from './Pagination.module.css'
 import { BiSolidLeftArrowSquare, BiSolidRightArrowSquare } from 'react-icons/bi'
 
-function Pagination({ currentPage, totalPages, handlePageChange }) {
+function Pagination({ currentPage, totalPages, handlePageChange, reference }) {
 
     const isLeftButtonDisabled = currentPage === 0;
   const isRightButtonDisabled = currentPage === totalPages - 1;
 
   return (
-    <div className={style.pageNavigation}>
+    <div className={style.pageNavigation} style={reference === 'orders' ? {width: '180px', margin: '0 auto'} : null}>
         <button
         className={`${style.navigationButton} ${isLeftButtonDisabled ? style.disabledButton : ''}`}
         disabled={isLeftButtonDisabled}

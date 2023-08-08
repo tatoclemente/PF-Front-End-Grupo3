@@ -57,7 +57,7 @@ const CardsContainer = (props) => {
 
   return (
     <div className={style.mainContainer} ref={containerRef}>
-      <div>
+      <div className={style.pagination}>
         <Pagination
           currentPage={props.currentPage}
           totalPages={totalPages}

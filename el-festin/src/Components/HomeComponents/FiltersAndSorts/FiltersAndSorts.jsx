@@ -141,7 +141,7 @@ function FiltersAndSorts(props) {
           </div>
         ) : null}
         <div className={style.filtersContainer}>
-          <h6>ORDENAMIETOS</h6>
+          <h6>ORDENAMIENTOS</h6>
           <div className={style.filters}>
 
             <label>Ordene por precio</label>

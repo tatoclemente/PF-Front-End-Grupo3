@@ -1,22 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { getBanners } from '../../../Redux/actions/actionBanners/getAllBanners'; 
+import { useSelector } from "react-redux";
 import styles from './Carousel.module.css';
+import { IoIosArrowDroprightCircle, IoIosArrowDropleftCircle } from 'react-icons/io';
 
 export const Carousel = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const allBanners = useSelector((state) => state.banner.banners);
-  const dispatch = useDispatch();
   const imageList = allBanners.length > 0 && allBanners.filter((b) => b.disabled === false);
   const totalImages = imageList.length;
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    dispatch(getBanners());
-  }, [dispatch]);
-
-  useEffect(() => {
-    const velocity = 3000;
+    const velocity = 4000;
     intervalRef.current = setInterval(nextImage, velocity);
 
     return () => {
@@ -37,13 +32,14 @@ export const Carousel = () => {
 
   const showImage = (index) => {
     const images = document.getElementsByClassName(styles.image);
-    if (images.length > 0) {
+    if (images.length > 0 && index >= 0 && index < images.length) {
       for (let i = 0; i < images.length; i++) {
         if (images[i].className.includes(styles.current)) {
           images[i].className = images[i].className.replace(styles.current, '');
           break;
         }
       }
+  
       setCurrentImageIndex(index);
       images[index].className += ` ${styles.current}`;
       updateActiveDot(index);
@@ -75,12 +71,12 @@ export const Carousel = () => {
       ))}
 
       {/* Navigation buttons */}
-      <a href="#" className={styles.previous} onClick={prevImage}>
-        &#10094;
-      </a>
-      <a href="#" className={styles.next} onClick={nextImage}>
-        &#10095;
-      </a>
+      <span className={styles.previous} onClick={prevImage}>
+        <IoIosArrowDropleftCircle />
+      </span>
+      <span className={styles.next} onClick={nextImage}>
+        <IoIosArrowDroprightCircle />
+      </span>
 
       {/* Image dots for navigation */}
       <div className={styles.dots}>

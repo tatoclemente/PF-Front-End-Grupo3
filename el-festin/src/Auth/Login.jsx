@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import logo1 from "../Assets/logo1.png";
+import logoGoogle from "../Assets/google.png";
+import logo from '../Assets/logo-el-festin-nav.png'
 import { server } from "../Helpers/EndPoint";
-import { logo } from "../Helpers/ImageUrl";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../Redux/actions/actionsUsers/getAllUsers";
@@ -168,11 +168,11 @@ export const Login = () => {
   };
 
   const handleGooglePost = async (customToken) => {
-    const emailExist = usersDB.map((us) => us.email);
+    const emailExist = Array.isArray(usersDB) && usersDB.map((us) => us.email);
 
     const decodeCustomToken = decodeToken(customToken);
 
-    if (emailExist.includes(user.email) && decodeCustomToken) {
+    if (emailExist && emailExist.includes(user.email) && decodeCustomToken) {
       const { role } = decodeCustomToken;
       role !== 'User'
         ? navigate("/dashboard")
@@ -185,7 +185,7 @@ export const Login = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-    } else if (!emailExist.includes(user.email)) {
+    } else if (emailExist && !emailExist.includes(user.email)) {
 
       const userData = {
         name: user.displayName,
@@ -226,12 +226,12 @@ export const Login = () => {
     <ul className="">
       <Link to="/">
         <MdArrowBackIosNew
-          className="backButton text-white position-absolute mt-4 fs-3"
+          className="backButton text-white position-absolute fs-3"
           style={{ left: "51%" }}
         />
       </Link>
       <li className="d-flex justify-content-center align-items-center">
-        <img src={logo} alt="imagen-logo" className="img-fluid w-25 mt-4" />
+        <img src={logo} alt="imagen-logo" className="img-fluid w-30 mt-4" />
       </li>
 
       <li className="text-white fs-3 mt-4 d-flex justify-content-center align-items-center">
@@ -305,7 +305,7 @@ export const Login = () => {
         >
           <span>
             <img
-              src={logo1}
+              src={logoGoogle}
               alt="logo google"
               className="img-fluid img-login-button"
             />

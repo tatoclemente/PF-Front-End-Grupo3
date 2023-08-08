@@ -65,11 +65,11 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
       <div className="container-fluid text-dark">
         <button
           type="button"
-          className={`btn btn-primary ${style.buttonDelete}`}
+          className={style.buttonDelete}
           data-bs-toggle="modal"
           data-bs-target={`#${idModal}`}
         >
-          {`Borrar ${name}`}
+          {name}
         </button>
         <div
           className="modal fade"
@@ -139,6 +139,7 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
                         rating={selectedItem.rating}
                         description={selectedItem.description}
                         id={selectedItem.id}
+                        buttonOut={true}
                       />
                     )}
                   </div>
@@ -146,21 +147,14 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
                 {selectedItem ? (
                   <div className="pb-2">
                     {isOn ? (
-                      <h4 className="text-danger">{`${name} deshabilitado`}</h4>
+                      <h4 className="text-danger">{`${name.charAt(0).toUpperCase() + name.slice(1)} Deshabilitado`}</h4>
                     ) : (
-                      <h4 className="text-success">{`${name} Habilitado`}</h4>
+                      <h4 className="text-success">{`${name.charAt(0).toUpperCase() + name.slice(1)} Habilitado`}</h4>
                     )}
                   </div>
                 ) : undefined}
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    onClick={() => setDeleteState("DEFAULT")}
-                  >
-                    Cerrar
-                  </button>
+                
                   <button type="submit" className="btn buttonCrear">
                     Guardar cambios
                   </button>

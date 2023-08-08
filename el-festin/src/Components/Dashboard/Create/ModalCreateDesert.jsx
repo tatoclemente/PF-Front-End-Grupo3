@@ -4,6 +4,8 @@ import { server } from "../../../Helpers/EndPoint";
 import { validacionDesert } from "../Validaciones/validacionDesert";
 import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
+import { useDispatch } from "react-redux";
+import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const ModalCreateDesert = () => {
   let initialState = {
@@ -29,7 +31,7 @@ export const ModalCreateDesert = () => {
       })
     );
   };
-
+const dispatch =useDispatch()
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
   };
@@ -47,6 +49,7 @@ export const ModalCreateDesert = () => {
       const { data } = await axios.post(`${server}/desert`, formData);
 
       if (data.name) {
+        dispatch(getDesserts());
         Swal.fire({
           icon: "success",
           title: "Postre creado con exito",
@@ -66,11 +69,11 @@ export const ModalCreateDesert = () => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`}
+        className={style.buttonDelete}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop2"
       >
-        Crear Postre
+        Postre
       </button>
 
       <div
@@ -148,13 +151,13 @@ export const ModalCreateDesert = () => {
                   ref={fileInputRef}
                 />
                 <div className="modal-footer">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
                     Cerrar
-                  </button>
+                  </button> */}
                   <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>

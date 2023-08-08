@@ -10,6 +10,7 @@
   cursor: pointer;
   width: 100%;
   text-align: center;
+  padding: .375rem;
 }
 
 .modal-width {
@@ -125,7 +126,7 @@
   background-color: #ffffff;
   max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
-  border: 1px solid #ccc; /* Solo para visualización, puedes eliminarlo */
+
 }
 
 .metricContent {
@@ -149,7 +150,7 @@
   width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
-  border: 1px solid #ccc;
+
 }
 
 .requestsContent {

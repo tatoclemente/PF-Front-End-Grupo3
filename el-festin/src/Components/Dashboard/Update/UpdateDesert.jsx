@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { FiCheck } from "react-icons/fi";
 import { validacionDesert } from "../Validaciones/validacionDesert";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const UpdateDesert = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -17,9 +18,10 @@ export const UpdateDesert = ({ allDates }) => {
     price: false,
   });
 
-  const selectedItem =
-    allDates.length > 0 && allDates.find((item) => item.name === updateState);
+  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
+
+  const dispatch = useDispatch()
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
@@ -94,7 +96,9 @@ export const UpdateDesert = ({ allDates }) => {
           `${server}/desert/${selectedItem.id}`,
           formData
         );
+        
         if (data?.name) {
+          dispatch(getDesserts())
           Swal.fire({
             icon: "success",
             title: "Se ha modificado el postre correctamente",
@@ -120,11 +124,11 @@ export const UpdateDesert = ({ allDates }) => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`}
+        className={style.buttonDelete}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop12"
       >
-        Modificar el postre
+        Postre
       </button>
 
       <div
@@ -160,7 +164,7 @@ export const UpdateDesert = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {allDates.map((item) => {
+                  {Array.isArray(allDates) && allDates.map((item) => {
                     return (
                       <option key={item.id} value={item.name}>
                         {item.name}
@@ -215,6 +219,8 @@ export const UpdateDesert = ({ allDates }) => {
                       image={inputUpdate?.image}
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
+                      buttonOut={true}
+
                     />
                   )}
                 </div>
@@ -295,14 +301,6 @@ export const UpdateDesert = ({ allDates }) => {
                 </div>
               )}
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}
-                >
-                  Cerrar
-                </button>
                 <button
                   type="submit"
                   className="btn buttonCrear"

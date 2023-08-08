@@ -7,6 +7,8 @@ import { validacionDrink } from "../Validaciones/validacionDrink";
 import Swal from "sweetalert2";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { useDispatch } from "react-redux";
+import { getDrinks } from "../../../Redux/actions/actionsDrinks/getAllDrinks";
 
 export const ModalCreateDrink = () => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -18,6 +20,8 @@ export const ModalCreateDrink = () => {
     stock: 0,
     price: "",
   };
+
+  const dispatch = useDispatch()
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
 
@@ -57,6 +61,7 @@ export const ModalCreateDrink = () => {
       const { data } = await axios.post(`${server}/drink`, formData);
 
       if (data.name) {
+        dispatch(getDrinks())
         Swal.fire({
           icon: "success",
           title: "Bebida creada con exito",
@@ -78,11 +83,11 @@ export const ModalCreateDrink = () => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`}
+        className={style.buttonDelete}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop1"
       >
-        Crear Bebida
+       Bebida
       </button>
 
       <div
@@ -217,13 +222,13 @@ export const ModalCreateDrink = () => {
                 <br />
 
                 <div className="modal-footer">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
                   >
                     Cerrar
-                  </button>
+                  </button> */}
                   <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>

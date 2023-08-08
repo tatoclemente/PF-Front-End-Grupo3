@@ -16,7 +16,6 @@ import Landing from "./Views/Landing/Landing";
 import Detail from "./Views/Detail/Detail";
 import ShoppingCart from "./Views/ShoppingCart/ShoppingCart";
 import AuthProvider from "./Hook/AuthProvider";
-import { PrivateRoute } from "./Routes/PrivateRoute";
 
 import { DashboardView } from "./Views/Dashboard/DashboardView";
 
@@ -24,12 +23,14 @@ import { RegisterPage } from "./Views/Register/RegisterPage";
 
 import { Profile } from "./Components/Profile/Profile";
 
-import { useSelector } from "react-redux";
-import Booking from "./Views/Booking/Booking";
+import { BookingView } from "./Views/Booking/BookingView";
 
 // import { useSelector } from "react-redux";
 import { decodeToken } from "react-jwt";
-
+import ROUTES from "./Routes/routes";
+import PaymentSuccess from "./Views/PymentSuccess/PaymentSuccess";
+import PaymentFailed from "./Views/PaymentError/PaymentFailed";
+import NotFound from "./Views/404NotFound/404NotFound";
 
 function App() {
   let location = useLocation();
@@ -49,11 +50,14 @@ function App() {
     return localStorage.getItem("customToken");
   }
   const customToken = getCustomTokenFromLocalStorage();
-  
-  const decodeCustomToken = customToken && decodeToken(customToken);
 
+  const decodeCustomToken = customToken && decodeToken(customToken);
+  console.log(decodeCustomToken);
   const currentUser = {
-    role: decodeCustomToken? decodeCustomToken.role : "admin",
+
+    role: decodeCustomToken ? decodeCustomToken.role : false,
+    //role: "User",
+
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -61,60 +65,72 @@ function App() {
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
-
+  console.log(currentUser);
   return (
     <div className={style.appContainer}>
       <AuthProvider>
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" ? (
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
+        location.pathname !== ROUTES.NOT_FOUND ? (
           <Navbar toggleCart={toggleCart} />
         ) : undefined}
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" &&
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
         isCartOpen ? (
           <div className={style.overlay} onClick={toggleCart} />
         ) : undefined}
         <ShoppingCart isOpen={isCartOpen} onCloseCart={toggleCart} />
         {/* rutas publicas (libre acceso navegando por la pagina) */}
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/auth/register" element={<RegisterPage />} />
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/home" element={<Home toggleCart={toggleCart} />} />
-          <Route path="/about" element={<About />} />
+          <Route path={ROUTES.LANDING} element={<Landing />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route
+            path={ROUTES.HOME}
+            element={<Home toggleCart={toggleCart} />}
+          />
+          
+          <Route path={ROUTES.ABOUT} element={<About />} />
+          <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
+          <Route
+            path={ROUTES.PAYMENT_FAILED}
+            element={<PaymentFailed toggleCart={toggleCart} />}
+          />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
-          {/*<Route path="/*" element={<Landing />} />*/}
+          <Route path="/*" element={<NotFound />} />
 
           <Route
-            path="/detail/:id"
+            path={`${ROUTES.DETAIL}/:id`}
             element={<Detail toggleCart={toggleCart} />}
           />
           {/* rutas privada (para degenegar acceso segun ciertos criterios) */}
-          <Route
-            path="/*"
-            element={
-              <PrivateRoute>
-                <Routes>
-                <Route path="/booking" element={<Booking />} />
-                  <Route path="/profile" element={<Profile />} />
 
-                  {currentUser.role !== "User" &&
-                    <Route path="/dashboard" element={<DashboardView />} />
-                  }
-                </Routes>
-              </PrivateRoute>
-            }
-          />
+          {currentUser.role && (
+            <>
+              <Route path={ROUTES.BOOKING} element={<BookingView />} />
+              <Route
+                path={ROUTES.PROFILE}
+                element={<Profile toggleCart={toggleCart} />}
+              />
+
+              {currentUser.role !== "User"?(
+                <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />
+              ): (<Route
+                path={ROUTES.HOME}
+                element={<Home toggleCart={toggleCart} />}/>) }
+            </>
+          )}
         </Routes>
 
-        {location.pathname !== "/auth/login" &&
-        location.pathname !== "/dashboard" &&
-        location.pathname !== "/auth/register" &&
-        location.pathname !== "/shopping-cart" &&
-        location.pathname !== "/detail/:id" ? (
+        {location.pathname !== ROUTES.LOGIN &&
+        location.pathname !== ROUTES.DASHBOARD &&
+        location.pathname !== ROUTES.REGISTER &&
+        location.pathname !== ROUTES.PAYMENT_SUCCESS &&
+        location.pathname !== ROUTES.PAYMENT_FAILED &&
+        location.pathname !== ROUTES.NOT_FOUND ? (
           <Footer />
         ) : undefined}
       </AuthProvider>

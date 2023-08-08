@@ -8,12 +8,12 @@ import {
   todos,
   carnes,
   bebidas,
-  // sandwiches,
-  // fritos,
+  sandwiches,
+  fritos,
   ensaladas,
-  // guisados,
+  guisados,
   postres,
-  // sopas,
+  sopas,
   minutas,
   pastas,
   pescados,
@@ -150,6 +150,20 @@ const FeaturedCategories = (props) => {
         </div>
 
         <div
+          data-value={"sopas"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"sopas"}
+            className={Style.imgCategory}
+            src={sopas}
+            alt="sopas"
+          />
+          <p>Sopas</p>
+        </div>
+
+        <div
           data-value={"pescados y mariscos"}
           className={Style.categoryContainer}
           onClick={props.handleType}
@@ -175,6 +189,48 @@ const FeaturedCategories = (props) => {
             alt="minutas"
           />
           <p>Minutas</p>
+        </div>
+
+        <div
+          data-value={"sandwich"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"sandwich"}
+            className={Style.imgCategory}
+            src={sandwiches}
+            alt="sandwiches"
+          />
+          <p>Sandwiches</p>
+        </div>
+
+        <div
+          data-value={"guisados"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"guisados"}
+            className={Style.imgCategory}
+            src={guisados}
+            alt="guisados"
+          />
+          <p>Guisados</p>
+        </div>
+
+        <div
+          data-value={"fritos"}
+          className={Style.categoryContainer}
+          onClick={props.handleType}
+        >
+          <img
+            data-value={"fritos"}
+            className={Style.imgCategory}
+            src={fritos}
+            alt="fritos"
+          />
+          <p>Fritos</p>
         </div>
         {/* {props.dishType.map((type, index) => (
           <div

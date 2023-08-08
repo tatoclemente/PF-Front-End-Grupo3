@@ -1,0 +1,33 @@
+.thankYouContainer {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.emoji {
+    margin: 3rem 0;
+    /* box-shadow: 3px 0 5px var(--shadow); */
+    filter: drop-shadow(20px 20px 20px var(--shadow));
+}
+
+.link {
+    text-decoration: none;
+    margin: 0 auto;
+}
+
+.buttonProfile {
+    width: 10rem;
+    height: 2rem;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--background-darkblue);
+    color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+}

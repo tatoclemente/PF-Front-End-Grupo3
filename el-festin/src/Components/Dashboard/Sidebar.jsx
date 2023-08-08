@@ -23,8 +23,7 @@ export const Sidebar = (props) => {
                 type="button"
                 data-value="Requests"
                 className={`btn btn-primary ${Styles.buttonDelete}`}
-                onClick={props.handleRender}
-              >
+                onClick={props.handleRender}>
                 Pedidos
               </button>
             </li>
@@ -32,7 +31,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 value="Products"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={onProductChange}
               >
                 Productos
@@ -42,7 +41,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Users"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Usuarios
@@ -52,7 +51,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Metrics"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Metricas
@@ -62,7 +61,7 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Market"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
                 Marketing
@@ -72,10 +71,10 @@ export const Sidebar = (props) => {
               <button
                 type="button"
                 data-value="Reser"
-                className={`btn btn-primary ${Styles.buttonDelete}`}
+                className={Styles.buttonDelete}
                 onClick={props.handleRender}
               >
-                Marketing
+                Reservas
               </button>
             </li>
           </ul>
