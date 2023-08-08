@@ -4,6 +4,9 @@ export const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
+    usersOrdersRejected: [],
+    usersOrdersPending: [],
+    usersOrdersAccepted:[]
   },
   reducers: {
     getAllUsers: (state, action) => {
@@ -20,11 +23,38 @@ export const userSlice = createSlice({
     localStorage.setItem('customToken', customToken); 
       
       state.users.push(action.payload.newUser);
+
     }
+  ,  setAccepted: (state, action) =>{
+      state.usersOrdersAccepted = action.payload;
+      state.usersOrdersPending = action.payload
+    }, ordersPending:(state, action ) =>{
+      if(action.payload === 'Acepted'){
+        let orders = [...state.usersOrdersAccepted]
+      let orderACC = orders.filter((e) => e.status.includes('Completo')) 
+      state.usersOrdersPending = orderACC;
+      }
+      if(action.payload === 'Pending'){
+        let orders = [...state.usersOrdersAccepted]
+      let orderACC = orders.filter((e) => e.status.includes('Pendiente'))
+      state.usersOrdersPending = orderACC;
+      }
+      if(action.payload === 'Rejected'){
+        let orders = [...state.usersOrdersAccepted]
+      let orderACC = orders.filter((e) => e.status.includes('rechazado')) 
+      state.usersOrdersPending = orderACC;
+      }
+      
+    }, setCompOrder: (state, action) => {
+      state.usersOrdersAccepted = action.payload;
+      state.usersOrdersPending = action.payload
+    }
+
   },
+
 });
 
-export const { getAllUsers, postUser } = userSlice.actions;
+export const { getAllUsers, postUser, setAccepted, ordersPending, setCompOrder } = userSlice.actions;
 
 export default userSlice.reducer;
 

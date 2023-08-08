@@ -54,6 +54,8 @@ export const Reservation = () => {
       JSON.stringify(reservationToUpdate)
     );
 
+    let bannerToUpdate = 'xd'
+
     if (reservationToUpdate) {
       const updatedReservation = {
         ...reservationToUpdate,

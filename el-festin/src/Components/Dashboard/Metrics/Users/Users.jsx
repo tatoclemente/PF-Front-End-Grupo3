@@ -9,11 +9,11 @@ export const UsersData = () =>{
         <div className={style.containerAll}>
             <TabGroup className="mt-9 ml-1">
                 <TabList>
-                    <div>
-                    <Tab className={style.contTitle}>
-                    <span> Usuarios Registrados </span>
-                    </Tab>
-                    </div>
+                <div className={style.tabsContainer} data-value='Gains' >
+      
+      <span className={style.activeTab}>Usuarios registrados</span>
+   
+      </div>
                 </TabList>
              <div>
           <UsersMetrics/>

@@ -3,15 +3,16 @@ import "./dashboard.css";
 import { Sidebar } from "./Sidebar";
 import { UsersData } from "./Metrics/Users/Users.jsx";
 import { Dates } from "./Metrics/metrics";
-import { Deleted } from "./Delete/Deleted";
+import {AllRequest} from './Requests/AlRequests.jsx'
 import { useState } from "react";
 import { Banner } from "./Landing/Banners/Banners";
 import { Local } from "./Landing/LocalImages/Local";
 import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
 import { Reservation } from "./Reservations/Reservation.jsx";
 
+
 export const Dashboard = () => {
-  const [things, setThings] = useState(" ");
+  const [things, setThings] = useState("Requests");
   // console.log(things)
 
   const handleRender = (e) => {
@@ -30,6 +31,8 @@ export const Dashboard = () => {
     }
     if (val === "Products") {
       setThings("Products");
+    } if(val === "Requests"){
+      setThings("Requests")
     }
   };
 
@@ -64,6 +67,11 @@ export const Dashboard = () => {
           {things === "Reser" ? (
             <div className="reserContent">
               <Reservation />
+            </div>
+          ) : null}
+           {things === "Requests" ? (
+            <div className="requestsContent">
+              <AllRequest />
             </div>
           ) : null}
         </div>

@@ -46,6 +46,7 @@ const Home = ({ toggleCart }) => {
       
   }, [dispatch]);
 
+
   const handleToShow = (e) => {
     const val = e.target.getAttribute("data-value");
   

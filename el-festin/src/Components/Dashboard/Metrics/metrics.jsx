@@ -26,10 +26,10 @@ export const Dates = () => {
     <div className={style.containerAll}>
       <TabGroup className="mt-9 ml-1" >
         <TabList>
-          <div data-value='Gains' >
-          <Tab className={style.contTitle}>
-          <span data-value='Gains'>Platos Mas Populares</span>
-          </Tab>
+          <div className={style.tabsContainer} data-value='Gains' >
+      
+          <span className={style.activeTab}>Platos Mas Populares</span>
+       
           </div>
         </TabList>
         <div>

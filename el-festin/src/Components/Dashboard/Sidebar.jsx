@@ -19,7 +19,11 @@ export const Sidebar = (props) => {
 
           <ul className={Styles.options}>
             <li className="pt-4">
-              <button type="button" className={Styles.buttonDelete}>
+              <button
+                type="button"
+                data-value="Requests"
+                className={`btn btn-primary ${Styles.buttonDelete}`}
+                onClick={props.handleRender}>
                 Pedidos
               </button>
             </li>

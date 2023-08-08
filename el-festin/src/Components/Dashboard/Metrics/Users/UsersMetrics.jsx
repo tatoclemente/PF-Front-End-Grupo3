@@ -2,12 +2,15 @@ import React, {useState} from "react";
 import style from '../metrics.module.css'
 import { useSelector } from "react-redux";
 import DefaultImg from './images/profile.png'
+import axios from "axios";
+import Swal from "sweetalert2";
+import { server } from "../../../../Helpers/EndPoint";
 import { Card, Text,  Col, Grid, Title,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow, Badge} from "@tremor/react";
 
 
 export const UsersMetrics = () => {
+  const [selectedRole, setSelectedRole] = useState("");
     const AllUsers = useSelector((state) => state.users.users)
-    console.log(AllUsers[0])
 
      // Estado para controlar la página actual y la cantidad de usuarios por página
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,6 +58,29 @@ export const UsersMetrics = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const handleRoleChange = async (userId) => {
+    if(userId){
+    try {
+      const response = await axios.put(`${server}/user/${userId}`, {
+        role: selectedRole,
+      });
+
+      if (response.status === 200) {
+
+        Swal.fire({
+          icon: "success",
+          title: "Rol cambiado exitosamente",
+          confirmButtonText: "OK",
+        })
+        console.log("Rol cambiado exitosamente.");
+      } else {
+        console.error("Error al cambiar el rol del usuario.");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  }
+  };
 
     return(
         <div className={style.contUserM}>
@@ -68,6 +94,7 @@ export const UsersMetrics = () => {
           <TableHeaderCell>Nombre</TableHeaderCell>
           <TableHeaderCell>Imagen</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Rol</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -80,6 +107,33 @@ export const UsersMetrics = () => {
                 </div></TableCell>
                 <TableCell>
                     <Text>{item.email}</Text>
+                </TableCell>
+                <TableCell>
+                  <div className={style.btnContainer}>
+               {item.role === 'User' ? <select className={style.selectButn}
+          onChange={(e) => setSelectedRole(e.target.value)}
+        >
+          <option value="">Rol: {item.role}</option>
+          <option select disabled>Cambia el rol</option>
+          <option value="Admin">Admin</option>
+        </select> 
+        : item.role === 'Admin' ?  <select className={style.selectButn}
+        onChange={(e) => setSelectedRole(e.target.value)}
+      >
+        <option value="">Rol: {item.role}</option>
+        <option select disabled>Cambia el rol</option>
+        <option value="User">Usuario</option>
+        <option value="SuperAdmin">Super Admin</option>
+      </select> : <select className={style.selectButn}
+        onChange={(e) => setSelectedRole(e.target.value)}
+      >
+        <option value="">Rol: {item.role}</option>
+        <option select disabled>Cambia el rol</option>
+        <option value="User">Usuario</option>
+        <option value="Admin">Admin</option>
+      </select>}
+                  <button className={style.buuutton} onClick={() => handleRoleChange(item.id)}>Cambiar Rol</button>
+                  </div>
                 </TableCell>
           </TableRow>
         ))}

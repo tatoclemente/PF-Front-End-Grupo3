@@ -63,8 +63,6 @@ export const UpdateDesert = ({ allDates }) => {
     setFiled(target.files[0]);
   };
 
-  console.log("input update", inputUpdate);
-
   const formData = new FormData();
   formData.append("name", inputUpdate?.name);
   formData.append("stock", inputUpdate?.stock);

@@ -9,10 +9,10 @@ import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
 import "react-calendar/dist/Calendar.css";
-import moment from "moment";
 import "./custom-calendar.css";
 
 export default function BookingComponent() {
+  let moment = 'xd'
   const [selectedDateTime, setSelectedDateTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
