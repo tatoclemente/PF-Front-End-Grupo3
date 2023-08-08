@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, updateCartItemQuantity } from '../../Redux/actions/actionOrders/actionOrders'
 import Swal from 'sweetalert2'
 
-function Card({type, image, name, price, volume, rating, description, id, category, totalRating, toggleCart}) {
+function Card({type, image, name, price, volume, rating, description, id, category, totalRating, toggleCart,buttonOut}) {
 
   const dispatch = useDispatch();
 
@@ -140,7 +140,7 @@ function Card({type, image, name, price, volume, rating, description, id, catego
     }
     return stars;
   };
-
+console.log(buttonOut)
   return (
     <div className={style.cardContainer}>
       <p className={style.type}>{type? type : 'Postres'}</p>
@@ -155,15 +155,15 @@ function Card({type, image, name, price, volume, rating, description, id, catego
           <p className={style.payInfo}><span className={style.payIcon}>{<FaRegCreditCard />}</span> Aceptamos todas las tarjetas</p>
         </div>
       </div>
-      <span className={style.price}>${price}</span>
-      {type === 'plato principal' || type === 'entrada' 
+      <span className={`${style.price} ${buttonOut && "pb-4"}`}>${price}</span>
+      {buttonOut? null :(type === 'plato principal' || type === 'entrada' 
       ? <Link to={`/detail/${id}`} className={style.link}>
           Ver detalle
         </Link>
         : <button className={style.buttonAddCart} onClick={showConfirmation}>
           Agregar a la orden
         </button>
-      }
+      )}
       
     </div>
   )

@@ -7,6 +7,7 @@ import { getTypes } from "../../../Redux/actions/getDishesTypes";
 import Swal from "sweetalert2";
 import style from "../Dashboard.module.css";
 import "../dashboard.css";
+import { getDishes } from "../../../Redux/actions/getAllDishes";
 
 export const ModalCreateDish = () => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -14,6 +15,7 @@ export const ModalCreateDish = () => {
     name: "",
     description: "",
     type: updateState,
+    stock: 0,
     subtype: [],
     calories: "",
     glutenfree: updateState,
@@ -29,7 +31,16 @@ export const ModalCreateDish = () => {
   const [error, setError] = useState({});
   const fileInputRef = useRef(null);
 
-  const subtiposDish = ["pastas", "ensaladas", "carnes", "pescados y mariscos", "sopas", "minutas", "arroz", "sandwich"];
+  const subtiposDish = [
+    "pastas",
+    "ensaladas",
+    "carnes",
+    "pescados y mariscos",
+    "sopas",
+    "minutas",
+    "arroz",
+    "sandwich",
+  ];
 
   const dispatch = useDispatch();
 
@@ -52,11 +63,11 @@ export const ModalCreateDish = () => {
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
-
     try {
       const { data } = await axios.post(`${server}/dish`, formData);
 
       if (data.name) {
+        dispatch(getDishes());
         Swal.fire({
           icon: "success",
           title: "Plato creado con exito",
@@ -82,6 +93,7 @@ export const ModalCreateDish = () => {
   formData.append("name", inputCreateDish.name);
   formData.append("description", inputCreateDish.description);
   formData.append("type", inputCreateDish.type);
+  formData.append("stock", inputCreateDish.stock);
   formData.append("calories", inputCreateDish.calories);
   formData.append("price", inputCreateDish.price);
   formData.append("subtype", inputCreateDish.subtype);
@@ -96,8 +108,7 @@ export const ModalCreateDish = () => {
         type="button"
         className={style.buttonDelete}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
+        data-bs-target="#staticBackdrop">
         Plato
       </button>
 
@@ -108,8 +119,7 @@ export const ModalCreateDish = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -120,8 +130,7 @@ export const ModalCreateDish = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -165,6 +174,20 @@ export const ModalCreateDish = () => {
                 )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
+                  Stock
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="stock"
+                  value={inputCreateDish.stock}
+                  onChange={onInputChange}
+                />
+                {error.stock && (
+                  <p className={style.dato_incorrecto}>{error.stock}</p>
+                )}
+
+                <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
                 </label>
                 <input
@@ -191,8 +214,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.type}
                     className="mt-4"
                     name="type"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT">Tipos de plato</option>
 
                     <option value="plato principal">Plato principal</option>
@@ -205,8 +227,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.subtype}
                     className="form-group mt-4"
                     name="subtype"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT">Subtipos</option>
                     {subtiposDish?.map((subtipo, key) => {
                       return (
@@ -223,8 +244,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.glutenfree}
                     className="form-group mt-4"
                     name="glutenfree"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT">Glutenfree</option>
                     <option value={true}>Si</option>
                     <option value={false}>no</option>
@@ -236,8 +256,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.vegetarian}
                     className="form-group mt-4"
                     name="vegetarian"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT">Vegetariano</option>
 
                     <option value={true}>Si</option>
@@ -250,8 +269,7 @@ export const ModalCreateDish = () => {
                     value={inputCreateDish.dailyspecial}
                     className=" my-4"
                     name="dailyspecial"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT">Especial del dia</option>
                     <option value={true} className="">
                       Si

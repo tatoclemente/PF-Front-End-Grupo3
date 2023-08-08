@@ -139,6 +139,7 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
                         rating={selectedItem.rating}
                         description={selectedItem.description}
                         id={selectedItem.id}
+                        buttonOut={true}
                       />
                     )}
                   </div>
@@ -153,14 +154,7 @@ export const Deleted = ({ allDates, path, getItems, name, idModal }) => {
                   </div>
                 ) : undefined}
                 <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    onClick={() => setDeleteState("DEFAULT")}
-                  >
-                    Cerrar
-                  </button>
+                
                   <button type="submit" className="btn buttonCrear">
                     Guardar cambios
                   </button>

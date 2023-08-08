@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { FiCheck } from "react-icons/fi";
 import { validacionDesert } from "../Validaciones/validacionDesert";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const UpdateDesert = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -19,6 +20,8 @@ export const UpdateDesert = ({ allDates }) => {
 
   const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
+
+  const dispatch = useDispatch()
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
@@ -95,7 +98,9 @@ export const UpdateDesert = ({ allDates }) => {
           `${server}/desert/${selectedItem.id}`,
           formData
         );
+        
         if (data?.name) {
+          dispatch(getDesserts())
           Swal.fire({
             icon: "success",
             title: "Se ha modificado el postre correctamente",
@@ -216,6 +221,8 @@ export const UpdateDesert = ({ allDates }) => {
                       image={inputUpdate?.image}
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
+                      buttonOut={true}
+
                     />
                   )}
                 </div>
@@ -296,14 +303,6 @@ export const UpdateDesert = ({ allDates }) => {
                 </div>
               )}
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}
-                >
-                  Cerrar
-                </button>
                 <button
                   type="submit"
                   className="btn buttonCrear"

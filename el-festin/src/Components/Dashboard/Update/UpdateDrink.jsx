@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import { volumeDrink, typeDrink } from "../../../Helpers/objetosHelp";
@@ -9,6 +9,7 @@ import { FiCheck } from "react-icons/fi";
 import { validacionDrink } from "../Validaciones/validacionDrink";
 import "../dashboard.css";
 import style from "../Dashboard.module.css";
+import { getDrinks } from "../../../Redux/actions/actionsDrinks/getAllDrinks";
 
 export const UpdateDrink = ({ allDates }) => {
   const [updateState, setUpdateState] = useState("DEFAULT");
@@ -18,7 +19,9 @@ export const UpdateDrink = ({ allDates }) => {
     price: false,
   });
 
-  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
+  const selectedItem =
+    Array.isArray(allDates) &&
+    allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
   const [filed, setFiled] = useState(null);
 
@@ -35,6 +38,8 @@ export const UpdateDrink = ({ allDates }) => {
     setInputUpdate(selectedItem);
     setInputView(updateState);
   }, [selectedItem, updateState]);
+
+  const dispatch = useDispatch();
 
   const onUpdateChange = (e) => {
     setUpdateState(e.target.value);
@@ -92,6 +97,7 @@ export const UpdateDrink = ({ allDates }) => {
         );
         console.log(data);
         if (data.name) {
+          dispatch(getDrinks());
           Swal.fire({
             icon: "success",
             title: "Se ha modificado la bebida correctamente",
@@ -120,8 +126,7 @@ export const UpdateDrink = ({ allDates }) => {
         type="button"
         className={style.buttonDelete}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop11"
-      >
+        data-bs-target="#staticBackdrop11">
         Bebida
       </button>
 
@@ -132,8 +137,7 @@ export const UpdateDrink = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -145,8 +149,7 @@ export const UpdateDrink = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}
-              ></button>
+                onClick={() => setUpdateState("DEFAULT")}></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -158,13 +161,14 @@ export const UpdateDrink = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {Array.isArray(allDates) && allDates.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
+                  {Array.isArray(allDates) &&
+                    allDates.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div className="row d-flex align-items-center justify-content-center ps-5">
@@ -174,24 +178,21 @@ export const UpdateDrink = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Nombre
                     </button>
 
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Precio
                     </button>
 
                     <button
                       name="stock"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Stock
                     </button>
 
@@ -200,8 +201,7 @@ export const UpdateDrink = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group "
                         name="volume"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled className="">
                           Medida
                         </option>
@@ -220,10 +220,9 @@ export const UpdateDrink = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group"
                         name="type"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled className="">
-                          tipo de bebida
+                          Tipo de bebida
                         </option>
                         {typeDrink.map((type, key) => {
                           return (
@@ -239,10 +238,9 @@ export const UpdateDrink = ({ allDates }) => {
                         defaultValue={"DEFAULT"}
                         className="form-group"
                         name="alcohol"
-                        onChange={onInputChange}
-                      >
+                        onChange={onInputChange}>
                         <option value="DEFAULT" disabled>
-                          contiene alcohol
+                          Contiene alcohol
                         </option>
 
                         <option value={true}>Si</option>
@@ -267,7 +265,9 @@ export const UpdateDrink = ({ allDates }) => {
                       image={inputUpdate?.image}
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
+                      volume={inputUpdate?.volume}
                       description={inputUpdate?.description}
+                      buttonOut={true}
                     />
                   )}
                 </div>
@@ -287,8 +287,7 @@ export const UpdateDrink = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, name: false })}
-                    disabled={error.name}
-                  >
+                    disabled={error.name}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.name && (
@@ -312,8 +311,7 @@ export const UpdateDrink = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, price: false })}
-                    disabled={error.price}
-                  >
+                    disabled={error.price}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.price && (
@@ -337,8 +335,7 @@ export const UpdateDrink = ({ allDates }) => {
                     type="button"
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, stock: false })}
-                    disabled={error.stock}
-                  >
+                    disabled={error.stock}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.stock && (
@@ -348,18 +345,9 @@ export const UpdateDrink = ({ allDates }) => {
               )}
               <div className="modal-footer">
                 <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => setUpdateState("DEFAULT")}
-                >
-                  Cerrar
-                </button>
-                <button
                   type="submit"
                   className="btn buttonCrear"
-                  disabled={isInputViewEnabled}
-                >
+                  disabled={isInputViewEnabled}>
                   Modificar
                 </button>
               </div>
