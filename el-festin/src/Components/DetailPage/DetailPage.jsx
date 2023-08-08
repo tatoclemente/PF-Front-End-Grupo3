@@ -304,7 +304,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
   let batatas = []
   if (pastaGarnish || resGarnish) {
     papas = {
-      ...sides.find((side) => side.name.toLowerCase() === "papa fritas"),
+      ...sides.find((side) => side.name.toLowerCase() === "papas fritas"),
     };
     batatas = {
       ...sides.find((side) => side.name.toLowerCase() === "batatas fritas"),
@@ -317,6 +317,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     dishDetail.subtype === "pastas"
       ? pastaGarnish
       : dishDetail.subtype === "carnes" ||
+        dishDetail.subtype === "minutas" || 
         dishDetail.subtype === "pescados y mariscos"
         ? resGarnish
         : dishDetail.subtype === "sandwich"

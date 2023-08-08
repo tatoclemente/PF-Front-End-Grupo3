@@ -55,8 +55,8 @@ function App() {
   const decodeCustomToken = customToken && decodeToken(customToken);
 
   const currentUser = {
-    role:"Admin"
-    //role: decodeCustomToken? decodeCustomToken.role : "User",
+    // role:"Admin"
+    role: decodeCustomToken? decodeCustomToken.role : "User",
   };
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -91,7 +91,7 @@ function App() {
           <Route path={ROUTES.PAYMENT_FAILED} element={<PaymentFailed toggleCart={toggleCart} />} />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
-          {/*<Route path="/*" element={<Landing />} />*/}
+          {/* <Route path="/*" element={<Landing />} /> */}
 
           <Route
             path={`${ROUTES.DETAIL}/:id`}
