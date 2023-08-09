@@ -377,7 +377,7 @@ function RightSide({
                     </div>
                   </div>
                   <div className={styleReservation.dataReservationBottom}>
-                    <button className={styleReservation.buttonsActions} onClick={() => handleCancelReservation(reservation.id)}>Cancelar Reserva</button>
+                    <button style={reservation.status === "Cancelado" ? { backgroundColor: '#e5e5e5', color: "#8b8b8b"} : null} disabled={reservation.status === "Cancelado" ? "true" : ""} className={styleReservation.buttonsActions} onClick={() => handleCancelReservation(reservation.id)}>Cancelar Reserva</button>
                   </div>
 
                 </div>
