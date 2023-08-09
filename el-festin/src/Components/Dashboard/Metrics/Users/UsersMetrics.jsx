@@ -1,16 +1,22 @@
 import React, {useState} from "react";
 import style from '../metrics.module.css'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import DefaultImg from './images/profile.png'
 import axios from "axios";
+import {getUsers} from '../../../../Redux/actions/actionsUsers/getAllUsers'
 import Swal from "sweetalert2";
 import { server } from "../../../../Helpers/EndPoint";
 import { Card, Text,  Col, Grid, Title,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow, Badge} from "@tremor/react";
 
 
-export const UsersMetrics = () => {
+export const UsersMetrics = ({ currentUser }) => {
   const [selectedRole, setSelectedRole] = useState("");
-    const AllUsers = useSelector((state) => state.users.users)
+  const dispatch = useDispatch()
+    const Users = useSelector((state) => state.users.users)
+
+    let AllUsers = [];
+    if (Array.isArray(Users) && Users.length > 0){AllUsers.push(...Users)}
+
 
      // Estado para controlar la página actual y la cantidad de usuarios por página
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,8 +79,13 @@ export const UsersMetrics = () => {
           confirmButtonText: "OK",
         })
         console.log("Rol cambiado exitosamente.");
+        dispatch(getUsers())
       } else {
-        console.error("Error al cambiar el rol del usuario.");
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrio un error!",
+          confirmButtonText: "OK",
+        })
       }
     } catch (error) {
       console.error("Error de red:", error);
@@ -109,7 +120,7 @@ export const UsersMetrics = () => {
                     <Text>{item.email}</Text>
                 </TableCell>
                 <TableCell>
-                  <div className={style.btnContainer}>
+                  {currentUser.role === 'SuperAdmin' ? <div className={style.btnContainer}>
                {item.role === 'User' ? <select className={style.selectButn}
           onChange={(e) => setSelectedRole(e.target.value)}
         >
@@ -123,17 +134,16 @@ export const UsersMetrics = () => {
         <option value="">Rol: {item.role}</option>
         <option select disabled>Cambia el rol</option>
         <option value="User">Usuario</option>
-        <option value="SuperAdmin">Super Admin</option>
       </select> : <select className={style.selectButn}
         onChange={(e) => setSelectedRole(e.target.value)}
       >
         <option value="">Rol: {item.role}</option>
-        <option select disabled>Cambia el rol</option>
-        <option value="User">Usuario</option>
-        <option value="Admin">Admin</option>
+        <option select disabled>No puedes cambiar esto</option>
       </select>}
                   <button className={style.buuutton} onClick={() => handleRoleChange(item.id)}>Cambiar Rol</button>
-                  </div>
+                  </div> : <div className={style.selectButn}>
+                    <span>{item.role}</span>
+                    </div>}
                 </TableCell>
           </TableRow>
         ))}

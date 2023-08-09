@@ -34,14 +34,18 @@ export const userSlice = createSlice({
       let orderACC = orders.filter((e) => e.status.includes('Completo')) 
       state.usersOrdersPending = orderACC;
       }
-      if(action.payload === 'Pending'){
+      if(action.payload === 'Aprobado'){
         let orders = [...state.usersOrdersAccepted]
-      let orderACC = orders.filter((e) => e.status.includes('Pendiente'))
+      let orderACC = orders.filter((e) => e.status.includes('Aprobado'))
       state.usersOrdersPending = orderACC;
       }
-      if(action.payload === 'Rejected'){
+      if(action.payload === 'Entregado'){
         let orders = [...state.usersOrdersAccepted]
-      let orderACC = orders.filter((e) => e.status.includes('rechazado')) 
+      let orderACC = orders.filter((e) => e.status.includes('Entregado')) 
+      state.usersOrdersPending = orderACC;
+      }if(action.payload === 'En proceso'){
+        let orders = [...state.usersOrdersAccepted]
+      let orderACC = orders.filter((e) => e.status.includes('En proceso')) 
       state.usersOrdersPending = orderACC;
       }
       

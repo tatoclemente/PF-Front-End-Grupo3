@@ -6,7 +6,7 @@ import { Divider } from "@tremor/react";
 
 
 
-export const DetailReserv = ({detail, pedido, handleStatus}) =>{
+export const DetailReserv = ({detail, pedido, handleStatus, handleStatusEntrega, handleStatusEnProceso}) =>{
 
     function formatPedido(pedido) {
         if (!pedido || pedido.length === 0) {
@@ -63,7 +63,7 @@ export const DetailReserv = ({detail, pedido, handleStatus}) =>{
                     return(
                         
                         <div key={index}>
-                             <h4 className={style.titleDet}>Detalle ticket</h4>
+                             <h4 className={style.titleDet}>Ticket</h4>
                              <Divider/>
                             <div className={style.conDetailWords}>
                             <span>Nombre: {a.user.name}</span>
@@ -130,9 +130,13 @@ export const DetailReserv = ({detail, pedido, handleStatus}) =>{
                     <span>Total: ${a.price}</span>
                     </div>
                             <Divider/>
-                            {a.status === 'Pendiente' ? <div>
+                            {a.status === 'Aprobado' ? <div>
+                            <button onClick={handleStatusEnProceso} data-value={a.order} className={style.detButton}>Empezar</button>
+                            </div> : a.status === 'En proceso' ? <div>
                             <button onClick={handleStatus} data-value={a.order} className={style.detButton}>Completar</button>
-                            </div>: <div>
+                            </div> : a.status === 'Completo' ? <div>
+                            <button onClick={handleStatusEntrega} data-value={a.order} className={style.detButton}>Entregar</button>
+                            </div>  : <div>
                                 <h6>El pedido esta {a.status} </h6>
                                 </div>}
                             

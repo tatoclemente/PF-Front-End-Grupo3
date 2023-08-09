@@ -3,7 +3,7 @@ import {UsersMetrics} from './UsersMetrics'
 import style from '../metrics.module.css'
 import { Tab ,TabList, TabGroup, Flex, } from '@tremor/react'
 
-export const UsersData = () =>{
+export const UsersData = ({ currentUser }) =>{
    
     return(
         <div className={style.containerAll}>
@@ -16,7 +16,7 @@ export const UsersData = () =>{
       </div>
                 </TabList>
              <div>
-          <UsersMetrics/>
+          <UsersMetrics currentUser={currentUser}/>
           </div>
             </TabGroup>
         </div>
