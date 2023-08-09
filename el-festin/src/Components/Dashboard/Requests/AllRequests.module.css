@@ -3,7 +3,7 @@
     max-width: calc(100vw - 280px);
     justify-content: space-between;
     min-height: 100%;
-   margin-left: 1.4rem;
+    margin-left: 1.4rem;
     
 }
 .contDet{
@@ -21,7 +21,7 @@
 
 .contReq{
     max-width: 700px; 
-   width: 90%;
+    width: 90%;
     margin-top: 4%;
 }
 
