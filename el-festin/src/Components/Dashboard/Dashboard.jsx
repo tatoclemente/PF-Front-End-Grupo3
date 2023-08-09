@@ -11,7 +11,7 @@ import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
 import { Reservation } from "./Reservations/Reservation.jsx";
 
 
-export const Dashboard = () => {
+export const Dashboard = ({ currentUser }) => {
   const [things, setThings] = useState("Requests");
   // console.log(things)
 
@@ -61,7 +61,7 @@ export const Dashboard = () => {
 
           {things === "Users" ? (
             <div className="metricContent">
-              <UsersData />
+              <UsersData currentUser={currentUser}/>
             </div>
           ) : null}
           {things === "Reser" ? (

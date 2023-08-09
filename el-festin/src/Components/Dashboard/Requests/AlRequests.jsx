@@ -13,7 +13,7 @@ import { Title } from "@tremor/react";
 
 export const AllRequest = () =>{
     const dispatch = useDispatch()
-    const [state, setState] = useState('Acepted')
+    const [state, setState] = useState(' ')
     const [detail, setDetail] = useState({
       order:'',
       user:{name: '', email: ''},
@@ -21,20 +21,36 @@ export const AllRequest = () =>{
       price: 0,
       date: ''
     })
-  
     const [pedido, setPedido] = useState([]);
     
 
     useEffect(() =>{
-      dispatch(ordersAccepted())
-        }, [])
+      dispatch(ordersAccepted());
+      const interval = setInterval(() => {
+       
+        dispatch(ordersAccepted());
+      }, 120000); // 30 segundos en milisegundos
+  
+      return () => {
+        clearInterval(interval);
+      };
+     
+        }, [dispatch])
+  
 
-        const AllPending = useSelector((state) => state.users.usersOrdersPending);
+        const AllTickets = useSelector((state) => state.users.usersOrdersPending)
+
+        let AllPending = [];
+
+        if (Array.isArray(AllTickets) && AllTickets.length > 0){AllPending.push(...AllTickets)}
+
+        useEffect(() =>{
+          dispatch(ordersPending('Aprobado'))
+            }, [])
 
       const handleDetail = async(e) =>{
         const val = e.target.getAttribute('data-value')
         let filtered = AllPending.filter((e) => e.order.includes(val))
-
         if(filtered){
           try {
 
@@ -52,19 +68,25 @@ export const AllRequest = () =>{
         };
         
       };
-
       const handleChangeType = (e) =>{
         const val = e.target.getAttribute('data-value')
         if(val === 'Acepted'){
           setState('Acepted')
           dispatch(ordersPending('Acepted'))
         }
-        if(val === 'Pending'){
-          setState('Pending')
-          dispatch(ordersPending('Pending'))
+        if(val === 'Aprobado'){
+          setState('Aprobado')
+          dispatch(ordersPending('Aprobado'))
+        }
+        if(val === 'Entregado'){
+          setState('Entregado')
+          dispatch(ordersPending('Entregado'))
+        }
+        if(val === 'En proceso'){
+          setState('En proceso')
+          dispatch(ordersPending('En proceso'))
         }
       }
-
       const handleStatus = async(e) =>{
         const val = e.target.getAttribute('data-value')
         try {
@@ -87,7 +109,7 @@ export const AllRequest = () =>{
             })
             setPedido([])
             dispatch(ordersAccepted())
-          }
+        }
          
         } catch (error) {
           Swal.fire({
@@ -99,6 +121,73 @@ export const AllRequest = () =>{
         }
         
     }
+    const handleStatusEnProceso = async(e) =>{
+      const val = e.target.getAttribute('data-value')
+        try {
+          const { data } = await axios.put(`${server}/ticket/${val}`,{
+            status: "En proceso"
+          })
+          console.log(data)
+          if(data){
+            Swal.fire({
+              icon: "success",
+              title: "El pedido esta en proceso",
+              confirmButtonText: "OK",
+            });
+            setDetail({
+              order:'',
+              user:{name: '', email: ''},
+              status: '',
+              price: 0,
+              date: ''
+            })
+            setPedido([])
+            dispatch(ordersAccepted())
+        }
+         
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Lo siento ocurrio un error!",
+            confirmButtonText: "OK",
+          });
+          console.log(error)
+        }
+    }
+
+    const handleStatusEntrega = async(e) =>{
+      const val = e.target.getAttribute('data-value')
+        try {
+          const { data } = await axios.put(`${server}/ticket/${val}`,{
+            status: "Entregado"
+          })
+          console.log(data)
+          if(data){
+            Swal.fire({
+              icon: "success",
+              title: "Se entregó el pedido",
+              confirmButtonText: "OK",
+            });
+            setDetail({
+              order:'',
+              user:{name: '', email: ''},
+              status: '',
+              price: 0,
+              date: ''
+            })
+            setPedido([])
+            dispatch(ordersAccepted())
+        }
+         
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Lo siento ocurrio un error!",
+            confirmButtonText: "OK",
+          });
+          console.log(error)
+        }
+    }
 
 
     return(
@@ -107,24 +196,38 @@ export const AllRequest = () =>{
         <Title>Lista de Pedidos</Title>
         <div className={style.tabsContainer}>
         <button
-          className={state === "Acepted" ? style.activeTab : style.tab}
+          className={state === "Aprobado" ? style.activeTab : style.tab}
           onClick={handleChangeType}
-          data-value='Acepted'
+          data-value='Aprobado'
         >
           Aprobados
         </button>
         <button
-          className={state === "Pending" ? style.activeTab : style.tab}
+          className={state === "En proceso" ? style.activeTab : style.tab}
           onClick={handleChangeType}
-          data-value='Pending'
+          data-value='En proceso'
         >
           En proceso
         </button>
+        <button
+          className={state === "Acepted" ? style.activeTab : style.tab}
+          onClick={handleChangeType}
+          data-value='Acepted'
+        >
+          Completados
+        </button>
+        <button
+          className={state === "Entregado" ? style.activeTab : style.tab}
+          onClick={handleChangeType}
+          data-value='Entregado'
+        >
+          Entregados
+        </button>
       </div>
-            <Requests state={state} AllPending={AllPending} handleDetail={handleDetail}/>
+            <Requests state={state}  AllPending={AllPending} handleDetail={handleDetail}/>
         </div>
         <div>
-            <DetailReserv handleStatus={handleStatus} pedido={pedido} detail={detail}/>
+            <DetailReserv handleStatusEnProceso={handleStatusEnProceso} handleStatusEntrega={handleStatusEntrega} handleStatus={handleStatus} pedido={pedido} detail={detail}/>
             
         </div>
         </div>

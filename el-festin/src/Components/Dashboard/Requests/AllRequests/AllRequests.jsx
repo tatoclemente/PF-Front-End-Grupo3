@@ -7,7 +7,6 @@ import { Card, Text,  Col, Grid, Legend,  Table, TableCell, TableHeaderCell, Tab
 
 export const Requests = ({ AllPending, handleDetail }) => {
  
-  console.log(AllPending)
     
   
   // Función para cambiar la página
@@ -20,12 +19,21 @@ export const Requests = ({ AllPending, handleDetail }) => {
     <Title>Estado de pedido</Title>
     <div className={style.dotsCont}>
   <Legend 
-      categories={[' ']}
-      colors={["emerald"]}
-    /><span>Completado</span><Legend 
     categories={[' ']}
-    colors={["orange"]}
+    colors={["lime"]}
+  /><span>Aprobado</span>
+  <Legend 
+    categories={[' ']}
+    colors={["yellow"]}
   /><span>En proceso</span>
+  <Legend 
+      categories={[' ']}
+      colors={["sky"]}
+    /><span>Completado</span>
+  <Legend 
+    categories={[' ']}
+    colors={["violet"]}
+  /><span>Entregado</span>
   </div>
   <Divider/>
     <Table >
@@ -49,17 +57,19 @@ export const Requests = ({ AllPending, handleDetail }) => {
                     <Text>{item.order}</Text>
                     {item.status === 'Completo' ? <Legend className="r-3"
       categories={[' ']}
-      colors={["emerald"]}
-    /> : item.status === 'Pendiente' ? <Legend  className="r-3"
+      colors={["sky"]}
+    /> : item.status === 'Aprobado' ? <Legend  className="r-3"
     categories={[' ']}
-    colors={["orange"]}
+    colors={["lime"]}
   /> : item.status === 'Entregado' ? <Legend className="r-3"
   categories={[' ']}
-  colors={["emerald"]}
-/> :<Legend  className="r-3"
+  colors={["violet"]}
+/> : item.status === 'En proceso' ?  <Legend  className="r-3"
   categories={[' ']}
-  colors={["red"]}
-/> }
+  colors={["yellow"]}
+/> : <Legend  className="r-3"
+  categories={[' ']}
+  colors={["red"]}/>}
                 </TableCell>
                 <TableCell>{item.date}</TableCell>
                 <TableCell>

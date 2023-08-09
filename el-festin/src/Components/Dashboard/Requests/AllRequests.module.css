@@ -2,7 +2,7 @@
     display: flex;
     
     justify-content: space-between;
-    min-height: 100%;
+    min-height: 98.2vh;
    margin-left: 0.4%;
     
 }
@@ -20,7 +20,7 @@
 }
 
 .contReq{
-    max-width: 700px; 
+    max-width: 710px; 
    width: 90%;
     margin-top: 4%;
 }
@@ -35,27 +35,6 @@
     border-bottom: 1px solid var(--gray);
     border-left: 1px solid var(--gray);
     border-right: 1px solid var(--gray) ;
-}
-
-.contButtons{
-    justify-items: left;
-    margin-right: 30%;
-    display: flex;
-    gap: 5px;
-    margin-bottom: 0.6%;
-}
-.buttons{
-    background-color: #f6f5f4;
-    border: 1px solid #FBC32C;
-    color: rgb(26, 25, 25);
-    border-radius: 10px;
-    cursor: pointer;
-    height: 40px;
-    width: 95px;
-}
-.buttons:hover{
-    background-color: #FBC32C
-
 }
 .dotsCont{
     display: flex;
@@ -97,7 +76,7 @@
     border-radius: 1vh;
     padding: 1vh;
     width: fit-content;
-    margin-left: 23%;
+    margin-left: 37%;
     margin-top: 1%;
     color: #f6f5f4;
     background-color: #313045;

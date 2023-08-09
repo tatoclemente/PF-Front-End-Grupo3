@@ -1,9 +1,9 @@
 import { Dashboard } from "../../Components/Dashboard/Dashboard";
 
-export const DashboardView = () => {
+export const DashboardView = ({ currentUser }) => {
   return (
     <>
-      <Dashboard />
+      <Dashboard currentUser={currentUser} />
     </>
   );
 };
