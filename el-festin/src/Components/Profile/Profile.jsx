@@ -130,7 +130,7 @@ export const Profile = ({toggleCart}) => {
   //----------------------------------------------------------------------------
 
 
-  const emailExists = Array.isArray(users) && users.filter((us) => us.email === user.email);
+  const emailExists = Array.isArray(users) && users.filter((us) => us.email === user?.email);
 
   const dataUser = emailExists && emailExists.map((u) => ({
     name: u.name,
@@ -141,12 +141,12 @@ export const Profile = ({toggleCart}) => {
   }));
 
   const [inputValues, setInputValues] = useState({
-    name: user.displayName
-      ? user.displayName
+    name: user?.displayName
+      ? user?.displayName
       : dataUser.length > 0
         ? `${dataUser[0].name} ${dataUser[0].lastName}`
         : "",
-    email: user.email ? user.email : dataUser.length > 0 ? dataUser.email : "",
+    email: user?.email ? user?.email : dataUser.length > 0 ? dataUser.email : "",
     phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
   });
 
@@ -202,8 +202,8 @@ export const Profile = ({toggleCart}) => {
     ? URL.createObjectURL(profile.image)
     : dataUser.length > 0
       ? dataUser[0].image
-      : isValidURL(user.photoURL)
-        ? user.photoURL
+      : isValidURL(user?.photoURL)
+        ? user?.photoURL
         : undefined;
 
 

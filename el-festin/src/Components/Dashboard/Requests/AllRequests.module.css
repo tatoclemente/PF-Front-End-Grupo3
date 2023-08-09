@@ -1,9 +1,9 @@
 .contAll{
     display: flex;
-    
+    max-width: calc(100vw - 280px);
     justify-content: space-between;
     min-height: 100%;
-   margin-left: 0.4%;
+   margin-left: 1.4rem;
     
 }
 .contDet{

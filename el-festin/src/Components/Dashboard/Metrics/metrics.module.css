@@ -2,7 +2,7 @@
 .containerAll{
     position: relative;
     width: 99%;
-    margin-right: 0.16%;
+    margin: 0 auto;
 }
 
 .containerDishes{
@@ -24,7 +24,7 @@
     border-bottom: 1px solid var(--gray);
     border-left: 1px solid var(--gray);
     border-right: 1px solid var(--gray) ;
-
+    margin: 0 auto;
 }
 .contImg{
 border-radius: 50%;
