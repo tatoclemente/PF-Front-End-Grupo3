@@ -25,7 +25,7 @@ export default function BookingComponent() {
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const [error, setError] = useState({});
-  const [userId, setUserId] = useState(null);
+  // const [userId, setUserId] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ export default function BookingComponent() {
     // Cuando el usuario cambia, busca su ID en la base de datos local
     const emailId = Array.isArray(users) && users.filter((us) => us.email === user?.email);
     if (emailId.length > 0) {
-      setUserId(emailId[0].id);
+      // setUserId(emailId[0].id);
       setInputValues((prevValues) => ({
         ...prevValues,
         id: emailId[0].id,

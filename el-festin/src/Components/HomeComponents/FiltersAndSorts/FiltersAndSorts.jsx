@@ -21,7 +21,7 @@ function FiltersAndSorts(props) {
 
   useEffect(() => {
     dispatch(getDrTypes());
-  }, []);
+  }, [dispatch]);
 
   const handleAlcohol = (e) => {
     const val = e.target.value;
