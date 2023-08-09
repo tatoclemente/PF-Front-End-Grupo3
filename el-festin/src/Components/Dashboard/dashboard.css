@@ -1,7 +1,7 @@
 
-.sidebarContainer {
+/* .sidebarContainer {
   width: 280px;
-}
+} */
 
 .contentContainer {
   width: calc(100vw - 280px);
