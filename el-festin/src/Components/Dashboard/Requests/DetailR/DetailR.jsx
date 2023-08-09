@@ -70,6 +70,13 @@ export const DetailReserv = ({ detail, pedido, handleStatus, handleStatusEntrega
 
   console.log(transformedOrderItems);
 
+  function invertDate(date) {
+    const parts = date.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return date; // Devuelve la fecha sin cambios si no tiene el formato esperado
+  }
   return (
     <div className={style.contDet}>
 
@@ -88,7 +95,7 @@ export const DetailReserv = ({ detail, pedido, handleStatus, handleStatusEntrega
                   <span>Correo: {a.user.email}</span>
                 </div>
                 <div className={style.conDetailWords}>
-                  <span>Fecha: {a.date}</span>
+                  <span>Fecha: {invertDate(a.date)}</span>
                 </div>
                 <div className={style.conDetailWords}>
                   <span>Hora: {a.time}</span>
