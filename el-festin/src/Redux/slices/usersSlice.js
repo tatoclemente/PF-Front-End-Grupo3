@@ -29,14 +29,14 @@ export const userSlice = createSlice({
       state.usersOrdersAccepted = action.payload;
       state.usersOrdersPending = action.payload
     }, ordersPending:(state, action ) =>{
-      if(action.payload === 'Acepted'){
-        let orders = [...state.usersOrdersAccepted]
-      let orderACC = orders.filter((e) => e.status.includes('Completo')) 
-      state.usersOrdersPending = orderACC;
-      }
       if(action.payload === 'Aprobado'){
         let orders = [...state.usersOrdersAccepted]
       let orderACC = orders.filter((e) => e.status.includes('Aprobado'))
+      state.usersOrdersPending = orderACC;
+      }
+      if(action.payload === 'Acepted'){
+        let orders = [...state.usersOrdersAccepted]
+      let orderACC = orders.filter((e) => e.status.includes('Completo')) 
       state.usersOrdersPending = orderACC;
       }
       if(action.payload === 'Entregado'){
