@@ -76,7 +76,7 @@ export const ModalCreateSide = () => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={style.buttonDelete}
+        className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop3">
         Guarnicion

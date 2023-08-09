@@ -129,7 +129,7 @@ export const UpdateDesert = ({ allDates }) => {
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={style.buttonDelete}
+        className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop12"
       >

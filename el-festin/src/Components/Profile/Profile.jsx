@@ -50,6 +50,16 @@ export const Profile = ({toggleCart}) => {
     prevMyOrdersRef.current = myOrders;
   }, [myOrders]);
 
+    // Función para ordenar por fecha y hora de manera descendente
+  function sortByDateAndTimeDesc(a, b) {
+    const dateComparison = b.date.localeCompare(a.date);
+    if (dateComparison !== 0) {
+      return dateComparison;
+    }
+
+    return b.createdAt.localeCompare(a.createdAt);
+  }
+
   useEffect(() => {
     if (userId) {
       const orders = async () => {
@@ -64,12 +74,14 @@ export const Profile = ({toggleCart}) => {
           } else {
             const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
 
-            // Ordenar las órdenes por hora (createdAt) en orden descendente
-            aproved.sort((a, b) => {
-              const timeA = new Date(`2000-01-01T${a.createdAt}:00`).getTime();
-              const timeB = new Date(`2000-01-01T${b.createdAt}:00`).getTime();
-              return timeB - timeA;
-            });
+              // Ordenar los tickets por fecha y hora de manera descendente
+            aproved.sort(sortByDateAndTimeDesc);
+            // // Ordenar las órdenes por hora (createdAt) en orden descendente
+            // aproved.sort((a, b) => {
+            //   const timeA = new Date(`2000-01-01T${a.createdAt}:00`).getTime();
+            //   const timeB = new Date(`2000-01-01T${b.createdAt}:00`).getTime();
+            //   return timeB - timeA;
+            // });
 
             setMyOrders(aproved);
             setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
@@ -92,6 +104,16 @@ export const Profile = ({toggleCart}) => {
     prevMyReservationsRef.current = myReservations;
   }, [myReservations]);
 
+  // Función para ordenar reservaciones por fecha y hora de manera descendente
+function sortByDateAndTimeDescReser(a, b) {
+  const dateComparison = b.date.localeCompare(a.date);
+  if (dateComparison !== 0) {
+    return dateComparison;
+  }
+
+  return b.time.localeCompare(a.time);
+}
+
   useEffect(() => {
     if (userId) {
       const reservations = async () => {
@@ -106,13 +128,13 @@ export const Profile = ({toggleCart}) => {
           } else {
             const validReservations = reservations.filter((reserv) => reserv.status !== "Rechazado");
 
-            // Ordenar las reservaciones por fecha y hora en orden descendente
-            validReservations.sort((a, b) => {
-              const dateA = new Date(`${a.date} ${a.time}`);
-              const dateB = new Date(`${b.date} ${b.time}`);
-              return dateB - dateA;
-            });
-
+            // // Ordenar las reservaciones por fecha y hora en orden descendente
+            // validReservations.sort((a, b) => {
+            //   const dateA = new Date(`${a.date} ${a.time}`);
+            //   const dateB = new Date(`${b.date} ${b.time}`);
+            //   return dateB - dateA;
+            // });
+            validReservations.sort(sortByDateAndTimeDescReser);
             setMyReservations(validReservations);
             setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
           }
