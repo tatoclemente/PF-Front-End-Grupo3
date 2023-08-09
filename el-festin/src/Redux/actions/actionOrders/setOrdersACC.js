@@ -7,7 +7,9 @@ export const ordersAccepted = () => async(dispatch) =>{
     try {
         const { data } = await axios.get(`${server}/ticket`)
 
-        dispatch(setAccepted(data))
+        let ordersAproved = data.filter((a) => !a.status.includes('Pendiente'))
+
+        dispatch(setAccepted(ordersAproved))
         
     } catch (error) {
         console.log(error)

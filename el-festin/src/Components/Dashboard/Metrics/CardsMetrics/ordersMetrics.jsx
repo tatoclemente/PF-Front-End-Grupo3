@@ -6,15 +6,19 @@ import { Card, BarChart, Title, Subtitle, Col, Grid, Text } from "@tremor/react"
 
 
 export const OrderMetrics = () => {
-  const ITEMS_PER_PAGE = 4;
+  const ITEMS_PER_PAGE = 7;
   const dispatch = useDispatch()
 
 useEffect(() => {
  dispatch(getDishesDates())
 },[dispatch])
 
- let platosMasVendidos = useSelector((state) => state.admin.selledDishes)
- console.log(platosMasVendidos)
+let platitoMasVendido = useSelector((state) => state.admin.selledDishes)
+
+ let platosMasVendidos = [];
+
+ if (Array.isArray(platitoMasVendido) && platitoMasVendido.length > 0){platosMasVendidos.push(...platitoMasVendido)}
+ 
  
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,10 +65,8 @@ useEffect(() => {
       setCurrentPage(pageNumber);
     };
 
-    const encontrarPlatoMasVendido = (platos) =>{
-      if(platos.CantidadVendida === 0){
-        return 
-      }
+    const encontrarPlatoMasVendido = (platos) =>
+     
   platos?.reduce(
     (platoMasVendido, plato) =>
       plato['CantidadVendida'] > platoMasVendido['CantidadVendida']
@@ -72,7 +74,7 @@ useEffect(() => {
         : platoMasVendido,
     platos[0]
   );
-    }
+    
 
 const platoMasVendido = encontrarPlatoMasVendido(platosMasVendidos);
 

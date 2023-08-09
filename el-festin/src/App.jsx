@@ -52,13 +52,13 @@ function App() {
   const customToken = getCustomTokenFromLocalStorage();
 
   const decodeCustomToken = customToken && decodeToken(customToken);
-  console.log(decodeCustomToken);
   const currentUser = {
 
     role: decodeCustomToken ? decodeCustomToken.role : false,
     //role: "User",
 
   };
+  console.log(currentUser)
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -118,7 +118,7 @@ function App() {
               />
 
               {currentUser.role !== "User"?(
-                <Route path={ROUTES.DASHBOARD} element={<DashboardView />} />
+                <Route path={ROUTES.DASHBOARD} element={<DashboardView currentUser={currentUser} />} />
               ): (<Route
                 path={ROUTES.HOME}
                 element={<Home toggleCart={toggleCart} />}/>) }
