@@ -233,6 +233,14 @@ function RightSide({
 
   console.log(selectedItem);
 
+  function invertDate(date) {
+    const parts = date.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return date; // Devuelve la fecha sin cambios si no tiene el formato esperado
+  }
+
   return (
     <div className={styles.rigthContainer}>
       <div className={styles.tabsContainer}>
@@ -286,7 +294,7 @@ function RightSide({
                 <div className={styles.orderHeader}>
                   <div className={styles.dataOrder}>
                     <span>Pedido: <b>{order.idPedido}</b></span>
-                    <span>Fecha: <b>{order.date}</b></span>
+                    <span>Fecha: <b>{invertDate(order.date)}</b></span>
                     <span>Hora: <b>{order.createdAt}</b></span>
                   </div>
                   <div className={styles.dataOrderRigth}>

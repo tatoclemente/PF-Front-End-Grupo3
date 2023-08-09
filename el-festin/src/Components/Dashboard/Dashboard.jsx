@@ -79,5 +79,6 @@ export const Dashboard = ({ currentUser }) => {
 
         </div>
       </div>
+    </div>
   );
 };
