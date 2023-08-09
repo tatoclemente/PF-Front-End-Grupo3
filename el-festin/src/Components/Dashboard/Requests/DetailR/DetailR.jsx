@@ -161,7 +161,7 @@ export const DetailReserv = ({ detail, pedido, handleStatus, handleStatusEntrega
 
             </div>
           )
-        }) : <h4>Selecciona un pedido para poder ver sus detalles</h4>}
+        }) : <h4 style={{color:'var(--primary-light'}}>Selecciona un pedido para poder ver sus detalles</h4>}
       </div>
     </div>
   )
