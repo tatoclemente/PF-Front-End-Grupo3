@@ -20,6 +20,7 @@
     height: calc(100vh - 125px);
     margin-top: 1rem;
     overflow-y: auto;
+    background-color: var(--background-darkblue);
 }
 
 .contReq{
@@ -59,6 +60,23 @@
     transition-duration: 0.4s;
     margin: 0.5rem auto;
   }
+
+  .actionButton {
+    background-color: var(--main-color);
+    width: 200px;
+    color: var(--background-darkblue);
+    border: none;
+    padding: 0.5rem 0.6rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    margin-bottom: 2rem;
+  }
+  
   
   .detButton:hover {
     background-color: #fbc32c;
@@ -66,38 +84,49 @@
 
   .conDetailWords{
     display: flex;
-    width: max-content;
-    height: max-content;
-    border-top-right-radius: 1vh;
-    border-bottom-right-radius: 1vh;
-    padding: 1vh;
-    margin-bottom: 1%;
+    justify-content: space-between;
+    margin-left: .5rem;
     color: #f6f5f4;
     background-color: #313045;
-
   }
   
   .titleDet{
     border-radius: 1vh;
-    padding: 1vh;
-    width: fit-content;
-    margin-left: 37%;
-    margin-top: 1%;
     color: #f6f5f4;
     background-color: #313045;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
+  .headerDetail {
+    height: 100px;
+  }
   .contPedidos{
     display: flex;
     font-size: small;
-    flex-direction: column;
-    margin-bottom: 0.5%;
+    justify-content: space-between;
+    margin: .5rem;
     background-color: #313045;
-    width: fit-content;
     padding: 0.5vh;
     border-top-right-radius: 1vh;
     border-bottom-right-radius: 1vh;
     color: #f6f5f4;
+  }
+  .totalPriceContainer {
+    display: flex;
+    font-size: large;
+    justify-content: flex-end;
+    margin: .5rem;
+    background-color: #313045;
+    padding: 0.5vh;
+    border-top-right-radius: 1vh;
+    border-bottom-right-radius: 1vh;
+    color: #f6f5f4;
+  }
+
+  .productName {
+    width: 150px;
+    text-align: left;
   }
 
   .tabsContainer {

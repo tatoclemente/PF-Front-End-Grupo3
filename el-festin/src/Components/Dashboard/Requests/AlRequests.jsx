@@ -43,6 +43,7 @@ export const AllRequest = () => {
 
   const AllTickets = useSelector((state) => state.users.usersOrdersPending)
 
+  console.log(AllTickets);
   let AllPending = [];
 
   if (Array.isArray(AllTickets) && AllTickets.length > 0) { AllPending.push(...AllTickets) }
@@ -59,9 +60,9 @@ export const AllRequest = () => {
 
         const response = await axios.get(`${server}/ticket/${val}`);
         let data = response.data;
+        console.log(data);
         if (Array.isArray(data)) {
-          let dataForm = [data[1]]
-          setPedido(dataForm);
+          setPedido(data);
         }
         setDetail(filtered);
 
@@ -71,6 +72,8 @@ export const AllRequest = () => {
     };
 
   };
+
+  console.log(pedido);
   const handleChangeType = (e) => {
     const val = e.target.getAttribute('data-value')
     if (val === 'Acepted') {
