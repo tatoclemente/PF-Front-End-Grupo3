@@ -24,7 +24,6 @@ export const DashboardModifiers = ({ comeBack }) => {
   const allDeserts = useSelector((state) => state.desserts.desserts);
   const allSides = useSelector((state) => state.sides.sides);
   return (
-    <>
       <div className={Styles.sidebar}>
         <button
           className="btn btn-outline-danger text-white d-flex justify-content-start ms-2 mb-0 "
@@ -111,6 +110,5 @@ export const DashboardModifiers = ({ comeBack }) => {
           </li>
         </ul>
       </div>
-    </>
   );
 };

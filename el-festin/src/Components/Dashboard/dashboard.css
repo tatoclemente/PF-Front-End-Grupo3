@@ -1,3 +1,12 @@
+
+.sidebarContainer {
+  width: 280px;
+}
+
+.contentContainer {
+  width: calc(100vw - 280px);
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -29,7 +38,7 @@
 }
 
 .buttonCrear:hover {
-  background-color: #313045de;
+  background-color: transparent;
 }
 
 .dropdown select:hover {
@@ -113,13 +122,14 @@
   display: flex;
   justify-content: space-between;
   overflow-y: hidden;
+  width: 100vw;
+  height: calc(100vh - 100px);
 }
 
 .marketingContent {
   position: relative;
   right: 0;
   top: 0;
-  left: 280px;
   height: 100%;
   width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   padding: 20px;
@@ -134,7 +144,6 @@
   right: 0;
   top: 0;
   height: 100%;
-  left: 280px;
   width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
@@ -145,7 +154,6 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 280px;
   height: 100%;
   width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   min-height: 100vh; /* Establece aquí la altura máxima que desees */
@@ -157,7 +165,6 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 280px;
   height: 100%;
   width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   min-height: 100vh;

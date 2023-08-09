@@ -32,7 +32,7 @@ export const Dates = () => {
        
           </div>
         </TabList>
-        <div>
+        <div className={style.mostSaleContent}>
           <Flex>
             <OrderMetrics />
           </Flex>
