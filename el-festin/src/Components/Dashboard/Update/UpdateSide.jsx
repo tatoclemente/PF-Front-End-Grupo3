@@ -80,16 +80,11 @@ export const UpdateSide = ({ allDates }) => {
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const errorValue = Object.values(error);
-      let errorMessage = errorValue.filter((err) => err !== "");
-      if (errorMessage.length > 0) {
-        Swal.fire({
-          icon: "error",
-          title: "Complete todos los campos correctamente",
-          confirmButtonText: "OK",
-        });
-        return;
-      }
+      const nameExists =
+      Array.isArray(allDates) &&
+      allDates.find(
+        (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
+      );
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -112,15 +107,23 @@ export const UpdateSide = ({ allDates }) => {
           });
           setUpdateState("DEFAULT");
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "la guarnicion no pudo modificarse",
-            confirmButtonText: "OK",
-          });
+          if (nameExists) {
+            Swal.fire({
+              icon: "error",
+              title: "Ya existe una guarnicion con ese nombre",
+              confirmButtonText: "OK",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "La guarnicion no pudo modificarse",
+              confirmButtonText: "OK",
+            });
+          }
         }
       }
     } catch (error) {
-      throw error.messagge;
+      throw error.message;
     }
   };
 

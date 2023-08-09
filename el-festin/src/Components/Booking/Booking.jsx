@@ -37,7 +37,7 @@ export default function BookingComponent() {
 
   useEffect(() => {
     // Cuando el usuario cambia, busca su ID en la base de datos local
-    const emailId = users.filter((us) => us.email === user.email);
+    const emailId = Array.isArray(users) && users.filter((us) => us.email === user?.email);
     if (emailId.length > 0) {
       setUserId(emailId[0].id);
       setInputValues((prevValues) => ({
@@ -47,7 +47,7 @@ export default function BookingComponent() {
     }
   }, [user, users]);
 
-  const emailExists = users.filter((us) => us.email === user.email);
+  const emailExists = Array.isArray(users) && users.filter((us) => us.email === user?.email);
 
   const dataUser = emailExists.map((u) => ({
     id: u.id,
@@ -62,7 +62,7 @@ export default function BookingComponent() {
 
   const [inputValues, setInputValues] = useState({
     id: dataUser.id,
-    name: user.displayName
+    name: user?.displayName
       ? user.displayName
       : dataUser.length > 0
       ? `${dataUser[0].name} ${dataUser[0].lastName}`
