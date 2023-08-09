@@ -1,0 +1,64 @@
+.reservationContainer {
+    width: 90%;
+    margin: 1rem;
+    box-shadow: 1px 0 5px var(--shadow);
+    border-radius: 10px;
+    padding: .5rem 1rem;
+    font-size: .9rem; 
+}
+
+.dataReservationHeader {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.dataReservationLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .dataReservationCenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .dataReservationRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .statusContainer {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  
+  .spanCircle {
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+  }
+
+  .dataReservationBottom {
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .buttonsActions {
+    border: none;
+    border-radius: 5px;
+    background-color: var(--negative);
+    color: var(--primary-light);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 .5rem;
+  }

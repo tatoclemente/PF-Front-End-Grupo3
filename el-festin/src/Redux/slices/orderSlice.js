@@ -13,6 +13,8 @@ const cartSlice = createSlice({
       // console.log("addToCart", action.payload);
       const { dish, garnish, drinks, desserts } = action.payload;
 
+      console.log("PAYLOAD___", action.payload);
+
       // Crea un objeto newItem con las propiedades proporcionadas o valores por defecto si son null
       const newItem = {
         dish: dish || null,
@@ -107,36 +109,38 @@ const cartSlice = createSlice({
     // carritoSlice.js
 
     updateCartItemQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const product = findProductById(state, id);
+      const { id } = action.payload;
+      console.log("UPDATE CART ITEM QUANTITY", id);  
+      const product = findProductById(state, id.id);
+      console.log("PRODUCT____", product);
 
       if (product) {
         switch (product.type) {
           case "dish":
             return state.map((item) =>
-              item.dish.id === id
-                ? { ...item.dish, quantity: quantity }
+              item.dish.id === id.id
+                ? { ...item.dish, quantity: id.quantity }
                 : item.dish
             );
           case "drink":
             return state.map((item) =>
-              item.drinks.some((drink) => drink.id === id)
+              item.drinks.some((drink) => drink.id === id.id)
                 ? {
                     ...item,
                     drinks: item.drinks.map((drink) =>
-                      drink.id === id ? { ...drink, quantity: quantity } : drink
+                      drink.id === id.id ? { ...drink, quantity: id.quantity } : drink
                     ),
                   }
                 : item
             );
           case "dessert":
             return state.map((item) =>
-              item.desserts.some((dessert) => dessert.id === id)
+              item.desserts.some((dessert) => dessert.id === id.id)
                 ? {
                     ...item,
                     desserts: item.desserts.map((dessert) =>
-                      dessert.id === id
-                        ? { ...dessert, quantity: quantity }
+                      dessert.id === id.id
+                        ? { ...dessert, quantity: id.quantity }
                         : dessert
                     ),
                   }
@@ -151,6 +155,15 @@ const cartSlice = createSlice({
 
     clearCart: (state) => {
       return [];
+    },
+
+    setCartFromDatabase: (state, action) => {
+      if (action.payload.length > 0) {
+        const cartItems = action.payload;
+        console.log("CART ITEMS DB____", cartItems);
+        return (state = [...cartItems]);
+      }
+      return state;
     },
   },
 });
@@ -176,22 +189,25 @@ const saveCartToLocalStorage = (cart) => {
   localStorage.setItem("cart", JSON.stringify(cart));
 };
 
-export const { addToCart, removeFromCart, updateCartItemQuantity, clearCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateCartItemQuantity,
+  clearCart,
+  setCartFromDatabase,
+} = cartSlice.actions;
 export default cartSlice.reducer;
 
 // Middleware para guardar el carrito en localStorage cuando cambia
 export const cartMiddleware = (store) => (next) => (action) => {
   const result = next(action);
-  if (
-    action.type === addToCart.type ||
-    action.type === removeFromCart.type ||
-    action.type === updateCartItemQuantity.type ||
-    action.type === clearCart.type
-  ) {
-    const updatedCart = store.getState().cart;
-    saveCartToLocalStorage(updatedCart);
-  }
+
+  // Obtener el carrito actualizado después de la acción
+  const updatedCart = store.getState().cart;
+
+  // Guardar el carrito en el local storage
+  saveCartToLocalStorage(updatedCart);
+
   return result;
 };
 

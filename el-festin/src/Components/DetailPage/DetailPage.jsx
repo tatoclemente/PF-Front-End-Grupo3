@@ -4,25 +4,26 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 
 import { getDrinks } from "../../Redux/actions/actionsDrinks/getAllDrinks";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./DetailPage.module.css";
 // import { sides } from "../../utils/mock";
 import { getDesserts } from "../../Redux/actions/actionsDesserts/getAllDesserts";
 import { getSides } from "../../Redux/actions/actiossSides/getAllSides";
-import { addToCart } from "../../Redux/slices/orderSlice";
+import { addToCart } from "../../Redux/actions/actionOrders/actionOrders";
 import capitalizeFirstLetter from "../../functions/capitalizeFirstLetter";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Detail = ({ dishDetail, toggleCart }) => {
   const dispatch = useDispatch();
   const allDrinks = useSelector((state) => state.drinks.drinks);
   const desserts = useSelector((state) => state.desserts.desserts);
   const sides = useSelector((state) => state.sides.sides);
-  const orderCart = useSelector(state=> state.cart) 
+  const orderCart = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(getDrinks());
@@ -30,7 +31,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     dispatch(getSides());
   }, [dispatch]);
 
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   // Estado local para la orden seleccionada
   const [order, setOrder] = useState({
@@ -77,9 +78,9 @@ const Detail = ({ dishDetail, toggleCart }) => {
 
     if (totalItemsDrink >= 2) {
       swal.fire({
-        title:"Ups, Lo siento!", 
+        title: "Ups, Lo siento!",
         text: "No puedes seleccionar más de dos bebidas en total.",
-        icon: 'info'
+        icon: "info",
       });
       return;
     }
@@ -91,9 +92,9 @@ const Detail = ({ dishDetail, toggleCart }) => {
     if (existingDrink) {
       if (existingDrink.quantity === 2) {
         swal.fire({
-          title:"Ups, Lo siento!",
+          title: "Ups, Lo siento!",
           text: "No puedes seleccionar más de dos unidades de esta bebida.",
-          icon: 'info'
+          icon: "info",
         });
         return;
       }
@@ -115,9 +116,9 @@ const Detail = ({ dishDetail, toggleCart }) => {
         }));
       } else {
         swal.fire({
-          title:"Ups, Lo siento!",
+          title: "Ups, Lo siento!",
           text: " No puedes seleccionar más de dos bebidas.",
-          icon: 'info'
+          icon: "info",
         });
       }
     }
@@ -127,10 +128,10 @@ const Detail = ({ dishDetail, toggleCart }) => {
     const totalItemsDesserts = getTotalDesserts();
     if (totalItemsDesserts >= 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos postres en total.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos postres en total.",
+        icon: "info",
+      });
       return;
     }
 
@@ -141,10 +142,10 @@ const Detail = ({ dishDetail, toggleCart }) => {
     if (existingDessert) {
       if (existingDessert.quantity === 2) {
         swal.fire({
-          title: 'Ups, Lo siento!',
-          text: 'No puedes seleccionar más de dos unidades de este postre.',
-          icon: 'info'
-        })
+          title: "Ups, Lo siento!",
+          text: "No puedes seleccionar más de dos unidades de este postre.",
+          icon: "info",
+        });
         return;
       }
 
@@ -165,10 +166,10 @@ const Detail = ({ dishDetail, toggleCart }) => {
         }));
       } else {
         swal.fire({
-          title: 'Ups, Lo siento!',
-          text: 'No puedes seleccionar más de dos postres.',
-          icon: 'info'
-        })
+          title: "Ups, Lo siento!",
+          text: "No puedes seleccionar más de dos postres.",
+          icon: "info",
+        });
       }
     }
   };
@@ -196,29 +197,29 @@ const Detail = ({ dishDetail, toggleCart }) => {
     // Verificar si ya se ha seleccionado el mismo elemento 2 veces
     if (item.cantidad === 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos unidades de este elemento.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos unidades de este elemento.",
+        icon: "info",
+      });
       return;
     }
 
     // Verificar si ya se han seleccionado 2 elementos en total
     if (totalItemsDrink >= 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos bebidas en total.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos bebidas en total.",
+        icon: "info",
+      });
       return;
     }
 
     if (item.type === "bebida" && getTotalDrinks() >= 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos bebidas.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos bebidas.",
+        icon: "info",
+      });
       alert("");
       return;
     }
@@ -240,27 +241,27 @@ const Detail = ({ dishDetail, toggleCart }) => {
     // Verificar si ya se ha seleccionado el mismo elemento 2 veces
     if (item.quantity === 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos unidades de este elemento.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos unidades de este elemento.",
+        icon: "info",
+      });
       return;
     }
 
     if (totalItemsDesserts >= 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos postres en total.',
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos postres en total.",
+      });
       return;
     }
 
     if (item.type === "postre" && getTotalDesserts() >= 2) {
       swal.fire({
-        title: 'Ups, Lo siento!',
-        text: 'No puedes seleccionar más de dos postres.',
-        icon: 'info'
-      })
+        title: "Ups, Lo siento!",
+        text: "No puedes seleccionar más de dos postres.",
+        icon: "info",
+      });
       return;
     }
 
@@ -295,16 +296,23 @@ const Detail = ({ dishDetail, toggleCart }) => {
     }));
   };
 
-  const pastaGarnish = sides.filter((side) => side.type === "salsa");
+  const pastaGarnish =
+    Array.isArray(sides) && sides.filter((side) => side.type === "salsa");
 
-  const resGarnish = sides.filter((side) => side.type === "acompañamiento");
+  const resGarnish =
+    Array.isArray(sides) &&
+    sides.filter((side) => side.type === "acompañamiento");
 
-  const papas = {
-    ...sides.find((side) => side.name.toLowerCase() === "papa fritas"),
-  };
-  const batatas = {
-    ...sides.find((side) => side.name.toLowerCase() === "batatas fritas"),
-  };
+  let papas = [];
+  let batatas = [];
+  if (pastaGarnish || resGarnish) {
+    papas = {
+      ...sides.find((side) => side.name.toLowerCase() === "papas fritas"),
+    };
+    batatas = {
+      ...sides.find((side) => side.name.toLowerCase() === "batatas fritas"),
+    };
+  }
 
   const sandwichGarnish = [papas, batatas].filter((side) => side !== null);
 
@@ -312,6 +320,7 @@ const Detail = ({ dishDetail, toggleCart }) => {
     dishDetail.subtype === "pastas"
       ? pastaGarnish
       : dishDetail.subtype === "carnes" ||
+        dishDetail.subtype === "minutas" ||
         dishDetail.subtype === "pescados y mariscos"
       ? resGarnish
       : dishDetail.subtype === "sandwich"
@@ -360,23 +369,37 @@ const Detail = ({ dishDetail, toggleCart }) => {
     );
   }
 
-  const length = garnish.length === 1 ? 1 : garnish.length === 2 ? 2 : 3;
+  const lengthDesserts = desserts.length < 6 ? desserts.length : 6;
+  console.log(lengthDesserts);
 
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: lengthDesserts,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
 
+  const lengthDrinks = allDrinks.length < 6 ? allDrinks.length : 6;
+  const settingsDrinks = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: lengthDrinks,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
+  const lengthGarnish = garnish.length === 1 ? 1 : garnish.length === 2 ? 2 : 3;
+
   const settingsSlide = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: length,
+    slidesToShow: lengthGarnish,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -395,8 +418,6 @@ const Detail = ({ dishDetail, toggleCart }) => {
     prevArrow: <SamplePrevArrow />,
   };
 
- 
-
   const typeAdditional = (item) =>
     order.garnish === item
       ? "Guarnición:"
@@ -409,18 +430,22 @@ const Detail = ({ dishDetail, toggleCart }) => {
   //DISPATCH DE LA ORDEN AL ESTADO GLOBAL
 
   const addToCartHandler = () => {
-
-    if(orderCart.length > 4) {
+    if (orderCart.length > 4) {
       swal.fire({
-        title:"Ups, Lo siento!",
+        title: "Ups, Lo siento!",
         text: "Has alcanzado el máximo de 5 ordenes por compra.",
-        icon: 'info'
+        icon: "info",
       });
       return;
     }
 
     // Verificar si hay al menos un artículo seleccionado (guarnición, bebida o postre)
-    if (order.dish || order.garnish || order.drinks.length > 0 || order.desserts.length > 0) {
+    if (
+      order.dish ||
+      order.garnish ||
+      order.drinks.length > 0 ||
+      order.desserts.length > 0
+    ) {
       // Realizar un dispatch para agregar la orden al carrito global
       dispatch(addToCart(order));
       // Limpiar el estado local de la orden después de agregarla al carrito
@@ -433,11 +458,11 @@ const Detail = ({ dishDetail, toggleCart }) => {
       // Opcional: Mostrar una notificación o mensaje de éxito al usuario
       swal.fire({
         // position: 'top-end',
-        icon: 'success',
-        title: '¡Producto agregado al carrito con éxito!',
+        icon: "success",
+        title: "¡Producto agregado al carrito con éxito!",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
     }
   };
 
@@ -455,37 +480,37 @@ const Detail = ({ dishDetail, toggleCart }) => {
     ];
 
     // Construir el mensaje de confirmación
-    const confirmationMessage = `${selectedItemsNames.join(
-      ", "
-    )}`;
-
+    const confirmationMessage = `${selectedItemsNames.join(", ")}`;
 
     // console.log(confirmationMessage);
     // Mostrar la ventana de confirmación al usuario
-    swal.fire({
-      title: 'Está agregando lo siguinete a la orden:',
-      text: confirmationMessage,
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Seguir comprando',
-      denyButtonText: `Ir a pagar`,
-      denyButtonColor: 'var(--main-color)',
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        addToCartHandler(); // Llamada a la función para agregar al carrito
-        Navigate('/home')
-      } else if (result.isDenied) {
-        addToCartHandler(); // Llamada a la función para agregar al carrito
-        toggleCart()
-        Navigate('/home')
-      }
-    })
+    swal
+      .fire({
+        title: "Está agregando lo siguinete a la orden:",
+        text: confirmationMessage,
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Seguir comprando",
+        denyButtonText: `Ir a pagar`,
+        denyButtonColor: "var(--main-color)",
+      })
+      .then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          addToCartHandler(); // Llamada a la función para agregar al carrito
+          Navigate("/home");
+        } else if (result.isDenied) {
+          addToCartHandler(); // Llamada a la función para agregar al carrito
+          toggleCart();
+          Navigate("/home");
+        }
+      });
 
     // if (window.confirm(confirmationMessage)) {
     //   addToCartHandler(); // Llamada a la función para agregar al carrito
     // }
   };
+
 
   return (
     <div className={styles.container}>
@@ -502,11 +527,15 @@ const Detail = ({ dishDetail, toggleCart }) => {
             {garnish.length > 0 ? (
               <Slider {...settingsSlide}>
                 {garnish.map((side, index) => {
+                  const stockValue = side.stock;
+                  const isDisabled = stockValue <= 0;
                   return (
                     <div
                       key={index}
-                      className={styles.guarnicionContainer}
-                      onClick={() => selectGarnish(side)}
+                      className={`${styles.guarnicionContainer} ${
+                        isDisabled ? styles.sideDisabled : ""
+                      }`}
+                      onClick={() => !isDisabled && selectGarnish(side)}
                     >
                       <img
                         src={side.image}
@@ -519,8 +548,12 @@ const Detail = ({ dishDetail, toggleCart }) => {
                         </span>
                       </div>
                       <h5
-                        className={styles.secondaryPrices}
-                      >{`+ $${side.price}`}</h5>
+                        className={`${styles.secondaryPrices} ${
+                          isDisabled ? styles.noAvailable : ""
+                        }`}
+                      >
+                        {isDisabled ? "AGOTADO" : `+ $${side.price}`}
+                      </h5>
                     </div>
                   );
                 })}
@@ -566,8 +599,8 @@ const Detail = ({ dishDetail, toggleCart }) => {
                             +
                           </button>
                         </div>
-                      )
-                      :( // Botón para eliminar la selección de la guarnición
+                      ) : (
+                        // Botón para eliminar la selección de la guarnición
                         <div className={styles.removeButtonContainer}>
                           <button
                             className={styles.removeGarnishButton}
@@ -587,63 +620,94 @@ const Detail = ({ dishDetail, toggleCart }) => {
       </div>
 
       <div className={styles.rightInfo}>
+        <Link className={styles.backButton} to="/home">
+          <button className={styles.buttonStyle}>
+            <span>
+              <FaArrowLeft />
+            </span>{" "}
+            Volver atras
+          </button>
+        </Link>
         <h2 className={styles.title}>
           ¿Con qué te gustaría acompañar tu orden?
         </h2>
         <h3 className={styles.subTitles}>Bebidas</h3>
         <div className={styles.containerInfo}>
-          <Slider {...settings} className={styles.slideContainer}>
-            {allDrinks?.map((drink, index) => {
-              const capitalizedString = capitalizeFirstLetter(drink.name);
-
-              return (
-                <div
-                  key={index}
-                  className={styles.imageWithInfo}
-                  onClick={() => selectDrink(drink)}
-                >
-                  <img
-                    src={drink.image}
-                    alt={drink.name}
-                    className={styles.secondaryImage}
-                  />
-                  <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
-                  <h5
-                    className={styles.secondaryPrices}
-                  >{`+ $${drink.price}`}</h5>
-                </div>
-              );
-            })}
+          <Slider {...settingsDrinks} className={styles.slideContainer}>
+            {Array.isArray(allDrinks) &&
+              allDrinks?.map((drink, index) => {
+                const capitalizedString = capitalizeFirstLetter(drink.name);
+                const stockValue = drink.stock;
+                const isDisabled = stockValue <= 0;
+                return (
+                  <div
+                    key={index}
+                    className={`${styles.imageWithInfo} ${
+                      isDisabled ? styles.drinkDisabled : ""
+                    }`}
+                    onClick={() => !isDisabled && selectDrink(drink)}
+                  >
+                    <img
+                      src={drink.image}
+                      alt={drink.name}
+                      className={styles.secondaryImage}
+                    />
+                    <h4 className={styles.secondaryNames}>
+                      {capitalizedString}
+                    </h4>
+                    <h5
+                      className={`${styles.secondaryPrices} ${
+                        isDisabled ? styles.noAvailable : ""
+                      }`}
+                    >
+                      {isDisabled ? "AGOTADO" : `+ $${drink.price}`}
+                    </h5>
+                  </div>
+                );
+              })}
           </Slider>
         </div>
         <h3 className={styles.subTitles}>Postres</h3>
         <div className={styles.containerInfo}>
           <Slider {...settings} className={styles.slideContainer}>
-            {desserts.map((dessert, index) => {
-              const capitalizedString = capitalizeFirstLetter(dessert.name);
-              return (
-                <div
-                  key={index}
-                  className={styles.imageWithInfo}
-                  onClick={() => selectDessert(dessert)}
-                >
-                  <img
-                    src={dessert.image}
-                    alt={dessert.name}
-                    className={styles.secondaryImage}
-                  />
-                  <h4 className={styles.secondaryNames}>{capitalizedString}</h4>
-                  <h5
-                    className={styles.secondaryPrices}
-                  >{`+ $${dessert.price}`}</h5>
-                </div>
-              );
-            })}
+            {Array.isArray(desserts) &&
+              desserts.map((dessert, index) => {
+                const capitalizedString = capitalizeFirstLetter(dessert.name);
+                const stockValue = dessert.stock;
+                const isDisabled = stockValue <= 0;
+                return (
+                  <div
+                    key={index}
+                    className={`${styles.imageWithInfo} ${
+                      isDisabled ? styles.desertDisabled : ""
+                    }`}
+                    onClick={() => !isDisabled && selectDessert(dessert)}
+                  >
+                    <img
+                      src={dessert.image}
+                      alt={dessert.name}
+                      className={styles.secondaryImage}
+                    />
+                    <h4 className={styles.secondaryNames}>
+                      {capitalizedString}
+                    </h4>
+                    <h5
+                      className={`${styles.secondaryPrices} ${
+                        isDisabled ? styles.noAvailable : ""
+                      }`}
+                    >
+                      {isDisabled ? "AGOTADO" : `+ $${dessert.price}`}
+                    </h5>
+                  </div>
+                );
+              })}
           </Slider>
         </div>
         <div className={styles.buttonContainer}>
           <div className={styles.containerPrice}>
-            <h2 className={styles.titles}>{`Suma total: $ ${price}`}</h2>
+            <h2 className={styles.titles}>
+              Suma total: <b>${price}</b>
+            </h2>
           </div>
           <button className={styles.buttonAdd} onClick={showConfirmation}>
             agregar a orden

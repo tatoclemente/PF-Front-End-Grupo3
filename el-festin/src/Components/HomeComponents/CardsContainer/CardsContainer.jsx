@@ -1,6 +1,6 @@
 import style from "./CardsContainer.module.css";
 import Card from "../../Card/Card";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
 // import { sides } from "../../../utils/mock";
@@ -57,7 +57,7 @@ const CardsContainer = (props) => {
 
   return (
     <div className={style.mainContainer} ref={containerRef}>
-      <div>
+      <div className={style.pagination}>
         <Pagination
           currentPage={props.currentPage}
           totalPages={totalPages}
@@ -72,12 +72,15 @@ const CardsContainer = (props) => {
                 type={dish.type}
                 image={dish.image}
                 name={dish.name}
+                stock={dish.stock}
                 price={dish.price}
                 rating={dish.rating}
                 volume={dish.volume}
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}
+                category={dish.category}
+                totalRating={dish.totalRating}
                 toggleCart={props.toggleCart}
               />
             </div>

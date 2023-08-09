@@ -1,60 +1,84 @@
-import {
-  ModalCreateDesert,
-  ModalCreateDish,
-  ModalCreateDrink,
-  ModalCreateSide,
-} from "./Create/index";
-import Styles from "./Dashboard.module.css";
 import { Navbar } from "../NavBar/NavBar.jsx";
-import { DeleteDish } from "./Delete/DeleteDish";
+import "./dashboard.css";
+import { Sidebar } from "./Sidebar";
+import { UsersData } from "./Metrics/Users/Users.jsx";
+import { Dates } from "./Metrics/metrics";
+import { AllRequest } from './Requests/AlRequests.jsx'
+import { useState } from "react";
+import { Banner } from "./Landing/Banners/Banners";
+import { Local } from "./Landing/LocalImages/Local";
+import { DailySpecials } from "./Landing/DailySpecials/DailySpecials";
+import { Reservation } from "./Reservations/Reservation.jsx";
 
-export const Dashboard = () => {
+
+export const Dashboard = ({ currentUser }) => {
+  const [things, setThings] = useState("Requests");
+  // console.log(things)
+
+  const handleRender = (e) => {
+    const val = e.target.getAttribute("data-value");
+    if (val === "Market") {
+      setThings("Market");
+    }
+    if (val === "Reser") {
+      setThings("Reser");
+    }
+    if (val === "Metrics") {
+      setThings("Metrics");
+    }
+    if (val === "Users") {
+      setThings("Users");
+    }
+    if (val === "Requests") {
+      setThings("Requests")
+    }
+  };
+
   return (
-    <>
+    <div className='dashboard-container'>
       <div>
         <Navbar isDashboard={true} />
       </div>
-      <div className={Styles.sidebar}>
-        <div className={Styles.user}>
-          <h4>Administrador</h4>
+        <div className="containerALL">
+          <div>
+            <Sidebar handleRender={handleRender} setThings={setThings} />
+          </div>
+
+          <div className='contentContainer'>
+            {things === "Market" ? (
+              <div className="marketingContent">
+                <Banner />
+                <Local />
+                <DailySpecials />
+              </div>
+            ) : null}
+
+            {things === "Metrics" ? (
+              <div className="metricContent">
+                <Dates />
+              </div>
+            ) : null}
+            {things === "Reser" ? (
+              <div className="reserContent">
+                <Reservation />
+              </div>
+            ) : null}
+  
+
+          {things === "Users" ? (
+            <div className="metricContent">
+              <UsersData currentUser={currentUser}/>
+            </div>
+          ) : null}
+
+           {things === "Requests" ? (
+            <div className="requestsContent">
+              <AllRequest />
+            </div>
+          ) : null}
+
         </div>
-        {/* <h6>Dashboard</h6> */}
-        <ul className={Styles.options}>
-          <li>
-            <ModalCreateDish />
-          </li>
-          <li>
-            <ModalCreateDrink />
-          </li>
-          <li>
-            <ModalCreateDesert />
-          </li>
-          <li>
-            <ModalCreateSide />
-          </li>
-        </ul>
-        <hr />
-        <ul className={Styles.options}>
-          <li>
-            <DeleteDish/>
-          </li>
-          <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Bebida
-            </button>
-          </li>
-          <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Postre
-            </button>
-          </li>
-          <li>
-            <button className={`btn btn-primary ${Styles.buttonDelete}`}>
-              Borrar Guarnicion
-            </button>
-          </li>
-        </ul>
       </div>
-    </>
+    </div>
   );
 };

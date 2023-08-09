@@ -1,0 +1,123 @@
+.title{
+    color:grey;
+    font-size: 1.5rem;
+}
+
+.recommendation{
+    color:grey;
+    font-size: 0.8rem;
+}
+
+
+.dropdownContainer {
+    width: 90vw;
+    max-width: 95%;
+    margin: 1% auto;
+  }
+
+  .dropdownContainer:hover .dropdownMenu {
+    display: block;
+  }
+  
+  .dropdownBanner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    padding: 7px;
+    gap: 5px;
+  }
+  
+  /* Estilo para los botones del desplegable */
+  .dropdownBanner button {
+    cursor: pointer;
+    margin: 0px 15px;
+  }
+  
+  /* Estilo para el contenedor de la imagen y desplegable */
+  .imageContainer {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .imageDisabled {
+    filter: grayscale(100%);
+    /* Aquí puedes ajustar cualquier otro estilo que desees para la imagen deshabilitada */
+  }
+ 
+  .crearButtonContainer{
+    display: flex;
+    justify-content: flex-start;
+  }
+  .crearButton{
+    background-color: #313045;
+    width: 200px;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    margin: 1rem 5%;
+  }
+
+  .crearButton:hover {
+    background-color:#FBC32C
+  }
+
+  .buttonChangeBanner{
+    background-color: #313045;
+    width: 100px;
+    color: white;
+    border: none;
+    padding: 7px 2px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+  }
+
+  .buttonChangeBanner:hover {
+    background-color:#FBC32C
+  }
+
+  .images{
+    width: 90%;
+    max-width: 20rem;
+    height: 110px;
+    border-radius: 10px;
+  }
+
+  .createBannerName{
+    color: #313045;
+    margin: 10px;
+  }
+
+  .buttonSubmitBanner{
+    background-color: #313045;
+    width: 100px;
+    color: white;
+    border: none;
+    padding: 9px 2px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 20px;
+  }
+
+  .buttonSubmitBanner:hover {
+    background-color:#FBC32C
+  }
+
+  .closeButton{
+   margin-left: 110%;
+  }

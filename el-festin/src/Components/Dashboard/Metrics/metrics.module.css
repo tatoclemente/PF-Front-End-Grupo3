@@ -1,0 +1,135 @@
+
+.containerAll{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.containerDishes{
+    position: relative;
+    width: 99%;
+    height: 100%;
+    border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
+}
+
+.contUserM{
+    position: relative;
+    width: 99%;
+    border-top: 7px solid #FBC32C;
+    border-radius: 1vh;
+    border-bottom: 1px solid var(--gray);
+    border-left: 1px solid var(--gray);
+    border-right: 1px solid var(--gray) ;
+}
+.contImg{
+border-radius: 50%;
+max-width: 50px;
+max-height: 50px;
+background-color: var(--gray);
+}
+
+.contPag{
+    display: flex;
+    justify-content: left;
+    list-style: none;
+    gap: 11px;
+}
+
+.page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(247, 244, 242);
+    height: 50px;
+    background-color: #FBC32C;
+    width: 50px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page:hover{
+    background-color: #f6f5f4;
+    color: rgb(6, 6, 6);
+}
+.contMostSelled{
+    width: 40%;
+    height: 190px;
+    position: relative;
+    justify-self: right;
+    border-radius: 0 1vh 0 0;
+    border-top: 7px solid #FBC32C;
+    border-right: 1px solid var(--gray) ;
+    margin-top: 1rem;
+}
+.contTitle{
+    background-color: #f6f5f4 ;
+    border-radius: 1vh;
+    border: 1px solid var(--gray);
+}
+
+.tabsContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 90%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    color: var(--main-color);
+  }
+  
+  .activeTab {
+    border: 2px solid var(--main-color);
+    color: var(--main-color);
+    border-radius: 10px 10px 0 0;
+    border-bottom: transparent;
+    background-color: transparent;
+    padding: 0 1rem;
+  }
+  .buuutton {
+    background-color: #313045;
+    width: 109px;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.6rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    margin: 0.5rem auto;
+  }
+  
+  .buuutton:hover {
+    background-color: #fbc32c;
+  }
+
+  .selectButn{
+    background-color: #313045;
+    width: 160px;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    margin: 0.5rem auto;
+  }
+
+  .btnContainer{
+    display: flex;
+    justify-content: space-between;
+  }

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
-import { validacionDesert } from '../Validaciones/validacionDesert'
-import style from "../Dashboard.module.css"
-
+import { validacionDesert } from "../Validaciones/validacionDesert";
+import Swal from "sweetalert2";
+import style from "../Dashboard.module.css";
+import { useDispatch } from "react-redux";
+import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const ModalCreateDesert = () => {
   let initialState = {
@@ -15,20 +17,21 @@ export const ModalCreateDesert = () => {
   const [inputCreateDesert, setInputCreateDesert] = useState(initialState);
   const [filed, setFiled] = useState(null);
   const [error, setError] = useState({});
-
+  const fileInputRef = useRef(null);
 
   const onInputChange = ({ target }) => {
     setInputCreateDesert({
       ...inputCreateDesert,
       [target.name]: target.value,
     });
-    setError(validacionDesert({
-      ...inputCreateDesert,
-      [target.name]: target.value,
-    }));
+    setError(
+      validacionDesert({
+        ...inputCreateDesert,
+        [target.name]: target.value,
+      })
+    );
   };
-
-
+const dispatch =useDispatch()
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
   };
@@ -41,27 +44,36 @@ export const ModalCreateDesert = () => {
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(`${server}/desert`, formData);
 
       if (data.name) {
-        alert("Postre creada con exito");
+        dispatch(getDesserts());
+        Swal.fire({
+          icon: "success",
+          title: "Postre creado con exito",
+          confirmButtonText: "OK",
+        });
+        setInputCreateDesert(initialState);
+        setFiled(null);
+        fileInputRef.current.value = null;
+        setError({});
       }
     } catch (error) {
       throw error.message;
     }
   };
-    
-  
 
   return (
     <div className="container-fluid text-dark">
       <button
         type="button"
-        className={`btn btn-primary ${style.buttonDelete}`} 
+        className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop2">
-        Crear Postre
+        data-bs-target="#staticBackdrop2"
+      >
+        Postre
       </button>
 
       <div
@@ -71,7 +83,8 @@ export const ModalCreateDesert = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -82,7 +95,8 @@ export const ModalCreateDesert = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -96,7 +110,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.name}
                   onChange={onInputChange}
                 />
-                {error.name && <p className={style.dato_incorrecto}>{error.name}</p>}
+                {error.name && (
+                  <p className={style.dato_incorrecto}>{error.name}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Stock
@@ -108,7 +124,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.stock}
                   onChange={onInputChange}
                 />
-                {error.stock && <p className={style.dato_incorrecto}>{error.stock}</p>}
+                {error.stock && (
+                  <p className={style.dato_incorrecto}>{error.stock}</p>
+                )}
 
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Precio
@@ -120,7 +138,9 @@ export const ModalCreateDesert = () => {
                   value={inputCreateDesert.price}
                   onChange={onInputChange}
                 />
-                {error.price && <p className={style.dato_incorrecto}>{error.price}</p>}
+                {error.price && (
+                  <p className={style.dato_incorrecto}>{error.price}</p>
+                )}
                 <label htmlFor="" className="pe-3 pt-3 form-label">
                   Imagen
                 </label>
@@ -128,15 +148,17 @@ export const ModalCreateDesert = () => {
                   type="file"
                   className="form-control"
                   onChange={handleOnChangeImage}
+                  ref={fileInputRef}
                 />
                 <div className="modal-footer">
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cerrar
-                  </button>
-                  <button  type="submit" className="btn buttonCrear">
+                  </button> */}
+                  <button type="submit" className="btn buttonCrear">
                     Crear
                   </button>
                 </div>

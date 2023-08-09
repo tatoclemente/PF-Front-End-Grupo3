@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import style from './Card.module.css'
 
 import { FaRegCreditCard } from 'react-icons/fa'
 import { AiTwotoneStar, AiOutlineStar } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, updateCartItemQuantity } from '../../Redux/slices/orderSlice'
+import { addToCart, updateCartItemQuantity } from '../../Redux/actions/actionOrders/actionOrders'
 import Swal from 'sweetalert2'
 
-function Card({type, image, name, price, volume, rating, description, id, toggleCart}) {
+function Card({type, image, name, price, volume, stock, rating, description, id, category, totalRating, toggleCart,buttonOut}) {
 
   const dispatch = useDispatch();
 
@@ -16,10 +16,10 @@ function Card({type, image, name, price, volume, rating, description, id, toggle
   const desserts = useSelector((state) => state.desserts.desserts);
   const order = useSelector((state) => state.cart);
 
-  const drink = drinks.find((drink) => drink.id === id);
-    const dessert = desserts.find((dessert) => dessert.id === id);
-    const existingDrink = order.find((item) => item.drinks.some((d) => d.id === id));
-    const existingDessert = order.find((item) => item.desserts.some((d) => d.id === id));
+  const drink = Array.isArray(drinks) && drinks.find((drink) => drink.id === id);
+    const dessert = Array.isArray(desserts) && desserts.find((dessert) => dessert.id === id);
+    const existingDrink = Array.isArray(order) && order.find((item) => item.drinks.some((d) => d.id === id));
+    const existingDessert = Array.isArray(order) && order.find((item) => item.desserts.some((d) => d.id === id));
 
   const addToCartHandler = () => {
 
@@ -120,30 +120,35 @@ function Card({type, image, name, price, volume, rating, description, id, toggle
   
   
 
-  const [selectedStars, setSelectedStars] = useState(0);
+  // const [selectedStars, setSelectedStars] = useState(0);
 
-  const handleStarClick = (stars) => {
-    setSelectedStars(stars);
-  };
+  const totalRatingDish = totalRating || 0;
+
+  // const handleStarClick = (stars) => {
+  //   setSelectedStars(stars);
+  // };
 
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      const starIcon = i <= selectedStars ? (
-        <AiTwotoneStar key={i} className={style.ratingIcon} onClick={() => handleStarClick(i)} />
+      const starIcon = i <= totalRatingDish ? (
+        <AiTwotoneStar key={i} className={style.ratingIcon} />
       ) : (
-        <AiOutlineStar key={i} className={style.ratingIcon} onClick={() => handleStarClick(i)} />
+        <AiOutlineStar key={i} className={style.ratingIcon} />
       );
       stars.push(starIcon);
     }
     return stars;
   };
+console.log(buttonOut)
+
 
   return (
-    <div className={style.cardContainer}>
+    <div  className={`${style.cardContainer} ${stock <=0 ? style.dishDisabled : ''}`}>
       <p className={style.type}>{type? type : 'Postres'}</p>
       <div className={style.cardContent}>
-        <div className={style.rating}>{renderStars()}</div> 
+        {category === 'dish' && <div className={style.rating}>{renderStars()}</div> }
+        
         
         <img className={style.imageCard} src={image} alt={name} />
         <div className={style.cardInfo}>
@@ -152,15 +157,26 @@ function Card({type, image, name, price, volume, rating, description, id, toggle
           <p className={style.payInfo}><span className={style.payIcon}>{<FaRegCreditCard />}</span> Aceptamos todas las tarjetas</p>
         </div>
       </div>
-      <span className={style.price}>${price}</span>
-      {type === 'plato principal' || type === 'entrada' 
-      ? <Link to={`/detail/${id}`} className={style.link}>
-          Ver detalle
-        </Link>
-        : <button className={style.buttonAddCart} onClick={showConfirmation}>
+      <span className={`${style.price} ${buttonOut && "pb-4"}`}>${price}</span>
+      {
+  buttonOut ? null : (
+    (type === 'plato principal' || type === 'entrada') && stock > 0 ? (
+      <Link to={`/detail/${id}`} className={style.link}>
+        Ver detalle
+      </Link>
+    ) : (
+      (type !== 'plato principal' && type !== 'entrada') && stock > 0?  (
+        <button className={style.buttonAddCart} onClick={showConfirmation}>
           Agregar a la orden
         </button>
-      }
+      ) : (
+        <button className={style.buttonAddCart} disabled>
+         No disponible
+        </button>
+      )
+    )
+  )
+}
       
     </div>
   )

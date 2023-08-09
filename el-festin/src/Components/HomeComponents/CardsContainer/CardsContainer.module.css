@@ -4,12 +4,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 1rem;
+    padding-top: .5rem !important;
 }
 
 
 .cardsContainer {
     margin: 1.5rem 0;
-    min-height: calc(100vh - 8rem - 112px);
+    min-height: calc(100vh - 8rem - 100px);
     width: 82vw;
     display: grid;
     justify-content: center;

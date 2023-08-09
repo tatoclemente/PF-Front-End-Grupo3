@@ -1,7 +1,7 @@
 .mainContainer {
     padding-top: 1rem;
     box-shadow: inset -1px 0 5px var(--shadow);
-    height: calc(100vh - 112px);
+    height: calc(100vh - 100px);
     position: relative;
     display: flex;
     align-items: center;

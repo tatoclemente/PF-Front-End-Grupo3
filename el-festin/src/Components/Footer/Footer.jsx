@@ -6,11 +6,11 @@ import { ImLocation2 } from "react-icons/im";
 import { GrInstagram } from "react-icons/gr";
 import { BsArrowUpCircleFill } from "react-icons/bs";
 import { FaFacebookSquare } from "react-icons/fa";
-import Styles from "../Footer/Footer.module.css";
+import logo from '../../Assets/logo-el-festin-nav.png';
+import Styles from "./Footer.module.css";
 
 function Footer() {
-  const logo =
-    "https://res.cloudinary.com/dg83wyf9p/image/upload/v1689108438/logos%20e%20imagenes/logo_vsr7uy.png";
+  
   const onClickUp = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -20,8 +20,7 @@ function Footer() {
         className={Styles.img}
         src={logo}
         alt="logo"
-        width="180"
-        height="100"
+     
       />
       <div className={Styles.divh5}>
         <Link to="/home" style={{ textDecoration: "none" }}>
@@ -55,7 +54,7 @@ function Footer() {
       </div>
 
       <div className={Styles.divSocial}>
-        <h5 className={Styles.titleSocial}>Siguenos</h5>
+        <h5 className={Styles.titleSocial}>Síguenos</h5>
         <a
           href="https://www.instagram.com/"
           className={Styles.icon}
@@ -76,10 +75,6 @@ function Footer() {
       <button className={Styles.buttonUp} onClick={() => onClickUp()}>
         <BsArrowUpCircleFill size={40} color="#fdc52d" />
       </button>
-      <select className={Styles.select}>
-        <option value="ES">ES</option>
-        <option value="EN">EN</option>
-      </select>
       <p className={Styles.pFestin}>EL FESTÍN ® 2023</p>
     </div>
   );

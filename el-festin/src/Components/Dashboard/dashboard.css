@@ -1,21 +1,34 @@
+
+/* .sidebarContainer {
+  width: 280px;
+} */
+
+.contentContainer {
+  width: calc(100vw - 280px);
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-top: 1rem;
 }
 
 .dropdown select {
   background-color: #313045;
   color: whitesmoke;
-  padding: 8px;
   border-radius: 7px;
   cursor: pointer;
   width: 100%;
   text-align: center;
+  padding: .375rem;
 }
 
 .modal-width {
   width: 700px;
+  height: auto;
+}
+
+.modal-width-update {
+  width: 900px;
   height: auto;
 }
 
@@ -25,7 +38,7 @@
 }
 
 .buttonCrear:hover {
-  background-color: #313045de;
+  background-color: transparent;
 }
 
 .dropdown select:hover {
@@ -49,7 +62,7 @@
 
   border-radius: 6px;
   cursor: pointer;
-  background-color:#FBC32C;
+  background-color: #fbc32c;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -60,7 +73,7 @@
   border-radius: 5%;
 
   top: 0;
-  background-color:  #313045;
+  background-color: #313045;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
@@ -71,4 +84,89 @@
 
 .bg-disabled {
   background-color: #999999bf;
+}
+
+.posicion-update {
+  margin-top: 65%;
+}
+
+/* Cambiar el estilo del borde al enfocar el input */
+.mi-input {
+  border: none;
+  outline: none;
+
+  font-size: 16px;
+  width: 300px; /* Puedes ajustar el ancho según tus necesidades */
+  transition: border-width 0.3s ease;
+  background-image: linear-gradient(#313045, #313045),
+    linear-gradient(#313045, #313045), linear-gradient(#313045, #313045);
+  background-position: 0 100%, 50% 100%, 100% 100%;
+  background-size: 0 2px, 100% 2px, 0 2px;
+  background-repeat: no-repeat;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column; /* Alinea los botones uno debajo del otro */
+  gap: 10px; /* Establece la distancia entre los botones (puedes ajustar este valor) */
+}
+
+.botones .tamañoBoton {
+  flex: 1;
+}
+
+.buttonWidth {
+  width: 100px;
+}
+.containerALL {
+  display: flex;
+  justify-content: space-between;
+  overflow-y: hidden;
+  width: 100vw;
+  height: calc(100vh - 100px);
+}
+
+.marketingContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  padding: 20px;
+  background-color: #ffffff;
+  max-height: 100vh; /* Establece aquí la altura máxima que desees */
+  overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
+
+}
+
+.metricContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  max-height: 100vh; /* Establece aquí la altura máxima que desees */
+  overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
+  border: 1px solid #ccc;
+}
+
+.reserContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  min-height: 100vh; /* Establece aquí la altura máxima que desees */
+  overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
+
+}
+
+.requestsContent {
+  position: relative;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  min-height: 100vh;
+  border: 1px solid #ccc; /* Establece aquí la altura máxima que desees */ /* El scrollbar vertical solo aparecerá cuando sea necesario */
 }

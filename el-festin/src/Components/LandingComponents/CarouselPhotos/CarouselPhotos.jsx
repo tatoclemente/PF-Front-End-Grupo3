@@ -3,10 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './CarouselPhotos.module.css';
-import rest1 from "./images/rest1.jpg"
-import rest2 from "./images/rest2.jpg"
-import rest3 from "./images/rest3.jpg"
-import rest4 from "./images/rest4.jpg"
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLocal } from '../../../Redux/actions/actionsLocal/getAllLocal';
 
 function SampleNextArrow(props) {
 
@@ -32,31 +31,37 @@ function SamplePrevArrow(props) {
 }
 
 const CarouselPhotos = () => {
+
+  const allPhotos = useSelector((state) => state.local.locals);
+  const dispatch = useDispatch();
+
+  const imageList = allPhotos.filter((p) => p.disabled === false);
+
+  useEffect(() => {
+    dispatch(getLocal());
+  }, [dispatch]);
+
+ const numImagesToShow = imageList.length > 2 ? 3 : imageList.length;
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: numImagesToShow,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
 
-  const images = [
-    { id: 1, url: rest1},
-    { id: 3, url: rest2 },
-    { id: 4, url: rest3 },
-    { id: 5, url: rest4}
-  ];
 
   return (
     <div>
       <h2 className={styles.title}>GALERIA DE FOTOS</h2>
     <div className={styles.carousel}>
       <Slider {...settings}>
-        {images.map((image) => (
+        {imageList.map((image) => (
           <div key={image.id} className={styles.slide}>
-            <img src={image.url} alt={image.id} className={styles.image} />
+            <img src={image.image} alt={image.id} className={styles.image} />
           </div>
         ))}
       </Slider>

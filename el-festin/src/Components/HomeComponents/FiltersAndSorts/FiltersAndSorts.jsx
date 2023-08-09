@@ -1,15 +1,15 @@
 import React from "react";
 import style from "./FiltersAndSorts.module.css";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   sortDishesByGluten,
   sortDishesByVeggy,
   sortByCalories,
-  
+
 } from "../../../Redux/slices/platosSlice";
 import {
   sortDrinksByAlchol,
-  
+
 } from "../../../Redux/slices/bebidasSlice";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useEffect } from "react";
@@ -21,13 +21,13 @@ function FiltersAndSorts(props) {
 
   useEffect(() => {
     dispatch(getDrTypes());
-  }, []);
+  }, [dispatch]);
 
   const handleAlcohol = (e) => {
     const val = e.target.value;
     dispatch(sortDrinksByAlchol(val));
   };
- 
+
 
   const handleGluten = (e) => {
     const val = e.target.value;
@@ -49,9 +49,9 @@ function FiltersAndSorts(props) {
     setIsCollapsed(!isCollapsed);
   };
 
-  const handlePriceAll = (e) =>{
-const val = e.target.value;
- props.setStateSort(val)
+  const handlePriceAll = (e) => {
+    const val = e.target.value;
+    props.setStateSort(val)
   }
 
   return (
@@ -67,9 +67,9 @@ const val = e.target.value;
         style={
           isCollapsed
             ? {
-                transform: "translateX(-150%)",
-                transition: "transform .5s ease-in-out",
-              }
+              transform: "translateX(-150%)",
+              transition: "transform .5s ease-in-out",
+            }
             : {}
         }
       >
@@ -85,7 +85,7 @@ const val = e.target.value;
       </div>
 
       <div className={style.filteredContent}>
-        
+
 
         {props.stateFood !== "all" ? (
           <div>
@@ -140,41 +140,41 @@ const val = e.target.value;
             </div>
           </div>
         ) : null}
-            <div  className={style.filtersContainer}>
-        <h6>ORDENAMIETOS</h6>
-        <div className={style.filters}>
-        
-                    <label>Ordene por precio</label>
-                    <select
-                      className={style.select}
-                      onChange={handlePriceAll}
-                      defaultValue='title'
-                    >
-                      <option value='title' disabled>
-                        Elige por precio
-                      </option>
-                      <option value="asc">Mayor precio</option>
-                      <option value="dsc">Menor precio</option>
-                    </select>
-                  </div>
+        <div className={style.filtersContainer}>
+          <h6>ORDENAR</h6>
+          <div className={style.filters}>
 
-                {props.stateFood === "dishes" ? (
-                <div>
-                  <div className={style.filters}>
+            <label>Ordene por precio</label>
+            <select
+              className={style.select}
+              onChange={handlePriceAll}
+              defaultValue='title'
+            >
+              <option value='title' disabled>
+                Elige por precio
+              </option>
+              <option value="asc">Mayor precio</option>
+              <option value="dsc">Menor precio</option>
+            </select>
+          </div>
 
-                    <label>Ordene por calorías</label>
-                    <select className={style.select} onChange={handleCalories} defaultValue='title'>
-                      <option value='title' disabled>
-                        Elige por calorias
-                      </option>
-                      <option value="asc">Más Calorías</option>
-                      <option value="desc">Menos Calorías</option>
-                    </select>
-                  </div>
+          {props.stateFood === "dishes" ? (
+            <div>
+              <div className={style.filters}>
 
-                </div>
-              ) : null}
-        </div> 
+                <label>Ordene por calorías</label>
+                <select className={style.select} onChange={handleCalories} defaultValue='title'>
+                  <option value='title' disabled>
+                    Elige por calorias
+                  </option>
+                  <option value="asc">Más Calorías</option>
+                  <option value="desc">Menos Calorías</option>
+                </select>
+              </div>
+
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

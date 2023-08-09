@@ -1,14 +1,28 @@
+
 .sidebar {
-  position: absolute;
   left: 0;
-  height: 100%;
-  width: 25%;
+  height: calc(100vh - 100px);
+  width: 280px;
   background-color: #313045;
   color: #fff;
-  padding-top: 30px;
+  padding: 10px !important;
+  position: absolute;
 }
-.sidebar.hidden {
-  display: none;
+
+.sidebarModifiers {
+  left: 0;
+  height: calc(100vh - 100px);
+  width: 280px;
+  background-color: #313045;
+  color: #fff;
+  padding: 10px !important;
+  position: absolute;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.optionsModal {
+  display: flex;
 }
 
 /* comment */
@@ -18,22 +32,84 @@
   margin-bottom: 1rem;
 }
 
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: center;
+  align-items: center;
+ margin-right: 30px;
+}
+
+.optionsContainer li {
+  list-style: none;
+  margin: .7rem 0;
+
+}
+
 .options {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: center; 
   list-style: none;
-  padding: 0;
+  transform: translateX(-17px);
+}
+
+ul.options hr {
+  border-bottom: 1px solid #fff;
 }
 .options li {
-  padding: 0.5rem;
+  padding: 0.3rem;
+  margin: .5rem 0;
   cursor: pointer;
 }
 
 .buttonDelete {
   font-size: 0.67rem;
-  width: 15vw;
-  height: 2.3rem;
-  font-size: 1rem;
+  color: #fff;
+  width: 260px;
+  border: 1px solid #FBC32C;
+  border-radius: 8px;
+  background-color: transparent;
+  height: 2.0rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.buttonDeleteCreate {
+  color: #fff;
+  width: 120px;
+  border: 1px solid #FBC32C;
+  border-radius: 8px;
+  background-color: transparent;
+  height: 2.0rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin: -10px;
+}
+
+.buttonDelete:hover,
+.buttonDelete:focus,
+.buttonDelete:active {
+  background-color: #fbc32c;
+  border: 1px solid transparent; /* Para quitar el contorno predeterminado cuando el botón está enfocado */
+  color: #313045;
+}
+.buttonSelected:active {
+  background-color: #fbc32c;
+  color: #313045;
+}
+.p {
+  font-size: 1rem;
+}
+
+
+.buttonDeleteCreate:hover,
+.buttonDeleteCreate:focus,
+.buttonDeleteCreate:active {
+  background-color: #fbc32c;
+  border: 1px solid transparent; /* Para quitar el contorno predeterminado cuando el botón está enfocado */
+  color: #313045;
 }

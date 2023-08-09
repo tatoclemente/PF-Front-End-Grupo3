@@ -35,8 +35,8 @@
     padding: 0 .5rem .1rem .5rem;
     border-radius: 15px;
     /* box-shadow: .2px .2px 3px var(--shadow); */
-    cursor: pointer;
 }
+
 .ratingIcon {
     margin-right: .3rem;
     color: var(--main-color);
@@ -144,3 +144,8 @@
     background-color: var(--button-hover-blue);
     color: var(--primary-light);
 }
+
+.dishDisabled {
+    filter: grayscale(100%);
+    
+  }
