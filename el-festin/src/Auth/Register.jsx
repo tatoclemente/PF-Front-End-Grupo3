@@ -16,7 +16,7 @@ function Register() {
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ function Register() {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (e) => {
     e.preventDefault();

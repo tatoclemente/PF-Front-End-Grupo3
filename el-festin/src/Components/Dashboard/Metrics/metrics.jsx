@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import style from './metrics.module.css'
 import '../../../tailwind.css'
 import {OrderMetrics} from './CardsMetrics/ordersMetrics'
-import { Tab ,TabList, TabGroup, Flex, } from '@tremor/react'
+import { TabList, TabGroup, Flex, } from '@tremor/react'
 
 
 export const Dates = () => {
- const [StateList, setStateList] = useState('User')
- console.log(StateList)
-
 
 //  const handleSelect = (e) =>{
 //    const val = e.target.getAttribute('data-value')

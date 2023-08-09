@@ -1,6 +1,6 @@
 import style from "./CardsContainer.module.css";
 import Card from "../../Card/Card";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Pagination from "../../Pagination/Pagination";
 import { scrollToTop } from "../../../Helpers/functions";
 // import { sides } from "../../../utils/mock";
