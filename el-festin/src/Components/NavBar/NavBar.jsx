@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../Components/NavBar/Navbar.css";
 import { SearchBar } from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ import { decodeToken } from "react-jwt";
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
   const location = useLocation();
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const order = useSelector((state) => state.cart);
   const users = useSelector((state) => state.users.users);
@@ -30,8 +30,10 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = () => {
-    dispatch(clearCart())
+  
+  const handleLogout = async () => {
+    await dispatch(clearCart())
+    navigate(ROUTES.HOME)
     logout();
   };
 

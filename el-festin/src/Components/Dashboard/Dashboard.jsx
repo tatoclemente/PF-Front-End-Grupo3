@@ -3,7 +3,7 @@ import "./dashboard.css";
 import { Sidebar } from "./Sidebar";
 import { UsersData } from "./Metrics/Users/Users.jsx";
 import { Dates } from "./Metrics/metrics";
-import {AllRequest} from './Requests/AlRequests.jsx'
+import { AllRequest } from './Requests/AlRequests.jsx'
 import { useState } from "react";
 import { Banner } from "./Landing/Banners/Banners";
 import { Local } from "./Landing/LocalImages/Local";
@@ -29,53 +29,55 @@ export const Dashboard = ({ currentUser }) => {
     if (val === "Users") {
       setThings("Users");
     }
-    if (val === "Products") {
-      setThings("Products");
-    } if(val === "Requests"){
+    if (val === "Requests") {
       setThings("Requests")
     }
   };
 
   return (
-    <>
+    <div className='dashboard-container'>
       <div>
         <Navbar isDashboard={true} />
       </div>
-      <div>
         <div className="containerALL">
-          <Sidebar handleRender={handleRender} setThings={setThings} />
+          <div>
+            <Sidebar handleRender={handleRender} setThings={setThings} />
+          </div>
 
-          {things === "Market" ? (
-            <div className="marketingContent">
-              <Banner />
-              <Local />
-              <DailySpecials />
-            </div>
-          ) : null}
+          <div className='contentContainer'>
+            {things === "Market" ? (
+              <div className="marketingContent">
+                <Banner />
+                <Local />
+                <DailySpecials />
+              </div>
+            ) : null}
 
-          {things === "Metrics" ? (
-            <div className="metricContent">
-              <Dates />
-            </div>
-          ) : null}
+            {things === "Metrics" ? (
+              <div className="metricContent">
+                <Dates />
+              </div>
+            ) : null}
+            {things === "Reser" ? (
+              <div className="reserContent">
+                <Reservation />
+              </div>
+            ) : null}
+  
 
           {things === "Users" ? (
             <div className="metricContent">
               <UsersData currentUser={currentUser}/>
             </div>
           ) : null}
-          {things === "Reser" ? (
-            <div className="reserContent">
-              <Reservation />
-            </div>
-          ) : null}
+
            {things === "Requests" ? (
             <div className="requestsContent">
               <AllRequest />
             </div>
           ) : null}
+
         </div>
       </div>
-    </>
   );
 };

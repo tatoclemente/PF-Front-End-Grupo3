@@ -2,10 +2,11 @@ import React from "react";
 import style from '../AllRequests.module.css'
 
 
-import { Card, Text,  Col, Grid, Legend,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow,  Title, Divider} from "@tremor/react";
+import { Card, Text, Col, Grid, Legend, Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow, Title, Divider } from "@tremor/react";
 
 
 export const Requests = ({ AllPending, handleDetail }) => {
+
  
     
   
@@ -87,4 +88,6 @@ export const Requests = ({ AllPending, handleDetail }) => {
   </div>
     
     )
+
+
 } 

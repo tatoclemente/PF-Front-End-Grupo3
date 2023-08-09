@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { DetailReserv } from "./DetailR/DetailR";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { ordersAccepted } from "../../../Redux/actions/actionOrders/setOrdersACC
 import { ordersPending } from "../../../Redux/slices/usersSlice";
 import Swal from "sweetalert2";
 import { Title } from "@tremor/react";
-
+import Loader from "../../Loader/Loader";
 
 export const AllRequest = () =>{
     const dispatch = useDispatch()
@@ -190,9 +190,14 @@ export const AllRequest = () =>{
     }
 
 
-    return(
-        <div className={style.contAll}>
-        <div className={style.contReq}>
+  if (loading) return (
+    <div style={{ width: '100%', zIndex: '50', top: '0', left: '0', position: 'absolute', height: '100vh', backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <p><Loader /></p>
+    </div>)
+
+  return (
+    <div className={style.contAll}>
+      <div className={style.contReq}>
         <Title>Lista de Pedidos</Title>
         <div className={style.tabsContainer}>
         <button
@@ -224,12 +229,14 @@ export const AllRequest = () =>{
           Entregados
         </button>
       </div>
+         
             <Requests state={state}  AllPending={AllPending} handleDetail={handleDetail}/>
         </div>
         <div>
             <DetailReserv handleStatusEnProceso={handleStatusEnProceso} handleStatusEntrega={handleStatusEntrega} handleStatus={handleStatus} pedido={pedido} detail={detail}/>
             
         </div>
-        </div>
-    )
+        
+    </div>
+  )
 }

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, updateCartItemQuantity } from '../../Redux/actions/actionOrders/actionOrders'
 import Swal from 'sweetalert2'
 
-function Card({type, image, name, price, volume, rating, description, id, category, totalRating, toggleCart,buttonOut}) {
+function Card({type, image, name, price, volume, stock, rating, description, id, category, totalRating, toggleCart,buttonOut}) {
 
   const dispatch = useDispatch();
 
@@ -141,8 +141,10 @@ function Card({type, image, name, price, volume, rating, description, id, catego
     return stars;
   };
 console.log(buttonOut)
+
+
   return (
-    <div className={style.cardContainer}>
+    <div  className={`${style.cardContainer} ${stock <=0 ? style.dishDisabled : ''}`}>
       <p className={style.type}>{type? type : 'Postres'}</p>
       <div className={style.cardContent}>
         {category === 'dish' && <div className={style.rating}>{renderStars()}</div> }
@@ -156,14 +158,25 @@ console.log(buttonOut)
         </div>
       </div>
       <span className={`${style.price} ${buttonOut && "pb-4"}`}>${price}</span>
-      {buttonOut? null :(type === 'plato principal' || type === 'entrada' 
-      ? <Link to={`/detail/${id}`} className={style.link}>
-          Ver detalle
-        </Link>
-        : <button className={style.buttonAddCart} onClick={showConfirmation}>
+      {
+  buttonOut ? null : (
+    (type === 'plato principal' || type === 'entrada') && stock > 0 ? (
+      <Link to={`/detail/${id}`} className={style.link}>
+        Ver detalle
+      </Link>
+    ) : (
+      (type !== 'plato principal' && type !== 'entrada') && stock > 0?  (
+        <button className={style.buttonAddCart} onClick={showConfirmation}>
           Agregar a la orden
         </button>
-      )}
+      ) : (
+        <button className={style.buttonAddCart} disabled>
+         No disponible
+        </button>
+      )
+    )
+  )
+}
       
     </div>
   )

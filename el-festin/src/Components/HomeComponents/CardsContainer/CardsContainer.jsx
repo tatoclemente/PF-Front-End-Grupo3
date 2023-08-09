@@ -72,6 +72,7 @@ const CardsContainer = (props) => {
                 type={dish.type}
                 image={dish.image}
                 name={dish.name}
+                stock={dish.stock}
                 price={dish.price}
                 rating={dish.rating}
                 volume={dish.volume}

@@ -1,3 +1,12 @@
+
+.sidebarContainer {
+  width: 280px;
+}
+
+.contentContainer {
+  width: calc(100vw - 280px);
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -29,7 +38,7 @@
 }
 
 .buttonCrear:hover {
-  background-color: #313045de;
+  background-color: transparent;
 }
 
 .dropdown select:hover {
@@ -113,15 +122,16 @@
   display: flex;
   justify-content: space-between;
   overflow-y: hidden;
+  width: 100vw;
+  height: calc(100vh - 100px);
 }
 
 .marketingContent {
   position: relative;
   right: 0;
   top: 0;
-  left: 20%;
   height: 100%;
-  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   padding: 20px;
   background-color: #ffffff;
   max-height: 100vh; /* Establece aquí la altura máxima que desees */
@@ -133,9 +143,8 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 20%;
   height: 100%;
-  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
   max-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
   border: 1px solid #ccc;
@@ -145,10 +154,9 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 20%;
   height: 100%;
-  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
-  max-height: 100vh; /* Establece aquí la altura máxima que desees */
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  min-height: 100vh; /* Establece aquí la altura máxima que desees */
   overflow-y: auto; /* El scrollbar vertical solo aparecerá cuando sea necesario */
 
 }
@@ -157,10 +165,8 @@
   position: relative;
   right: 0;
   top: 0;
-  left: 20%;
   height: 100%;
-  width: 80%; /* El ancho debe ser el complemento del ancho del sidebar */
-  max-height: 100vh;
+  width: calc(100vw - 280px); /* El ancho debe ser el complemento del ancho del sidebar */
+  min-height: 100vh;
   border: 1px solid #ccc; /* Establece aquí la altura máxima que desees */ /* El scrollbar vertical solo aparecerá cuando sea necesario */
- 
 }
