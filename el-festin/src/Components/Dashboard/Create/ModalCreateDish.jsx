@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
 import { validacionDish } from "../Validaciones/validacionDish";
@@ -46,7 +46,7 @@ export const ModalCreateDish = () => {
 
   useEffect(() => {
     dispatch(getTypes());
-  }, []);
+  }, [dispatch]);
 
   const onInputChange = ({ target }) => {
     setInputCreateDish({

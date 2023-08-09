@@ -6,7 +6,7 @@ import axios from "axios";
 import {getUsers} from '../../../../Redux/actions/actionsUsers/getAllUsers'
 import Swal from "sweetalert2";
 import { server } from "../../../../Helpers/EndPoint";
-import { Card, Text,  Col, Grid, Title,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow, Badge} from "@tremor/react";
+import { Card, Text,  Col, Grid, Title,  Table, TableCell, TableHeaderCell, TableHead, TableBody, TableRow } from "@tremor/react";
 
 
 export const UsersMetrics = ({ currentUser }) => {
