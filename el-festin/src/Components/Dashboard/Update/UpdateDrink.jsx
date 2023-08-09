@@ -81,6 +81,11 @@ export const UpdateDrink = ({ allDates }) => {
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
+      const nameExists =
+      Array.isArray(allDates) &&
+      allDates.find(
+        (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
+      );
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -93,7 +98,6 @@ export const UpdateDrink = ({ allDates }) => {
           `${server}/drink/${selectedItem.id}`,
           formData
         );
-        console.log(data);
         if (data.name) {
           dispatch(getDrinks());
           Swal.fire({
@@ -103,15 +107,23 @@ export const UpdateDrink = ({ allDates }) => {
           });
           setUpdateState("DEFAULT");
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "la bebida no pudo modificarse",
-            confirmButtonText: "OK",
-          });
+          if (nameExists) {
+            Swal.fire({
+              icon: "error",
+              title: "Ya existe una bebida con ese nombre",
+              confirmButtonText: "OK",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "La bebida no pudo modificarse",
+              confirmButtonText: "OK",
+            });
+          }
         }
       }
     } catch (error) {
-      throw error.messagge;
+      throw error.message;
     }
   };
 

@@ -5,14 +5,14 @@ import logo from '../../Assets/logo-el-festin-nav.png';
 export default function About() {
   return (
     <div className={Styles.container}>
+      <div className={Styles.imageContainer}>
       <img
         className={Styles.img}
         src={logo}
         alt="logo"
-        width="90"
-        height="60"
       />
-      <h2>Nosotros</h2>
+      </div>
+      <h2 className={Styles.titleAbout}>Nosotros</h2>
       <p className={Styles.p}>
         ¡Bienvenidos a El Festín! Desde nuestra apertura en 2023, nos hemos
         dedicado a ofrecer la mejor experiencia gastronómica.

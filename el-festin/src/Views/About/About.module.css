@@ -1,24 +1,35 @@
 .container {
-  background-color: white;
-  margin-top: 3vw;
+  background-color: var(--background-darkblue);
   display: flex;
   flex-direction: column;
   align-items: center;
   background-size: cover;
   background-position: center;
-  border: groove;
+  box-shadow: 1px 0 5px var(--shadow);
   border-radius: 1vw;
-  width: 40vw;
-  height: 45vw;
-  padding: 3vw;
-  margin-left: auto;
-  margin-right: auto;
+  width: 45%;
+  max-width: 50%;
+  padding: 3%;
+  margin: 3vh auto;
+}
+
+.titleAbout{
+  color: var(--main-color);
+  margin: 4% 0;
+  font-size: 2rem;
 }
 .p {
-  font-size: 13px;
-  margin-bottom: 10vw;
-  text-align: left;
+  font-size: 1rem;
+  margin-bottom: 5%;
+  text-align: center;
+  color: white;
+}
+
+.imageContainer{
+margin-right: 70%;
 }
 .img {
-  margin-right: 24vw;
+  width: 10rem;
+  height: 5rem;
+
 }
