@@ -4,6 +4,7 @@ import { getReservation } from "../../Redux/actions/actionReservation/getAllRese
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import styles from "./Booking.module.css";
 import Calendar from "react-calendar";
+import moment from 'moment';
 import Validate from "./ValidationBooking";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
@@ -12,7 +13,7 @@ import "react-calendar/dist/Calendar.css";
 import "./custom-calendar.css";
 
 export default function BookingComponent() {
-  let moment = 'xd'
+
   const [selectedDateTime, setSelectedDateTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
@@ -63,7 +64,7 @@ export default function BookingComponent() {
   const [inputValues, setInputValues] = useState({
     id: dataUser.id,
     name: user?.displayName
-      ? user.displayName
+      ? user?.displayName
       : dataUser.length > 0
       ? `${dataUser[0].name} ${dataUser[0].lastName}`
       : "",
@@ -334,7 +335,7 @@ export default function BookingComponent() {
                   value={selectedDateTime}
                   onChange={handleDateChange}
                   minDate={new Date()}
-                  maxDate={moment().add(1, "year").toDate()}
+                  maxDate={moment().add(1, "month").toDate()}
                 />
               </div>
             </div>

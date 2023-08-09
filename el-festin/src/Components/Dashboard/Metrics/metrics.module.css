@@ -1,8 +1,11 @@
 
 .containerAll{
     position: relative;
-    width: 99%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     margin: 0 auto;
+    padding-bottom: 2rem;
 }
 
 .containerDishes{
@@ -19,12 +22,11 @@
 .contUserM{
     position: relative;
     width: 99%;
-     border-top: 7px solid #FBC32C;
+    border-top: 7px solid #FBC32C;
     border-radius: 1vh;
     border-bottom: 1px solid var(--gray);
     border-left: 1px solid var(--gray);
     border-right: 1px solid var(--gray) ;
-    margin: 0 auto;
 }
 .contImg{
 border-radius: 50%;
@@ -65,9 +67,10 @@ background-color: var(--gray);
     height: 190px;
     position: relative;
     justify-self: right;
-    border-radius: 1vh;
+    border-radius: 0 1vh 0 0;
     border-top: 7px solid #FBC32C;
     border-right: 1px solid var(--gray) ;
+    margin-top: 1rem;
 }
 .contTitle{
     background-color: #f6f5f4 ;
@@ -91,6 +94,7 @@ background-color: var(--gray);
     border-radius: 10px 10px 0 0;
     border-bottom: transparent;
     background-color: transparent;
+    padding: 0 1rem;
   }
   .buuutton {
     background-color: #313045;
@@ -130,4 +134,3 @@ background-color: var(--gray);
     display: flex;
     justify-content: space-between;
   }
-

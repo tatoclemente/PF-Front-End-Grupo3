@@ -176,9 +176,12 @@
 }
 
 .tab {
+  border: 2px solid transparent;
+  border-bottom: transparent;
   color: var(--shadow);
   background-color: transparent;
-  border: none;
+  border-radius: 10px 10px 0 0;
+  padding: 0 .5rem;
 }
 .orderContainer {
   width: 90%;

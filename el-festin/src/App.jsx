@@ -72,6 +72,7 @@ function App() {
         {location.pathname !== ROUTES.LOGIN &&
         location.pathname !== ROUTES.DASHBOARD &&
         location.pathname !== ROUTES.REGISTER &&
+        location.pathname !== ROUTES.ABOUT &&
         location.pathname !== ROUTES.NOT_FOUND ? (
           <Navbar toggleCart={toggleCart} />
         ) : undefined}
@@ -130,6 +131,7 @@ function App() {
         location.pathname !== ROUTES.REGISTER &&
         location.pathname !== ROUTES.PAYMENT_SUCCESS &&
         location.pathname !== ROUTES.PAYMENT_FAILED &&
+        location.pathname !== ROUTES.ABOUT &&
         location.pathname !== ROUTES.NOT_FOUND ? (
           <Footer />
         ) : undefined}

@@ -208,7 +208,7 @@ export const Banner = () => {
   };
 
   return (
-    <div>
+    <div style={{borderBottom: "2px solid #e5e5e5", paddingBottom: "2rem"}}>
       <div>
         <h2 className={style.title}>ESTADO DE MI BANNER PUBLICITARIO</h2>
       </div>

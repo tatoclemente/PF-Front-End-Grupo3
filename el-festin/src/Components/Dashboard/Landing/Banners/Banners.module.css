@@ -63,8 +63,7 @@
     cursor: pointer;
     border-radius: 10px;
     transition-duration: 0.4s;
-    margin: 1rem 0rem
-
+    margin: 1rem 5%;
   }
 
   .crearButton:hover {

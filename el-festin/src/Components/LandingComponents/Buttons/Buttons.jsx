@@ -25,6 +25,7 @@ const Buttons = () => {
       return;
     } else {
       navigate("/booking");
+      scrollToTop(); 
     }
   };
 
@@ -36,7 +37,7 @@ const Buttons = () => {
         </button>
       </Link>
    
-      <button onClick={() => { scrollToTop(); handleBooking(); }} className={style.button}>
+      <button onClick={() => { handleBooking(); }} className={style.button}>
           QUIERO HACER UNA RESERVACION
         </button>
   

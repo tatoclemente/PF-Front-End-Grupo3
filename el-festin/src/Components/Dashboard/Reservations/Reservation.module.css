@@ -1,18 +1,19 @@
+
 .titleReser {
   color: #8d8c8c;
   font-size: 1.8rem;
-  margin-top: 1%;
+  margin: 1rem auto;
 }
 
 .aviso {
   color: #8d8c8c;
   font-size: 0.9rem;
+  margin: 1rem auto;
 }
 .div {
   display: flex;
   justify-content: center;
   margin-top: 0.5rem;
-  margin-left: 1rem;
   flex-wrap: wrap;
   gap: 2rem;
 }
@@ -91,13 +92,16 @@
   border-radius: 10px 10px 0 0;
   border-bottom: transparent;
   background-color: transparent;
+  width: 12rem;
   padding: 0 0.5rem;
 }
 
 .buttonReservations {
   color: var(--shadow);
+  border: 2px solid transparent;
+  border-bottom: transparent;
   background-color: transparent;
-  border: none;
+  width: 12rem;
 }
 
 .reservationConfirmed {

@@ -5,7 +5,6 @@ import Styles from "./Dashboard.module.css";
 export const Sidebar = (props) => {
   const [productos, setProductos] = useState(true);
   const onProductChange = () => {
-    props.setThings("Products");
     setProductos(!productos);
   };
 

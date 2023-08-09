@@ -132,7 +132,7 @@ export const DailySpecials = () => {
   };
 
   return (
-    <div>
+    <div style={{marginBottom: "50px"}}>
       <h2 className={style.title}>PLATOS DEL DIA</h2>
       <form className={style.form} onSubmit={onSubmitSearch}>
         <div className={style.inputContainer}>
