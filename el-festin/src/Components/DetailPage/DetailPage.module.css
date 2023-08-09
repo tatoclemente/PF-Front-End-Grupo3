@@ -404,3 +404,24 @@
   font-size: 1.8rem;
   font-weight: 500;
 }
+
+.drinkDisabled {
+  filter: grayscale(100%);
+  
+}
+.desertDisabled {
+  filter: grayscale(100%);
+  
+}
+.sideDisabled {
+  filter: grayscale(100%);
+  
+}
+
+.noAvailable {
+  display: flex;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-left: 1.2rem;
+}
