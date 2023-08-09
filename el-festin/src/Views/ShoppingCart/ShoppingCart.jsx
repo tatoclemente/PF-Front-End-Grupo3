@@ -74,7 +74,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedOrder,
   };
 
-
+  console.log(pedido);
   
   const handlePaySubmit = async (e) => {
     e.preventDefault();

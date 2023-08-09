@@ -9,6 +9,7 @@ import { ordersAccepted } from "../../../Redux/actions/actionOrders/setOrdersACC
 import { ordersPending } from "../../../Redux/slices/usersSlice";
 import Swal from "sweetalert2";
 import { Title } from "@tremor/react";
+import Loader from "../../Loader/Loader";
 
 
 export const AllRequest = () =>{
@@ -23,6 +24,8 @@ export const AllRequest = () =>{
     })
   
     const [pedido, setPedido] = useState([]);
+
+    const [loading, setLoading] = useState(false);
     
 
     useEffect(() =>{
@@ -33,7 +36,7 @@ export const AllRequest = () =>{
 
       const handleDetail = async(e) =>{
         const val = e.target.getAttribute('data-value')
-        let filtered = AllPending.filter((e) => e.order.includes(val))
+        let filtered = Array.isArray(AllPending) && AllPending.filter((e) => e.order.includes(val))
 
         if(filtered){
           try {
@@ -100,6 +103,10 @@ export const AllRequest = () =>{
         
     }
 
+    if (loading) return ( 
+      <div style={{width: '100%', zIndex:'50', top: '0', left: '0', position: 'absolute', height: '100vh',backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <p><Loader /></p>
+      </div>) 
 
     return(
         <div className={style.contAll}>
