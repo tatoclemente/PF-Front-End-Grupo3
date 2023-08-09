@@ -11,6 +11,7 @@ import style from "../Dashboard.module.css";
 import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const UpdateDesert = ({ allDates }) => {
+  console.log(allDates)
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,
@@ -74,16 +75,12 @@ export const UpdateDesert = ({ allDates }) => {
     e.preventDefault();
 
     try {
-      const errorValue = Object.values(error);
-      let errorMessage = errorValue.filter((err) => err !== "");
-      if (errorMessage.length > 0) {
-        Swal.fire({
-          icon: "error",
-          title: "Complete todos los campos correctamente",
-          confirmButtonText: "OK",
-        });
-        return;
-      }
+
+      const nameExists =
+      Array.isArray(allDates) &&
+      allDates.find(
+        (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
+      );
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -106,15 +103,23 @@ export const UpdateDesert = ({ allDates }) => {
           });
           setUpdateState("DEFAULT");
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "El postre no pudo modificarse",
-            confirmButtonText: "OK",
-          });
+          if (nameExists) {
+            Swal.fire({
+              icon: "error",
+              title: "Ya existe un postre con ese nombre",
+              confirmButtonText: "OK",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "El plato no pudo modificarse",
+              confirmButtonText: "OK",
+            });
+          }
         }
       }
     } catch (error) {
-      throw error.messagge;
+      throw error.message;
     }
   };
   const isInputViewEnabled =
