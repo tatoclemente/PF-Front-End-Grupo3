@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFilterName } from "../../Redux/actions/getFilterName";
+import { getRecomendName } from "../../Redux/actions/getRecomendSearch";
+
 
 export const SearchBar = (props) => {
   const [input, setInput] = useState("");
@@ -15,6 +17,11 @@ export const SearchBar = (props) => {
   if (Array.isArray(allDrinks) && allDrinks.length > 0) all.push(...allDrinks);
   if (Array.isArray(allDeserts) && allDeserts.length > 0) all.push(...allDeserts);
 
+  let recomendedDishes =  useSelector((state) => state.dishes.recomendDishes)
+
+  const filteredDishes = []
+  if (Array.isArray(recomendedDishes) && recomendedDishes.length > 0) filteredDishes.push(...recomendedDishes);
+  console.log(filteredDishes)
   const onInputChange = ({ target }) => {
     setInput(target.value);
   };
@@ -32,9 +39,7 @@ export const SearchBar = (props) => {
 
   useEffect(() => {
     if (input.length > 0) {
-      const filteredDishes = all.filter((dish) =>
-        dish.name?.toLowerCase().includes(input.toLowerCase())
-      );
+      dispatch(getRecomendName(input))
       setSearchResults(filteredDishes.slice(0, 3));
     } else {
       setSearchResults([]);
