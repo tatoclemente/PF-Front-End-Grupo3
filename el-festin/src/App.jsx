@@ -35,17 +35,6 @@ import NotFound from "./Views/404NotFound/404NotFound";
 function App() {
   let location = useLocation();
 
-  // const navigate = useNavigate();
-
-  // const userGoogle = useSelector((state) => state.auth.user);
-
-  // const userDB = useSelector((state) => state.users.users);
-
-  // console.log("userGOOGLE", userGoogle);
-  // console.log("userdB", userDB);
-
-  //const currentUser = userDB.find((user) => user.email === userGoogle.email);
-  //console.log("curretUser",currentUser);
   function getCustomTokenFromLocalStorage() {
     return localStorage.getItem("customToken");
   }
@@ -54,18 +43,18 @@ function App() {
   const decodeCustomToken = customToken && decodeToken(customToken);
   const currentUser = {
 
-    //role: decodeCustomToken ? decodeCustomToken.role : false,
-    role: "Admin",
+    role: decodeCustomToken ? decodeCustomToken.role : false,
+    // role: "Admin",
 
   };
-  console.log(currentUser)
+
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
-  console.log(currentUser);
+
   return (
     <div className={style.appContainer}>
       <AuthProvider>
@@ -136,10 +125,6 @@ function App() {
           <Footer />
         ) : undefined}
       </AuthProvider>
-      {/* 
-      {location.pathname === "/shopping-cart" ? (
-        <div className={style.overlay} />
-      ) : undefined} */}
     </div>
   );
 }

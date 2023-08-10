@@ -140,8 +140,6 @@ function Card({type, image, name, price, volume, stock, rating, disabled, descri
     }
     return stars;
   };
-console.log(buttonOut)
-
 
 
     return (
