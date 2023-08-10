@@ -60,36 +60,31 @@ export const Profile = ({toggleCart}) => {
     return b.createdAt.localeCompare(a.createdAt);
   }
 
+  const orders = async () => {
+    try {
+      const { data } = await axios.get(`${server}/ticket/user/${userId}`);
+      console.log("DATA_________", data);
+
+      // Verificar si el usuario no tiene pedidos aprobados
+      if (data === 'No hay tickets asociados a este usuario') {
+        setMyOrders([]); // Establecer myOrders como una matriz vacía
+        setLoadingDetails(false); // Actualizar loadingDetails a false
+      } else {
+        const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
+
+          // Ordenar los tickets por fecha y hora de manera descendente
+        aproved.sort(sortByDateAndTimeDesc);
+
+        setMyOrders(aproved);
+        setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
+      }
+    } catch (error) {
+      console.log("ERROR: ", error.message);
+    }
+  };
+
   useEffect(() => {
     if (userId) {
-      const orders = async () => {
-        try {
-          const { data } = await axios.get(`${server}/ticket/user/${userId}`);
-          console.log("DATA_________", data);
-
-          // Verificar si el usuario no tiene pedidos aprobados
-          if (data === 'No hay tickets asociados a este usuario') {
-            setMyOrders([]); // Establecer myOrders como una matriz vacía
-            setLoadingDetails(false); // Actualizar loadingDetails a false
-          } else {
-            const aproved = data.filter((ticket) => ticket.status !== "Rechazado" && ticket.status !== "Pendiente");
-
-              // Ordenar los tickets por fecha y hora de manera descendente
-            aproved.sort(sortByDateAndTimeDesc);
-            // // Ordenar las órdenes por hora (createdAt) en orden descendente
-            // aproved.sort((a, b) => {
-            //   const timeA = new Date(`2000-01-01T${a.createdAt}:00`).getTime();
-            //   const timeB = new Date(`2000-01-01T${b.createdAt}:00`).getTime();
-            //   return timeB - timeA;
-            // });
-
-            setMyOrders(aproved);
-            setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
-          }
-        } catch (error) {
-          console.log("ERROR: ", error.message);
-        }
-      };
       orders();
     }
   }, [userId]);
@@ -106,7 +101,7 @@ export const Profile = ({toggleCart}) => {
 
   // Función para ordenar reservaciones por fecha y hora de manera descendente
 function sortByDateAndTimeDescReser(a, b) {
-  const dateComparison = b.date.localeCompare(a.date);
+  const dateComparison = a.date.localeCompare(b.date);
   if (dateComparison !== 0) {
     return dateComparison;
   }
@@ -114,39 +109,34 @@ function sortByDateAndTimeDescReser(a, b) {
   return b.time.localeCompare(a.time);
 }
 
-  useEffect(() => {
-    if (userId) {
-      const reservations = async () => {
-        try {
-          const { data: reservations } = await axios.get(`${server}/reser/user/${userId}`);
-          console.log("DATA_________", reservations);
+const reservations = async () => {
+  try {
+    const { data: reservations } = await axios.get(`${server}/reser/user/${userId}`);
+    console.log("DATA_________", reservations);
 
-          // Verificar si el usuario no tiene pedidos aprobados
-          if (reservations === 'No hay tickets asociados a este usuario') {
-            setMyOrders([]); // Establecer myOrders como una matriz vacía
-            setLoadingDetails(false); // Actualizar loadingDetails a false
-          } else {
-            const validReservations = reservations.filter((reserv) => reserv.status !== "Rechazado");
+    // Verificar si el usuario no tiene pedidos aprobados
+    if (reservations === 'No hay tickets asociados a este usuario') {
+      setMyOrders([]); // Establecer myOrders como una matriz vacía
+      setLoadingDetails(false); // Actualizar loadingDetails a false
+    } else {
+      const validReservations = reservations.filter((reserv) => reserv.status !== "Rechazado");
 
-            // // Ordenar las reservaciones por fecha y hora en orden descendente
-            // validReservations.sort((a, b) => {
-            //   const dateA = new Date(`${a.date} ${a.time}`);
-            //   const dateB = new Date(`${b.date} ${b.time}`);
-            //   return dateB - dateA;
-            // });
-            validReservations.sort(sortByDateAndTimeDescReser);
-            setMyReservations(validReservations);
-            setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
-          }
-        } catch (error) {
-          console.log("ERROR: ", error.message);
-        }
-      };
-      reservations();
+      validReservations.sort(sortByDateAndTimeDescReser);
+      setMyReservations(validReservations);
+      setLoadingDetails(false); // Actualizar loadingDetails a false cuando hay pedidos aprobados
     }
-  }, [userId]);
+  } catch (error) {
+    console.log("ERROR: ", error.message);
+  }
+};
 
-  console.log("MY RESERVATIONS", myReservations);
+useEffect(() => {
+  if (userId) {
+    reservations();
+  }
+}, [userId]);
+
+console.log("MY RESERVATIONS", myReservations);
 
 
   //----------------------------------------------------------------------------
@@ -330,7 +320,9 @@ function sortByDateAndTimeDescReser(a, b) {
         myReservations={myReservations} 
         loadingDetails={loadingDetails}
         toggleCart={toggleCart}
-        userId={userId} />
+        userId={userId}
+        reservations={reservations}
+        orders={orders} />
       </div>
     </div>
   );

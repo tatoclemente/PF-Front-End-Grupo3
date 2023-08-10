@@ -5,7 +5,7 @@ import axios from 'axios';
 import { server } from '../../../Helpers/EndPoint';
 import Swal from 'sweetalert2';
 
-function ModalReviews({setShowReviewModal, selectedItem, userId}) {
+function ModalReviews({setShowReviewModal, selectedItem, userId, orders, setShowModal}) {
     
   const { name, lastName } = selectedItem[0]; // Información del usuario
   const orderItems = selectedItem.slice(1); // Detalles de los items de la orden
@@ -46,7 +46,9 @@ function ModalReviews({setShowReviewModal, selectedItem, userId}) {
     // Realiza la solicitud POST para enviar la reseña al servidor
     try {
       const response = await axios.post(`${server}/comment`, dataPost);
+      console.log(response.data);
       if (response.data){
+      await orders()
       Swal.fire({
         icon: 'success',
         title: 'Reseña enviada',
@@ -56,7 +58,9 @@ function ModalReviews({setShowReviewModal, selectedItem, userId}) {
       })
       setComment("")
       setRating(0)
-      setShowForm(false);}
+      setShowForm(false);
+      setShowReviewModal(false);
+    }
     } catch (error) {
       Swal.fire({
         icon: 'error',
