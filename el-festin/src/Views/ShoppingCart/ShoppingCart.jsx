@@ -100,7 +100,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           onCloseCart();
-
+          setLoading(false)
           navigate("/auth/login");
         }
       });

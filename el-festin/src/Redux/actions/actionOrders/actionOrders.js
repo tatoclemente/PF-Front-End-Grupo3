@@ -8,6 +8,7 @@ import {
   clearCart as clearCartAction,
   setCartFromDatabase as setCartFromDatabaseAction,
 } from "../../slices/orderSlice";
+import Swal from "sweetalert2";
 
 // Acción asíncrona para agregar un producto al carrito y guardar el carrito en el backend
 export const addToCart = (item) => async (dispatch, getState) => {
@@ -185,10 +186,79 @@ export const deleteCartDataBase = () => async () => {
   }
 }
 // Función para obtener el carrito desde la base de datos y establecerlo en el estado local
+// export const setCartFromDatabase = (token) => async (dispatch) => {
+//   try {
+//     // console.log("ATION TOKEN", token);
+
+//     const headers = {
+//       Authorization: `Bearer ${token}`,
+//     };
+
+//     // Realizar la petición GET a la API para obtener el carrito
+//     const response = await axios.get(`${server}/cart`, { headers });
+
+//     const cartItems = response.data;
+
+//     // Despachar la acción para establecer el carrito en el estado local
+//     dispatch(setCartFromDatabaseAction(cartItems.cart));
+//   } catch (error) {
+//     console.error("Error al obtener el carrito desde la base de datos:", error);
+//     // Manejar el error de manera adecuada (por ejemplo, mostrar un mensaje de error en la interfaz)
+//   }
+// };
+
+// export const setCartFromDatabase = (token) => async (dispatch) => {
+//   try {
+//     const headers = {
+//       Authorization: `Bearer ${token}`,
+//     };
+
+//     // Realizar la petición GET a la API para obtener el carrito
+//     const response = await axios.get(`${server}/cart`, { headers });
+
+//     const cartItems = response.data;
+
+//     // Despachar la acción para establecer el carrito en el estado local
+//     dispatch(setCartFromDatabaseAction(cartItems.cart));
+
+//     // Verificar si hay un carrito local almacenado
+//     const localCart = JSON.parse(localStorage.getItem("cart"));
+    
+//     if (localCart && localCart.length > 0) {
+//       // Mostrar notificación al usuario y esperar su decisión
+//       const result = await Swal.fire({
+//         title: "Hey, disculpa!",
+//         text: "Notamos que ya tienes un carrito guardado, ¿Qué deseas hacer?",
+//         showDenyButton: true,
+//         showCancelButton: true,
+//         confirmButtonText: "Mantener actual",
+//         denyButtonText: "Reemplazar",
+//         cancelButtonText: "Unir ambos",
+//         denyButtonColor: "var(--main-color)",
+//       });
+
+//       if (result.isConfirmed) {
+//         // El usuario eligió mantener el carrito actual, no es necesario hacer cambios en el estado
+//         return;
+//       } else if (result.isDenied) {
+//         // El usuario eligió reemplazar el carrito actual con el carrito de la base de datos
+//         dispatch(setCartFromDatabaseAction(localCart));
+//         await axios.put(`${server}/cart`, { cartItems: localCart }, { headers });
+//       } else {
+//         // El usuario eligió unir ambos carritos
+//         const combinedCart = [...localCart, ...cartItems.cart];
+//         dispatch(setCartFromDatabaseAction(combinedCart));
+//         await axios.put(`${server}/cart`, { cartItems: combinedCart }, { headers });
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Error al obtener el carrito desde la base de datos:", error);
+//     // Manejar el error de manera adecuada (por ejemplo, mostrar un mensaje de error en la interfaz)
+//   }
+// };
+
 export const setCartFromDatabase = (token) => async (dispatch) => {
   try {
-    // console.log("ATION TOKEN", token);
-
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -196,10 +266,44 @@ export const setCartFromDatabase = (token) => async (dispatch) => {
     // Realizar la petición GET a la API para obtener el carrito
     const response = await axios.get(`${server}/cart`, { headers });
 
-    const cartItems = response.data;
+    const cartItems = response.data.cart; // Accedemos al array 'cart' dentro de la respuesta
 
-    // Despachar la acción para establecer el carrito en el estado local
-    dispatch(setCartFromDatabaseAction(cartItems.cart));
+    // Verificar si hay un carrito local almacenado
+    const localCart = JSON.parse(localStorage.getItem("cart"));
+    console.log(cartItems);
+    if (Array.isArray(cartItems) && cartItems.length > 0 && localCart && localCart.length > 0) {
+      // Mostrar notificación al usuario y esperar su decisión
+      const result = await Swal.fire({
+        title: "Hey, disculpa!",
+        text: "Notamos que ya tienes un carrito anterior guardado, ¿Qué deseas hacer?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Mantener actual",
+        denyButtonText: "Reemplazar",
+        cancelButtonText: "Unir ambos",
+        denyButtonColor: "var(--main-color)",
+      });
+
+      if (result.isConfirmed) {
+        await axios.put(`${server}/cart`, { cartItems: localCart }, { headers });
+        dispatch(setCartFromDatabaseAction(localCart))
+        // El usuario eligió mantener el carrito actual, no es necesario hacer cambios en el estado
+      } else if (result.isDenied) {
+        // El usuario eligió reemplazar el carrito actual con el carrito de la base de datos
+        await axios.put(`${server}/cart`, { cartItems: cartItems }, { headers });
+        // Actualizar el carrito local con los elementos de la base de datos
+        dispatch(setCartFromDatabaseAction(cartItems));
+      } else {
+        // El usuario eligió unir ambos carritos
+        const combinedCart = [...localCart, ...cartItems];
+        await axios.put(`${server}/cart`, { cartItems: combinedCart }, { headers });
+        // Actualizar el carrito local con la combinación de ambos carritos
+        dispatch(setCartFromDatabaseAction(combinedCart));
+      }
+    } else {
+      // Si no hay elementos en el carrito de la base de datos, simplemente establece el carrito desde la base de datos
+      dispatch(setCartFromDatabaseAction(cartItems)); // Si localCart es null, establecemos un array vacío
+    }
   } catch (error) {
     console.error("Error al obtener el carrito desde la base de datos:", error);
     // Manejar el error de manera adecuada (por ejemplo, mostrar un mensaje de error en la interfaz)
