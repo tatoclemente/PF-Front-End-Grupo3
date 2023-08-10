@@ -26,6 +26,9 @@ export const Reservation = () => {
     const filterRejected =
     allReservations.length > 0 &&
     allReservations.filter((res) => res.status === "Rechazado");
+    const filterCanceled =
+    allReservations.length > 0 &&
+    allReservations.filter((res) => res.status === "Cancelado");
 
   const [activeButton, setActiveButton] = useState("requests");
 
@@ -39,7 +42,9 @@ export const Reservation = () => {
   const handleShowRejected = () => {
     setActiveButton("rejected");
   };
-
+  const handleShowCanceled= () => {
+    setActiveButton("canceled");
+  };
   useEffect(() => {
     dispatch(getReservation());
     dispatch(getUsers());
@@ -117,6 +122,7 @@ export const Reservation = () => {
       }
     }
   };
+  
 
   const handleDeleteReservation = async (reservationId) => {
     const reservationToDelete = Array.isArray(allReservations) && allReservations.find(
@@ -170,6 +176,16 @@ export const Reservation = () => {
             onClick={handleShowReservations}
           >
             CONFIRMADAS
+          </button>
+          <button
+            className={
+              activeButton === "canceled"
+                ? style.activeButtons
+                : style.buttonReservations
+            }
+            onClick={handleShowCanceled}
+          >
+            CANCELADAS
           </button>
           <button
             className={
@@ -307,69 +323,125 @@ export const Reservation = () => {
             );
           })}
       </div>
-
       <div className={style.div}>
-        {activeButton === "rejected" &&
-          Array.isArray(filterRejected) && filterRejected?.map((res, index) => {
+        {activeButton === "canceled" &&
+          Array.isArray(filterCanceled) && filterCanceled?.map((res, index) => {
             return (
-              <div className={style.containerReservation}>
-                <div key={index} className={style.reservationCard}>
-                  <div className={style.reservationDetails}>
-                    <p>
-                      <span>Nombre: </span>
-                      {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`  }
-                    </p>
-                    <p>
-                      <span>Teléfono: </span>
-                      {res.phoneNumber}
-                    </p>
+                <div className={style.containerReservation}>
+                  <div key={index} className={style.reservationCard}>
+                    <div className={style.reservationDetails}>
+                      <p>
+                        <span>Nombre: </span>
+                        {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`}
+                      </p>
+                      <p>
+                        <span>Teléfono: </span>
+                        {res.phoneNumber}
+                      </p>
+                    </div>
+                    <div className={style.reservationDetails}>
+                      <p>
+                        <span>Fecha: </span>
+                        {res.date}
+                      </p>
+                      <p>
+                        <span>Hora: </span>
+                        {res.time}
+                      </p>
+                    </div>
+                    <div className={style.reservationDetails}>
+                      <p>
+                        <span>Asistentes: </span>
+                        {res.quantity}
+                      </p>
+                      <p>
+                        <span>Zona: </span>
+                        {res.zone}
+                      </p>
+                    </div>
+                    <div className={style.reservationDetails}>
+                      <p>
+                        <span>Decoración: </span>
+                        {res.decor}
+                      </p>
+                      <p>
+                        <span>Homenajeado: </span>
+                        {res.honoree}
+                      </p>
+                    </div>
                   </div>
-                  <div className={style.reservationDetails}>
-                    <p>
-                      <span>Fecha: </span>
-                      {res.date}
+                  <div className={style.reservationConfirmed}>
+                    <p className={style.pButtonReject}>
+                      <FiCheck size={"18"} /> Reserva Cancelada
                     </p>
-                    <p>
-                      <span>Hora: </span>
-                      {res.time}
-                    </p>
-                  </div>
-                  <div className={style.reservationDetails}>
-                    <p>
-                      <span>Asistentes: </span>
-                      {res.quantity}
-                    </p>
-                    <p>
-                      <span>Zona: </span>
-                      {res.zone}
-                    </p>
-                  </div>
-                  <div className={style.reservationDetails}>
-                    <p>
-                      <span>Decoración: </span>
-                      {res.decor}
-                    </p>
-                    <p>
-                      <span>Homenajeado: </span>
-                      {res.honoree}
-                    </p>
+                    
+
                   </div>
                 </div>
-                <div className={style.reservationConfirmed}>
-                  <p className={style.pButtonReject}>
-                    <MdOutlineClose size={"18"}/> Reserva Rechazada
-                  </p>
-                  <button
-                    onClick={() => handleDeleteReservation(res.id)}
-                    className={style.buttonRejected}
-                  >
-                    Eliminar
-                  </button>
+                );
+                })}
+              </div><div className={style.div}>
+                  {activeButton === "rejected" &&
+                    Array.isArray(filterRejected) && filterRejected?.map((res, index) => {
+                      return (
+                        <div className={style.containerReservation}>
+                          <div key={index} className={style.reservationCard}>
+                            <div className={style.reservationDetails}>
+                              <p>
+                                <span>Nombre: </span>
+                                {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`}
+                              </p>
+                              <p>
+                                <span>Teléfono: </span>
+                                {res.phoneNumber}
+                              </p>
+                            </div>
+                            <div className={style.reservationDetails}>
+                              <p>
+                                <span>Fecha: </span>
+                                {res.date}
+                              </p>
+                              <p>
+                                <span>Hora: </span>
+                                {res.time}
+                              </p>
+                            </div>
+                            <div className={style.reservationDetails}>
+                              <p>
+                                <span>Asistentes: </span>
+                                {res.quantity}
+                              </p>
+                              <p>
+                                <span>Zona: </span>
+                                {res.zone}
+                              </p>
+                            </div>
+                            <div className={style.reservationDetails}>
+                              <p>
+                                <span>Decoración: </span>
+                                {res.decor}
+                              </p>
+                              <p>
+                                <span>Homenajeado: </span>
+                                {res.honoree}
+                              </p>
+                            </div>
+                          </div>
+                          <div className={style.reservationConfirmed}>
+                            <p className={style.pButtonReject}>
+                              <MdOutlineClose size={"18"} /> Reserva Rechazada
+                            </p>
+                            <button
+                              onClick={() => handleDeleteReservation(res.id)}
+                              className={style.buttonRejected}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
-              </div>
-            );
-          })}
-      </div>
     </div>
   );
 };
