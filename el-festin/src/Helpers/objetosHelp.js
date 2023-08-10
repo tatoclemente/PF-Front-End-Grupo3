@@ -10,11 +10,11 @@ export const subtiposDish = [
 ];
 export const volumeDrink = [
   "250ml",
-  "500ml",
-  "1000ml",
-  "750ml",
   "355ml",
   "473ml",
+  "500ml",
+  "750ml",
+  "1000ml",
   "1500ml",
 ];
 export const typeDrink = ["cerveza", "vino", "agua", "gaseosa"];

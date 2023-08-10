@@ -38,8 +38,9 @@ export const ModalCreateDish = () => {
     "pescados y mariscos",
     "sopas",
     "minutas",
-    "arroz",
+    "guisados",
     "sandwich",
+    "fritos",
   ];
 
   const dispatch = useDispatch();
@@ -64,21 +65,34 @@ export const ModalCreateDish = () => {
   const onSubmitCreate = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${server}/dish`, formData);
-
-      if (data.name) {
-        dispatch(getDishes());
+      
+      if (Object.keys(error).length === 0) {
+        const { data } = await axios.post(`${server}/dish`, formData);
+        if (data.name) {
+          dispatch(getDishes());
+          setInputCreateDish(initialState);
+          setUpdateState("DEFAULT");
+          setFiled(null);
+          fileInputRef.current.value = null;
+          setError({});
+          Swal.fire({
+            icon: "success",
+            title: "Plato creado con exito",
+            confirmButtonText: "OK",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "El plato no pudo ser creado",
+            confirmButtonText: "OK",
+          });
+        }
+      }else {
         Swal.fire({
-          icon: "success",
-          title: "Plato creado con exito",
+          icon: "warning",
+          title: "Revisa los errores",
           confirmButtonText: "OK",
         });
-
-        setInputCreateDish(initialState);
-        setUpdateState("DEFAULT");
-        setFiled(null);
-        fileInputRef.current.value = null;
-        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -88,6 +102,7 @@ export const ModalCreateDish = () => {
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
   };
+ 
 
   const formData = new FormData();
   formData.append("name", inputCreateDish.name);
@@ -232,7 +247,7 @@ export const ModalCreateDish = () => {
                     {subtiposDish?.map((subtipo, key) => {
                       return (
                         <option key={key} value={subtipo}>
-                          {subtipo}
+                          {subtipo.charAt(0).toUpperCase() + subtipo.slice(1)}
                         </option>
                       );
                     })}

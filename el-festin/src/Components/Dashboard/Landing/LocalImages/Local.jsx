@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocal } from "../../../../Redux/actions/actionsLocal/getAllLocal";
+import { getAllLocal } from "../../../../Redux/slices/localSlice";
 import { server } from "../../../../Helpers/EndPoint";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -91,6 +92,8 @@ export const Local = () => {
 
         const response = await axios.post(`${server}/local`, localData);
         console.log("image local create successfully:", response.data);
+          
+ dispatch(getAllLocal([...allLocal, response.data]));
         Swal.fire({
           icon: "success",
           title: "Se creó la imagen",

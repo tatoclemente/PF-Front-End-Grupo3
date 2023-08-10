@@ -31,7 +31,7 @@ export const ModalCreateDesert = () => {
       })
     );
   };
-const dispatch =useDispatch()
+  const dispatch = useDispatch();
   let handleOnChangeImage = ({ target }) => {
     setFiled(target.files[0]);
   };
@@ -46,19 +46,33 @@ const dispatch =useDispatch()
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(`${server}/desert`, formData);
+      if (Object.keys(error).length === 0) {
+        const { data } = await axios.post(`${server}/desert`, formData);
 
-      if (data.name) {
-        dispatch(getDesserts());
+        if (data.name) {
+          dispatch(getDesserts());
+          Swal.fire({
+            icon: "success",
+            title: "Postre creado con exito",
+            confirmButtonText: "OK",
+          });
+          setInputCreateDesert(initialState);
+          setFiled(null);
+          fileInputRef.current.value = null;
+          setError({});
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "El postre no pudo ser creado",
+            confirmButtonText: "OK",
+          });
+        }
+      } else {
         Swal.fire({
-          icon: "success",
-          title: "Postre creado con exito",
+          icon: "warning",
+          title: "Revisa los errores",
           confirmButtonText: "OK",
         });
-        setInputCreateDesert(initialState);
-        setFiled(null);
-        fileInputRef.current.value = null;
-        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -71,8 +85,7 @@ const dispatch =useDispatch()
         type="button"
         className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop2"
-      >
+        data-bs-target="#staticBackdrop2">
         Postre
       </button>
 
@@ -83,8 +96,7 @@ const dispatch =useDispatch()
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -95,8 +107,7 @@ const dispatch =useDispatch()
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>

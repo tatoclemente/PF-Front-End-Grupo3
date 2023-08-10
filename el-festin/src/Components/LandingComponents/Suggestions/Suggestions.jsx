@@ -38,7 +38,7 @@ const Suggestions = () => {
     dispatch(getDishes());
   }, [dispatch]);
 
-  const DailySpecials = allDishes.length > 0 && allDishes.filter((dish) => dish.dailyspecial === true);
+  const DailySpecials =  Array.isArray(allDishes) && allDishes.filter((dish) => dish.dailyspecial === true && dish.disabled === false);
 
   const slidesToShow =
   DailySpecials.length > 2 ? 3 : DailySpecials.length;

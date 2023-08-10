@@ -8,7 +8,8 @@ export const dishesSlice = createSlice({
     dishesTypes: [],
     filteredDishTypes: [],
     sortedDishes: [],
-    dishCloud: []
+    dishCloud: [],
+    recomendDishes:[]
   },
   reducers: {
     getAllDishes: (state, action) => {
@@ -94,7 +95,8 @@ export const dishesSlice = createSlice({
       state.dishes = payload
      
     },
-    deleteDish: (state, { payload }) => {
+    recomenderDish: (state, action) => {
+      state.recomendDishes = action.payload
 
     },
   },
@@ -110,7 +112,8 @@ export const {
   sortByPrice,
   sortByCalories,
   filterDishesByName,
-  deleteDish
+  deleteDish,
+  recomenderDish
 } = dishesSlice.actions;
 
 export default dishesSlice.reducer;
