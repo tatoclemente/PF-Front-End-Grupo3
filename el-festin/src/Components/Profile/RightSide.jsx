@@ -21,7 +21,9 @@ function RightSide({
   myOrders,
   myReservations,
   toggleCart,
-  userId
+  userId,
+  orders,
+  reservations
 }) {
 
   const dispatch = useDispatch()
@@ -195,6 +197,7 @@ function RightSide({
   const cancelReserv = async (id) => {
     const { data } = await axios.put(`${server}/reser/${id}`, { status: 'Cancelado' });
     if (data) {
+      await reservations();
       Swal.fire({
         icon: "success",
         title: "¡La reservación ha sido cancelada!",
@@ -267,6 +270,8 @@ function RightSide({
           setShowReviewModal={setShowReviewModal}
           selectedItem={selectedItem}
           userId={userId}
+          orders={orders}
+          setShowModal={setShowModal}
         />
       )}
 
