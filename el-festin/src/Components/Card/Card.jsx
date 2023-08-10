@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, updateCartItemQuantity } from '../../Redux/actions/actionOrders/actionOrders'
 import Swal from 'sweetalert2'
 
-function Card({type, image, name, price, volume, stock, rating, description, id, category, totalRating, toggleCart,buttonOut}) {
+function Card({type, image, name, price, volume, stock, rating, disabled, description, id, category, totalRating, toggleCart,buttonOut}) {
 
   const dispatch = useDispatch();
 
@@ -143,43 +143,43 @@ function Card({type, image, name, price, volume, stock, rating, description, id,
 console.log(buttonOut)
 
 
-  return (
-    <div  className={`${style.cardContainer} ${stock <=0 ? style.dishDisabled : ''}`}>
-      <p className={style.type}>{type? type : 'Postres'}</p>
-      <div className={style.cardContent}>
-        {category === 'dish' && <div className={style.rating}>{renderStars()}</div> }
-        
-        
-        <img className={style.imageCard} src={image} alt={name} />
-        <div className={style.cardInfo}>
-          <h6 className={style.name}>{name}</h6>
-          <p className={style.description}>{description || volume}</p>
-          <p className={style.payInfo}><span className={style.payIcon}>{<FaRegCreditCard />}</span> Aceptamos todas las tarjetas</p>
+
+    return (
+      disabled !== true  && (
+        <div className={`${style.cardContainer} ${stock <= 0 ? style.dishDisabled : ''}`}>
+          <p className={style.type}>{type ? type : 'Postres'}</p>
+          <div className={style.cardContent}>
+            {category === 'dish' && <div className={style.rating}>{renderStars()}</div>}
+            <img className={style.imageCard} src={image} alt={name} />
+            <div className={style.cardInfo}>
+              <h6 className={style.name}>{name}</h6>
+              <p className={style.description}>{description || volume}</p>
+              <p className={style.payInfo}>
+                <span className={style.payIcon}>{<FaRegCreditCard />}</span> Aceptamos todas las tarjetas
+              </p>
+            </div>
+          </div>
+          <span className={`${style.price} ${buttonOut && "pb-4"}`}>${price}</span>
+          {!buttonOut && (
+            (type === 'plato principal' || type === 'entrada') && stock > 0 ? (
+              <Link to={`/detail/${id}`} className={style.link}>
+                Ver detalle
+              </Link>
+            ) : (
+              (type !== 'plato principal' && type !== 'entrada') && stock > 0 ? (
+                <button className={style.buttonAddCart} onClick={showConfirmation}>
+                  Agregar a la orden
+                </button>
+              ) : (
+                <button className={style.buttonAddCart} disabled>
+                  No disponible
+                </button>
+              )
+            )
+          )}
         </div>
-      </div>
-      <span className={`${style.price} ${buttonOut && "pb-4"}`}>${price}</span>
-      {
-  buttonOut ? null : (
-    (type === 'plato principal' || type === 'entrada') && stock > 0 ? (
-      <Link to={`/detail/${id}`} className={style.link}>
-        Ver detalle
-      </Link>
-    ) : (
-      (type !== 'plato principal' && type !== 'entrada') && stock > 0?  (
-        <button className={style.buttonAddCart} onClick={showConfirmation}>
-          Agregar a la orden
-        </button>
-      ) : (
-        <button className={style.buttonAddCart} disabled>
-         No disponible
-        </button>
       )
-    )
-  )
-}
-      
-    </div>
-  )
+    );
 }
 
 export default Card

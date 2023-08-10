@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBanners } from "../../../../Redux/actions/actionBanners/getAllBanners";
+import { getAllBanners } from "../../../../Redux/slices/bannerSlice";
 import { server } from "../../../../Helpers/EndPoint";
 import axios from "axios";
 import style from "./Banners.module.css";
@@ -43,6 +44,7 @@ export const Banner = () => {
   const allBanners = useSelector((state) => state.banner.banners);
   const dispatch = useDispatch();
   const [filed, setFiled] = useState(null);
+  const [totalBanner, setTotalBanner] = useState(getBanners());
   const [banner, setBanner] = useState({
     name: "",
     image: filed,
@@ -78,9 +80,11 @@ export const Banner = () => {
       return;
     }
 
-    const nameExists = Array.isArray(allBanners) && allBanners.find(
-      (ban) => ban.name.toLowerCase() === banner.name.toLowerCase()
-    );
+    const nameExists =
+      Array.isArray(allBanners) &&
+      allBanners.find(
+        (ban) => ban.name.toLowerCase() === banner.name.toLowerCase()
+      );
 
     if (nameExists) {
       Swal.fire({
@@ -97,6 +101,10 @@ export const Banner = () => {
 
         const response = await axios.post(`${server}/banner`, bannerData);
         console.log("Banner create successfully:", response.data);
+
+       
+        dispatch(getAllBanners([...allBanners, response.data]));
+
         Swal.fire({
           icon: "success",
           title: "Se creó el banner",
@@ -108,6 +116,7 @@ export const Banner = () => {
           disabled: "",
         });
         setShowModal(false);
+        setTotalBanner(getBanners());
       } catch (error) {
         console.error("Error create banner:", error);
       }
@@ -115,7 +124,9 @@ export const Banner = () => {
   };
 
   const handleUpdateBanners = async (bannerId) => {
-    const bannerToUpdate = Array.isArray(allBanners) && allBanners.find((ban) => ban.id === bannerId);
+    const bannerToUpdate =
+      Array.isArray(allBanners) &&
+      allBanners.find((ban) => ban.id === bannerId);
     console.log("Banner to update:", JSON.stringify(bannerToUpdate));
 
     if (bannerToUpdate) {
@@ -141,7 +152,9 @@ export const Banner = () => {
   };
 
   const handleDeleteBanners = async (bannerId) => {
-    const bannerToDelete = Array.isArray(allBanners) && allBanners.find((ban) => ban.id === bannerId);
+    const bannerToDelete =
+      Array.isArray(allBanners) &&
+      allBanners.find((ban) => ban.id === bannerId);
     console.log("Banner to delete:", JSON.stringify(bannerToDelete));
 
     if (bannerToDelete) {
@@ -165,13 +178,12 @@ export const Banner = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  
 
   const allBannersCopy = [...allBanners];
 
   const sortedBanners = allBannersCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  )
+  );
 
   // // Agregamos un estado para almacenar el ID del banner que se está mostrando en el desplegable
   // const [selectedBannerId, setSelectedBannerId] = useState(null);
@@ -208,7 +220,7 @@ export const Banner = () => {
   };
 
   return (
-    <div style={{borderBottom: "2px solid #e5e5e5", paddingBottom: "2rem"}}>
+    <div style={{ borderBottom: "2px solid #e5e5e5", paddingBottom: "2rem" }}>
       <div>
         <h2 className={style.title}>ESTADO DE MI BANNER PUBLICITARIO</h2>
       </div>
@@ -312,40 +324,41 @@ export const Banner = () => {
       </div>
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
-          {Array.isArray(sortedBanners) && sortedBanners?.map((ban, index) => {
-            return (
-              <div
-                key={index}
-                className={style.imageContainer}
-                // onMouseEnter={() => handleMouseEnter(ban.id)}
-                // onMouseLeave={handleMouseLeave}
-              >
-                <img
-                  src={ban.image}
-                  alt="banner"
-                  // onClick={() => handleToggleDropdown(ban.id)}
-                  className={` ${ban.disabled ? style.imageDisabled : ""} ${
-                    style.images
-                  } custom-class`}
-                />
+          {Array.isArray(sortedBanners) &&
+            sortedBanners?.map((ban, index) => {
+              return (
+                <div
+                  key={index}
+                  className={style.imageContainer}
+                  // onMouseEnter={() => handleMouseEnter(ban.id)}
+                  // onMouseLeave={handleMouseLeave}
+                >
+                  <img
+                    src={ban.image}
+                    alt="banner"
+                    // onClick={() => handleToggleDropdown(ban.id)}
+                    className={` ${ban.disabled ? style.imageDisabled : ""} ${
+                      style.images
+                    } custom-class`}
+                  />
 
-                <div className={style.dropdownBanner}>
-                  <button
-                    onClick={() => handleUpdateBanners(ban.id)}
-                    className={style.buttonChangeBanner}
-                  >
-                    {ban.disabled ? "Habilitar" : "Deshabilitar"}
-                  </button>
-                  <button
-                    onClick={() => handleDeleteBanners(ban.id)}
-                    className={style.buttonChangeBanner}
-                  >
-                    Eliminar
-                  </button>
+                  <div className={style.dropdownBanner}>
+                    <button
+                      onClick={() => handleUpdateBanners(ban.id)}
+                      className={style.buttonChangeBanner}
+                    >
+                      {ban.disabled ? "Habilitar" : "Deshabilitar"}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteBanners(ban.id)}
+                      className={style.buttonChangeBanner}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </Slider>
       </div>
     </div>
