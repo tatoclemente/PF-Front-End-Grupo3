@@ -8,11 +8,12 @@ import Validate from "./ValidationBooking";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
+import moment from 'moment'
 import "react-calendar/dist/Calendar.css";
 import "./custom-calendar.css";
 
 export default function BookingComponent() {
-let moment = 'xd'
+
   const [selectedDateTime, setSelectedDateTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
