@@ -6,7 +6,7 @@ const validacionDesert = ( input ) =>{
         errors.name = "El nombre no puede tener mas de 24 caracteres"
     } else if(parseInt(input.name.length) < 3){
         errors.name = "El nombre no puede tener menos de 3 caracteres"
-    } else if(!/^[A-Za-záéíóúÁÉÍÓÚ\s]+$/.test(input.name)){
+    } else if(!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(input.name)){
         errors.name = "El nobre debe tener solo letras"
     }
 
@@ -26,8 +26,8 @@ const validacionDesert = ( input ) =>{
         errors.stock = "El stock debe ser un numero"
     } else if(parseInt(input.stock) < 0){
         errors.stock = "El stock no puede ser negativo"
-    } else if(parseInt(input.stock) > 99999){
-        errors.stock = "El stock no puede ser mayor a 99999"
+    } else if(parseInt(input.stock) > 100){
+        errors.stock = "El stock no puede ser mayor a 100"
     }
 
 
