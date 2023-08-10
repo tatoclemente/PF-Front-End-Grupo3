@@ -46,12 +46,12 @@ export const addToCart = (item) => async (dispatch, getState) => {
       if (response.data && response.data.cart.length > 0) {
         // Si el usuario ya tiene un carrito, realizar una solicitud PUT para actualizarlo con los datos actualizados del carrito local
         await axios.put(`${server}/cart`, updatedCartItems, config);
-        console.log("Carrito actualizado en el backend:");
+       
       } else {
         // Si el usuario no tiene un carrito, realizar una solicitud POST para crear un nuevo carrito en la base de datos
         await axios.post(`${server}/cart`, cartItems, config);
       }
-      console.log("Carrito guardado en el backend:", cartItems);
+    
     } else {
       console.error(
         "No se encontró el token en el local storage. No se puede guardar el carrito en el backend."
@@ -89,7 +89,7 @@ export const removeFromCart = (product) => async (dispatch, getState) => {
       // Realizar la solicitud PUT al backend para actualizar el carrito en la base de datos
       await axios.put(`${server}/cart`, { cartItems: updatedCart }, config);
 
-      console.log("Carrito actualizado en el backend:");
+  
     } else {
       console.error(
         "No se encontró el token en el local storage. No se puede actualizar el carrito en el backend."
@@ -104,7 +104,7 @@ export const removeFromCart = (product) => async (dispatch, getState) => {
 
 // Action para actualizar la cantidad de un producto en el carrito
 export const updateCartItemQuantity = (productId, quantity) => async (dispatch, getState) => {
-  console.log("UPDATE QUANTITY", productId);
+
   try {
     // Despachar la acción para actualizar la cantidad del producto en el carrito localmente
     dispatch(updateCartItemQuantityAction({ id: productId, quantity }));
@@ -127,7 +127,7 @@ export const updateCartItemQuantity = (productId, quantity) => async (dispatch, 
       // Realizar la solicitud PUT al backend para actualizar el carrito en la base de datos
       await axios.put(`${server}/cart`, { cartItems: updatedCart }, config);
 
-      console.log("Carrito actualizado en el backend:", updatedCart);
+     
     } else {
       console.error(
         "No se encontró el token en el local storage. No se puede actualizar el carrito en el backend."
@@ -173,7 +173,6 @@ export const deleteCartDataBase = () => async () => {
       // Realizar la solicitud DELETE al backend para eliminar el carrito de la base de datos
       await axios.delete(`${server}/cart`, config);
 
-      console.log("Carrito eliminado de la base de datos.");
     } else {
       console.error(
         "No se encontró el token en el local storage. No se puede eliminar el carrito de la base de datos."

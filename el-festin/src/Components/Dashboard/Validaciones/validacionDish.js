@@ -7,7 +7,7 @@ const validacionDish = (input) =>{
         errors.name = "El nombre no puede tener mas de 24 caracteres"
     } else if(parseInt(input.name.length) < 3){
         errors.name = "El nombre no puede tener menos de 3 caracteres"
-    } else if(!/^[A-Za-záéíóúÁÉÍÓÚ\s]+$/.test(input.name)){
+    } else if(!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(input.name)){
         errors.name = "El nobre debe tener solo letras"
     }
 
@@ -33,8 +33,18 @@ const validacionDish = (input) =>{
         errors.calories = "Los calorias deben ser un numero"
     }else if(parseInt(input.calories) < 0){
         errors.calories = "Los calorias no pueden ser negativos"
-    } else if(parseInt(input.calories) > 650){
-        errors.calories = "Los calorias no pueden ser mayor a 650"
+    } else if(parseInt(input.calories) > 2500){
+        errors.calories = "Los calorias no pueden ser mayor a 2500"
+    }
+
+    if(!input.stock){
+        errors.stock = "El stock es obligatorio"
+    } else if(!/^[0-9]+$/.test(input.stock)){
+        errors.stock = "El stock debe ser un numero"
+    } else if(parseInt(input.stock) < 0){
+        errors.stock = "El stock no puede ser negativo"
+    } else if(parseInt(input.stock) > 100){
+        errors.stock = "El stock no puede ser mayor a 99999"
     }
 
     return errors;
