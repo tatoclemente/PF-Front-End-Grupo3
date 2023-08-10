@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./FiltersAndSorts.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   sortDishesByGluten,
   sortDishesByVeggy,
@@ -14,10 +14,15 @@ import {
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useEffect } from "react";
 import { getDrTypes } from "../../../Redux/actions/actionsDrinks/getDrinksTypes";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { scrollToTop } from "../../../Helpers/functions";
+
 
 function FiltersAndSorts(props) {
   const [isCollapsed, setIsCollapsed] = props.state;
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     dispatch(getDrTypes());
@@ -53,6 +58,29 @@ function FiltersAndSorts(props) {
     const val = e.target.value;
     props.setStateSort(val)
   }
+
+  //Botón de reservaciones
+  const navigate = useNavigate();
+
+  const handleBooking = () => {
+
+    if (!user) {
+      Swal.fire({
+        icon: "info",
+        title: "Ups, lo siento!",
+        text: "Debe estar registrado para reservar",
+        confirmButtonText: "¡Registrarme Ahora!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/auth/login");
+        }
+      });
+      return;
+    } else {
+      navigate("/booking");
+      scrollToTop(); 
+    }
+  };
 
   return (
     <div
@@ -141,6 +169,7 @@ function FiltersAndSorts(props) {
           </div>
         ) : null}
         <div className={style.filtersContainer}>
+       
           <h6>ORDENAR</h6>
           <div className={style.filters}>
 
@@ -157,7 +186,7 @@ function FiltersAndSorts(props) {
               <option value="dsc">Menor precio</option>
             </select>
           </div>
-
+   
           {props.stateFood === "dishes" ? (
             <div>
               <div className={style.filters}>
@@ -171,9 +200,13 @@ function FiltersAndSorts(props) {
                   <option value="desc">Menos Calorías</option>
                 </select>
               </div>
-
+         
             </div>
+            
           ) : null}
+   
+                 <button  onClick={() => { handleBooking(); }} className={style.bookingButton}>RESERVACIONES</button>
+             
         </div>
       </div>
     </div>

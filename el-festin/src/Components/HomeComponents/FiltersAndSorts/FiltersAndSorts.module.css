@@ -133,3 +133,22 @@
     padding: .4rem .2rem;
 }
 
+.bookingButton{
+    font-size: 0.67rem;
+    color: #fff;
+    width: 80%;
+    border: 1px solid #FBC32C;
+    border-radius: 8px;
+    background-color: transparent;
+    height: 2.0rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin: 0 auto;
+}
+
+.bookingButton:hover,
+.bookingButton:focus {
+  background-color: #fbc32c;
+  border: 1px solid transparent; /* Para quitar el contorno predeterminado cuando el botón está enfocado */
+  color: #313045;
+}

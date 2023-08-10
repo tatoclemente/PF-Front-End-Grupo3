@@ -73,9 +73,11 @@ export const Local = () => {
       return;
     }
 
-    const nameExists = Array.isArray(allLocal) && allLocal.find(
-      (loc) => loc.name.toLowerCase() === local.name.toLowerCase()
-    );
+    const nameExists =
+      Array.isArray(allLocal) &&
+      allLocal.find(
+        (loc) => loc.name.toLowerCase() === local.name.toLowerCase()
+      );
 
     if (nameExists) {
       Swal.fire({
@@ -91,9 +93,8 @@ export const Local = () => {
         localData.append("disabled", local.disabled);
 
         const response = await axios.post(`${server}/local`, localData);
-        console.log("image local create successfully:", response.data);
-          
- dispatch(getAllLocal([...allLocal, response.data]));
+
+        dispatch(getAllLocal([...allLocal, response.data]));
         Swal.fire({
           icon: "success",
           title: "Se creó la imagen",
@@ -112,22 +113,17 @@ export const Local = () => {
   };
 
   const handleUpdateImage = async (localId) => {
-    const imageToUpdate = Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
-    console.log("image local to update:", JSON.stringify(imageToUpdate));
+    const imageToUpdate =
+      Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
 
     if (imageToUpdate) {
       const updatedImage = {
         ...imageToUpdate,
         disabled: !imageToUpdate.disabled,
       };
-      console.log("updatedImage " + JSON.stringify(updatedImage));
 
       try {
-        const response = await axios.put(
-          `${server}/local/${localId}`,
-          updatedImage
-        );
-        console.log("image local updated successfully:", response.data);
+        await axios.put(`${server}/local/${localId}`, updatedImage);
 
         dispatch(getLocal());
       } catch (error) {
@@ -137,13 +133,12 @@ export const Local = () => {
   };
 
   const handleDeleteImage = async (localId) => {
-    const imageToDelete = Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
-    console.log("Image local to delete:", JSON.stringify(imageToDelete));
+    const imageToDelete =
+      Array.isArray(allLocal) && allLocal.find((loc) => loc.id === localId);
 
     if (imageToDelete) {
       try {
-        const response = await axios.delete(`${server}/local/${localId}`);
-        console.log("Image local deleted successfully:", response.data);
+        await axios.delete(`${server}/local/${localId}`);
 
         dispatch(getLocal());
       } catch (error) {
@@ -166,25 +161,7 @@ export const Local = () => {
 
   const sortedLocal = allLocalCopy.sort((a, b) =>
     a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  )
-
-  // const [selectedLocalId, setSelectedLocalId] = useState(null);
-
-  // const handleToggleDropdown = (LocalId) => {
-  //   setSelectedLocalId((prevState) =>
-  //     prevState === LocalId ? null : LocalId
-  //   );
-  // };
-
-  // // Función para mostrar el desplegable al pasar el mouse por encima de la imagen
-  // const handleMouseEnter = (LocalId) => {
-  //   setSelectedLocalId(LocalId);
-  // };
-
-  // // Función para ocultar el desplegable al quitar el mouse de la imagen
-  // const handleMouseLeave = () => {
-  //   setSelectedLocalId(null);
-  // };
+  );
 
   const numImagesToShow = sortedLocal.length > 2 ? 3 : sortedLocal.length;
 
@@ -199,7 +176,13 @@ export const Local = () => {
   };
 
   return (
-    <div style={{borderBottom: "2px solid #e5e5e5", paddingBottom: "2rem", width: '100%'}}>
+    <div
+      style={{
+        borderBottom: "2px solid #e5e5e5",
+        paddingBottom: "2rem",
+        width: "100%",
+      }}
+    >
       <div>
         <h2 className={style.title}>ESTADO DE MI GALERIA DE FOTOS</h2>
       </div>
@@ -303,40 +286,41 @@ export const Local = () => {
       </div>
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
-          {Array.isArray(sortedLocal) && sortedLocal?.map((loc, index) => {
-            return (
-              <div
-                key={index}
-                className={style.imageContainer}
-                // onMouseEnter={() => handleMouseEnter(loc.id)}
-                // onMouseLeave={handleMouseLeave}
-              >
-                <img
-                  src={loc.image}
-                  alt="dish"
-                  // onClick={() => handleToggleDropdown(loc.id)}
-                  className={` ${loc.disabled ? style.imageDisabled : ""} ${
-                    style.images
-                  } custom-class`}
-                />
+          {Array.isArray(sortedLocal) &&
+            sortedLocal?.map((loc, index) => {
+              return (
+                <div
+                  key={index}
+                  className={style.imageContainer}
+                  // onMouseEnter={() => handleMouseEnter(loc.id)}
+                  // onMouseLeave={handleMouseLeave}
+                >
+                  <img
+                    src={loc.image}
+                    alt="dish"
+                    // onClick={() => handleToggleDropdown(loc.id)}
+                    className={` ${loc.disabled ? style.imageDisabled : ""} ${
+                      style.images
+                    } custom-class`}
+                  />
 
-                <div className={style.dropdownLocal}>
-                  <button
-                    onClick={() => handleUpdateImage(loc.id)}
-                    className={style.buttonChangeLocal}
-                  >
-                    {loc.disabled ? "Habilitar" : "Deshabilitar"}
-                  </button>
-                  <button
-                    onClick={() => handleDeleteImage(loc.id)}
-                    className={style.buttonChangeLocal}
-                  >
-                    Eliminar
-                  </button>
+                  <div className={style.dropdownLocal}>
+                    <button
+                      onClick={() => handleUpdateImage(loc.id)}
+                      className={style.buttonChangeLocal}
+                    >
+                      {loc.disabled ? "Habilitar" : "Deshabilitar"}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteImage(loc.id)}
+                      className={style.buttonChangeLocal}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </Slider>
       </div>
     </div>
