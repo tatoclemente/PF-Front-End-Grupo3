@@ -24,7 +24,7 @@ export const UpdateSide = ({ allDates }) => {
     allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
     stock: 0,
@@ -74,15 +74,14 @@ export const UpdateSide = ({ allDates }) => {
 
   formData.append("image", filed);
 
-  console.log("formdata", formData);
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
       const nameExists =
-      Array.isArray(allDates) &&
-      allDates.find(
-        (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
-      );
+        Array.isArray(allDates) &&
+        allDates.find(
+          (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
+        );
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -95,9 +94,9 @@ export const UpdateSide = ({ allDates }) => {
           `${server}/side/${selectedItem.id}`,
           formData
         );
-        console.log(data);
+
         if (data.name) {
-          dispatch(getSides())
+          dispatch(getSides());
           Swal.fire({
             icon: "success",
             title: "Se ha modificado la guarnicion correctamente",
@@ -211,7 +210,7 @@ export const UpdateSide = ({ allDates }) => {
                         </option>
 
                         <option value="Salsa">Salsa</option>
-                        <option value="acompañamiento">acompañamiento</option>
+                        <option value="acompañamiento">Acompañamiento</option>
                       </select>
                     </div>
 

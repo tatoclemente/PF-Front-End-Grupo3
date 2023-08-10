@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { server } from "../../../Helpers/EndPoint";
 import { useRef, useState } from "react";
@@ -14,7 +14,7 @@ export const ModalCreateSide = () => {
     type: updateState,
     stock: 0,
     price: "",
-   };
+  };
 
   const [inputCreateSide, setInputCreateSide] = useState(initialState);
 
@@ -40,32 +40,46 @@ export const ModalCreateSide = () => {
     setFiled(target.files[0]);
   };
 
+  const formData = new FormData();
+  formData.append("name", inputCreateSide.name);
+  formData.append("type", inputCreateSide.type);
+  formData.append("stock", inputCreateSide.stock);
+
+  formData.append("price", inputCreateSide.price);
+
+  formData.append("image", filed);
+
   const onSubmitCreate = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("name", inputCreateSide.name);
-      formData.append("type", inputCreateSide.type);
-      formData.append("stock", inputCreateSide.stock);
+      if (Object.keys(error).length === 0) {
+        const { data } = await axios.post(`${server}/side`, formData);
 
-      formData.append("price", inputCreateSide.price);
-      
-      formData.append("image", filed);
-
-      const { data } = await axios.post(`${server}/side`, formData);
-
-      if (data.name) {
-        dispatch(getSides())
+        if (data.name) {
+          dispatch(getSides());
+          Swal.fire({
+            icon: "success",
+            title: "Guarnicion creada con exito",
+            confirmButtonText: "OK",
+          });
+          setInputCreateSide(initialState);
+          setUpdateState("DEFAULT");
+          setFiled(null);
+          fileInputRef.current.value = null;
+          setError({});
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "La guarnicion no pudo ser creada",
+            confirmButtonText: "OK",
+          });
+        }
+      } else {
         Swal.fire({
-          icon: "success",
-          title: "Guarnicion creada con exito",
+          icon: "warning",
+          title: "Revisa los errores",
           confirmButtonText: "OK",
         });
-        setInputCreateSide(initialState);
-        setUpdateState("DEFAULT");
-        setFiled(null);
-        fileInputRef.current.value = null;
-        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -168,7 +182,7 @@ export const ModalCreateSide = () => {
                     </option>
 
                     <option value="salsa">Salsa</option>
-                    <option value="acompañamiento">acompañamiento</option>
+                    <option value="acompañamiento">Acompañamiento</option>
                   </select>
                 </div>
 
