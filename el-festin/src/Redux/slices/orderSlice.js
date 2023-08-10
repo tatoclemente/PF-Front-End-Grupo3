@@ -13,7 +13,7 @@ const cartSlice = createSlice({
       // console.log("addToCart", action.payload);
       const { dish, garnish, drinks, desserts } = action.payload;
 
-      console.log("PAYLOAD___", action.payload);
+
 
       // Crea un objeto newItem con las propiedades proporcionadas o valores por defecto si son null
       const newItem = {
@@ -110,9 +110,9 @@ const cartSlice = createSlice({
 
     updateCartItemQuantity: (state, action) => {
       const { id } = action.payload;
-      console.log("UPDATE CART ITEM QUANTITY", id);  
+
       const product = findProductById(state, id.id);
-      console.log("PRODUCT____", product);
+  
 
       if (product) {
         switch (product.type) {
@@ -160,7 +160,7 @@ const cartSlice = createSlice({
     setCartFromDatabase: (state, action) => {
       if (action.payload.length > 0) {
         const cartItems = action.payload;
-        // console.log("CART ITEMS DB____", cartItems);
+
         return (state = [...cartItems]);
       }
       return state;

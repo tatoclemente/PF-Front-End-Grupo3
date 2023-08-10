@@ -131,7 +131,7 @@ function RightSide({
 
       const ticketDetail = await getDetailTicket(id);
       scrollToTop()
-      console.log("TICKET DETAIL: ", ticketDetail);
+ 
       setSelectedItem(ticketDetail);
       setShowModal(true);
 
@@ -158,7 +158,7 @@ function RightSide({
       const stateCart = await getDetailTicket(id);
       scrollToTop()
       if (!stateCart || stateCart.length === 0) {
-        console.log("El carrito está vacío o no existe.");
+    
         return;
       }
 
@@ -234,7 +234,7 @@ function RightSide({
     })
   }
 
-  // console.log(selectedItem);
+
 
   function invertDate(date) {
     const parts = date.split('-');

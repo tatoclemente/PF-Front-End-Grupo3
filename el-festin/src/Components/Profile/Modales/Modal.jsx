@@ -9,7 +9,7 @@ function Modal({ setShowModal, selectedItem }) {
   const { pedido, name, lastName } = selectedItem[0]; // Información del usuario
   const orderItems = selectedItem.slice(1); // Detalles de los items de la orden
 
-  console.log(orderItems);
+
 
   const transformedOrderItems = orderItems && orderItems.map((item) => {
     const transformedDrinks = item.drinks?.map((drink) => drink.drink); // Extraer solo los valores de drinks
@@ -22,8 +22,7 @@ function Modal({ setShowModal, selectedItem }) {
     };
   });
 
-  console.log(transformedOrderItems);
-  
+
   // La variable transformedOrderItems ahora contiene el array transformado con los valores sin las claves
   
   return (

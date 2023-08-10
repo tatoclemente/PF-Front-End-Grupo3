@@ -21,7 +21,7 @@ export const SearchBar = (props) => {
 
   const filteredDishes = []
   if (Array.isArray(recomendedDishes) && recomendedDishes.length > 0) filteredDishes.push(...recomendedDishes);
-  console.log(filteredDishes)
+
   const onInputChange = ({ target }) => {
     setInput(target.value);
   };

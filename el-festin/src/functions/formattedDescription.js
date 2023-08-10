@@ -24,6 +24,6 @@ export const formattedDescription = (order) => {
     
       const preferenceDescription = orderDescriptions.join(", ");
     
-      console.log(preferenceDescription);
+
       return preferenceDescription;
 }
