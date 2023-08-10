@@ -41,7 +41,7 @@ function ModalReviews({setShowReviewModal, selectedItem, userId, orders, setShow
     rating,
     comment,
   }
-  console.log(dataPost);
+  // console.log(dataPost);
   const handleSubmitReview = async () => {
     // Realiza la solicitud POST para enviar la reseña al servidor
     try {
@@ -72,8 +72,8 @@ function ModalReviews({setShowReviewModal, selectedItem, userId, orders, setShow
     }
   };
 
-  console.log(currentDishId);
-  console.log(userId);
+  // console.log(currentDishId);
+  // console.log(userId);
 
     const handleStarClick = (stars) => {
       setRating(stars);
