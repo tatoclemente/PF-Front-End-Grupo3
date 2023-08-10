@@ -8,12 +8,11 @@ import Validate from "./ValidationBooking";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
-import moment from 'moment'
+import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import "./custom-calendar.css";
 
 export default function BookingComponent() {
-
   const [selectedDateTime, setSelectedDateTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   // const [selectedDateTimeWithTime, setSelectedDateTimeWithTime] = useState(null);
@@ -34,11 +33,10 @@ export default function BookingComponent() {
     dispatch(getReservation());
   }, [dispatch]);
 
-  console.log(selectedDateTime);
-
   useEffect(() => {
     // Cuando el usuario cambia, busca su ID en la base de datos local
-    const emailId = Array.isArray(users) && users.filter((us) => us.email === user?.email);
+    const emailId =
+      Array.isArray(users) && users.filter((us) => us.email === user?.email);
     if (emailId.length > 0) {
       // setUserId(emailId[0].id);
       setInputValues((prevValues) => ({
@@ -48,7 +46,8 @@ export default function BookingComponent() {
     }
   }, [user, users]);
 
-  const emailExists = Array.isArray(users) && users.filter((us) => us.email === user?.email);
+  const emailExists =
+    Array.isArray(users) && users.filter((us) => us.email === user?.email);
 
   const dataUser = emailExists.map((u) => ({
     id: u.id,
@@ -58,8 +57,6 @@ export default function BookingComponent() {
     email: u.email,
     image: u.image,
   }));
-
-  console.log(dataUser);
 
   const [inputValues, setInputValues] = useState({
     id: dataUser.id,
@@ -76,7 +73,7 @@ export default function BookingComponent() {
     decor: "",
     honoree: "",
   });
-  console.log(inputValues);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputValues({ ...inputValues, [name]: value });
@@ -111,12 +108,11 @@ export default function BookingComponent() {
 
     // Obtener los componentes de la fecha
     const dia = fechaObj.getUTCDate().toString().padStart(2, "0");
-    const mes = (fechaObj.getUTCMonth() + 1).toString().padStart(2, "0"); // +1 porque los meses en JavaScript van de 0 a 11
+    const mes = (fechaObj.getUTCMonth() + 1).toString().padStart(2, "0");
     const anio = fechaObj.getUTCFullYear();
 
     // Formatear la fecha en el formato deseado "05-08-2023"
     const fechaFormateada = `${dia}-${mes}-${anio}`;
-    console.log(fechaFormateada);
 
     setInputValues({
       ...inputValues,
@@ -134,19 +130,6 @@ export default function BookingComponent() {
   const handleTimeChange = (time) => {
     setSelectedTime(time);
 
-    // const [hours, minutes] = time.split(":");
-
-    // // Creamos una nueva fecha que combine la fecha seleccionada y la hora seleccionada
-    // const selectedDateTimeWithTime = new Date(selectedDateTime);
-    // selectedDateTimeWithTime.setHours(Number(hours), Number(minutes), 0, 0);
-
-    // // Convertimos la fecha con la hora seleccionada a formato ISO 8601
-    // const isoDateTime = selectedDateTimeWithTime.toISOString();
-
-    // setSelectedDateTimeWithTime(selectedDateTimeWithTime);
-
-    // console.log("ISOOOOOOOOOOOO" + isoDateTime);
-
     setInputValues({
       ...inputValues,
       time: time,
@@ -154,7 +137,6 @@ export default function BookingComponent() {
     const isReserved = reservedTimes.includes(time);
 
     if (isReserved) {
-      // Mostrar SweetAlert si la hora está reservada
       Swal.fire({
         icon: "error",
         title: "Hora reservada",
@@ -224,7 +206,7 @@ export default function BookingComponent() {
         reservationData.append("honoree", inputValues.honoree);
 
         const response = await axios.post(`${server}/reser`, reservationData);
-        console.log("reservation create successfully:", response.data);
+
         Swal.fire({
           icon: "success",
           title: `${inputValues.name} su reserva ha sido enviada`,
@@ -251,8 +233,6 @@ export default function BookingComponent() {
       }
     }
   };
-
-  // console.log("aaaaaaaaaaaaaaaa" + selectedDateTimeWithTime);
 
   // Agregamos un efecto para seleccionar la fecha actual cuando se monta el componente.
   useEffect(() => {
@@ -327,7 +307,9 @@ export default function BookingComponent() {
                   </span>
                 </div>
               ) : (
-                <p style={{ color: "#313045", marginBottom: "10px" }}>Seleccione una fecha</p>
+                <p style={{ color: "#313045", marginBottom: "10px" }}>
+                  Seleccione una fecha
+                </p>
               )}
               <div>
                 <Calendar
@@ -345,11 +327,12 @@ export default function BookingComponent() {
                   {selectedTime ? (
                     <div style={{ color: "#313045", marginBottom: "10px" }}>
                       Hora seleccionada:{" "}
-                      <span style={{ fontWeight: "bold"}}>
-                        {selectedTime}
-                      </span>{" "}
-                      {reservedTimes.includes(selectedTime) &&
-                        <span style={{ fontWeight: "bold"}}>(No disponible)</span>}
+                      <span style={{ fontWeight: "bold" }}>{selectedTime}</span>{" "}
+                      {reservedTimes.includes(selectedTime) && (
+                        <span style={{ fontWeight: "bold" }}>
+                          (No disponible)
+                        </span>
+                      )}
                     </div>
                   ) : (
                     <div>
@@ -409,9 +392,9 @@ export default function BookingComponent() {
             <option value="" disabled selected>
               Seleccione una zona
             </option>
-            <option value="salon principal">Salón principal</option>
-            <option value="zona vip">Zona VIP</option>
-            <option value="zonas verdes">Zonas verdes</option>
+            <option value="Salon principal">Salón principal</option>
+            <option value="Zona vip">Zona VIP</option>
+            <option value="Zonas verdes">Zonas verdes</option>
           </select>
 
           <label className={styles.labelBooking}>
@@ -426,13 +409,13 @@ export default function BookingComponent() {
             <option value="" disabled selected>
               Seleccione una decoración
             </option>
-            <option value="ninguna">Ninguna</option>
-            <option value="cumpleaños">Cumpleaños</option>
-            <option value="aniversario">Aniversario</option>
-            <option value="grado">Grado</option>
+            <option value="Ninguna">Ninguna</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Aniversario">Aniversario</option>
+            <option value="Grado">Grado</option>
           </select>
           <label className={styles.labelBooking}>
-            ¿Cuál es el nombre de la persona homenajeada?
+            ¿Quién es la persona homenajeada?
           </label>
           <input
             value={inputValues.honoree}

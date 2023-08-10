@@ -15,7 +15,6 @@ export const Reservation = () => {
   );
   const dispatch = useDispatch();
 
-  console.log("reseeeeeeedr" + allReservations);
   const filterRequest =
     allReservations.length > 0 &&
     allReservations.filter((res) => res.status === "Pendiente");
@@ -23,10 +22,10 @@ export const Reservation = () => {
   const filterConfirmation =
     allReservations.length > 0 &&
     allReservations.filter((res) => res.status === "Confirmado");
-    const filterRejected =
+  const filterRejected =
     allReservations.length > 0 &&
     allReservations.filter((res) => res.status === "Rechazado");
-    const filterCanceled =
+  const filterCanceled =
     allReservations.length > 0 &&
     allReservations.filter((res) => res.status === "Cancelado");
 
@@ -42,7 +41,7 @@ export const Reservation = () => {
   const handleShowRejected = () => {
     setActiveButton("rejected");
   };
-  const handleShowCanceled= () => {
+  const handleShowCanceled = () => {
     setActiveButton("canceled");
   };
   useEffect(() => {
@@ -51,29 +50,18 @@ export const Reservation = () => {
   }, [dispatch]);
 
   const handleUpdateConfirmed = async (reservationId) => {
-    const reservationToUpdate = Array.isArray(allReservations) && allReservations.find(
-      (res) => res.id === reservationId
-    );
-    console.log(
-      "reservationToUpdate to update:",
-      JSON.stringify(reservationToUpdate)
-    );
-
-    let bannerToUpdate = 'xd'
+    const reservationToUpdate =
+      Array.isArray(allReservations) &&
+      allReservations.find((res) => res.id === reservationId);
 
     if (reservationToUpdate) {
       const updatedReservation = {
         ...reservationToUpdate,
-        status:"Confirmado",
+        status: "Confirmado",
       };
-      console.log("updatedReservation " + JSON.stringify(updatedReservation));
 
       try {
-        const response = await axios.put(
-          `${server}/reser/${reservationId}`,
-          updatedReservation
-        );
-        console.log("Reservation updated successfully:", response.data);
+        await axios.put(`${server}/reser/${reservationId}`, updatedReservation);
 
         dispatch(getReservation());
         Swal.fire({
@@ -89,27 +77,18 @@ export const Reservation = () => {
   };
 
   const handleUpdateRejected = async (reservationId) => {
-    const reservationToUpdate = Array.isArray(allReservations) && allReservations.find(
-      (res) => res.id === reservationId
-    );
-    console.log(
-      "reservationToUpdate to update:",
-      JSON.stringify(reservationToUpdate)
-    );
+    const reservationToUpdate =
+      Array.isArray(allReservations) &&
+      allReservations.find((res) => res.id === reservationId);
 
     if (reservationToUpdate) {
       const updatedReservation = {
         ...reservationToUpdate,
-        status:"Rechazado",
+        status: "Rechazado",
       };
-      console.log("updatedReservation " + JSON.stringify(updatedReservation));
 
       try {
-        const response = await axios.put(
-          `${server}/reser/${reservationId}`,
-          updatedReservation
-        );
-        console.log("Reservation updated successfully:", response.data);
+        await axios.put(`${server}/reser/${reservationId}`, updatedReservation);
 
         dispatch(getReservation());
         Swal.fire({
@@ -122,18 +101,15 @@ export const Reservation = () => {
       }
     }
   };
-  
 
   const handleDeleteReservation = async (reservationId) => {
-    const reservationToDelete = Array.isArray(allReservations) && allReservations.find(
-      (res) => res.id === reservationId
-    );
-    console.log("reservation to delete:", JSON.stringify(reservationToDelete));
+    const reservationToDelete =
+      Array.isArray(allReservations) &&
+      allReservations.find((res) => res.id === reservationId);
 
     if (reservationToDelete) {
       try {
-        const response = await axios.delete(`${server}/reser/${reservationId}`);
-        console.log("reservation deleted successfully:", response.data);
+        await axios.delete(`${server}/reser/${reservationId}`);
 
         dispatch(getReservation());
         Swal.fire({
@@ -209,7 +185,9 @@ export const Reservation = () => {
                   <div className={style.reservationDetails}>
                     <p>
                       <span>Nombre: </span>
-                      {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`  }
+                      {res.name && !res.lastName
+                        ? res.name
+                        : `${res.name} ${res.lastName}`}
                     </p>
                     <p>
                       <span>Teléfono: </span>
@@ -268,14 +246,17 @@ export const Reservation = () => {
       </div>
       <div className={style.div}>
         {activeButton === "confirmed" &&
-          Array.isArray(filterConfirmation) && filterConfirmation?.map((res, index) => {
+          Array.isArray(filterConfirmation) &&
+          filterConfirmation?.map((res, index) => {
             return (
               <div className={style.containerReservation}>
                 <div key={index} className={style.reservationCard}>
                   <div className={style.reservationDetails}>
                     <p>
                       <span>Nombre: </span>
-                      {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`  }
+                      {res.name && !res.lastName
+                        ? res.name
+                        : `${res.name} ${res.lastName}`}
                     </p>
                     <p>
                       <span>Teléfono: </span>
@@ -317,7 +298,6 @@ export const Reservation = () => {
                   <p className={style.pButton}>
                     <FiCheck size={"18"} /> Reserva Confirmada
                   </p>
-                
                 </div>
               </div>
             );
@@ -325,123 +305,128 @@ export const Reservation = () => {
       </div>
       <div className={style.div}>
         {activeButton === "canceled" &&
-          Array.isArray(filterCanceled) && filterCanceled?.map((res, index) => {
+          Array.isArray(filterCanceled) &&
+          filterCanceled?.map((res, index) => {
             return (
-                <div className={style.containerReservation}>
-                  <div key={index} className={style.reservationCard}>
-                    <div className={style.reservationDetails}>
-                      <p>
-                        <span>Nombre: </span>
-                        {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`}
-                      </p>
-                      <p>
-                        <span>Teléfono: </span>
-                        {res.phoneNumber}
-                      </p>
-                    </div>
-                    <div className={style.reservationDetails}>
-                      <p>
-                        <span>Fecha: </span>
-                        {res.date}
-                      </p>
-                      <p>
-                        <span>Hora: </span>
-                        {res.time}
-                      </p>
-                    </div>
-                    <div className={style.reservationDetails}>
-                      <p>
-                        <span>Asistentes: </span>
-                        {res.quantity}
-                      </p>
-                      <p>
-                        <span>Zona: </span>
-                        {res.zone}
-                      </p>
-                    </div>
-                    <div className={style.reservationDetails}>
-                      <p>
-                        <span>Decoración: </span>
-                        {res.decor}
-                      </p>
-                      <p>
-                        <span>Homenajeado: </span>
-                        {res.honoree}
-                      </p>
-                    </div>
-                  </div>
-                  <div className={style.reservationConfirmed}>
-                    <p className={style.pButtonReject}>
-                      <FiCheck size={"18"} /> Reserva Cancelada
+              <div className={style.containerReservation}>
+                <div key={index} className={style.reservationCard}>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Nombre: </span>
+                      {res.name && !res.lastName
+                        ? res.name
+                        : `${res.name} ${res.lastName}`}
                     </p>
-                    
-
+                    <p>
+                      <span>Teléfono: </span>
+                      {res.phoneNumber}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Fecha: </span>
+                      {res.date}
+                    </p>
+                    <p>
+                      <span>Hora: </span>
+                      {res.time}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Asistentes: </span>
+                      {res.quantity}
+                    </p>
+                    <p>
+                      <span>Zona: </span>
+                      {res.zone}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Decoración: </span>
+                      {res.decor}
+                    </p>
+                    <p>
+                      <span>Homenajeado: </span>
+                      {res.honoree}
+                    </p>
                   </div>
                 </div>
-                );
-                })}
-              </div><div className={style.div}>
-                  {activeButton === "rejected" &&
-                    Array.isArray(filterRejected) && filterRejected?.map((res, index) => {
-                      return (
-                        <div className={style.containerReservation}>
-                          <div key={index} className={style.reservationCard}>
-                            <div className={style.reservationDetails}>
-                              <p>
-                                <span>Nombre: </span>
-                                {res.name && !res.lastName ? res.name : `${res.name} ${res.lastName}`}
-                              </p>
-                              <p>
-                                <span>Teléfono: </span>
-                                {res.phoneNumber}
-                              </p>
-                            </div>
-                            <div className={style.reservationDetails}>
-                              <p>
-                                <span>Fecha: </span>
-                                {res.date}
-                              </p>
-                              <p>
-                                <span>Hora: </span>
-                                {res.time}
-                              </p>
-                            </div>
-                            <div className={style.reservationDetails}>
-                              <p>
-                                <span>Asistentes: </span>
-                                {res.quantity}
-                              </p>
-                              <p>
-                                <span>Zona: </span>
-                                {res.zone}
-                              </p>
-                            </div>
-                            <div className={style.reservationDetails}>
-                              <p>
-                                <span>Decoración: </span>
-                                {res.decor}
-                              </p>
-                              <p>
-                                <span>Homenajeado: </span>
-                                {res.honoree}
-                              </p>
-                            </div>
-                          </div>
-                          <div className={style.reservationConfirmed}>
-                            <p className={style.pButtonReject}>
-                              <MdOutlineClose size={"18"} /> Reserva Rechazada
-                            </p>
-                            <button
-                              onClick={() => handleDeleteReservation(res.id)}
-                              className={style.buttonRejected}
-                            >
-                              Eliminar
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
+                <div className={style.reservationConfirmed}>
+                  <p className={style.pButtonReject}>
+                    <FiCheck size={"18"} /> Reserva Cancelada
+                  </p>
                 </div>
+              </div>
+            );
+          })}
+      </div>
+      <div className={style.div}>
+        {activeButton === "rejected" &&
+          Array.isArray(filterRejected) &&
+          filterRejected?.map((res, index) => {
+            return (
+              <div className={style.containerReservation}>
+                <div key={index} className={style.reservationCard}>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Nombre: </span>
+                      {res.name && !res.lastName
+                        ? res.name
+                        : `${res.name} ${res.lastName}`}
+                    </p>
+                    <p>
+                      <span>Teléfono: </span>
+                      {res.phoneNumber}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Fecha: </span>
+                      {res.date}
+                    </p>
+                    <p>
+                      <span>Hora: </span>
+                      {res.time}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Asistentes: </span>
+                      {res.quantity}
+                    </p>
+                    <p>
+                      <span>Zona: </span>
+                      {res.zone}
+                    </p>
+                  </div>
+                  <div className={style.reservationDetails}>
+                    <p>
+                      <span>Decoración: </span>
+                      {res.decor}
+                    </p>
+                    <p>
+                      <span>Homenajeado: </span>
+                      {res.honoree}
+                    </p>
+                  </div>
+                </div>
+                <div className={style.reservationConfirmed}>
+                  <p className={style.pButtonReject}>
+                    <MdOutlineClose size={"18"} /> Reserva Rechazada
+                  </p>
+                  <button
+                    onClick={() => handleDeleteReservation(res.id)}
+                    className={style.buttonRejected}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };

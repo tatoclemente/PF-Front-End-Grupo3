@@ -13,7 +13,7 @@ import { Reservation } from "./Reservations/Reservation.jsx";
 
 export const Dashboard = ({ currentUser }) => {
   const [things, setThings] = useState("Requests");
-  // console.log(things)
+
 
   const handleRender = (e) => {
     const val = e.target.getAttribute("data-value");

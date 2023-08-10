@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import logoGoogle from "../Assets/google.png";
-import logo from '../Assets/logo-el-festin-nav.png'
+import logo from "../Assets/logo-el-festin-nav.png";
 import { server } from "../Helpers/EndPoint";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ export const Login = () => {
   const usersDB = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
 
-  const [userCustomToken, setUserCustomToken] = useState('');
+  const [userCustomToken, setUserCustomToken] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -74,9 +74,9 @@ export const Login = () => {
       try {
         // Iniciar sesión en Firebase y obtener el token de acceso
         const response = await login(users.email, users.password);
-        console.log("RESPONSEEEE_____", response);
+
         const firebaseToken = await response.user.getIdToken();
-        console.log("FIEBASETOKEN______", firebaseToken);
+
         // Enviar el token de Firebase al servidor
         const serverResponse = await axios.post(`${server}/create-jwt`, {
           firebaseToken,
@@ -84,28 +84,20 @@ export const Login = () => {
 
         // Obtener el token JWT personalizado desde la respuesta del servidor
         const customToken = serverResponse.data.token;
-        // console.log("CUSTOM TOKEN___", customToken);
 
         // Decodificar el token JWT personalizado para obtener la información
         const decodeCustomToken = customToken && decodeToken(customToken);
 
-        // console.log("DECODED TOKEN___", decodeCustomToken);
-
         if (decodeCustomToken) {
-
           dispatch(setCartFromDatabase(customToken));
 
           // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
           localStorage.setItem("customToken", customToken);
           // login(users.email, users.password)
 
-
           const { role } = decodeCustomToken;
-          role !== 'User'
-            ? navigate("/dashboard")
-            : navigate("/home");
+          role !== "User" ? navigate("/dashboard") : navigate("/home");
           Swal.fire({
-
             icon: "success",
             title: "¡Bienvenido al Festin!",
             showConfirmButton: false,
@@ -134,14 +126,13 @@ export const Login = () => {
   const postUsers = async (userData) => {
     try {
       const { data } = await axios.post(`${server}/user`, userData);
-      console.log("data", data);
+
       const customToken = data.token;
       localStorage.setItem("customToken", customToken);
     } catch (error) {
       console.error("Error de post:", error.message);
     }
   };
-
 
   const handleGoogleLogin = async () => {
     try {
@@ -161,7 +152,6 @@ export const Login = () => {
 
       // Guardar el token JWT personalizado en el almacenamiento local o en una cookie
       localStorage.setItem("customToken", customToken);
-
     } catch (error) {
       console.error("Error de autenticación:", error.message);
     }
@@ -174,19 +164,15 @@ export const Login = () => {
 
     if (emailExist && emailExist.includes(user.email) && decodeCustomToken) {
       const { role } = decodeCustomToken;
-      role !== 'User'
-        ? navigate("/dashboard")
-        : navigate("/home");
+      role !== "User" ? navigate("/dashboard") : navigate("/home");
 
       Swal.fire({
-
         icon: "success",
         title: "¡Bienvenido al Festin!",
         showConfirmButton: false,
         timer: 1500,
       });
     } else if (emailExist && !emailExist.includes(user.email)) {
-
       const userData = {
         name: user.displayName,
         email: user.email,

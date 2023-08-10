@@ -44,7 +44,6 @@ export const Banner = () => {
   const allBanners = useSelector((state) => state.banner.banners);
   const dispatch = useDispatch();
   const [filed, setFiled] = useState(null);
-  const [totalBanner, setTotalBanner] = useState(getBanners());
   const [banner, setBanner] = useState({
     name: "",
     image: filed,
@@ -100,9 +99,7 @@ export const Banner = () => {
         bannerData.append("disabled", banner.disabled);
 
         const response = await axios.post(`${server}/banner`, bannerData);
-        console.log("Banner create successfully:", response.data);
 
-       
         dispatch(getAllBanners([...allBanners, response.data]));
 
         Swal.fire({
@@ -116,7 +113,6 @@ export const Banner = () => {
           disabled: "",
         });
         setShowModal(false);
-        setTotalBanner(getBanners());
       } catch (error) {
         console.error("Error create banner:", error);
       }
@@ -127,21 +123,15 @@ export const Banner = () => {
     const bannerToUpdate =
       Array.isArray(allBanners) &&
       allBanners.find((ban) => ban.id === bannerId);
-    console.log("Banner to update:", JSON.stringify(bannerToUpdate));
 
     if (bannerToUpdate) {
       const updatedbanner = {
         ...bannerToUpdate,
         disabled: !bannerToUpdate.disabled,
       };
-      console.log("updatedBanner " + JSON.stringify(updatedbanner));
 
       try {
-        const response = await axios.put(
-          `${server}/banner/${bannerId}`,
-          updatedbanner
-        );
-        console.log("Banner updated successfully:", response.data);
+        await axios.put(`${server}/banner/${bannerId}`, updatedbanner);
 
         dispatch(getBanners());
       } catch (error) {
@@ -155,12 +145,10 @@ export const Banner = () => {
     const bannerToDelete =
       Array.isArray(allBanners) &&
       allBanners.find((ban) => ban.id === bannerId);
-    console.log("Banner to delete:", JSON.stringify(bannerToDelete));
 
     if (bannerToDelete) {
       try {
-        const response = await axios.delete(`${server}/banner/${bannerId}`);
-        console.log("Banner deleted successfully:", response.data);
+        await axios.delete(`${server}/banner/${bannerId}`);
 
         dispatch(getBanners());
       } catch (error) {

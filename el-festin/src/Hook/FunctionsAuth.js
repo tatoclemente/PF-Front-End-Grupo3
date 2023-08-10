@@ -16,7 +16,6 @@ export const signUp = (email, password) => {
 
 export const login = async (email, password) => {
   const response = await signInWithEmailAndPassword(auth, email, password);
-  console.log("USERR________LOGIN", response.user);
   return response;
 };
 

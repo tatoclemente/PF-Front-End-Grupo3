@@ -46,8 +46,6 @@ export const DailySpecials = () => {
   const [input, setInput] = useState("");
   const [filterDishes, setFilterDishes] = useState([]);
 
-
-
   //---------------------searchBar-------------------------------------
   const onInputChange = ({ target }) => {
     setInput(target.value);
@@ -66,55 +64,41 @@ export const DailySpecials = () => {
 
   useEffect(() => {
     dispatch(getDishes());
-
-
   }, [dispatch]);
 
   useEffect(() => {
     setFilterDishes(
-      Array.isArray(allDishes) && allDishes.filter((dish) =>
-        dish.name?.toLowerCase().includes(input.toLowerCase())
-      )
+      Array.isArray(allDishes) &&
+        allDishes.filter((dish) =>
+          dish.name?.toLowerCase().includes(input.toLowerCase())
+        )
     );
   }, [allDishes, input]);
   const handleUpdateSpecial = async (dishId) => {
-    // Find the dish by its ID
-    const dishToUpdate = Array.isArray(allDishes) && allDishes.find((dish) => dish.id === dishId);
-    console.log("Dish to update:", JSON.stringify(dishToUpdate));
+    const dishToUpdate =
+      Array.isArray(allDishes) && allDishes.find((dish) => dish.id === dishId);
 
-    // Check if the dish is found and toggle the dailyspecial property
     if (dishToUpdate) {
-      // Toggle the value of dailyspecial
       const updatedDish = {
         ...dishToUpdate,
         dailyspecial: !dishToUpdate.dailyspecial,
       };
-      console.log("updatedDish " + JSON.stringify(updatedDish));
 
       try {
-        // Send the PUT request to update the dish
-        const response = await axios.put(
-          `${server}/dish/${dishId}`,
-          updatedDish
-        );
-        console.log("Dish updated successfully:", response.data);
+        await axios.put(`${server}/dish/${dishId}`, updatedDish);
 
-        // Assuming your server updates the data, you can also refresh the dishes here:
         dispatch(getDishes());
       } catch (error) {
-        // Handle error if needed
         console.error("Error updating dish:", error);
       }
     }
   };
 
-
   const allDishesCopy = [...allDishes];
 
   const sortedDishes = allDishesCopy.sort((a, b) =>
-  a.dailyspecial === b.dailyspecial ? 0 : a.dailyspecial ? -1 : 1
-);
-
+    a.dailyspecial === b.dailyspecial ? 0 : a.dailyspecial ? -1 : 1
+  );
 
   const slidesToShow =
     input.length === 0 && allDishes.length >= 3
@@ -132,7 +116,7 @@ export const DailySpecials = () => {
   };
 
   return (
-    <div style={{marginBottom: "50px"}}>
+    <div style={{ marginBottom: "50px" }}>
       <h2 className={style.title}>PLATOS DEL DIA</h2>
       <form className={style.form} onSubmit={onSubmitSearch}>
         <div className={style.inputContainer}>
@@ -154,21 +138,27 @@ export const DailySpecials = () => {
               : style.hidden
           }
         >
-          { Array.isArray(filterDishes) && filterDishes.slice(0, 3).map((d, i) => {
-            return (
-              <div key={i}>
-                <p value={d.name} onClick={onHandleChange} className="results">
-                  {d.name}
-                </p>
-              </div>
-            );
-          })}
+          {Array.isArray(filterDishes) &&
+            filterDishes.slice(0, 3).map((d, i) => {
+              return (
+                <div key={i}>
+                  <p
+                    value={d.name}
+                    onClick={onHandleChange}
+                    className="results"
+                  >
+                    {d.name}
+                  </p>
+                </div>
+              );
+            })}
         </div>
       </form>
       <div className={style.dropdownContainer}>
         <Slider {...settings}>
           {input.length === 0
-            ? Array.isArray(sortedDishes) && sortedDishes.map((dish, index) => {
+            ? Array.isArray(sortedDishes) &&
+              sortedDishes.map((dish, index) => {
                 return (
                   <div key={index} className={style.imageContainer}>
                     {/* <h3>{dish.name}</h3> */}
@@ -189,7 +179,8 @@ export const DailySpecials = () => {
                   </div>
                 );
               })
-            : Array.isArray(filterDishes) && filterDishes.map((dish, index) => {
+            : Array.isArray(filterDishes) &&
+              filterDishes.map((dish, index) => {
                 return (
                   <div key={index} className={style.imageContainer}>
                     {/* <h3>{dish.name}</h3> */}
@@ -199,7 +190,8 @@ export const DailySpecials = () => {
                       className={` ${
                         dish.dailyspecial === false ? style.imageDisabled : ""
                       } ${style.images}`}
-                    /><button
+                    />
+                    <button
                       onClick={() => handleUpdateSpecial(dish.id)}
                       className={style.specialButton1}
                     >
