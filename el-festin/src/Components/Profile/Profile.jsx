@@ -63,7 +63,7 @@ export const Profile = ({toggleCart}) => {
   const orders = async () => {
     try {
       const { data } = await axios.get(`${server}/ticket/user/${userId}`);
-      console.log("DATA_________", data);
+      // console.log("DATA_________", data);
 
       // Verificar si el usuario no tiene pedidos aprobados
       if (data === 'No hay tickets asociados a este usuario') {
@@ -89,7 +89,7 @@ export const Profile = ({toggleCart}) => {
     }
   }, [userId]);
 
-  console.log("MY ORDERS", myOrders);
+  // console.log("MY ORDERS", myOrders);
 
 
   //----------------------------------------------------------------------------
@@ -112,7 +112,7 @@ function sortByDateAndTimeDescReser(a, b) {
 const reservations = async () => {
   try {
     const { data: reservations } = await axios.get(`${server}/reser/user/${userId}`);
-    console.log("DATA_________", reservations);
+    // console.log("DATA_________", reservations);
 
     // Verificar si el usuario no tiene pedidos aprobados
     if (reservations === 'No hay tickets asociados a este usuario') {
@@ -136,7 +136,7 @@ useEffect(() => {
   }
 }, [userId]);
 
-console.log("MY RESERVATIONS", myReservations);
+// console.log("MY RESERVATIONS", myReservations);
 
 
   //----------------------------------------------------------------------------
@@ -207,7 +207,7 @@ console.log("MY RESERVATIONS", myReservations);
     }
   };
 
-  console.log("LOADING", loadingDetails);
+  // console.log("LOADING", loadingDetails);
 
   // Vista previa de la imagen seleccionada
   const imagePreview = profile.image

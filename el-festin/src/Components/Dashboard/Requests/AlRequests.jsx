@@ -25,20 +25,25 @@ export const AllRequest = () => {
   const [loading, serLoading] = useState(true)
 
   useEffect(() => {
+    let interval;
 
-    dispatch(ordersAccepted());
-    const interval = setInterval(() => {
+    const fetchOrders =  () => {
+      try {
+        dispatch(ordersAccepted());
+        serLoading(false);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
 
-      dispatch(ordersAccepted());
-    }, 120000); // 30 segundos en milisegundos
-    if (interval) {
-      serLoading(false)
-    }
+    fetchOrders(); // Ejecuta la acción inmediatamente
+
+    interval = setInterval(fetchOrders(), 30000); // 30 segundos en milisegundos
+
     return () => {
       clearInterval(interval);
     };
-
-  }, [dispatch])
+  }, [dispatch]);
 
 
   const AllTickets = useSelector((state) => state.users.usersOrdersPending)

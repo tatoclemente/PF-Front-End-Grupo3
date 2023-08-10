@@ -4,11 +4,11 @@ import { getReservation } from "../../Redux/actions/actionReservation/getAllRese
 import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
 import styles from "./Booking.module.css";
 import Calendar from "react-calendar";
-import moment from 'moment';
 import Validate from "./ValidationBooking";
 import { server } from "../../Helpers/EndPoint";
 import Swal from "sweetalert2";
 import axios from "axios";
+import moment from 'moment'
 import "react-calendar/dist/Calendar.css";
 import "./custom-calendar.css";
 

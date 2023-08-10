@@ -76,8 +76,7 @@ export const UpdateDrink = ({ allDates }) => {
   formData.append("stock", inputUpdate?.stock);
   formData.append("image", filed);
 
-  console.log("formdata", formData.data);
-
+  
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -237,7 +236,7 @@ export const UpdateDrink = ({ allDates }) => {
                         {typeDrink.map((type, key) => {
                           return (
                             <option key={key} value={type}>
-                              {type}
+                               {type.charAt(0).toUpperCase() + type.slice(1)}
                             </option>
                           );
                         })}

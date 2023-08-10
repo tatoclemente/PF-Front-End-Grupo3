@@ -20,6 +20,7 @@ const CardsContainer = (props) => {
   
   const containerRef = useRef(null);
 
+
   
 
   
@@ -54,7 +55,12 @@ const CardsContainer = (props) => {
   const addToCart = (id) => {
     window.alert(`orden ${id} agregada al carrito`);
   };
-
+  const sortedAllThings = allThings.sort((a, b) => {
+    if (a.stock <= 0 && b.stock > 0) return 1; // Mueve productos con stock <= 0 al final en la misma categoría
+    if (b.stock <= 0 && a.stock > 0) return -1; // Mueve productos con stock <= 0 al final en la misma categoría
+    return 0;
+  });
+  const filteredAndSortedAllThings = sortedAllThings.filter((thing) => !thing.disabled);
   return (
     <div className={style.mainContainer} ref={containerRef}>
       <div className={style.pagination}>
@@ -65,7 +71,7 @@ const CardsContainer = (props) => {
         />
       </div>
       <div className={style.cardsContainer}>
-        {allThings.slice(startIdx, endIdx).map((dish, index) => {
+        {filteredAndSortedAllThings.slice(startIdx, endIdx).map((dish, index) => {
           return (
             <div key={index}>
               <Card
@@ -76,6 +82,7 @@ const CardsContainer = (props) => {
                 price={dish.price}
                 rating={dish.rating}
                 volume={dish.volume}
+                available={dish.disabled}
                 description={dish.description}
                 id={dish.id}
                 addToCart={addToCart}

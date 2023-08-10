@@ -8,7 +8,8 @@ export const dishesSlice = createSlice({
     dishesTypes: [],
     filteredDishTypes: [],
     sortedDishes: [],
-    dishCloud: []
+    dishCloud: [],
+    recomendDishes:[]
   },
   reducers: {
     getAllDishes: (state, action) => {
@@ -17,7 +18,7 @@ export const dishesSlice = createSlice({
       state.sortedDishes = action.payload;
       state.dishesFilter = action.payload;
       state.dishCloud = action.payload
-      console.log('se lleno el estado platos')
+      // console.log('se lleno el estado platos')
     },
     getAllBebidas: (state, action) => {
       state.bebidas = action.payload;
@@ -94,7 +95,8 @@ export const dishesSlice = createSlice({
       state.dishes = payload
      
     },
-    deleteDish: (state, { payload }) => {
+    recomenderDish: (state, action) => {
+      state.recomendDishes = action.payload
 
     },
   },
@@ -110,7 +112,8 @@ export const {
   sortByPrice,
   sortByCalories,
   filterDishesByName,
-  deleteDish
+  deleteDish,
+  recomenderDish
 } = dishesSlice.actions;
 
 export default dishesSlice.reducer;

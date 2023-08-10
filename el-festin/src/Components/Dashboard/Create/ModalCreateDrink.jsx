@@ -21,7 +21,7 @@ export const ModalCreateDrink = () => {
     price: "",
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [inputCreateDrink, setInputCreateDrink] = useState(initialState);
 
@@ -57,22 +57,35 @@ export const ModalCreateDrink = () => {
 
   const onSubmitCreate = async (e) => {
     e.preventDefault();
+    console.log(error);
     try {
-      const { data } = await axios.post(`${server}/drink`, formData);
-
-      if (data.name) {
-        dispatch(getDrinks())
+      if (Object.keys(error).length === 0) {
+        const { data } = await axios.post(`${server}/drink`, formData);
+        if (data.name) {
+          dispatch(getDrinks());
+          setInputCreateDrink(initialState);
+          setUpdateState("DEFAULT");
+          setFiled(null);
+          fileInputRef.current.value = null;
+          setError({});
+          Swal.fire({
+            icon: "success",
+            title: "Bebida creada con exito",
+            confirmButtonText: "OK",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "La bebida no pudo ser creado",
+            confirmButtonText: "OK",
+          });
+        }
+      } else {
         Swal.fire({
-          icon: "success",
-          title: "Bebida creada con exito",
+          icon: "warning",
+          title: "Revisa los errores",
           confirmButtonText: "OK",
         });
-
-        setInputCreateDrink(initialState);
-        setUpdateState("DEFAULT");
-        setFiled(null);
-        fileInputRef.current.value = null;
-        setError({});
       }
     } catch (error) {
       throw error.message;
@@ -85,9 +98,8 @@ export const ModalCreateDrink = () => {
         type="button"
         className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop1"
-      >
-       Bebida
+        data-bs-target="#staticBackdrop1">
+        Bebida
       </button>
 
       <div
@@ -97,8 +109,7 @@ export const ModalCreateDrink = () => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -109,8 +120,7 @@ export const ModalCreateDrink = () => {
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form onSubmit={onSubmitCreate}>
@@ -170,8 +180,7 @@ export const ModalCreateDrink = () => {
                     value={inputCreateDrink.volume}
                     className="form-group mt-4"
                     name="volume"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT" disabled className="">
                       Medida
                     </option>
@@ -190,15 +199,14 @@ export const ModalCreateDrink = () => {
                     value={inputCreateDrink.type}
                     className="form-group  mt-4"
                     name="type"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT" disabled className="">
-                      tipo de bebida
+                      Tipo de bebida
                     </option>
                     {typeDrink.map((type, key) => {
                       return (
                         <option key={key} value={type}>
-                          {type}
+                          {type.charAt(0).toUpperCase() + type.slice(1)}
                         </option>
                       );
                     })}
@@ -209,10 +217,9 @@ export const ModalCreateDrink = () => {
                     value={inputCreateDrink.alcohol}
                     className="form-group"
                     name="alcohol"
-                    onChange={onInputChange}
-                  >
+                    onChange={onInputChange}>
                     <option value="DEFAULT" disabled>
-                      contiene alcohol
+                      Contiene alcohol
                     </option>
 
                     <option value={true}>Si</option>

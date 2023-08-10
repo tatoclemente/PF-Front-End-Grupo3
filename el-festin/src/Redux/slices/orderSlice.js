@@ -160,7 +160,7 @@ const cartSlice = createSlice({
     setCartFromDatabase: (state, action) => {
       if (action.payload.length > 0) {
         const cartItems = action.payload;
-        console.log("CART ITEMS DB____", cartItems);
+        // console.log("CART ITEMS DB____", cartItems);
         return (state = [...cartItems]);
       }
       return state;

@@ -11,7 +11,7 @@ import style from "../Dashboard.module.css";
 import { getDishes } from "../../../Redux/actions/getAllDishes";
 
 export const UpdateDish = ({ allDates }) => {
-  console.log(allDates)
+  
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,
@@ -87,7 +87,6 @@ export const UpdateDish = ({ allDates }) => {
   formData.append("dailyspecial", inputUpdate?.dailyspecial);
   formData.append("image", filed);
 
-  console.log("formdata", formData);
 
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
@@ -111,7 +110,7 @@ export const UpdateDish = ({ allDates }) => {
           `${server}/dish/${selectedItem.id}`,
           formData
         );
-        console.log("data", data);
+       
   
         if (data.name) {
           dispatch(getDishes());
@@ -273,7 +272,7 @@ export const UpdateDish = ({ allDates }) => {
                         {subtiposDish?.map((subtipo, key) => {
                           return (
                             <option key={key} value={subtipo}>
-                              {subtipo}
+                              {subtipo.charAt(0).toUpperCase() + subtipo.slice(1)}
                             </option>
                           );
                         })}
