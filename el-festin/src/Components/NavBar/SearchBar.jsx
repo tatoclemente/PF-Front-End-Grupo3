@@ -44,7 +44,7 @@ export const SearchBar = (props) => {
     } else {
       setSearchResults([]);
     }
-  }, [input ]);
+  }, [input, dispatch ]);
  
   if (props.path === "/home") {
 

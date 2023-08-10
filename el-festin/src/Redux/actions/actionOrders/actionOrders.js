@@ -275,11 +275,11 @@ export const setCartFromDatabase = (token) => async (dispatch) => {
       // Mostrar notificación al usuario y esperar su decisión
       const result = await Swal.fire({
         title: "Hey, disculpa!",
-        text: "Notamos que ya tienes un carrito anterior guardado, ¿Qué deseas hacer?",
+        text: "Notamos que ya tienes un carrito anterior guardado, ¿Cuál deseas mantener?",
         showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: "Mantener actual",
-        denyButtonText: "Reemplazar",
+        confirmButtonText: "Nuevo carrito",
+        denyButtonText: "Anterior",
         cancelButtonText: "Unir ambos",
         denyButtonColor: "var(--main-color)",
       });

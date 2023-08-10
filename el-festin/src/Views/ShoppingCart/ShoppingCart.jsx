@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { useNavigate } from "react-router-dom";
-import { formattedDescription } from "../../functions/formattedDescription";
+// import { formattedDescription } from "../../functions/formattedDescription";
 import { formattedCart } from "../../functions/formattedCart";
 import { calculateTotalPrice } from "../../functions/calculateTotalPrice";
 import getCustomTokenFromLocalStorage from "../../functions/getCustomToken";
@@ -121,7 +121,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
           showConfirmButton: false,
           timer: 2000,
         });
-        const description = formattedDescription(order);
+        // const description = formattedDescription(order);
         onCloseCart();
         const { data: mercadopagoData } = await axios.post(
           `${server}/mercadopago`,
