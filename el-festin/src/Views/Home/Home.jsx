@@ -102,7 +102,7 @@ stateSort === 'asc'
     : allT.sort((a, b) => a.price - b.price);
 
 
-console.log(loading);
+
 
 if (loading) return ( 
     <div style={{width: '100%', zIndex:'50', top: '0', left: '0', position: 'absolute', height: '100vh',backgroundColor: 'var(--background-darkblue)', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>

@@ -7,7 +7,6 @@ export const getDishesDates = () => async (dispatch) => {
       const { data } = await axios.get(`${server}/dish`);
 
       let FilteredData = data.map((t) => {return{name: t.name, 'CantidadVendida': t.salesCount, id: t.id }})
-      console.log(FilteredData)
       dispatch(setDatesDishes(FilteredData));
     } catch (error) {
       console.log(error.message);

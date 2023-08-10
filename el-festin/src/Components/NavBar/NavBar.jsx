@@ -59,7 +59,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   const decodeCustomToken = customToken && decodeToken(customToken);
 
   const { role } = decodeCustomToken !== null && decodeCustomToken;
-  console.log(role);
+
 
   return (
     <div className="d-flex justify-content-between navbarLanding">
