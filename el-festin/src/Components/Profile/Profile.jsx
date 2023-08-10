@@ -63,7 +63,7 @@ export const Profile = ({toggleCart}) => {
   const orders = async () => {
     try {
       const { data } = await axios.get(`${server}/ticket/user/${userId}`);
-      console.log("DATA_________", data);
+    
 
       // Verificar si el usuario no tiene pedidos aprobados
       if (data === 'No hay tickets asociados a este usuario') {
@@ -89,7 +89,6 @@ export const Profile = ({toggleCart}) => {
     }
   }, [userId]);
 
-  console.log("MY ORDERS", myOrders);
 
 
   //----------------------------------------------------------------------------
@@ -112,7 +111,6 @@ function sortByDateAndTimeDescReser(a, b) {
 const reservations = async () => {
   try {
     const { data: reservations } = await axios.get(`${server}/reser/user/${userId}`);
-    console.log("DATA_________", reservations);
 
     // Verificar si el usuario no tiene pedidos aprobados
     if (reservations === 'No hay tickets asociados a este usuario') {
@@ -136,7 +134,7 @@ useEffect(() => {
   }
 }, [userId]);
 
-console.log("MY RESERVATIONS", myReservations);
+
 
 
   //----------------------------------------------------------------------------
@@ -194,7 +192,7 @@ console.log("MY RESERVATIONS", myReservations);
 
       try {
         const response = await axios.put(`${server}/user/${userId}`, formData);
-        console.log("Data user updated successfully:", response.data);
+ 
         dispatch(getUsers(userId));
         Swal.fire({
           icon: "success",
@@ -207,7 +205,6 @@ console.log("MY RESERVATIONS", myReservations);
     }
   };
 
-  console.log("LOADING", loadingDetails);
 
   // Vista previa de la imagen seleccionada
   const imagePreview = profile.image

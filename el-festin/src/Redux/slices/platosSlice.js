@@ -18,7 +18,6 @@ export const dishesSlice = createSlice({
       state.sortedDishes = action.payload;
       state.dishesFilter = action.payload;
       state.dishCloud = action.payload
-      console.log('se lleno el estado platos')
     },
     getAllBebidas: (state, action) => {
       state.bebidas = action.payload;
