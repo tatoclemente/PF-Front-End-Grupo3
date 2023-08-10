@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import { volumeDrink, typeDrink } from "../../../Helpers/objetosHelp";
@@ -76,8 +76,7 @@ export const UpdateDrink = ({ allDates }) => {
   formData.append("stock", inputUpdate?.stock);
   formData.append("image", filed);
 
-  console.log("formdata", formData.data);
-
+  
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -237,7 +236,7 @@ export const UpdateDrink = ({ allDates }) => {
                         {typeDrink.map((type, key) => {
                           return (
                             <option key={key} value={type}>
-                              {type}
+                               {type.charAt(0).toUpperCase() + type.slice(1)}
                             </option>
                           );
                         })}

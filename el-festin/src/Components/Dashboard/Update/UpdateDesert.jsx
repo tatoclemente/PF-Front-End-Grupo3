@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Card from "../../Card/Card";
 import { server } from "../../../Helpers/EndPoint";
 import axios from "axios";
@@ -11,7 +11,7 @@ import style from "../Dashboard.module.css";
 import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const UpdateDesert = ({ allDates }) => {
-  console.log(allDates)
+  console.log(allDates);
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,
@@ -19,10 +19,12 @@ export const UpdateDesert = ({ allDates }) => {
     price: false,
   });
 
-  const selectedItem = Array.isArray(allDates) && allDates.find((item) => item.name === updateState);
+  const selectedItem =
+    Array.isArray(allDates) &&
+    allDates.find((item) => item.name === updateState);
   const [error, setError] = useState({});
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [inputUpdate, setInputUpdate] = useState({
     name: "",
@@ -70,17 +72,15 @@ export const UpdateDesert = ({ allDates }) => {
   formData.append("price", inputUpdate?.price);
   formData.append("image", filed);
 
-  console.log("formdata", formData);
   const onUpdateSubmit = async (e) => {
     e.preventDefault();
 
     try {
-
       const nameExists =
-      Array.isArray(allDates) &&
-      allDates.find(
-        (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
-      );
+        Array.isArray(allDates) &&
+        allDates.find(
+          (dis) => dis.name.toLowerCase() === inputUpdate.name.toLowerCase()
+        );
       if (selectedItem === inputUpdate) {
         Swal.fire({
           icon: "info",
@@ -93,9 +93,9 @@ export const UpdateDesert = ({ allDates }) => {
           `${server}/desert/${selectedItem.id}`,
           formData
         );
-        
+
         if (data?.name) {
-          dispatch(getDesserts())
+          dispatch(getDesserts());
           Swal.fire({
             icon: "success",
             title: "Se ha modificado el postre correctamente",
@@ -131,8 +131,7 @@ export const UpdateDesert = ({ allDates }) => {
         type="button"
         className={style.buttonDeleteCreate}
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop12"
-      >
+        data-bs-target="#staticBackdrop12">
         Postre
       </button>
 
@@ -143,8 +142,7 @@ export const UpdateDesert = ({ allDates }) => {
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content modal-width-update">
             <div className="modal-header">
@@ -156,8 +154,7 @@ export const UpdateDesert = ({ allDates }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => setUpdateState("DEFAULT")}
-              ></button>
+                onClick={() => setUpdateState("DEFAULT")}></button>
             </div>
             <form className="modal-body" onSubmit={onUpdateSubmit}>
               <label className="fw-bold fs-5 pb-2">
@@ -169,13 +166,14 @@ export const UpdateDesert = ({ allDates }) => {
                   <option value="DEFAULT" disabled>
                     {`Buscar ${"algo"}`}
                   </option>
-                  {Array.isArray(allDates) && allDates.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
+                  {Array.isArray(allDates) &&
+                    allDates.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div className="row d-flex align-items-center justify-content-center ps-5">
@@ -185,24 +183,21 @@ export const UpdateDesert = ({ allDates }) => {
                     <button
                       name="name"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Nombre
                     </button>
 
                     <button
                       name="price"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Precio
                     </button>
 
                     <button
                       name="stock"
                       onClick={handleInputView}
-                      className="btn buttonCrear"
-                    >
+                      className="btn buttonCrear">
                       Stock
                     </button>
 
@@ -225,7 +220,6 @@ export const UpdateDesert = ({ allDates }) => {
                       name={inputUpdate?.name}
                       price={inputUpdate?.price}
                       buttonOut={true}
-
                     />
                   )}
                 </div>
@@ -246,8 +240,7 @@ export const UpdateDesert = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, name: false })}
-                    disabled={error.name}
-                  >
+                    disabled={error.name}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.name && (
@@ -271,8 +264,7 @@ export const UpdateDesert = ({ allDates }) => {
                   <button
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, price: false })}
-                    disabled={error.price}
-                  >
+                    disabled={error.price}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.price && (
@@ -296,8 +288,7 @@ export const UpdateDesert = ({ allDates }) => {
                     type="button"
                     className="btn border-2 btn-outline-success"
                     onClick={() => setInputView({ ...inputView, stock: false })}
-                    disabled={error.stock}
-                  >
+                    disabled={error.stock}>
                     <FiCheck style={{ fontSize: "24px" }} />
                   </button>
                   {error.stock && (
@@ -309,8 +300,7 @@ export const UpdateDesert = ({ allDates }) => {
                 <button
                   type="submit"
                   className="btn buttonCrear"
-                  disabled={isInputViewEnabled}
-                >
+                  disabled={isInputViewEnabled}>
                   Modificar
                 </button>
               </div>

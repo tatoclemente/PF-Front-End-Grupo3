@@ -54,8 +54,8 @@ function App() {
   const decodeCustomToken = customToken && decodeToken(customToken);
   const currentUser = {
 
-    role: decodeCustomToken ? decodeCustomToken.role : false,
-    //role: "User",
+    //role: decodeCustomToken ? decodeCustomToken.role : false,
+    role: "Admin",
 
   };
   console.log(currentUser)
