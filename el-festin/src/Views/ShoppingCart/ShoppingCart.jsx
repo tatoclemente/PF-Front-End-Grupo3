@@ -74,7 +74,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     order: formattedOrder,
   };
 
-  console.log(pedido);
+  // console.log(pedido);
   
   const handlePaySubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +82,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     setLoading(true);
     const customToken = getCustomTokenFromLocalStorage();
 
-    console.log("____CUSTOM TOKEN_____", customToken);
+    // console.log("____CUSTOM TOKEN_____", customToken);
 
     const config = {
       headers: {
@@ -110,7 +110,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     try {
       const data = await axios.post(`${server}/completeOrder`, pedido, config);
 
-      console.log("DATA POST_________", data.data);
+      // console.log("DATA POST_________", data.data);
       const idPedido = data.data
       if (Object.keys(data).length > 0) {
         setLoading(false)

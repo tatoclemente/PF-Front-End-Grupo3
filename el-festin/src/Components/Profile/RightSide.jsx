@@ -234,7 +234,7 @@ function RightSide({
     })
   }
 
-  console.log(selectedItem);
+  // console.log(selectedItem);
 
   function invertDate(date) {
     const parts = date.split('-');
