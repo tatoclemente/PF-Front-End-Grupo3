@@ -13,7 +13,7 @@ export const Sidebar = (props) => {
       <>
         <div className={Styles.sidebar}>
           <div className={Styles.user}>
-            <h4 className="fs-3 pb-3">Administrador</h4>
+            <h4 className="fs-3 pb-1 pt-1">Administrador</h4>
           </div>
 
           <ul className={Styles.options}>
