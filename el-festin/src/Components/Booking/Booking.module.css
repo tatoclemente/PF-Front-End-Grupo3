@@ -1,6 +1,11 @@
+.bookingContainer {
+  height: calc(100vh - 100px);
+  padding: 0 3rem;
+}
+
 .titleBooking {
-  font-size: 1.3rem;
-  margin-top: 2%;
+  font-size: 1.8rem;
+  margin-top: 1rem;
   margin-bottom: 1%;
   color: var(--main-color);
   font-weight: bold;
@@ -11,6 +16,12 @@
   font-size: 1rem;
   margin: 3%;
   color: var(--background-darkblue);
+}
+.labelBookingLeft {
+  display: block;
+font-size: 1rem;
+margin: 3%;
+color: var(--primary-light);
 }
 
 .inputBooking {
@@ -49,21 +60,53 @@
 .mainContainer {
   display: flex;
   justify-content: space-between;
+
 }
 
 .leftSide {
   flex: 1;
   margin-right: 20px;
+  background-color: var(--background-darkblue);
+  border-radius: 20px;
+  transform: translateY(-1rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 2rem;
 }
 
 .centerSide {
   flex: 1;
   margin: 0 20px;
+
+}
+
+.loadingButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: .5rem;
+}
+
+.loadingText {
+  margin-left: .5rem;
 }
 
 .rightSide {
   flex: 1;
   margin-left: 20px;
+  padding-top: .5rem;
+  background-color: var(--background-darkblue);
+  border-radius: 20px;
+  transform: translateY(-1rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 2rem;
 }
 
 .numPersonsContainer {
@@ -72,40 +115,43 @@
 }
 
 .numPersonsWrapper {
-  width: 80%;
+  width: 20rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(
-    --background-darkblue
-  ); /* Azul oscuro (#1a237e es un ejemplo, puedes cambiarlo) */
+  background-color: var(--main-color);
   padding: 10px;
   margin: 1%;
   border-radius: 10px;
 }
 
 .numPersonsButton {
-  background-color: #b1b1b1 !important; /* Azul un poco más claro para los botones (#1e88e5 es un ejemplo) */
+  background-color: var(--background-darkblue) !important; /* Azul un poco más claro para los botones (#1e88e5 es un ejemplo) */
   color: white; /* Letras blancas */
   border: none;
   width: 30px;
   height: 30px;
-  font-size: 16px;
+  font-size: 1.8rem !important;
   cursor: pointer;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
+  padding-bottom: .4rem;
+  transition: .5s ease-in-out;
 }
 
 .numPersonsButton:hover {
   background-color: var(
     --main-color
   ) !important; /* Cambiar el color de fondo en el hover */
+  color: var(--background-darkblue);
+  box-shadow: 1px 1px 3px var(--shadow);
 }
 
 .numPersonsValue {
-  color: white; /* Letras blancas */
+  color: var(--background-darkblue); /* Letras blancas */
   font-size: 18px;
   font-weight: bold;
   margin: 0 15px;
@@ -121,6 +167,10 @@
   align-items: center;
 }
 
+.datePickerContainer {
+  margin-top: 2rem;
+}
+
 .datePicker,
 .timeSelect {
   padding: 10px;
@@ -129,25 +179,44 @@
   width: 100%;
 }
 
+.dateCalendar {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--background-darkblue);
+}
+
 .timeSelect {
   width: 100%;
 }
 
 .submitButtonBooking {
-  padding: 10px 20px;
-  background-color: #313045 !important;
+  background-color: var(--main-color) !important;
+  color: var(--background-darkblue) !important;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  margin-bottom: 2%;
+  margin-top: 2rem;
+  width: 20rem;
+  height: 2.7rem;
+  transition: .5s ease-in-out;
+  font-weight: 500;
+  letter-spacing: .9px;
 }
 
 .submitButtonBooking:hover {
-  background-color: var(
-    --main-color
-  ) !important;
+  background-color: var(--main-color-75) !important;
+  color: var(--primary-light) !important;
 }
+
+.buttonReser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: .35rem;
+  font-size: 1.2rem;
+}
+
 
 input[type="checkbox"] {
   position: absolute;

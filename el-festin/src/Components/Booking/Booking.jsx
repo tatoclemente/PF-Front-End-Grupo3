@@ -11,6 +11,7 @@ import axios from "axios";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import "./custom-calendar.css";
+import MiniSpinner from '../Spinner/MiniSpinner';
 
 export default function BookingComponent() {
   const [selectedDateTime, setSelectedDateTime] = useState(null);
@@ -25,6 +26,8 @@ export default function BookingComponent() {
   const user = useSelector((state) => state.auth.user);
   const [error, setError] = useState({});
   // const [userId, setUserId] = useState(null);
+
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -63,8 +66,8 @@ export default function BookingComponent() {
     name: user?.displayName
       ? user?.displayName
       : dataUser.length > 0
-      ? `${dataUser[0].name} ${dataUser[0].lastName}`
-      : "",
+        ? `${dataUser[0].name} ${dataUser[0].lastName}`
+        : "",
     quantity: numPersons,
     phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
     date: "",
@@ -163,6 +166,7 @@ export default function BookingComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (
       !inputValues.phoneNumber ||
       !inputValues.date ||
@@ -204,9 +208,9 @@ export default function BookingComponent() {
         reservationData.append("zone", inputValues.zone);
         reservationData.append("decor", inputValues.decor);
         reservationData.append("honoree", inputValues.honoree);
-
+        
         const response = await axios.post(`${server}/reser`, reservationData);
-
+        if(response) setLoading(false)
         Swal.fire({
           icon: "success",
           title: `${inputValues.name} su reserva ha sido enviada`,
@@ -218,8 +222,8 @@ export default function BookingComponent() {
           name: user.displayName
             ? user.displayName
             : dataUser.length > 0
-            ? `${dataUser[0].name} ${dataUser[0].lastName}`
-            : "",
+              ? `${dataUser[0].name} ${dataUser[0].lastName}`
+              : "",
           quantity: numPersons,
           phoneNumber: dataUser.length > 0 ? dataUser[0].phoneNumber || "" : "",
           date: "",
@@ -240,18 +244,18 @@ export default function BookingComponent() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.bookingContainer}>
       <div className={styles.containerTitleBooking}>
         <h1 className={styles.titleBooking}>¡RESERVA CON NOSOTROS!</h1>
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.leftSide}>
-          <label className={styles.labelBooking}>Nombre</label>
+          <label className={styles.labelBookingLeft}>Nombre</label>
           <input
             className={styles.inputBooking}
             value={inputValues.name}
           ></input>
-          <label className={styles.labelBooking} htmlFor="phoneNumber">
+          <label className={styles.labelBookingLeft} htmlFor="phoneNumber">
             Celular
           </label>
           <input
@@ -265,7 +269,7 @@ export default function BookingComponent() {
           {error.phoneNumber && (
             <p style={{ fontSize: "12px" }}>{error.phoneNumber}</p>
           )}
-          <label className={styles.labelBooking}>
+          <label className={styles.labelBookingLeft}>
             ¿Para cuántas personas deseas reservar?
           </label>
           <div className={styles.numPersonsContainer}>
@@ -311,7 +315,7 @@ export default function BookingComponent() {
                   Seleccione una fecha
                 </p>
               )}
-              <div>
+              <div className={styles.dateCalendar}>
                 <Calendar
                   id="calendar"
                   value={selectedDateTime}
@@ -366,8 +370,8 @@ export default function BookingComponent() {
                           isReserved
                             ? { backgroundColor: "gray", color: "#fff" }
                             : selectedTime === time
-                            ? { backgroundColor: "#313045", color: "#fff" }
-                            : {}
+                              ? { backgroundColor: "#313045", color: "#fff" }
+                              : {}
                         }
                       >
                         {isReserved ? `${time} (No disponible)` : time}
@@ -380,7 +384,7 @@ export default function BookingComponent() {
           </div>
         </div>
         <div className={styles.rightSide}>
-          <label className={styles.labelBooking}>
+          <label className={styles.labelBookingLeft}>
             ¿En qué zona deseas realizar tu celebración?
           </label>
           <select
@@ -397,7 +401,7 @@ export default function BookingComponent() {
             <option value="Zonas verdes">Zonas verdes</option>
           </select>
 
-          <label className={styles.labelBooking}>
+          <label className={styles.labelBookingLeft}>
             ¿Deseas algún tipo de decoración?
           </label>
           <select
@@ -414,7 +418,7 @@ export default function BookingComponent() {
             <option value="Aniversario">Aniversario</option>
             <option value="Grado">Grado</option>
           </select>
-          <label className={styles.labelBooking}>
+          <label className={styles.labelBookingLeft}>
             ¿Quién es la persona homenajeada?
           </label>
           <input
@@ -424,16 +428,18 @@ export default function BookingComponent() {
             onChange={handleInputChange}
           ></input>
           {error.honoree && <p style={{ fontSize: "12px" }}>{error.honoree}</p>}
+
+          <div className={styles.containerButtonBooking}>
+            
+            <button
+              type="submit"
+              className={styles.submitButtonBooking}
+              onClick={handleSubmit}
+            >
+              {loading ? (<p className={styles.loadingButton}><MiniSpinner /> <span className={styles.loadingText}>Cargando...</span></p>): <p className={styles.buttonReser}>RESERVAR</p>}
+            </button>
+          </div>
         </div>
-      </div>
-      <div className={styles.containerButtonBooking}>
-        <button
-          type="submit"
-          className={styles.submitButtonBooking}
-          onClick={handleSubmit}
-        >
-          RESERVAR
-        </button>
       </div>
     </div>
   );
