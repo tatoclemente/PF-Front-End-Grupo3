@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
@@ -22,7 +23,12 @@ export const login = async (email, password) => {
 export const logout = () => {
   signOut(auth);
   localStorage.removeItem("customToken");
-  
+  Swal.fire({
+    icon: "success",
+    title: "¡Muchas gracias por su visita, vuelva pronto!",
+    showConfirmButton: false,
+    timer: 2000,
+  })
 };
 
 // Acciones para autenticarse con Google o Facebook

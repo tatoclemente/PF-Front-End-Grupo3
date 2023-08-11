@@ -72,6 +72,7 @@
 .productImage {
     width: 80px;
     height: 80px;
+    object-fit: cover;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
@@ -137,8 +138,8 @@
     height: 65px;
     margin: 0;
     padding: 0;
-    right: 1rem;
-    bottom: 2.3rem;
+    right: .5rem;
+    bottom: 3.3rem;
 }
 .quantityButtonCombo {
     position: absolute;

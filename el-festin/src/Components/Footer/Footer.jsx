@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import React from "react";
 import { Link } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
@@ -8,9 +9,25 @@ import { BsArrowUpCircleFill } from "react-icons/bs";
 import { FaFacebookSquare } from "react-icons/fa";
 import logo from '../../Assets/logo-el-festin-nav.png';
 import Styles from "./Footer.module.css";
+import { logout } from "../../Hook/FunctionsAuth";
+import { useDispatch } from "react-redux";
+import { clearCart } from '../../Redux/actions/actionOrders/actionOrders';
+import ROUTES from '../../Routes/routes';
+import { scrollToTop } from "../../Helpers/functions";
 
 function Footer() {
-  
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  const customToken = localStorage.getItem("customToken");
+
+  const handleLogout = async () => {
+    await dispatch(clearCart())
+    scrollToTop()
+    navigate(ROUTES.HOME)
+    logout();
+  };
+
   const onClickUp = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -20,15 +37,20 @@ function Footer() {
         className={Styles.img}
         src={logo}
         alt="logo"
-     
+
       />
       <div className={Styles.divh5}>
         <Link to="/home" style={{ textDecoration: "none" }}>
           <h5 className={Styles.h5}>Pide aquí</h5>
         </Link>
-        <Link to="/auth/login" style={{ textDecoration: "none" }}>
-          <h5 className={Styles.h5}>Iniciar Sesión</h5>
-        </Link>
+        {customToken ?
+          <span onClick={() => handleLogout()} style={{cursor: "pointer"}}>
+            <h5 className={Styles.h5}>Salir</h5>
+          </span>
+          : <Link to="/auth/login" style={{ textDecoration: "none" }}>
+            <h5 className={Styles.h5}>Iniciar Sesión</h5>
+          </Link>}
+
         <Link to="/about" style={{ textDecoration: "none" }}>
           <h5 className={Styles.h5}>Nosotros</h5>
         </Link>
