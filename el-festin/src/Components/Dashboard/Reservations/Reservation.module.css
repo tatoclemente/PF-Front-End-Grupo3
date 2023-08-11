@@ -1,4 +1,7 @@
-
+.reserContainer {
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+}
 .titleReser {
   color: #8d8c8c;
   font-size: 1.8rem;

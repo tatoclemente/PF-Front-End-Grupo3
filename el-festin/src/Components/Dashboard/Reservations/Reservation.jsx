@@ -124,7 +124,7 @@ export const Reservation = () => {
   };
 
   return (
-    <div>
+    <div className={style.reserContainer}>
       <div>
         <h2 className={style.titleReser}>ESTADO DE MIS RESERVACIONES</h2>
       </div>
