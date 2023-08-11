@@ -15,7 +15,8 @@
 
   
   .button:hover {
-    background-color:#FBC32C
+    background-color:#FBC32C;
+    color: var(--background-darkblue);
   }
 
   .container {
