@@ -15,6 +15,7 @@ import { GiCook } from "react-icons/gi";
 import { BiRestaurant } from "react-icons/bi";
 import { FiLogIn } from "react-icons/fi";
 import { decodeToken } from "react-jwt";
+import { current } from "@reduxjs/toolkit";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -25,7 +26,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   const users = useSelector((state) => state.users.users);
   const user = useSelector((state) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const [userEmail, setUserEmail] = useState({});
 
   // console.log(users);
   const handleOpen = () => {
@@ -45,17 +46,30 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
 
   // console.log(user);
 
+   // Función que utiliza la información de user
+   const handleSomethingWithUser = () => {
+    if (user) {
+      // Realizar operaciones utilizando la información de user
+      setUserEmail(user.email);
+    } else {
+      console.log("El usuario no está autenticado.");
+    }
+  };
+
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
   useEffect(() => {
-    if (user && users.email) {
-      const emailUser = Array.isArray(users) ? users.find((u) => u.email === user.email) : [];
-      setUserEmail(emailUser);
-    }
-  }, [user, users]);
+    handleSomethingWithUser()
 
-  const userImage = userEmail ? userEmail.image : null;
+  }, [handleSomethingWithUser]);
+
+  const CurrentUser = Array.isArray(users) && users.find((u) => u.email === userEmail);
+
+  console.log(user);
+
+  const userImage = CurrentUser && CurrentUser.image;
+  console.log(userImage);
 
   const customToken = localStorage.getItem('customToken');
   const decodeCustomToken = customToken && decodeToken(customToken);
@@ -112,8 +126,9 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
                 ) : (
                   <img
                     src={userImage ? userImage : profileImg}
-                    width="50"
-                    height="50"
+                    width="60"
+                    height="60"
+                    style={{ borderRadius:"50%"}}
                     alt="profile"
                   ></img>
                 )}
