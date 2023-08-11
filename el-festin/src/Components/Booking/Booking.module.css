@@ -1,6 +1,7 @@
 .bookingContainer {
   height: calc(100vh - 100px);
   padding: 0 3rem;
+  margin-bottom: 3rem;
 }
 
 .titleBooking {
