@@ -76,12 +76,12 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
         {!isDashboard &&
         <>
           {location.pathname === ROUTES.LANDING && <div className='go-about'>
-            <BiRestaurant style={{fontSize: '1.8rem', transform: 'scale(1.9)'}} />
+            <GiCook style={{fontSize: '1.8rem'}} />
             <Link to={ROUTES.ABOUT}>Nosotros</Link>
           </div>}
           <div style={location.pathname === ROUTES.HOME ? {borderBottom: '2px solid var(--main-color)', color: 'var(--main-color)'} : undefined} className='go-home'>
-            <GiCook style={{fontSize: '1.8rem'}} />
-            <Link to={ROUTES.HOME}>Home</Link>
+            <BiRestaurant style={{fontSize: '1.8rem'}} />
+            <Link to={ROUTES.HOME}>Pide aquí</Link>
           </div>
         </>
         

@@ -182,7 +182,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 320px;
+  width: 330px;
 }
 
 .go-home {
@@ -192,7 +192,7 @@
   color: var(--primary-light);
   gap: .5rem;
   font-size: 1.3rem;
-  width: 7.5rem;
+  width: 9rem;
   padding: .1rem .5rem;
   border-radius: 20px;
   border-bottom: 2px solid transparent;
@@ -206,19 +206,20 @@
   color: var(--primary-light);
   gap: .5rem;
   font-size: 1.3rem;
-  width: 8rem;
+  width: 9rem;
   padding: .1rem .5rem;
   border-radius: 20px;
   border-bottom: 2px solid transparent;
   transition: .5s ease-in-out;
   position: absolute;
-  left: -140px;
+  left: -150px;
+  top: 50%;
+  transform: translateY(-56%);
 }
 
 .go-about a {
   text-decoration: none;
   color: var(--primary-light);
-  margin-left: .3rem;
 }
 
 .go-home a {
