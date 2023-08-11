@@ -146,6 +146,8 @@
     text-transform: uppercase;
     margin: 0 auto;
     margin-bottom: 1.5rem;
+    margin-top: .5rem;
+    transition: .5s ease-in-out;
 }
 
 .bookingButton:hover,
