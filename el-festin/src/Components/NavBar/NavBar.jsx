@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
 import ROUTES from "../../Routes/routes";
 import { GiCook } from "react-icons/gi";
+import { BiRestaurant } from "react-icons/bi";
 import { decodeToken } from "react-jwt";
 // import Modal from 'react-modal';
 
@@ -73,10 +74,17 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
       )}
       <div className='right-container'>
         {!isDashboard &&
+        <>
+          {location.pathname === ROUTES.LANDING && <div className='go-about'>
+            <BiRestaurant style={{fontSize: '20px', transform: 'scale(3.7)'}} />
+            <Link to={ROUTES.ABOUT}>Nosotros</Link>
+          </div>}
           <div style={location.pathname === ROUTES.HOME ? {borderBottom: '2px solid var(--main-color)', color: 'var(--main-color)'} : undefined} className='go-home'>
             <GiCook style={{fontSize: '1.8rem'}} />
             <Link to={ROUTES.HOME}>Home</Link>
           </div>
+        </>
+        
         }
 
         <div className="dropdown-container d-none d-lg-flex align-items-center">

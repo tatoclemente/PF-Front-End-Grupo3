@@ -178,6 +178,7 @@
 }
 
 .right-container {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -196,6 +197,28 @@
   border-radius: 20px;
   border-bottom: 2px solid transparent;
   transition: .5s ease-in-out;
+}
+
+.go-about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-light);
+  gap: .5rem;
+  font-size: 1.3rem;
+  width: 7.5rem;
+  padding: .1rem .5rem;
+  border-radius: 20px;
+  border-bottom: 2px solid transparent;
+  transition: .5s ease-in-out;
+  position: absolute;
+  left: -140px;
+}
+
+.go-about a {
+  text-decoration: none;
+  color: var(--primary-light);
+  margin-left: .3rem;
 }
 
 .go-home a {

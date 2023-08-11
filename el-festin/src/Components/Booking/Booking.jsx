@@ -180,6 +180,7 @@ export default function BookingComponent() {
         title: "Por favor, completa todos los campos antes de reservar.",
         confirmButtonText: "OK",
       });
+      setLoading(false)
       return;
     }
     const reservationExists =
@@ -195,6 +196,7 @@ export default function BookingComponent() {
         text: "Por favor, elige otra fecha u hora.",
         confirmButtonText: "OK",
       });
+      setLoading(false)
       return;
     } else {
       try {
