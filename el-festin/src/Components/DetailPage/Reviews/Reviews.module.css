@@ -48,9 +48,10 @@
 }
 
 .userInfo img {
-    width: 50%;
-    height: auto;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .contentInfo {
