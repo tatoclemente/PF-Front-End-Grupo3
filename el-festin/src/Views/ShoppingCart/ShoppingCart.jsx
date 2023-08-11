@@ -93,7 +93,7 @@ function ShoppingCart({ isOpen, onCloseCart }) {
     if (!customToken) {
       Swal.fire({
         icon: "info",
-        title: "Ups, siento!",
+        title: "Ups, lo siento!",
         text: "Debe estar registrado para pagar esta orden",
         confirmButtonText: "Registrarme Ahora!",
       }).then((result) => {

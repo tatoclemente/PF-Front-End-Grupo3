@@ -26,13 +26,14 @@ export const DashboardModifiers = ({ comeBack }) => {
   return (
     <div className={Styles.sidebarModifiers}>
       <button
-        className="btn btn-outline-danger text-white d-flex justify-content-start ms-2 mb-2"
+        className="btn text-white d-flex justify-content-start ms-2 mb-2 button-back"
         onClick={() => comeBack(false)}
       >
         <FiArrowLeft
           style={{
             fontSize: "20px",
             marginTop: "2px",
+            marginRight: "5px",
           }}
         />
         Regresar

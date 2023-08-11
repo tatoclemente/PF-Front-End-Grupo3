@@ -304,7 +304,7 @@ export const Login = () => {
         <p className="text-white fs-5 pt-1 fs-6">
           ¿No tienes cuenta? &nbsp;
           <Link to="/auth/register" className="color-register-b">
-            Registrate aqui
+            Registrate aquí
           </Link>
         </p>
       </li>
