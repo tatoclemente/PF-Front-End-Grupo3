@@ -13,6 +13,7 @@ import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
 import ROUTES from "../../Routes/routes";
 import { GiCook } from "react-icons/gi";
 import { BiRestaurant } from "react-icons/bi";
+import { FiLogIn } from "react-icons/fi";
 import { decodeToken } from "react-jwt";
 // import Modal from 'react-modal';
 
@@ -132,6 +133,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
               to="/auth/login"
               className="text-decoration-none text-white me-2 sign-in"
             >
+              <FiLogIn className="fs-4 icon-login" />
               {" "}
               Ingresar{" "}
             </Link>
