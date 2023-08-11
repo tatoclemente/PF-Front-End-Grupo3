@@ -113,7 +113,7 @@ function FiltersAndSorts(props) {
       </div>
 
       <div className={style.filteredContent}>
-      <button  onClick={() => { handleBooking(); }} className={style.bookingButton}>RESERVACIONES</button>
+      <button  onClick={() => { handleBooking(); }} className={style.bookingButton}>RESERVAR UNA MESA</button>
              
 
         {props.stateFood !== "all" ? (
