@@ -76,7 +76,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
         {!isDashboard &&
         <>
           {location.pathname === ROUTES.LANDING && <div className='go-about'>
-            <BiRestaurant style={{fontSize: '20px', transform: 'scale(3.7)'}} />
+            <BiRestaurant style={{fontSize: '1.8rem', transform: 'scale(1.9)'}} />
             <Link to={ROUTES.ABOUT}>Nosotros</Link>
           </div>}
           <div style={location.pathname === ROUTES.HOME ? {borderBottom: '2px solid var(--main-color)', color: 'var(--main-color)'} : undefined} className='go-home'>
