@@ -156,7 +156,7 @@ export const DetailReserv = ({ detail, pedido, handleStatus, handleStatusEntrega
               </div> : a.status === 'Completo' ? <div>
                 <button onClick={handleStatusEntrega} data-value={a.order} className={style.actionButton}>Entregar</button>
               </div> : <div>
-                <h6>El pedido esta {a.status} </h6>
+                <h6 style={{color: "var(--primary-light)", marginBottom: "30px"}}>El pedido esta {a.status} </h6>
               </div>}
 
             </div>

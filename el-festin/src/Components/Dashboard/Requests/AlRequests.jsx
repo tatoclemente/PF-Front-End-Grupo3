@@ -13,7 +13,7 @@ import Loader from "../../Loader/Loader";
 
 export const AllRequest = () => {
   const dispatch = useDispatch()
-  const [state, setState] = useState(' ')
+  const [state, setState] = useState('Aprobado')
   const [detail, setDetail] = useState({
     order: '',
     user: { name: '', email: '' },
@@ -23,6 +23,8 @@ export const AllRequest = () => {
   })
   const [pedido, setPedido] = useState([]);
   const [loading, serLoading] = useState(true)
+
+  console.log(state);
 
   useEffect(() => {
     let interval;

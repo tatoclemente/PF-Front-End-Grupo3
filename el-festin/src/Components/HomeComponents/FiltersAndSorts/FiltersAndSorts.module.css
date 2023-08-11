@@ -1,5 +1,4 @@
 .mainContainer {
-    padding-top: 1rem;
     box-shadow: inset -1px 0 5px var(--shadow);
     height: calc(100vh - 100px);
     position: relative;
@@ -29,14 +28,14 @@
 }
 
 .buttonDropDown:hover {
-    background-color: var(--button-hover-blue);
-    color: var(--primary-light);
+    background-color: var(--main-color);
+    color: var(--background-darkblue);
 }
 
 .btnCollapsed {
     position: absolute;
     right: -3rem;
-    top: 0;
+    top: 1.5rem;
     border: none;
     width: 2rem;
     height: 2rem;
@@ -49,14 +48,14 @@
     font-size: 25px;
     padding: 0;
     cursor: pointer;
-    transition: .3s ease-in-out;
+    transition: .5s ease-in-out;
     transform: rotateZ(-180deg);
     transform-origin: center;       
 }
 
 .btnCollapsed:hover {
-    background-color: var(--button-hover-blue);
-    color: var(--primary-light);
+    background-color: var(--background-darkblue);
+    color: var(--main-color);
 }
 
 /* .btnCollapsed:hover + .text {
@@ -71,6 +70,7 @@
     font-weight: 400;
     width: 10rem;
     right: -14rem;
+    top: 1.5rem;
     color: var(--primary-dark);
     background-color: var(--main-color);
     border-radius: 3px;
@@ -84,8 +84,9 @@
 }
 
 .filtersContainer {
-    margin-top:2rem;
+    margin-top:1rem;
 }
+
 .filters {
     margin: 1rem 0;
     display: flex;
@@ -144,6 +145,7 @@
     font-size: 0.9rem;
     text-transform: uppercase;
     margin: 0 auto;
+    margin-bottom: 1.5rem;
 }
 
 .bookingButton:hover,
