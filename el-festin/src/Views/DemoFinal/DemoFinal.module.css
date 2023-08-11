@@ -1,0 +1,36 @@
+.mainContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-darkblue);
+}
+
+.title {
+    color: var(--main-color);
+    font-style: italic;
+    font-size: 3.5rem;
+    transition: .5s ease-in-out;
+}
+
+.titleSpan {
+    font-weight: bold;
+}
+
+.button {
+    color: var(--primary-light);
+    font-size: 5rem;
+    transition: .5s ease-in-out;
+    margin-bottom: 2rem;
+}
+
+.button:hover {
+    color: var(--main-color);
+    transform: scale(1.3);
+}

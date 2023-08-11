@@ -32,6 +32,8 @@ import PaymentSuccess from "./Views/PymentSuccess/PaymentSuccess";
 import PaymentFailed from "./Views/PaymentError/PaymentFailed";
 import NotFound from "./Views/404NotFound/404NotFound";
 
+import DemoFinal from "./Views/DemoFinal/DemoFinal";
+
 function App() {
   let location = useLocation();
 
@@ -62,7 +64,8 @@ function App() {
         location.pathname !== ROUTES.DASHBOARD &&
         location.pathname !== ROUTES.REGISTER &&
         location.pathname !== ROUTES.ABOUT &&
-        location.pathname !== ROUTES.NOT_FOUND ? (
+        location.pathname !== ROUTES.NOT_FOUND &&
+        location.pathname !== ROUTES.DEMO_FINAL ? (
           <Navbar toggleCart={toggleCart} />
         ) : undefined}
         {location.pathname !== ROUTES.LOGIN &&
@@ -88,6 +91,7 @@ function App() {
             path={ROUTES.PAYMENT_FAILED}
             element={<PaymentFailed toggleCart={toggleCart} />}
           />
+          <Route path={ROUTES.DEMO_FINAL} element={<DemoFinal />} />
 
           {/* rutas de escape (por si alguien escribe cualquier cosa en la url) */}
           <Route path="/*" element={<NotFound />} />
@@ -121,7 +125,8 @@ function App() {
         location.pathname !== ROUTES.PAYMENT_SUCCESS &&
         location.pathname !== ROUTES.PAYMENT_FAILED &&
         location.pathname !== ROUTES.ABOUT &&
-        location.pathname !== ROUTES.NOT_FOUND ? (
+        location.pathname !== ROUTES.NOT_FOUND &&
+        location.pathname !== ROUTES.DEMO_FINAL ? (
           <Footer />
         ) : undefined}
       </AuthProvider>

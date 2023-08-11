@@ -10,6 +10,7 @@ const ROUTES = {
     DETAIL: '/detail',
     PAYMENT_SUCCESS: '/payment-success',
     PAYMENT_FAILED: '/payment-failed',
+    DEMO_FINAL: '/demo-final',
 }
 
 export default ROUTES
