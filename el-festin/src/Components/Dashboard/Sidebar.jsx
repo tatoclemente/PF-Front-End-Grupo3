@@ -39,6 +39,16 @@ export const Sidebar = (props) => {
             <li className="pt-4">
               <button
                 type="button"
+                data-value="Reser"
+                className={Styles.buttonDelete}
+                onClick={props.handleRender}
+              >
+                Reservas
+              </button>
+            </li>
+            <li className="pt-4">
+              <button
+                type="button"
                 data-value="Users"
                 className={Styles.buttonDelete}
                 onClick={props.handleRender}
@@ -64,16 +74,6 @@ export const Sidebar = (props) => {
                 onClick={props.handleRender}
               >
                 Marketing
-              </button>
-            </li>
-            <li className="pt-4">
-              <button
-                type="button"
-                data-value="Reser"
-                className={Styles.buttonDelete}
-                onClick={props.handleRender}
-              >
-                Reservas
               </button>
             </li>
           </ul>

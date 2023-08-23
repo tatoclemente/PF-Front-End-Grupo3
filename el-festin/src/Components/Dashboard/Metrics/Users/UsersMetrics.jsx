@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import style from '../metrics.module.css'
 import { useSelector, useDispatch } from "react-redux";
-import DefaultImg from './images/profile.png'
+import DefaultImg from '../../../../Assets/profile.png'
 import axios from "axios";
 import {getUsers} from '../../../../Redux/actions/actionsUsers/getAllUsers'
 import Swal from "sweetalert2";
@@ -111,13 +111,17 @@ export const UsersMetrics = ({ currentUser }) => {
       <TableBody>
         {currentUsers.map((item) => (
           <TableRow key={item.name}>
-            <TableCell>{item.name}</TableCell>
+            <TableCell>
+              <div className={style.contName}>
+                {item.name}
+                </div>
+            </TableCell>
             <TableCell>
               <div >
              <img className={style.contImg} src={item.image || DefaultImg} alt="NoImage" />
                 </div></TableCell>
                 <TableCell>
-                    <Text>{item.email}</Text>
+                    <Text className={style.contEmail}>{item.email}</Text>
                 </TableCell>
                 <TableCell>
                   {currentUser.role === 'SuperAdmin' ? <div className={style.btnContainer}>

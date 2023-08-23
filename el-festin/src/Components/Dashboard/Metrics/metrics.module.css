@@ -28,11 +28,25 @@
     border-left: 1px solid var(--gray);
     border-right: 1px solid var(--gray) ;
 }
+
+.contName {
+  width: 185px;
+  min-width: 185px;
+}
 .contImg{
 border-radius: 50%;
-max-width: 50px;
-max-height: 50px;
+width: 60px;
+max-width: 60px;
+height: 60px;
+min-height: 60px;
+object-fit: cover;
 background-color: var(--gray);
+
+}
+
+.contEmail {
+  width: 150px;
+  min-width: 150px;
 }
 
 .contPag{
