@@ -188,7 +188,7 @@ export const Local = () => {
       <div>
         <h3 className={style.recommendation}>
           Aviso: Para obtener la mejor calidad de visualización, se recomienda
-          subir una imagen con una resolución de 1860x700 píxeles.
+          subir una imagen con una resolución de 1080x760 píxeles.
         </h3>
       </div>
       <div className={style.crearButtonContainer}>
