@@ -65,10 +65,7 @@ export const DetailReserv = ({ detail, pedido, handleStatus, handleStatusEntrega
   });
 
 
-  console.log(pedido);
   // Usage example
-
-  console.log(transformedOrderItems);
 
   function invertDate(date) {
     const parts = date.split('-');

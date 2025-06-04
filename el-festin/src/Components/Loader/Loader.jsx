@@ -1,14 +1,13 @@
-import React from 'react'
 import logo from '../../Assets/logo-el-festin-nav.png'
 import './loader.css'
 
 function Loader() {
     return (
-        <div class="loader5">
+        <div className="loader5">
             <img src={logo} alt="logo" />
-            <div class="loader-wrapper d-flex justify-content-center align-items-center">
-                <div class="loader">
-                    <div class="pacman">
+            <div className="loader-wrapper d-flex justify-content-center align-items-center">
+                <div className="loader">
+                    <div className="pacman">
                         <div></div><div></div><div></div><div></div><div></div>
                     </div>
                 </div>

@@ -11,7 +11,6 @@ import style from "../Dashboard.module.css";
 import { getDesserts } from "../../../Redux/actions/actionsDesserts/getAllDesserts";
 
 export const UpdateDesert = ({ allDates }) => {
-  console.log(allDates);
   const [updateState, setUpdateState] = useState("DEFAULT");
   const [inputView, setInputView] = useState({
     name: false,

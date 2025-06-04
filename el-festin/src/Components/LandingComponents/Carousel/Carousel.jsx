@@ -10,6 +10,10 @@ export const Carousel = () => {
   const totalImages = imageList.length;
   const intervalRef = useRef(null);
 
+  const defaultImage = {
+    image: 'https://res.cloudinary.com/dt2o36ezn/image/upload/v1748999091/el-festin/banner-default_e0vzjl.png',
+    name: 'El Festin',
+  };
   useEffect(() => {
     const velocity = 4000;
     intervalRef.current = setInterval(nextImage, velocity);
@@ -64,7 +68,7 @@ export const Carousel = () => {
 
   return (
     <div className={styles.container}>
-      {imageList.length > 0 && imageList.map((banner, index) => (
+      {(imageList.length > 0 ? imageList : [defaultImage]).map((banner, index) => (
         <div key={index} className={`${styles.image} ${currentImageIndex === index ? styles.current : ''}`}>
           <img src={banner.image} alt={banner.name} />
         </div>

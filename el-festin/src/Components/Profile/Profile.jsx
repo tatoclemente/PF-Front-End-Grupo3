@@ -191,7 +191,7 @@ useEffect(() => {
       }
 
       try {
-        const response = await axios.put(`${server}/user/${userId}`, formData);
+        await axios.put(`${server}/user/${userId}`, formData);
  
         dispatch(getUsers(userId));
         Swal.fire({

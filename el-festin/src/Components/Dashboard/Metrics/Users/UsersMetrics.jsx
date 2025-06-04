@@ -78,7 +78,6 @@ export const UsersMetrics = ({ currentUser }) => {
             title: "Rol cambiado exitosamente",
             confirmButtonText: "OK",
           })
-          console.log("Rol cambiado exitosamente.");
           dispatch(getUsers())
         } else {
           Swal.fire({

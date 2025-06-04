@@ -167,11 +167,9 @@ export const Banner = () => {
     setShowModal(false);
   };
 
-  const allBannersCopy = [...allBanners];
-
-  const sortedBanners = allBannersCopy.sort((a, b) =>
-    a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  );
+  const sortedBanners = Array.isArray(allBanners)
+    ? [...allBanners].sort((a, b) => (a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1))
+    : [];
 
   // // Agregamos un estado para almacenar el ID del banner que se está mostrando en el desplegable
   // const [selectedBannerId, setSelectedBannerId] = useState(null);

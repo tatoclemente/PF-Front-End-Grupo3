@@ -5,12 +5,13 @@
     justify-content: center;
     margin-top: 1rem;
     padding-top: .5rem !important;
+    min-height: 50vh;
 }
 
 
 .cardsContainer {
     margin: 1.5rem 0;
-    min-height: calc(100vh - 8rem - 100px);
+    min-height: 50vh;
     width: 82vw;
     display: grid;
     justify-content: center;
@@ -18,4 +19,13 @@
     gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
     padding: 0 1rem;
+}
+
+.noResults {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height:300px;
 }

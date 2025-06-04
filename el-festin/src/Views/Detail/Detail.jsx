@@ -38,7 +38,6 @@ function Detail({ toggleCart }) {
   }, [id]);
 
   const dataReviews = dishDetail.Comments;
-  console.log(dataReviews);
 
   // const dishes = useSelector(state => state.dishes)
   // console.log(dishes);

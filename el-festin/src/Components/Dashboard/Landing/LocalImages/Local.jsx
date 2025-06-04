@@ -157,11 +157,10 @@ export const Local = () => {
     setShowModal(false);
   };
 
-  const allLocalCopy = [...allLocal];
 
-  const sortedLocal = allLocalCopy.sort((a, b) =>
-    a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1
-  );
+  const sortedLocal = Array.isArray(allLocal)
+    ? [...allLocal].sort((a, b) => (a.disabled === b.disabled ? 0 : a.disabled ? 1 : -1))
+    : [];
 
   const numImagesToShow = sortedLocal.length > 2 ? 3 : sortedLocal.length;
 

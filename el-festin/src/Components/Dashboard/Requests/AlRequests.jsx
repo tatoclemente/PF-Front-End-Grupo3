@@ -24,8 +24,6 @@ export const AllRequest = () => {
   const [pedido, setPedido] = useState([]);
   const [loading, serLoading] = useState(true)
 
-  console.log(state);
-
   useEffect(() => {
     let interval;
 
@@ -50,7 +48,6 @@ export const AllRequest = () => {
 
   const AllTickets = useSelector((state) => state.users.usersOrdersPending)
 
-  console.log(AllTickets);
   let AllPending = [];
 
   if (Array.isArray(AllTickets) && AllTickets.length > 0) { AllPending.push(...AllTickets) }
@@ -67,7 +64,6 @@ export const AllRequest = () => {
 
         const response = await axios.get(`${server}/ticket/${val}`);
         let data = response.data;
-        console.log(data);
         if (Array.isArray(data)) {
           setPedido(data);
         }
@@ -80,7 +76,6 @@ export const AllRequest = () => {
 
   };
 
-  console.log(pedido);
   const handleChangeType = (e) => {
     const val = e.target.getAttribute('data-value')
     if (val === 'Acepted') {
@@ -106,7 +101,6 @@ export const AllRequest = () => {
       const { data } = await axios.put(`${server}/ticket/${val}`, {
         status: "Completo"
       })
-      console.log(data)
       if (data) {
         Swal.fire({
           icon: "success",
@@ -140,7 +134,6 @@ export const AllRequest = () => {
       const { data } = await axios.put(`${server}/ticket/${val}`, {
         status: "En proceso"
       })
-      console.log(data)
       if (data) {
         Swal.fire({
           icon: "success",
@@ -174,7 +167,6 @@ export const AllRequest = () => {
       const { data } = await axios.put(`${server}/ticket/${val}`, {
         status: "Entregado"
       })
-      console.log(data)
       if (data) {
         Swal.fire({
           icon: "success",

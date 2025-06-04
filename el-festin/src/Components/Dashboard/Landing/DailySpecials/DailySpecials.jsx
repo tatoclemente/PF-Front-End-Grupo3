@@ -62,16 +62,17 @@ export const DailySpecials = () => {
     setInput(val.toLowerCase());
   };
 
-  useEffect(() => {
+   useEffect(() => {
     dispatch(getDishes());
   }, [dispatch]);
 
   useEffect(() => {
     setFilterDishes(
-      Array.isArray(allDishes) &&
-        allDishes.filter((dish) =>
-          dish.name?.toLowerCase().includes(input.toLowerCase())
-        )
+      Array.isArray(allDishes)
+        ? allDishes.filter((dish) =>
+            dish.name?.toLowerCase().includes(input.toLowerCase())
+          )
+        : []
     );
   }, [allDishes, input]);
   const handleUpdateSpecial = async (dishId) => {
@@ -94,11 +95,11 @@ export const DailySpecials = () => {
     }
   };
 
-  const allDishesCopy = [...allDishes];
 
-  const sortedDishes = allDishesCopy.sort((a, b) =>
-    a.dailyspecial === b.dailyspecial ? 0 : a.dailyspecial ? -1 : 1
-  );
+
+  const sortedDishes = Array.isArray(allDishes)
+    ? [...allDishes].sort((a, b) => (a.dailyspecial === b.dailyspecial ? 0 : a.dailyspecial ? -1 : 1))
+    : [];
 
   const slidesToShow =
     input.length === 0 && allDishes.length >= 3
