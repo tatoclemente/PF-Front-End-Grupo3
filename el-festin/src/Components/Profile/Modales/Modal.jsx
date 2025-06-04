@@ -1,7 +1,5 @@
-import React from 'react'
-import styleModal from './Modal.module.css'
-import { AiFillCloseCircle } from 'react-icons/ai'
-import capitalizeFirstLetter from '../../../functions/capitalizeFirstLetter'
+import { AiFillCloseCircle } from 'react-icons/ai';
+import styleModal from './Modal.module.css';
 
 function Modal({ setShowModal, selectedItem }) {
   
@@ -43,7 +41,6 @@ function Modal({ setShowModal, selectedItem }) {
 
             const hasGarnish = item.garnish && item.garnish !== null;
             const hasDrink = item.drinks && item.drinks.length > 0;
-            console.log(hasDrink);
             const hasDessert = item.desserts && item.desserts.length > 0;
             const hasDish = item.dish && item.dish !== null;
             // const totalPrice =
@@ -63,9 +60,9 @@ function Modal({ setShowModal, selectedItem }) {
             //         0
             //       )
             //     : 0);
-            const capitalizeSubtitle = hasDish
-              ? capitalizeFirstLetter(item.dish.name)
-              : "";
+            // const capitalizeSubtitle = hasDish
+            //   ? capitalizeFirstLetter(item.dish.name)
+            //   : "";
 
             return (
 

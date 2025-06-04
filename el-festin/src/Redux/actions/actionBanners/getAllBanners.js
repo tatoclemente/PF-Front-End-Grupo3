@@ -4,7 +4,10 @@ import axios from "axios";
 
 export const getBanners = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${server}/banner`);
+    let { data } = await axios.get(`${server}/banner`);
+    if (!data || data.error) {
+      data = []
+    };
     dispatch(getAllBanners(data));
   } catch (error) {
     console.log(error);

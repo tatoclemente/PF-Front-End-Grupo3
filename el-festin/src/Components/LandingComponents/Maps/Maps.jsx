@@ -1,11 +1,11 @@
-import React from "react";
+import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 import { useMemo } from "react";
-import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-import style from './Maps.module.css'
+import style from './Maps.module.css';
 
 export default function Maps() {
  const { isLoaded } = useLoadScript({
-   googleMapsApiKey: 'AIzaSyCnWVbD2hCaBHzzW8gRn-WwuoKbfx_2ni8',
+   googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+   loadingElement: <div>Cargando Google Maps…</div>,
  });
  if (!isLoaded) return <div>Loading...</div>;
  return (

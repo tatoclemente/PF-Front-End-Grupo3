@@ -6,6 +6,8 @@ import { setAccepted } from "../../slices/usersSlice";
 export const ordersAccepted = () => async(dispatch) =>{
     try {
         const { data } = await axios.get(`${server}/ticket`)
+        
+        if(!data || data.error) return
 
         let ordersAproved = data.filter((a) => !a.status.includes('Pendiente'))
 

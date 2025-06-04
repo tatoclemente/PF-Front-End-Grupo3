@@ -29,14 +29,12 @@ reducers:{
     }, sortDrinksByAlchol: (state, action) => {
         if(action.payload === 'all'){
             let drin = state.drinksFilter
-            console.log(drin)
             state.drinks = drin
         }
         if(action.payload === 'alcohol'){
             let drin = [...state.drinks]
             let drk = drin.filter(el => el.alcohol === true)
             let drank = drk.length === 0 ? state.drinksFilter.filter(el => el.alcohol === true) : drk
-            console.log(drank)
             state.drinks = drank
         }
         if(action.payload === 'noAlcohol'){

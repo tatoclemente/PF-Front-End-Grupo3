@@ -5,6 +5,7 @@ import axios from "axios";
 export const getDrTypes = () => async (dispatch) => {
     try {
         const {data} = await axios.get(`${server}/drink`);
+        if(!data || data.error) return
         const drinksTypes = data.map((a) => a.type);
       let resultado = drinksTypes.reduce((a, e) => {
           if(!a.find(d => d === e)) a.push(e)

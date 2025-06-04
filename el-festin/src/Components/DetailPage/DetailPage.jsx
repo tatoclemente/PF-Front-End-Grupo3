@@ -370,7 +370,6 @@ const Detail = ({ dishDetail, toggleCart }) => {
   }
 
   const lengthDesserts = desserts.length < 6 ? desserts.length : 6;
-  console.log(lengthDesserts);
 
   const settings = {
     dots: false,

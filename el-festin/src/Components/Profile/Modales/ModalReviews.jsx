@@ -46,14 +46,12 @@ function ModalReviews({setShowReviewModal, selectedItem, userId, orders, setShow
     // Realiza la solicitud POST para enviar la reseña al servidor
     try {
       const response = await axios.post(`${server}/comment`, dataPost);
-      console.log(response.data);
       if (response.data){
       await orders()
       Swal.fire({
         icon: 'success',
         title: 'Reseña enviada',
         text: 'Gracias por calificar este plato!',
-        icon: 'success',
         confirmButtonText: 'Ok'
       })
       setComment("")

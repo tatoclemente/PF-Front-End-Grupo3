@@ -1,21 +1,20 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import "../../Components/NavBar/Navbar.css";
-import { SearchBar } from "./SearchBar";
-import { useSelector, useDispatch } from "react-redux";
-import calculateTotalItems from "../../functions/calculateTotalItems";
-import profileImg from "../../Assets/profile.png";
-import logo from "../../Assets/logo-el-festin-nav.png";
-import cart from "../../Assets/bolsa-pedido.png";
-import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
-import { logout } from "../../Hook/FunctionsAuth";
-import { useEffect, useState } from "react";
-import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
-import ROUTES from "../../Routes/routes";
-import { GiCook } from "react-icons/gi";
+import { useCallback, useEffect, useState } from "react";
 import { BiRestaurant } from "react-icons/bi";
 import { FiLogIn } from "react-icons/fi";
+import { GiCook } from "react-icons/gi";
 import { decodeToken } from "react-jwt";
-import { current } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import cart from "../../Assets/bolsa-pedido.png";
+import logo from "../../Assets/logo-el-festin-nav.png";
+import profileImg from "../../Assets/profile.png";
+import "../../Components/NavBar/Navbar.css";
+import calculateTotalItems from "../../functions/calculateTotalItems";
+import { logout } from "../../Hook/FunctionsAuth";
+import { clearCart } from "../../Redux/actions/actionOrders/actionOrders";
+import { getUsers } from "../../Redux/actions/actionsUsers/getAllUsers";
+import ROUTES from "../../Routes/routes";
+import { SearchBar } from "./SearchBar";
 // import Modal from 'react-modal';
 
 export const Navbar = ({ isDashboard, toggleCart }) => {
@@ -47,14 +46,14 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
   // console.log(user);
 
    // Función que utiliza la información de user
-   const handleSomethingWithUser = () => {
+   const handleSomethingWithUser = useCallback(() => {
     if (user) {
       // Realizar operaciones utilizando la información de user
       setUserEmail(user.email);
     } else {
       console.log("El usuario no está autenticado.");
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -66,10 +65,7 @@ export const Navbar = ({ isDashboard, toggleCart }) => {
 
   const CurrentUser = Array.isArray(users) && users.find((u) => u.email === userEmail);
 
-  console.log(user);
-
   const userImage = CurrentUser && CurrentUser.image;
-  console.log(userImage);
 
   const customToken = localStorage.getItem('customToken');
   const decodeCustomToken = customToken && decodeToken(customToken);

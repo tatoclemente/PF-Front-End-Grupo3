@@ -63,12 +63,23 @@ const CardsContainer = (props) => {
   const filteredAndSortedAllThings = sortedAllThings.filter((thing) => !thing.disabled);
   return (
     <div className={style.mainContainer} ref={containerRef}>
+      {
+        filteredAndSortedAllThings.length === 0 && (
+          <div className={style.noResults}>
+            <h3>No hay resultados</h3>
+          </div>
+        )
+      }
       <div className={style.pagination}>
-        <Pagination
-          currentPage={props.currentPage}
-          totalPages={totalPages}
-          handlePageChange={handlePageChange}
-        />
+        {
+          totalPages > 0 && (
+            <Pagination
+              currentPage={props.currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+            />
+          )
+        }
       </div>
       <div className={style.cardsContainer}>
         {filteredAndSortedAllThings.slice(startIdx, endIdx).map((dish, index) => {
@@ -95,11 +106,15 @@ const CardsContainer = (props) => {
         })}
       </div>
       <div className={style.pagination}>
-        <Pagination
-          currentPage={props.currentPage}
-          totalPages={totalPages}
-          handlePageChange={handlePageChange}
-        />
+        {
+          totalPages > 0 && (
+            <Pagination
+              currentPage={props.currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+            />
+          )
+        }
       </div>
     </div>
   );
